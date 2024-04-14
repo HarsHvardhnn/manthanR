@@ -1,0 +1,242 @@
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const userModel = require("../models/userSchema");
+const otpModel = require('../models/otpModel');
+const { sendOTP } = require("../otpService");
+const Profile =  require('../models/profileModel');
+const sendOtp = async (req, res) => {
+  const userEmail = req.body.email;  
+  console.log(userEmail);
+  try {
+    const otp = await sendOTP(userEmail);
+    console.log(otp);
+    await otpModel.create({email:userEmail ,otp:otp});
+    const timestamp = new Date().getTime();
+    res.status(200).json({ message: `OTP sent successfully to ${userEmail}` });
+  } catch (error) {
+    console.error("Error sending OTP:", error);
+    res.status(500).json({ error: "Failed to send OTP" });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { otpBody, email, password } = req.body;
+  // console.log()
+  try {
+    // Check if OTP matches
+    const otpRecord = await otpModel.findOne({ email: email });
+    console.log(otpRecord);
+
+    if (!otpRecord) {
+      return res.status(401).send('OTP not found'); // OTP not found for the provided email
+    }
+
+    if (otpBody !== otpRecord.otp) {
+      return res.status(401).send('Incorrect OTP'); // Incorrect OTP
+    }
+  } catch (err) {
+    console.error('Error checking OTP:', err);
+    return res.status(500).send('Internal server error');
+  }
+
+  try {
+    // Update user's password
+    const user = await userModel.findOneAndUpdate(
+      { email: email }, // Filter criteria
+      { $set: { password: password } }, // Update password
+      { new: true } // Return the updated document
+    );
+
+    if (!user) {
+      return res.status(404).send('User not found'); // User with the provided email not found
+    }
+
+    // Password updated successfully
+    res.status(200).send('Password updated successfully');
+  } catch (err) {
+    console.error('Error updating password:', err);
+    res.status(500).send('Internal server error');
+  }
+};
+
+const signup = async (req, res) => {
+  const { otpBody } = req.body;
+  const { username, email, password } = req.body;
+  // const gotOtp = req.cookies.otp; 
+  console.log(email);
+  try{
+    const user = await otpModel.find({email:email});
+    console.log(user);
+    console.log(gotOtp);
+    if (otpBody !== gotOtp) {
+      return res.send('OTP wrong').status(401);
+    }
+  } catch(err){
+    console.log(err);
+  }
+
+  if (!username || !email || !password) {
+    return res.status(400).send("Missing fields");
+  }
+
+  // const hashedPassword = await bcrypt.hash(password, 10);
+  
+  try {
+    const user = await userModel.create({
+      username: username,
+      email: email,
+      password: password,
+    });
+    
+    const token = jwt.sign({ id: user._id }, "secret", {
+      expiresIn: "2h",
+    });
+    user.token = token;
+    console.log(user.token);
+    res.send("User created successfully with details").status(200);
+    // await otpModel.findOneAndDelete({email:email});
+  } catch (err) {
+    console.log("Error:", err);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+
+
+
+// const jwt = require('jsonwebtoken');
+
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const hashedPassword = password;
+    console.log(email, hashedPassword);
+    const user = await userModel.findOne({ email: email });
+    
+    if (!user) {
+      return res.status(400).send("User does not exist");
+    }
+    
+    if (user.password === hashedPassword) {
+      // Generate JWT token
+      const token = jwt.sign({ userId: user._id, email: user.email }, 'H@rsh123', { expiresIn: '1h' });
+      
+      // Send the token to the client
+      return res.status(200).json({ token  , user});
+    } else {
+      return res.status(401).send("Incorrect password");
+    }
+  } catch (error) {
+    console.error("Error during login:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
+
+// const resetPassword = async (req, res) => {
+//   try {
+//     const { userId, currentPassword, newPassword } = req.body;
+//     const user = await userModel.findById(userId);
+
+//     if (!user) {
+//       return res.status(404).send("User not found");
+//     }
+
+//     const passwordMatch = await bcrypt.compare(currentPassword, user.password);
+
+//     if (!passwordMatch) {
+//       return res.status(401).send("Current password is incorrect");
+//     }
+
+//     // const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+//     user.password = hashedNewPassword;
+//     await user.save();
+
+//     return res.status(200).send("Password updated successfully");
+//   } catch (error) {
+//     console.error("Error updating password:", error);
+//     return res.status(500).send("Internal Server Error");
+//   }
+// };
+
+const clearAll = async (req,res) =>{
+  try{
+    const done  = await otpModel.deleteMany({})
+    if(done){
+      return res.status(200).send('done');
+    }
+  }catch(err){
+    console.log(err);
+  }
+}
+
+const updateProfile = async (req, res) => {
+try {
+  const {user} = req.body;
+  console.log(user);
+  const user1 =  await userModel.findOne({email:user});
+
+  if(!user1){
+    return res.send('user not found').status(404);
+  }
+  console.log(user1._id);
+
+    const userId =  user1._id;
+  //  console.log(userId);
+    const {  fullName, courseAndYear, rollNumber, contactNumber, hostelName, dateOfBirth,  relationshipStatus } = req.body;
+   console.log( fullName, courseAndYear, rollNumber, contactNumber, hostelName, dateOfBirth, relationshipStatus);
+    // Check if the required fields are provided
+    if (!userId || !fullName || !courseAndYear || !rollNumber || !contactNumber || !hostelName || !dateOfBirth || !relationshipStatus) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    // Create a new profile instance
+    const profile = await Profile.create({
+      user: userId,
+      fullName,
+      courseAndYear,
+      rollNumber,
+      contactNumber,
+      hostelName,
+      dateOfBirth,
+      relationshipStatus
+    });
+
+    // Save the profile to the database
+    // await profile.save();
+
+    res.status(201).json({ message: 'Profile created successfully', profile });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+ async function getuserInfo (req, res)  {
+  try {
+      // Extract the user ID from the query parameters
+      const userId = req.params.id;
+      // console.log(userId);
+
+      // Check if the user ID is provided
+      if (!userId) {
+          return res.status(400).json({ error: "User ID is required." });
+      }
+
+      // Fetch user information from the database using the provided user ID
+      const userInfo = await userModel.findOne({ _id: userId });
+
+      // Check if user information is found
+      if (!userInfo) {
+          return res.status(404).json({ error: "User not found." });
+      }
+      console.log(userInfo);
+      // Return the user information
+      res.status(200).json(userInfo);
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "An error occurred while processing your request." });
+  }
+};
+module.exports = { signup, login, resetPassword, sendOtp ,clearAll ,updateProfile ,getuserInfo};
