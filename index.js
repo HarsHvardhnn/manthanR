@@ -82,10 +82,10 @@ app.use(cors(
     }
 ))
 
-app.use(express.static('./frontendRoles/build'));
-app.get("*" , (req,res)=>{
-  res.sendFile(path.resolve(__dirname,"frontendRoles", "build" , "index.html"));
-})
+// app.use(express.static('./frontendRoles/build'));
+// app.get("*" , (req,res)=>{
+//   res.sendFile(path.resolve(__dirname,"frontendRoles", "build" , "index.html"));
+// })
 
 // app.use(session({
 //   secret: 'harsh8247',
