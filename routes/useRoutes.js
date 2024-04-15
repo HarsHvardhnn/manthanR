@@ -72,6 +72,19 @@ router.get('/getAllData' ,getAllAnswers);
 router.post('/adminLogin' , adminLogin);
 
 router.post('/update-profile' , updateProfile);
+router.get('/get-profile/:id' , async (req,res)=>{
+  try{
+    const {id} = req.params;
+    console.log(id);
+    const userProfile =  await Profile.find({_id:id});
+    if(!userProfile){
+      return res.send('profile not updated').status(403);
+    }
+    else return res.status(201).send('profile already updated');
+  }catch(err){
+    return res.send('internal server error').status(500);
+  }
+})
 // router.get('/getQuestions' , getQuestions);
 router.post('/submit-report' , submitReport);
 router.get('/get-reported-users' , getReportedUsers);
