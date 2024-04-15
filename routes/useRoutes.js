@@ -90,7 +90,19 @@ router.post('/super-login', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
-
+router.post('/check-email' , async (req,res) => {
+  try{
+    const {email} =  req.body;
+    const userEmail = await userModel.findOne({email:email});
+    if(!userEmail){
+      return res.send('user doesnt exist').status(404);
+    }
+    else return res.status(200).send('user found please send otp');
+    
+  }catch(err){
+    return res.send('internal server error').status(500);
+  }
+});
 
 router.delete('/clear' , clearAll);
 router.post("/Doit", insertQuestions);
