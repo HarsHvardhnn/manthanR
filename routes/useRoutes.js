@@ -30,6 +30,7 @@ router.get('/getdata' , async (req,res) => {
 router.post('/update-tnc', async (req, res) => {
   try {
     const userId = req.body.userId; 
+    console.log(userId);
 
     if (!userId) {
       return res.status(400).json({ error: 'User ID is required' });
