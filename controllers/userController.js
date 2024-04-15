@@ -174,13 +174,14 @@ const clearAll = async (req,res) =>{
 const updateProfile = async (req, res) => {
 try {
   const {user} = req.body;
-  console.log(user);
+  console.log('user is ',user);
   const user1 =  await userModel.findOne({email:user});
+  console.log(user1);
 
   if(!user1){
     return res.send('user not found').status(404);
   }
-  console.log(user1._id);
+  // console.log(user1._id);
 
     const userId =  user1._id;
   //  console.log(userId);
