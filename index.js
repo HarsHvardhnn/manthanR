@@ -96,8 +96,9 @@ app.use(session({
   }),
 
 }));
+const PORT = process.env.PORT || 3030;
 app.use('/v1', router);
-const server = app.listen(4000, () => {
+const server = app.listen(PORT, () => {
   console.log('Server connected');
 });
 
