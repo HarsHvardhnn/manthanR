@@ -175,7 +175,7 @@ const updateProfile = async (req, res) => {
 try {
   const {user} = req.body;
   console.log('user is ',user);
-  const user1 =  await userModel.findOne({email:user});
+  const user1 =  await userModel.findOne({username:user});
   console.log(user1);
 
   if(!user1){
