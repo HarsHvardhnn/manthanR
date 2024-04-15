@@ -27,6 +27,9 @@ const userSchema = new mongoose.Schema({
     type:Boolean,
     default:false
   },
+  has_accepted_tnc:{
+    type:Boolean,
+    default:false},
   createdAt: {
     type: Date,
     default: Date.now
