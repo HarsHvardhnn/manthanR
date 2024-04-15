@@ -26,6 +26,35 @@ router.get('/getdata' , async (req,res) => {
   res.send('hi').status(200);
 })
 
+
+router.post('/update-tnc', async (req, res) => {
+  try {
+    const userId = req.body.userId; 
+
+    if (!userId) {
+      return res.status(400).json({ error: 'User ID is required' });
+    }
+
+   const updatedUser = await userModel.findOneAndUpdate(
+      { username:userId },
+      { has_accepted_tnc: true },
+      { new: true } // To return the updated document
+    );
+
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 router.post('/super-login', async (req, res) => {
   try {
     const { email, password } = req.body;
