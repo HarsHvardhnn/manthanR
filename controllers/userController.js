@@ -190,7 +190,11 @@ try {
     if (!userId || !fullName || !courseAndYear || !rollNumber || !contactNumber || !hostelName || !dateOfBirth || !relationshipStatus) {
       return res.status(400).json({ error: 'All fields are required' });
     }
-
+    await userModel.findOneAndUpdate(
+  { _id: userId },
+  { is_profile_complete: true },
+  { new: true } 
+);
     // Create a new profile instance
     const profile = await Profile.create({
       user: userId,
