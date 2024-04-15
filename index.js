@@ -86,16 +86,16 @@ app.get("*" , (req,res)=>{
   res.sendFile(path.resolve(__dirname,"frontendRoles", "build" , "index.html"));
 })
 
-app.use(session({
-  secret: 'harsh8247',
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: false },
-  store:mongoStore.create({
-    mongoUrl:"mongodb://127.0.0.1:27017/roleshiit"
-  }),
+// app.use(session({
+//   secret: 'harsh8247',
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: { secure: false },
+//   store:mongoStore.create({
+//     mongoUrl:"mongodb://127.0.0.1:27017/roleshiit"
+//   }),
 
-}));
+// }));
 const PORT = process.env.PORT || 3030;
 app.use('/v1', router);
 const server = app.listen(PORT, () => {
