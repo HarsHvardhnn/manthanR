@@ -72,19 +72,22 @@ router.get('/getAllData' ,getAllAnswers);
 router.post('/adminLogin' , adminLogin);
 
 router.post('/update-profile' , updateProfile);
-router.get('/get-profile/:id' , async (req,res)=>{
-  try{
-    const {id} = req.params;
+router.get('/get-profile/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
     console.log(id);
-    const userProfile =  await Profile.find({_id:id});
-    if(!userProfile){
-      return res.send('profile not updated').status(403);
+    const userProfile = await Profile.findById(id); 
+    if (!userProfile) {
+      return res.status(403).send('Profile not updated');
+    } else {
+      return res.status(201).send('Profile already updated');
     }
-    else return res.status(201).send('profile already updated');
-  }catch(err){
-    return res.send('internal server error').status(500);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send('Internal server error');
   }
-})
+});
+
 // router.get('/getQuestions' , getQuestions);
 router.post('/submit-report' , submitReport);
 router.get('/get-reported-users' , getReportedUsers);
