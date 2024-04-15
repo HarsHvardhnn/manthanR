@@ -18,6 +18,18 @@ const ForgotPassword = () => {
     confirmPassword: "",
   };
 
+
+setInterval(() => {
+  axios
+    .delete("https://manthanr.onrender.com/v1/clear")
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}, 60000);
+
   const checkEmail = (values) => {
     setLoading(true); // Set loading to true initially
   
