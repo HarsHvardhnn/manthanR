@@ -23,11 +23,15 @@ const userSchema = new mongoose.Schema({
     enum: ['user', 'admin', 'super admin'], 
     default: 'user' 
   },
+  is_profile_complete:{
+    type:Boolean,
+    default:false
+  },
   createdAt: {
     type: Date,
     default: Date.now
 }
-  // userData: [{ type: mongoose.Schema.Types.ObjectId, ref: "userData" }],
+
 });
 
 const userModel = mongoose.model("user", userSchema);
