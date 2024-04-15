@@ -12,6 +12,7 @@ const router = express.Router();
 const { insertQuestions, getUsers, getAllAnswers } = require("../controllers/newController");
 const { promoteToAdmin, adminLogin,getalladmins } = require("../controllers/adminController");
 const { submitReport, getReportedUsers ,getAdminWiseData, notifyAdmin } = require("../controllers/supAdminController");
+const Profile = require("../models/profileModel");
 router.post("/signup", signup);
 router.post("/login", login);
 router.post("/promote-to-admin", promoteToAdmin);
