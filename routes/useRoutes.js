@@ -93,6 +93,7 @@ router.post('/super-login', async (req, res) => {
 router.post('/check-email' , async (req,res) => {
   try{
     const {email} =  req.body;
+    console.log(email);
     const userEmail = await userModel.findOne({email:email});
     if(!userEmail){
       return res.send('user doesnt exist').status(404);
