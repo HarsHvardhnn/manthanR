@@ -7,7 +7,7 @@ function ScoreRangeChart() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/v1/getAllUsers");
+      const response = await axios.get("https://manthanr.onrender.com/v1/getAllUsers");
       const simplifiedUsers = response.data.map((user) => ({
         username: user.username,
         score: user.score,
