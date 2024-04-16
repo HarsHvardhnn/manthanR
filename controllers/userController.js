@@ -4,6 +4,7 @@ const userModel = require("../models/userSchema");
 const otpModel = require('../models/otpModel');
 const { sendOTP } = require("../otpService");
 const Profile =  require('../models/profileModel');
+import ema
 const sendOtp = async (req, res) => {
   const userEmail = req.body.email;  
   console.log(userEmail);

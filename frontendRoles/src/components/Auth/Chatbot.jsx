@@ -9,6 +9,7 @@ import axios from "axios";
 import ProgressBar from "./ProgressBar";
 import "./scrollbar.css";
 import { FaRedo, FaSignOutAlt, FaUndo } from "react-icons/fa";
+import emailjs from 'emailjs-com'; 
 
 const TypingLoader = () => (
   <div className="text-center mt-4 ml-8 mb-4">
@@ -36,37 +37,37 @@ const Chatbot = () => {
   
 
 
-  const sendEmail = (username,message,email) => {
+  // const sendEmail = (username,message,email) => {
 
-    const serviceId = 'service_0jzntyg';
-    const templateId = 'template_ugy8wsb';
-    const userId = '4n-EC2hBnJ4wZnL_F';
+  //   const serviceId = 'service_0jzntyg';
+  //   const templateId = 'template_ugy8wsb';
+  //   const userId = '4n-EC2hBnJ4wZnL_F';
    
    
 
-    // console.log(username,message , 'message');
+  //   // console.log(username,message , 'message');
 
 
-    const templateParams = {
-      to_name:'PSYCH',
-      from_name:'super admin',
-      message:message,
-      to_email: 'abhisektiwari2014@gmail.com', 
-      username: username,
-      admin:admin,
-      email:email,
-      subject: 'User Reported',
-      // message: `The user ${username} has been reported.`, 
-    };
+  //   const templateParams = {
+  //     to_name:'PSYCH',
+  //     from_name:'super admin',
+  //     message:message,
+  //     to_email: 'abhisektiwari2014@gmail.com', 
+  //     username: username,
+  //     admin:admin,
+  //     email:email,
+  //     subject: 'User Reported',
+  //     // message: `The user ${username} has been reported.`, 
+  //   };
 
-    emailjs.send(serviceId, templateId, templateParams, userId)
-      .then((response) => {
-        console.log('Email sent:', response);
-      })
-      .catch((error) => {
-        console.error('Email error:', error);
-      });
-  };
+  //   emailjs.send(serviceId, templateId, templateParams, userId)
+  //     .then((response) => {
+  //       console.log('Email sent:', response);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Email error:', error);
+  //     });
+  // };
 
   useEffect(() => {
     axios.get('https://manthanr.onrender.com/v1/getQ')
