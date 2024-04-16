@@ -106,12 +106,12 @@ const LoginPage = () => {
     <div
       className="min-h-screen flex justify-center items-center bg-blue-200 font-montserrat"
       style={{
-        backgroundImage: `url(${Bg})`,
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${Bg})`,
         backgroundSize: "Cover",
       }}
     >
       <Header />
-      <div className="flex flex-col lg:flex-row bg-white hover:opacity-95 justify-center mt-10 items-center w-4/5 sm:w-3/5 lg:w-8/12 xl:w-3/5 shadow-xl rounded-xl">
+      <div className="flex flex-col lg:flex-row bg-white justify-center mt-10 items-center w-4/5 sm:w-3/5 lg:w-8/12 xl:w-3/5 shadow-xl rounded-xl">
         {/* Left section  */}
         <div className="flex-1">
           <img

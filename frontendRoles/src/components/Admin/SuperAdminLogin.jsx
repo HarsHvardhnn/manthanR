@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { superadminContext } from "../../context";
 import Header from "../Home/Header";
+import Bg from "../Auth/StudentLoginBackground.jpg";
 
 const SuperAdminLogin = () => {
   const {superadmin,setsuperadmin} =useContext(superadminContext);
@@ -53,7 +54,10 @@ const SuperAdminLogin = () => {
   },[]);
   
   return (
-    <div className="bg-admin-back min-h-screen flex justify-center items-center font-montserrat">
+    <div className="bg-admin-back min-h-screen flex justify-center items-center font-montserrat" style={{
+      backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${Bg})`,
+      backgroundSize: "Cover",
+    }}>
       <Header/>
       <div className="flex flex-col items-center min-w-lg bg-white shadow-xl rounded-xl mx-auto w-11/12 sm:w-fit">
         <div className="rounded-t-xl">

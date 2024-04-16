@@ -1,54 +1,56 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Image from "./adminimage.jpg";
-import {toast} from 'react-toastify';
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import { adminContext, adminEmailContext } from "../../context";
 import Header from "../Home/Header";
+import Bg from "./StudentLoginBackground.jpg";
 
 const AdminLogin = () => {
-  const {admin,setAdmin} =useContext(adminContext);
-  const {adminEmail,setAdminEmail} = useContext(adminEmailContext);
+  const { admin, setAdmin } = useContext(adminContext);
+  const { adminEmail, setAdminEmail } = useContext(adminEmailContext);
   const navigate = useNavigate();
   const [showForgotPasswordPopup, setShowForgotPasswordPopup] = useState(false);
-  
+
   const initialValues = {
     email: "",
     password: "",
   };
 
   const onSubmit = (values) => {
-    axios.post('https://manthanr.onrender.com/v1/adminLogin', {
-      email: values.email,
-      password: values.password
-    }).then((res) => {
-      if (res.status === 200) {
-        const { token } = res.data;
-        localStorage.setItem('adminToken', token);
-        toast.success('Admin login successful');
-        setAdmin(res.data.user.username);
-        setAdminEmail(res.data.user.email);
-        navigate('/AdminDashboard');
-      }
-    }).catch((err) => {
-      if(err.response.status === 401){
-        toast.error('wrong password');
-
-      }
-      if(err.response.status===404){
-        toast.error('please check email');
-      }
-    });
-
+    axios
+      .post("https://manthanr.onrender.com/v1/adminLogin", {
+        email: values.email,
+        password: values.password,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          const { token } = res.data;
+          localStorage.setItem("adminToken", token);
+          toast.success("Admin login successful");
+          setAdmin(res.data.user.username);
+          setAdminEmail(res.data.user.email);
+          navigate("/AdminDashboard");
+        }
+      })
+      .catch((err) => {
+        if (err.response.status === 401) {
+          toast.error("wrong password");
+        }
+        if (err.response.status === 404) {
+          toast.error("please check email");
+        }
+      });
   };
-  
-useEffect(()=>{
-  // const adminToken = localStorage.getItem('adminToken');
-  // if(adminToken){
-  //   navigate('/admindashboard')
-  // }
-},[])
+
+  useEffect(() => {
+    // const adminToken = localStorage.getItem('adminToken');
+    // if(adminToken){
+    //   navigate('/admindashboard')
+    // }
+  }, []);
 
   const handleSendOTP = (values) => {
     // console.log(values);
@@ -62,8 +64,14 @@ useEffect(()=>{
   };
 
   return (
-    <div className="bg-admin-back min-h-screen flex justify-center items-center font-montserrat">
-      <Header/>
+    <div
+      className="bg-admin-back min-h-screen flex justify-center items-center font-montserrat"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${Bg})`,
+        backgroundSize: "Cover",
+      }}
+    >
+      <Header />
       <div className="flex flex-col items-center min-w-lg bg-white shadow-xl rounded-xl mx-auto w-11/12 sm:w-fit">
         <div className="rounded-t-xl">
           <img src={Image} alt="" className="sm:max-w-sm rounded-t-xl" />
@@ -99,7 +107,7 @@ useEffect(()=>{
                   <div>
                     <button
                       type="button"
-                      onClick={ ()=> navigate("/forgot-password")}
+                      onClick={() => navigate("/forgot-password")}
                       className="underline mt-1 font-medium"
                     >
                       Forgot Password
