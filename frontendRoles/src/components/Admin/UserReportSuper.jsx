@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from 'react-toastify';
-import emailjs from 'emailjs-com'; 
-import {BallTriangle } from 'react-loader-spinner'
+import { toast } from "react-toastify";
+import emailjs from "emailjs-com";
+import { BallTriangle } from "react-loader-spinner";
 
 const UserReport = () => {
   const [reports, setReports] = useState([]);
   const [reportedUsers, setReportedUsers] = useState([]);
   const [userWithInfo, setUserWithInfo] = useState([]);
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function fetchUserInformation(userIds) {
     const userInformation = [];
@@ -35,7 +35,7 @@ const UserReport = () => {
 
   const getReportedUsers = async () => {
     try {
-  setLoading(true);
+      setLoading(true);
       const response = await axios.get(
         "https://manthanr.onrender.com/v1/get-reported-users"
       );
@@ -48,8 +48,7 @@ const UserReport = () => {
       setUserWithInfo(userInformation);
     } catch (error) {
       console.log(error);
-    }
-    finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -67,42 +66,37 @@ const UserReport = () => {
   };
 
   const reportUser = (report) => {
+    toast.success("User reported");
 
-          toast.success('User reported');
-
-          sendEmail(report);
-
+    sendEmail(report);
   };
 
   const sendEmail = (report) => {
+    const serviceId = "service_0jzntyg";
+    const templateId = "template_dbu0gpy";
+    const userId = "4n-EC2hBnJ4wZnL_F";
 
-    const serviceId = 'service_0jzntyg';
-    const templateId = 'template_dbu0gpy';
-    const userId = '4n-EC2hBnJ4wZnL_F';
-   
     const { email, message, score, username } = report;
 
-
-
-
     const templateParams = {
-      to_name:'PSYCH',
-      from_name:'super admin',
-      to_email: 'abhisektiwari2014@gmail.com', 
+      to_name: "PSYCH",
+      from_name: "super admin",
+      to_email: "abhisektiwari2014@gmail.com",
       username: username,
       // details:JSON.stringify(newObject),
-      subject: 'User Reported',
-      message: `The user ${username} has been reported.`, 
+      subject: "User Reported",
+      message: `The user ${username} has been reported.`,
     };
 
-    emailjs.send(serviceId, templateId, templateParams, userId)
+    emailjs
+      .send(serviceId, templateId, templateParams, userId)
       .then((response) => {
-      if(response.status === 200){
-        toast.success('reported user to super admin');
-      }
+        if (response.status === 200) {
+          toast.success("reported user to super admin");
+        }
       })
       .catch((error) => {
-        console.error('Email error:', error);
+        console.error("Email error:", error);
       });
   };
 
@@ -117,21 +111,21 @@ const UserReport = () => {
   return (
     <div className="p-4 overflow-y-auto h-[80%]">
       <h2 className="text-lg md:text-xl font-semibold mb-4">User Reports</h2>
-     {
-      loading?
-      (<div className="h-ful w-full flex flex-col justify-center items-center">
-        <BallTriangle
-        height={100}
-        width={100}
-        radius={5}
-        color="blue"
-        ariaLabel="ball-triangle-loading"
-        wrapperStyle={{}}
-        wrapperClass=""
-        visible={true}
-        />
-        <p>Loading...</p>
-      </div>):(
+      {loading ? (
+        <div className="h-ful w-full flex flex-col justify-center items-center">
+          <BallTriangle
+            height={100}
+            width={100}
+            radius={5}
+            color="blue"
+            ariaLabel="ball-triangle-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
+          <p>Loading...</p>
+        </div>
+      ) : (
         userWithInfo.map((report) => (
           <div
             key={report.id}
@@ -160,10 +154,13 @@ const UserReport = () => {
                   Mark as Read
                 </button>
               )}
-              <button className="mr-2 px-3 py-1 bg-blue-500 text-white rounded" onClick={() => {
-                // console.log(report);
-                reportUser(report);
-              }}>
+              <button
+                className="mr-2 px-3 py-1 bg-blue-500 text-white rounded"
+                onClick={() => {
+                  // console.log(report);
+                  reportUser(report);
+                }}
+              >
                 Report to psy
               </button>
               {report.read && (
@@ -177,8 +174,7 @@ const UserReport = () => {
             </div>
           </div>
         ))
-      )
-     }
+      )}
     </div>
   );
 };

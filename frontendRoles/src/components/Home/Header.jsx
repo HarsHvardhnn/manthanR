@@ -16,7 +16,7 @@ function Header() {
   };
 
   return (
-    <div className="absolute top-0 bg-white font-bold pt-1 px-6 flex flex-wrap justify-between md:justify-between items-center w-full max-w-screen">
+    <div className="absolute top-0 bg-white font-bold font-montserrat pt-1 px-6 flex flex-wrap justify-between md:justify-between items-center w-full max-w-screen">
       <div className="mx-2 rounded-full sm:mb-0.5 flex p-0.5">
         <img src={Logo} alt="logo" className="h-10 sm:h-16 lg:ml-16 xl:ml-32" />
       </div>
@@ -32,19 +32,19 @@ function Header() {
           </button>
         </div>
         <div
-          className="relative"
+          className="relative mr-32"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
           <button
-            className=" px-4 py-2 rounded-full text-xs font-extrabold sm:text-base md:mr-6 lg:mr-32 sm:mb-2 md:mb-0 text-home-pink border-2 border-home-pink hover:bg-home-pink hover:text-white"
+            className=" px-4 py-2 rounded-full text-xs font-extrabold sm:text-base sm:mb-2 md:mb-0 text-home-pink border-2 border-home-pink hover:bg-home-pink hover:text-white"
             aria-haspopup="true"
             aria-expanded={isDropdownOpen ? "true" : "false"}
           >
             Admin
           </button>
           {isDropdownOpen && (
-            <div className="absolute right-0 z-10 w-fit mt-0.5 bg-white rounded-md shadow-lg">
+            <div className="absolute z-10 w-fit bg-white rounded-md shadow-lg">
               <button
                 onClick={() => {
                   navigate("/AdminLogin");

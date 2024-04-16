@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { BallTriangle ,InfinitySpin} from "react-loader-spinner";
 
 const SOSNotifications = () => {
+  const [loading, setLoading] =  useState(false);
   const [notifications, setNotifications] = useState([
     {
       id: 1,

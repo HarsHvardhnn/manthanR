@@ -121,7 +121,7 @@ function ScoreRangeChart() {
       forceNiceScale: true,
     },
     title: {
-      text: "WELL-BEING DISTRIBUTION",
+      text: "WELLNESS SCORE DISTRIBUTION",
       align: "center",
       margin: 26,
       offsetY: 10,

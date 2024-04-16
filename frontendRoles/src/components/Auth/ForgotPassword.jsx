@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { MagnifyingGlass } from "react-loader-spinner";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaHome } from "react-icons/fa";
 const ForgotPassword = () => {
   const [showOTPFields, setShowOTPFields] = useState(false);
   const [wrongOtp, setWrongOtp] = useState(false);
@@ -128,9 +128,9 @@ const ForgotPassword = () => {
         <h2 className="text-2xl font-semibold ">Forgot Password</h2>
         <div className="text-white rounded-lg my-auto bg-blue-500 hover:bg-blue-600">
               <button className="p-2" onClick={() => {
-                navigate("/login");
+                navigate("/");
               }}>
-                <FaArrowLeft />
+                <FaHome />
               </button>
             </div>
       </div>
