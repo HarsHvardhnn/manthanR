@@ -277,7 +277,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
         Email: user.email,
         "Phone Number": user.phoneNumber,
         Score: user.score,
-        Date: user.date,
+        Date: convertISOToDateTime(user.createdAt),
         Category: categorizeUser(user.score),
       }))
     );
@@ -285,7 +285,10 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
     XLSX.utils.book_append_sheet(workbook, worksheet, "User Data");
     XLSX.writeFile(workbook, fileName);
   };
-
+  function convertISOToDateTime(isoDate) {
+    const date = new Date(isoDate);
+    return date.toLocaleString("en-US"); // Formats date-time string in default locale
+  }
   return (
     <div className="mx-auto p-2 md:p-4 pb-10  h-full bg-gray-100 font-montserrat text-xs md:text-sm">
 {

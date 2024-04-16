@@ -17,7 +17,8 @@ module.exports = {
         'admin-back': '#faffe0',
         'admin-bg': '#F0FABB',
         'home-bg': '#D7AA75',
-        'home-btn': '#BF9768'
+        'home-btn': '#BF9768',
+        'home-pink': '#FA5A96'
     },},
   },
   plugins: [],

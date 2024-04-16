@@ -5,6 +5,8 @@ import {toast} from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { adminContext } from "../../context";
+import Header from "../Home/Header";
+
 const AdminLogin = () => {
   const {admin,setAdmin} =useContext(adminContext);
   const navigate = useNavigate();
@@ -59,15 +61,15 @@ useEffect(()=>{
 
   return (
     <div className="bg-admin-back min-h-screen flex justify-center items-center font-montserrat">
+      <Header/>
       <div className="flex flex-col items-center min-w-lg bg-white shadow-xl rounded-xl mx-auto w-11/12 sm:w-fit">
         <div className="rounded-t-xl">
           <img src={Image} alt="" className="sm:max-w-sm rounded-t-xl" />
         </div>
         <div className="pt-2 py-2 px-4 rounded-b-xl shadow-md w-full">
-          <h2 className="text-2xl font-bold text-center uppercase">
+          <h2 className="text-2xl font-bold text-center uppercase mb-2">
             Admin Login
           </h2>
-          <p className="text-center text-sm mb-4 underline">Welcome back</p>
           <Formik initialValues={initialValues} onSubmit={onSubmit}>
             {() => (
               <Form className="max-w-80 mx-auto">

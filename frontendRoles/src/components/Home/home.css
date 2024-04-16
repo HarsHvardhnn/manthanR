@@ -1,13 +1,22 @@
 .typewriter-text {
     font-size: 2rem; 
   }
+  @keyframes custom-bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-9px); /* Adjust the amount of bounce as needed */
+    }
+  }
+  
+  .animate-custom-bounce {
+    animation: custom-bounce ease-in-out infinite;
+  }
   
   @media (min-width: 1024px) {
     .typewriter-text {
       font-size: 3.2rem;
-    }
-    .login-btn{
-        margin-top: 20px;
     }
   }
   

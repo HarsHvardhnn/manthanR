@@ -1,29 +1,38 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import axios from 'axios';
+import axios from "axios";
 import openEye from "./open.png";
 import closedEye from "./close.png";
 import bgImage from "./signupimg.jpg";
-import { useNavigate  } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { userContext, authContext } from "../../context";
 import { useContext, useEffect } from "react";
 import { toast } from "react-toastify";
+import Header from "../Home/Header";
+import Bg from "./StudentLoginBackground.jpg";
 
-const LoginPage = () => { 
+import * as Yup from "yup";
+
+const LoginPage = () => {
   const { setUser } = useContext(userContext);
   const { setAuth } = useContext(authContext);
-  const [userId,setUserId] = useState("");
+  const [userId, setUserId] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [showForgotPasswordFields, setShowForgotPasswordFields] = useState(false); // State to toggle forgot password fields
+  const [showForgotPasswordFields, setShowForgotPasswordFields] =
+    useState(false); // State to toggle forgot password fields
   const navigate = useNavigate();
   const initialValues = {
     email: "",
     password: "",
     otp: "", // New field for OTP
     newPassword: "", // New field for new password
-    confirmPassword: "" // New field for confirm password
+    confirmPassword: "", // New field for confirm password
   };
 
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().required("Email is required"),
+    password: Yup.string().required("Password is required"),
+  });
   const onSubmit = (values) => {
     if (showForgotPasswordFields) {
       // Handle forgot password submission
@@ -35,69 +44,74 @@ const LoginPage = () => {
   };
 
   const handleLogin = (values) => {
-    axios.post("https://manthanr.onrender.com/v1/login", {
-      email: values.email,
-      password: values.password
-    }).then((res) => {
-      if (res.status === 200) {
-        localStorage.setItem("token", res.data.token); 
-        // console.log(res.data.token);
-        // console.log(res.data.user);
-        setUserId(res.data.user._id); 
-        setUser(res.data.user.username);
-     
-        setAuth(true);
-        if(res.data.user.is_profile_complete){
-      if(res.data.user.has_accepted_tnc){
-        navigate('/chatbot');
-      }
-      else {
-        navigate('/disclaimer')
-      }
-        }
-        else {
-          navigate('/updateprofile')
-        }
-        // console.log(res.data.user._id);
-       
+    axios
+      .post("https://manthanr.onrender.com/v1/login", {
+        email: values.email,
+        password: values.password,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          localStorage.setItem("token", res.data.token);
+          // console.log(res.data.token);
+          // console.log(res.data.user);
+          setUserId(res.data.user._id);
+          setUser(res.data.user.username);
 
-      }
-    }).catch((err) => {
-      console.log(err);
-      // toast.error(err.response.data);
-    });
+          setAuth(true);
+          if (res.data.user.is_profile_complete) {
+            if (res.data.user.has_accepted_tnc) {
+              navigate("/chatbot");
+            } else {
+              navigate("/disclaimer");
+            }
+          } else {
+            navigate("/updateprofile");
+          }
+          // console.log(res.data.user._id);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        // toast.error(err.response.data);
+      });
   };
 
   const handleForgotPassword = (values) => {
-    axios.post('https://manthanr.onrender.com/v1/sendOtp', { email: values.email }).then((res) => {
-      if (res === 200) {
-        // Handle sending OTP
-        toast.success('OTP sent');
-        // You can implement OTP verification and password update logic here
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
+    axios
+      .post("https://manthanr.onrender.com/v1/sendOtp", { email: values.email })
+      .then((res) => {
+        if (res === 200) {
+          // Handle sending OTP
+          toast.success("OTP sent");
+          // You can implement OTP verification and password update logic here
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const toggleForgotPasswordFields = () => {
-    setShowForgotPasswordFields(!showForgotPasswordFields);
-  };
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      navigate('/chatbot');
+      navigate("/chatbot");
     }
   }, []);
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-blue-200 font-montserrat">
-      <div className="flex flex-col lg:flex-row bg-white justify-center items-center w-4/5 sm:w-3/5 lg:w-8/12 xl:w-3/5 shadow-xl rounded-xl">
+    <div
+      className="min-h-screen flex justify-center items-center bg-blue-200 font-montserrat"
+      style={{
+        backgroundImage: `url(${Bg})`,
+        backgroundSize: "Cover",
+      }}
+    >
+      <Header />
+      <div className="flex flex-col lg:flex-row bg-white hover:opacity-95 justify-center mt-10 items-center w-4/5 sm:w-3/5 lg:w-8/12 xl:w-3/5 shadow-xl rounded-xl">
         {/* Left section  */}
         <div className="flex-1">
           <img
@@ -108,9 +122,15 @@ const LoginPage = () => {
         </div>
         {/* Right section  */}
         <div className="flex-1 bg-white py-4 px-6 rounded-b-xl lg:rounded-s-xl w-full sm:w-96">
-          <h2 className="text-2xl font-bold mb-2 uppercase text-center">Login</h2>
-          <Formik initialValues={initialValues} onSubmit={onSubmit}>
-            {({ errors, touched ,values }) => (
+          <h2 className="text-2xl font-bold mb-2 uppercase text-center">
+            Student Login
+          </h2>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
+          >
+            {({ errors, touched, values }) => (
               <Form>
                 {/* Form fields here */}
                 <div className="mb-4">
@@ -161,28 +181,23 @@ const LoginPage = () => {
                   />
                 </div>
                 {/* Display forgot password fields if showForgotPasswordFields is true */}
-               
+
                 {/* Submit button */}
                 <div className="flex justify-between">
-         
-                    <button
-                      type="button"
-                      onClick={(values) => {
-                      navigate('/forgot-password')
-               
-                      }}
-                      className="underline mt-1 text-xs sm:text-base"
-                    >
-                      Forgot Password
-                    </button>
+                  <button
+                    type="button"
+                    onClick={(values) => {
+                      navigate("/forgot-password");
+                    }}
+                    className="underline mt-1 text-xs sm:text-base"
+                  >
+                    Forgot Password
+                  </button>
 
-                    <button className="bg-blue-500 px-4 py-2 rounded-md text-white mt-1 text-xs sm:text-base">
-                      Login
-                    </button>
-          
-
-        
-                </div>       
+                  <button className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md text-white mt-1 text-xs sm:text-base">
+                    Login
+                  </button>
+                </div>
               </Form>
             )}
           </Formik>

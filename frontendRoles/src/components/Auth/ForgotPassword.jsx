@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { MagnifyingGlass } from "react-loader-spinner";
+import { FaArrowLeft } from "react-icons/fa";
 const ForgotPassword = () => {
   const [showOTPFields, setShowOTPFields] = useState(false);
   const [wrongOtp, setWrongOtp] = useState(false);
@@ -18,21 +19,20 @@ const ForgotPassword = () => {
     confirmPassword: "",
   };
 
-
-setInterval(() => {
-  axios
-    .delete("https://manthanr.onrender.com/v1/clear")
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}, 60000);
+  setInterval(() => {
+    axios
+      .delete("https://manthanr.onrender.com/v1/clear")
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, 60000);
 
   const checkEmail = (values) => {
     setLoading(true); // Set loading to true initially
-  
+
     axios
       .post("https://manthanr.onrender.com/v1/check-email", {
         email: values.email,
@@ -53,7 +53,6 @@ setInterval(() => {
         setLoading(false); // Set loading to false after the axios operation is completed (success or failure)
       });
   };
-  
 
   const sendOtp = (values) => {
     // setLoading(true);
@@ -117,8 +116,17 @@ setInterval(() => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold mb-6">Forgot Password</h2>
+    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md font-montserrat">
+      <div className="flex justify-between mx-1 mb-6">
+        <h2 className="text-2xl font-semibold ">Forgot Password</h2>
+        <div className="text-white rounded-lg my-auto bg-blue-500 hover:bg-blue-600">
+              <button className="p-2" onClick={() => {
+                navigate("/login");
+              }}>
+                <FaArrowLeft />
+              </button>
+            </div>
+      </div>
       {wrongOtp && (
         <p className="text-red-500 mt-1">Wrong OTP. Please retry.</p>
       )}
@@ -146,10 +154,9 @@ setInterval(() => {
                 className="text-red-500 mt-1"
               />
             </div>
-            { (
+            {
               <>
                 {loading && (
-              
                   <MagnifyingGlass
                     visible={true}
                     height="80"
@@ -161,18 +168,20 @@ setInterval(() => {
                     color="#e15b64"
                   />
                 )}
-               {!loading && !showOTPFields && <button
-                  type="button"
-                  onClick={() => {
-                    // toast.success('checking email')
-                    checkEmail(values);
-                  }}
-                  className="w-full bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-                >
-                  Send OTP
-                </button>}
+                {!loading && !showOTPFields && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      // toast.success('checking email')
+                      checkEmail(values);
+                    }}
+                    className="w-full bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                  >
+                    Send OTP
+                  </button>
+                )}
               </>
-            )}
+            }
 
             {showOTPFields && (
               <>
@@ -228,25 +237,26 @@ setInterval(() => {
                   />
                 </div>
                 {loading && (
-              
-              <MagnifyingGlass
-                visible={true}
-                height="80"
-                width="80"
-                ariaLabel="magnifying-glass-loading"
-                wrapperStyle={{}}
-                wrapperClass="magnifying-glass-wrapper"
-                glassColor="#c0efff"
-                color="#e15b64"
-              />
-            )}
-              { !loading &&  <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-                >
-                  Submit
-                </button>}
+                  <MagnifyingGlass
+                    visible={true}
+                    height="80"
+                    width="80"
+                    ariaLabel="magnifying-glass-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="magnifying-glass-wrapper"
+                    glassColor="#c0efff"
+                    color="#e15b64"
+                  />
+                )}
+                {!loading && (
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                  >
+                    Submit
+                  </button>
+                )}
               </>
             )}
           </Form>
