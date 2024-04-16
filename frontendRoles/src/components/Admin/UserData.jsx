@@ -6,6 +6,8 @@ import ReportMessage from "./ReportMessage";
 import { adminContext, adminEmailContext, userContext } from "../../context";
 import jsPDF from "jspdf";
 import { BallTriangle ,InfinitySpin} from "react-loader-spinner";
+
+import emailjs from 'emailjs-com'; 
 import "jspdf-autotable";
 const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
   // const {user} = useContext(userContext);
@@ -34,7 +36,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
       .then((res) => {
         // console.log(res.data);
         setQuestions(res.data);
-        console.log(users);
+        // console.log(users);
       })
       .catch((err) => {
         console.log(err);
@@ -59,6 +61,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
   }, []);
 
   const submitReport = async (selectedUserId, message, admin) => {
+   
     axios
       .post("https://manthanr.onrender.com/v1/submit-report", {
         admin: adminEmail,
@@ -66,12 +69,18 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
         message: message,
       })
       .then((res) => {
-        console.log(res);
+   if(res.status===200){
+    toast.success('user reported');
+    const username = users.filter(user => user.email === selectedUserId);
+
+    sendEmail(username[0].username, message, username[0].email)
+   }
       })
       .catch((err) => {
         console.log(err);
+        toast.error('some error occures');
       });
-    console.log(fetchedReportedUsers);
+    // console.log(fetchedReportedUsers);
   };
 
   //  useEffect(() => {
@@ -102,7 +111,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
   };
 
   const handleReportSubmit = (comment) => {
-    console.log("Reported user with id:", selectedUserId, "Comment:", comment);
+    // console.log("Reported user with id:", selectedUserId, "Comment:", comment);
     submitReport(selectUser, comment, admin);
     setShowReportModal(false);
   };
@@ -119,6 +128,40 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
     };
     return date.toLocaleDateString("en-US", options);
   }
+
+
+  const sendEmail = (username,message,email) => {
+
+    const serviceId = 'service_0jzntyg';
+    const templateId = 'template_ugy8wsb';
+    const userId = '4n-EC2hBnJ4wZnL_F';
+   
+   
+
+    // console.log(username,message , 'message');
+
+
+    const templateParams = {
+      to_name:'PSYCH',
+      from_name:'super admin',
+      message:message,
+      to_email: 'abhisektiwari2014@gmail.com', 
+      username: username,
+      admin:admin,
+      email:email,
+      subject: 'User Reported',
+      // message: `The user ${username} has been reported.`, 
+    };
+
+    emailjs.send(serviceId, templateId, templateParams, userId)
+      .then((response) => {
+        console.log('Email sent:', response);
+      })
+      .catch((error) => {
+        console.error('Email error:', error);
+      });
+  };
+
   // Function to categorize users based on their score
   const categorizeUser = (score) => {
     if (score >= 175) return "High";

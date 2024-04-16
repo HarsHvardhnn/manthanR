@@ -112,11 +112,15 @@ const login = async (req, res) => {
     const hashedPassword = password;
     console.log(email, hashedPassword);
     const user = await userModel.findOne({ email: email });
+
     
     if (!user) {
       return res.status(400).send("User does not exist");
     }
-    
+     
+    if(user.role !=='user'){
+      return res.send('admins and super admins cant login').status(401);
+    }
     if (user.password === hashedPassword) {
       // Generate JWT token
       const token = jwt.sign({ userId: user._id, email: user.email }, 'H@rsh123', { expiresIn: '1h' });

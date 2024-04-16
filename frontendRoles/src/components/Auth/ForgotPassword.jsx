@@ -30,6 +30,13 @@ const ForgotPassword = () => {
       });
   }, 60000);
 
+ 
+  
+
+
+
+
+
   const checkEmail = (values) => {
     setLoading(true); // Set loading to true initially
 

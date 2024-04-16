@@ -83,26 +83,23 @@ const UserReport = () => {
     const { email, message, score, username } = report;
 
 
-  const newObject = {
-    email: email,
-    message: message,
-    score: score,
-    username: username,
-  };
+
 
     const templateParams = {
       to_name:'PSYCH',
       from_name:'super admin',
       to_email: 'abhisektiwari2014@gmail.com', 
       username: username,
-      details:JSON.stringify(newObject),
+      // details:JSON.stringify(newObject),
       subject: 'User Reported',
       message: `The user ${username} has been reported.`, 
     };
 
     emailjs.send(serviceId, templateId, templateParams, userId)
       .then((response) => {
-        console.log('Email sent:', response);
+      if(response.status === 200){
+        toast.success('reported user to super admin');
+      }
       })
       .catch((error) => {
         console.error('Email error:', error);

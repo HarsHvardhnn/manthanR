@@ -134,7 +134,7 @@ useEffect(()=>{
           </button>
           <div className="hidden md:flex ">
             <FaUserCircle className="text-white text-2xl lg:mr-2 md:absolute md:left-72 md:top-6" />
-            <p className="text-lg font-semibold text-white">{admin}</p>
+            <p className="text-lg font-semibold text-white">Welcome back,{admin}</p>
           </div>
           <div className="relative">
             <button
