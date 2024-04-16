@@ -176,7 +176,7 @@ useEffect(()=>{
         {activeTab === "charts" && <ScoreRangeChart />}
         {activeTab === "allUsers" && <UserData />}
         {activeTab === "userreport" && <UserReport />}
-        {activeTab === "sosnotification" && <SOSNotifications />}
+        {/* {activeTab === "sosnotification" && <SOSNotifications />} */}
       </div>
     </div>
   );

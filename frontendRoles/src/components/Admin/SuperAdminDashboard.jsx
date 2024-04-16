@@ -13,7 +13,7 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 // import { Link } from "eact-router-dom";
-import UserData from "../Admin/UserData";
+import UserDataSuper from "../Admin/UserDataSuper";
 import SOSNotifications from "./SOSNotifications";
 import UserReportSuper from "./UserReportSuper";
 import AdminWiseChart from "./AdminWiseChart";
@@ -202,7 +202,7 @@ const {superadmin,setsuperadmin} = useContext(superadminContext);
         {activeTab === "Userreport" && <UserReportSuper  />}
         {activeTab === "charts" && <AdminWiseChart admin={selectedAdmin} />}
         {activeTab === "Users" && (
-          <UserData showSOSButton={false} showSummaryColumn={true} />
+          <UserDataSuper showSOSButton={false} showSummaryColumn={true} />
         )}
       </div>
     </div>

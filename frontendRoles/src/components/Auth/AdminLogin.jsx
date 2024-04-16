@@ -4,11 +4,12 @@ import Image from "./adminimage.jpg";
 import {toast} from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-import { adminContext } from "../../context";
+import { adminContext, adminEmailContext } from "../../context";
 import Header from "../Home/Header";
 
 const AdminLogin = () => {
   const {admin,setAdmin} =useContext(adminContext);
+  const {adminEmail,setAdminEmail} = useContext(adminEmailContext);
   const navigate = useNavigate();
   const [showForgotPasswordPopup, setShowForgotPasswordPopup] = useState(false);
   
@@ -27,6 +28,7 @@ const AdminLogin = () => {
         localStorage.setItem('adminToken', token);
         toast.success('Admin login successful');
         setAdmin(res.data.user.username);
+        setAdminEmail(res.data.user.email);
         navigate('/AdminDashboard');
       }
     }).catch((err) => {
@@ -42,10 +44,10 @@ const AdminLogin = () => {
   };
   
 useEffect(()=>{
-  const adminToken = localStorage.getItem('adminToken');
-  if(adminToken){
-    navigate('/admindashboard')
-  }
+  // const adminToken = localStorage.getItem('adminToken');
+  // if(adminToken){
+  //   navigate('/admindashboard')
+  // }
 },[])
 
   const handleSendOTP = (values) => {
@@ -97,7 +99,7 @@ useEffect(()=>{
                   <div>
                     <button
                       type="button"
-                      onClick={handleForgotPassword}
+                      onClick={ ()=> navigate("/forgot-password")}
                       className="underline mt-1 font-medium"
                     >
                       Forgot Password

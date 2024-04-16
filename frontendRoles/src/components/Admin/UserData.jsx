@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import * as XLSX from "xlsx";
 import ReportMessage from "./ReportMessage";
-import { adminContext, userContext } from "../../context";
+import { adminContext, adminEmailContext, userContext } from "../../context";
 import jsPDF from "jspdf";
 import { BallTriangle ,InfinitySpin} from "react-loader-spinner";
 import "jspdf-autotable";
@@ -21,87 +21,8 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
   const [loading, setLoading] =  useState(false);
   const [fetchedReportedUsers, setFetchedReportedUsers] = useState();
   const { admin } = useContext(adminContext);
-  const sampleUsers = [
-    {
-      _id: 1,
-      username: "John Doe",
-      email: "john@example.com",
-      phoneNumber: "1234567890",
-      score: 190,
-    },
-    {
-      _id: 2,
-      username: "Jane Smith",
-      email: "jane@example.com",
-      phoneNumber: "9876543210",
-      score: 150,
-      date: "2023-12-20",
-    },
-    {
-      _id: 3,
-      username: "Alice Johnson",
-      email: "alice@example.com",
-      phoneNumber: "5551234567",
-      score: 175,
-      date: "2023-11-10",
-    },
-    {
-      _id: 4,
-      username: "Bob Brown",
-      email: "bob@example.com",
-      phoneNumber: "9876543210",
-      score: 160,
-      date: "2023-11-25",
-    },
-    {
-      _id: 5,
-      username: "Emily Davis",
-      email: "emily@example.com",
-      phoneNumber: "5559876543",
-      score: 140,
-      date: "2023-10-05",
-    },
-    {
-      _id: 6,
-      username: "Michael Wilson",
-      email: "michael@example.com",
-      phoneNumber: "1234567890",
-      score: 130,
-      date: "2023-10-15",
-    },
-    {
-      _id: 7,
-      username: "Sarah Martinez",
-      email: "sarah@example.com",
-      phoneNumber: "5551234567",
-      score: 125,
-      date: "2023-09-30",
-    },
-    {
-      _id: 8,
-      username: "David Taylor",
-      email: "david@example.com",
-      phoneNumber: "9876543210",
-      score: 110,
-      date: "2023-09-05",
-    },
-    {
-      _id: 9,
-      username: "Olivia Anderson",
-      email: "olivia@example.com",
-      phoneNumber: "5559876543",
-      score: 105,
-      date: "2023-08-20",
-    },
-    {
-      _id: 10,
-      username: "William Thomas",
-      email: "william@example.com",
-      phoneNumber: "1234567890",
-      score: 95,
-      date: "2023-08-10",
-    },
-  ];
+  const {adminEmail}=  useContext(adminEmailContext)
+
 
   const [selectUser, setSelectUser] = useState(null);
   const [users, setUsers] = useState([]);
@@ -140,7 +61,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
   const submitReport = async (selectedUserId, message, admin) => {
     axios
       .post("https://manthanr.onrender.com/v1/submit-report", {
-        admin: admin,
+        admin: adminEmail,
         user: selectedUserId,
         message: message,
       })

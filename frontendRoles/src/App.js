@@ -21,13 +21,14 @@ import Disclaimer from "./components/Home/Disclaimer";
 // import { useNavigate } from "react-router-dom";
 
 
-
+import { adminEmailContext } from "./context";
 
 
 function App() {
   const [user, setUser] = useState("");
   const [auth, setAuth] = useState(false);
   const [superadmin,setsuperadmin] = useState("");
+  const [adminEmail,setAdminEmail] = useState("")
   const [admin,setAdmin] = useState("");
 
   const router = createBrowserRouter([
@@ -82,12 +83,15 @@ function App() {
     <>
       <userContext.Provider value={{ user, setUser }}>
         <superadminContext.Provider value={{superadmin,setsuperadmin}}>
+          <adminEmailContext.Provider value={{adminEmail,setAdminEmail}}>
+
         <adminContext.Provider value={{admin,setAdmin}}>
         <authContext.Provider value={{ auth, setAuth }}>
           <RouterProvider router={router} />
           <ToastContainer/>
         </authContext.Provider>
         </adminContext.Provider>
+          </adminEmailContext.Provider>
         </superadminContext.Provider>
       </userContext.Provider>
     </>

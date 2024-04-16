@@ -90,7 +90,7 @@ const SuperAdminLogin = () => {
                   <div>
                     <button
                       type="button"
-                    //   onClick={handleForgotPassword}
+                      onClick={ ()=> navigate("/forgot-password")}
                       className="underline mt-1 font-medium"
                     >
                       Forgot Password

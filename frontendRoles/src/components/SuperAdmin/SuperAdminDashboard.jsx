@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaChartBar, FaUsers, FaUserCircle, FaSignOutAlt, FaHouseUser } from "react-icons/fa";
 import { BallTriangle } from "react-loading-icons";
 import { Link } from "react-router-dom";
-import UserData from "../Admin/UserData";
+import UserData from './UserDataSuper'
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("charts");
