@@ -16,9 +16,9 @@ function Header() {
   };
 
   return (
-    <div className="absolute top-0 bg-white font-bold font-montserrat pt-1 px-6 flex flex-wrap justify-between md:justify-between items-center w-full max-w-screen">
-      <div className="mx-2 rounded-full sm:mb-0.5 flex p-0.5">
-        <img src={Logo} alt="logo" className="h-10 sm:h-16 lg:ml-16 xl:ml-32" />
+    <div className="absolute top-0 bg-white font-bold font-montserrat pt-1 sm:px-6 flex flex-wrap justify-between md:justify-between items-center w-full max-w-screen">
+      <div className="mx-1 sm:mx-2 rounded-full sm:mb-0.5 flex p-0.5">
+        <img src={Logo} alt="logo" className="h-8 sm:h-16 ml-0 lg:ml-6 xl:ml-32" />
       </div>
       <div className="flex">
         <div>
@@ -26,30 +26,30 @@ function Header() {
             onClick={() => {
               navigate("/");
             }}
-            className=" px-4 py-2 rounded-full text-xs font-extrabold sm:text-base mr-10 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
+            className=" px-2 py-1 sm:px-4 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
           >
             Home
           </button>
         </div>
         <div
-          className="relative mr-32"
+          className="relative mr-1 sm:mr-2 lg:mr-12 xl:mr-32"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
           <button
-            className=" px-4 py-2 rounded-full text-xs font-extrabold sm:text-base sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
+            className=" px-2 py-1 sm:px-4 sm:py-2 rounded-full text-xs font-extrabold sm:text-base sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
             aria-haspopup="true"
             aria-expanded={isDropdownOpen ? "true" : "false"}
           >
             Admin
           </button>
           {isDropdownOpen && (
-            <div className="absolute z-10 w-fit bg-white rounded-md shadow-lg">
+            <div className="absolute right-0 sm:left-0 z-10 w-fit bg-white rounded-md shadow-lg ">
               <button
                 onClick={() => {
                   navigate("/AdminLogin");
                 }}
-                className="block py-1 sm:px-4 sm:py-2 text-xs sm:text-sm text-gray-800 hover:bg-gray-100 w-full rounded-lg text-center"
+                className="block py-1 sm:px-2 sm:py-2 text-xs sm:text-sm text-gray-800 hover:bg-gray-100 w-full rounded-lg text-center"
               >
                 Admin
               </button>
@@ -57,9 +57,9 @@ function Header() {
                 onClick={() => {
                   navigate("/superAdminLogin");
                 }}
-                className="block py-1 sm:px-4 sm:py-2 text-xs sm:text-sm text-gray-800 hover:bg-gray-100 w-32 rounded-lg text-center"
+                className="block py-1 sm:px-2 sm:py-2 text-xs sm:text-sm text-gray-800 hover:bg-gray-100 w-28 rounded-lg text-center"
               >
-                Super Admin
+                SuperAdmin
               </button>
             </div>
           )}

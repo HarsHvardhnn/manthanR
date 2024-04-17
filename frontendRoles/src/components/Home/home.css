@@ -76,8 +76,8 @@
   /* Font size for extra-small screens */
   @media (max-width: 639px) {
     .typewriter-text {
-      font-size: 1.6rem;
-      margin-top: 32%;
+      font-size: 1.9rem;
+      margin-top: 18%;
     }
     .login-btn{
         margin-top: 28px;
@@ -86,7 +86,6 @@
   
   @media (max-width: 375px) and (min-width: 360px) {
     .typewriter-text {
-        font-size: 1.6rem;
         margin-top: 25%;
         min-height: 146px;
       }
@@ -95,7 +94,7 @@
     }
   }
   @media (max-width: 500px) and (min-width: 412px) {
-    .para{
+    .typewriter-text{
         padding-right: 10px;
     }
   }

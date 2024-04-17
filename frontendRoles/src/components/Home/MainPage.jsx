@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import BgImage from "./main6.jpg";
 import Bg from "./bg5.png";
 import { useNavigate } from "react-router-dom";
-import BgImage3 from "./bg-phone.png";
 import TypeWriterEffect from "react-typewriter-effect";
 import "./home.css";
-import BgImage2 from "./bg-tab.png";
 import Header from "./Header";
 
 function MainPage() {
@@ -26,9 +24,9 @@ function MainPage() {
   useEffect(() => {
     const screenWidth = window.innerWidth;
     if (screenWidth < 640) {
-      setBgImageUrl(BgImage3);
+      setBgImageUrl(Bg);
     } else if (screenWidth > 640 && screenWidth < 1080) {
-      setBgImageUrl(BgImage2);
+      setBgImageUrl(Bg);
     } else {
       setBgImageUrl(Bg);
     }
@@ -36,18 +34,17 @@ function MainPage() {
     const handleResize = () => {
       const newScreenWidth = window.innerWidth;
       if (newScreenWidth < 640) {
-        setBgImageUrl(BgImage3);
+        setBgImageUrl(Bg);
       } else if (screenWidth > 640 && screenWidth < 1080) {
-        setBgImageUrl(BgImage2);
+        setBgImageUrl(Bg);
       } else {
-        setBgImageUrl(BgImage);
+        setBgImageUrl(Bg);
       }
     };
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
 
   return (
     <div
@@ -58,13 +55,13 @@ function MainPage() {
       }}
     >
       {/* Navbar */}
-      <Header/>
+      <Header />
 
       {/* Content */}
       <div className=" flex flex-col w-full pl-6 items-center ">
         <div className="flex mt-10 w-full justify-center">
           {/* text content */}
-          <div className="mt-4 mr-28">
+          <div className="flex flex-col mt-4 mr-4 sm:mr-28">
             <div className="w-full sm:max-w-xl min-h-48 rounded-lg typewriter-text uppercase">
               <TypeWriterEffect
                 textStyle={{
@@ -78,11 +75,26 @@ function MainPage() {
                 hideCursorAfterText="true"
               />
             </div>
+            {/* image small */}
+            <div className="md:hidden ml-8">
+              <img
+                src={BgImage}
+                alt="Description"
+                className="h-56 animate-custom-bounce"
+                style={{
+                  animationDuration: "3s",
+                  animationIterationCount: "infinite",
+                }}
+              />
+            </div>
             <div className="mb-4 py-2  max-w-xl para">
               <p className="text-base font-medium paragraph">
-                Enter <span className="font-bold uppercase text-blue-600">ManoWealth</span> -
-                A Place Where Your Mental Well-being Finds Support, Comfort, and
-                Strength.
+                Enter{" "}
+                <span className="font-bold uppercase text-blue-600">
+                  ManoWealth
+                </span>{" "}
+                - A Place Where Your Mental Well-being Finds Support, Comfort,
+                and Strength.
               </p>
             </div>
             <div>
@@ -100,9 +112,17 @@ function MainPage() {
               </button>
             </div>
           </div>
-          {/* image */}
-          <div>
-            <img src={BgImage} alt="Description" className="h-96 animate-custom-bounce" style={{ animationDuration: '3s', animationIterationCount: 'infinite' }}/>
+          {/* image md */}
+          <div className="hidden md:flex">
+            <img
+              src={BgImage}
+              alt="Description"
+              className="h-96 animate-custom-bounce"
+              style={{
+                animationDuration: "3s",
+                animationIterationCount: "infinite",
+              }}
+            />
           </div>
         </div>
       </div>
