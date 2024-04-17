@@ -26,7 +26,7 @@ function Header() {
             onClick={() => {
               navigate("/");
             }}
-            className=" px-4 py-2 rounded-full text-xs font-extrabold sm:text-base mr-10 sm:mb-2 md:mb-0 text-home-pink border-2 border-home-pink hover:bg-home-pink hover:text-white"
+            className=" px-4 py-2 rounded-full text-xs font-extrabold sm:text-base mr-10 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
           >
             Home
           </button>
@@ -37,7 +37,7 @@ function Header() {
           onMouseLeave={handleMouseLeave}
         >
           <button
-            className=" px-4 py-2 rounded-full text-xs font-extrabold sm:text-base sm:mb-2 md:mb-0 text-home-pink border-2 border-home-pink hover:bg-home-pink hover:text-white"
+            className=" px-4 py-2 rounded-full text-xs font-extrabold sm:text-base sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
             aria-haspopup="true"
             aria-expanded={isDropdownOpen ? "true" : "false"}
           >

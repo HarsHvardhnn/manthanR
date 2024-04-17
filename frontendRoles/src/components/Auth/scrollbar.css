@@ -16,4 +16,9 @@
   .chat-container::-webkit-scrollbar-thumb:hover {
     background: #bababa; 
   }
+  @media (max-width: 640px) {
+    .chat-container {
+      min-height: calc(100vh - 200px); /* Set min-height to 80% of viewport height for screens less than sm */
+    }
+  }
   

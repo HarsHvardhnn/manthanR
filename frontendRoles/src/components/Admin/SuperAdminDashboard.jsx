@@ -31,16 +31,16 @@ const SuperAdminDashboard = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setShowSidebar(window.innerWidth >= 768); 
+      setShowSidebar(window.innerWidth >= 768);
     };
 
-    handleResize(); 
+    handleResize();
 
-    window.addEventListener("resize", handleResize); 
+    window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener("resize", handleResize); 
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
-  
+
   const getAllAdmins = () => {
     axios
       .get("https://manthanr.onrender.com/v1/getAllAdmins")
@@ -83,6 +83,10 @@ const SuperAdminDashboard = () => {
       setShowSidebar(!showSidebar);
     }
   };
+  const getPadding = () => {
+    const screenWidth = window.innerWidth;
+    return screenWidth >= 768 ? "1.365rem" : undefined;
+  };
 
   return (
     <div className="flex font-montserrat h-screen">
@@ -93,8 +97,11 @@ const SuperAdminDashboard = () => {
         }`}
       >
         <div className="flex justify-between bg-gray-800 items-center">
-          <h1 className="text-white text-base md:text-xl font-bold p-4 md:p-5 flex items-center uppercase">
-            <FaHouseUser className="mr-1" />
+          <h1
+            className="text-white text-base md:text-xl font-bold p-4 flex items-center uppercase"
+            style={{ padding: getPadding() }}
+          >
+            <FaHouseUser className="mr-1 " />
             SuperAdmin
           </h1>
           <button
@@ -186,7 +193,6 @@ const SuperAdminDashboard = () => {
           </button>
           <div className="hidden md:flex">
             <FaUserCircle className="text-white text-2xl lg:mr-2 md:absolute md:left-72 md:top-6" />
-            
           </div>
           <div className="relative">
             <button

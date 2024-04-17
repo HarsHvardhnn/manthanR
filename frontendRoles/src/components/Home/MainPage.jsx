@@ -80,7 +80,7 @@ function MainPage() {
             </div>
             <div className="mb-4 py-2  max-w-xl para">
               <p className="text-base font-medium paragraph">
-                Enter <span className="font-bold uppercase text-home-pink">ManoWealth</span> -
+                Enter <span className="font-bold uppercase text-blue-600">ManoWealth</span> -
                 A Place Where Your Mental Well-being Finds Support, Comfort, and
                 Strength.
               </p>
@@ -94,7 +94,7 @@ function MainPage() {
                     navigate("/login");
                   }
                 }}
-                className="login-btn bg-home-pink text-white w-fit py-2 px-5 text-base md:text-lg font-semibold rounded-full cursor-pointer shadow-lg z-50"
+                className="login-btn bg-blue-600 text-white w-fit py-2 px-5 text-base md:text-lg font-semibold rounded-full cursor-pointer shadow-lg z-50 transition duration-300 ease-in-out transform hover:scale-105"
               >
                 {loggedin ? "Chatbot" : "Login"}
               </button>

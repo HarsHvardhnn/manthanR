@@ -171,8 +171,9 @@ const Chatbot = () => {
   }, [currentQuestionIndex, questions]);
 
   return (
-    <div className="max-w-full pb-24 font-montserrat h-screen bg-blue-200 pt-24">
-      <Header/>
+    <>
+    <Header/>
+    <div className="max-w-full px-4 pb-24 font-montserrat h-screen bg-blue-200 pt-24">
       <div className="max-w-6xl mx-auto flex justify-between px-4 py-2 bg-blue-500 rounded-tr-xl rounded-tl-xl">
         <div>
           <img
@@ -181,7 +182,7 @@ const Chatbot = () => {
             className="max-h-10 max-w-10 ml-2 rounded-full"
           />
         </div>
-        <div>
+        <div className="hidden md:flex">
           <p className="py-2 px-4 bg-white rounded-xl font-bold text-base">
             Hello {user} ✨
           </p>
@@ -210,7 +211,7 @@ const Chatbot = () => {
         <div className="sm:hidden font-bold rounded-lg bg-white flex">
           <button
             onClick={handleRestart}
-            className="my-1 mx-auto px-2 border-r rounded-l-xl text-xs transition duration-300 ease-in-out transform hover:scale-105"
+            className="my-1 mx-auto px-4 border-r rounded-l-xl text-xs transition duration-300 ease-in-out transform hover:scale-105"
             title="Restart"
           >
             <FaRedo />
@@ -219,10 +220,11 @@ const Chatbot = () => {
             onClick={() => {
               // console.log(auth);
               setAuth(false);
+              localStorage.removeItem("token");
               navigate("/login");
               // console.log(auth);
             }}
-            className="my-1 mx-auto px-2 border-l rounded-r-xl text-xs transition duration-300 ease-in-out transform hover:scale-105"
+            className="my-1 mx-auto px-4 border-l rounded-r-xl text-xs transition duration-300 ease-in-out transform hover:scale-105"
             title="Logout"
           >
             <FaSignOutAlt />
@@ -372,6 +374,7 @@ const Chatbot = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

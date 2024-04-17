@@ -7,7 +7,7 @@ const ProgressBar = ({ width }) => {
         className={` bg-blue-500 h-5 rounded-lg sm:rounded-xl `}
         style={{ width: `${width}%` }}
       ></div>
-      <div className="absolute top-0 left-0 w-full text-center font-semibold">{width}%</div>
+      <div className="absolute top-0 left-0 w-full text-center text-sm font-semibold">{width}%</div>
     </div>
   );
 };

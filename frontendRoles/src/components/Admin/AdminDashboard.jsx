@@ -32,14 +32,14 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setShowSidebar(window.innerWidth >= 768); 
+      setShowSidebar(window.innerWidth >= 768);
     };
 
-    handleResize(); 
+    handleResize();
 
-    window.addEventListener("resize", handleResize); 
+    window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener("resize", handleResize); 
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const getAllQuestions = async () => {
@@ -75,6 +75,10 @@ const AdminDashboard = () => {
       navigate("/adminLogin");
     }
   });
+  const getPadding = () => {
+    const screenWidth = window.innerWidth;
+    return screenWidth >= 768 ? "1.365rem" : undefined;
+  };
 
   return (
     <div className="flex font-montserrat h-screen">
@@ -85,7 +89,10 @@ const AdminDashboard = () => {
         }`}
       >
         <div className="flex justify-between bg-gray-800 items-center">
-          <h1 className="text-white text-base md:text-xl font-bold p-5 flex items-center uppercase">
+          <h1
+            className="text-white text-base md:text-xl font-bold p-4 flex items-center uppercase"
+            style={{ padding: getPadding() }}
+          >
             <FaHouseUser className="mr-2" />
             Admin
           </h1>
