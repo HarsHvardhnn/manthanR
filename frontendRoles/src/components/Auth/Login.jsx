@@ -52,7 +52,7 @@ const LoginPage = () => {
       .then((res) => {
         if (res.status === 200) {
           localStorage.setItem("token", res.data.token);
-          // console.log(res.data.token);
+          toast.success("Login Successful")
           // console.log(res.data.user);
           setUserId(res.data.user._id);
           setUser(res.data.user.username);
@@ -72,7 +72,7 @@ const LoginPage = () => {
       })
       .catch((err) => {
         console.log(err);
-        // toast.error(err.response.data);
+        toast.error(err.response.data);
       });
   };
 

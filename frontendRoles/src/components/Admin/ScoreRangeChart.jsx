@@ -4,6 +4,7 @@ import axios from "axios";
 
 function ScoreRangeChart() {
   const [userData, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchUsers = async () => {
     try {
@@ -15,6 +16,9 @@ function ScoreRangeChart() {
       setUsers(simplifiedUsers);
     } catch (error) {
       console.error("Error fetching users:", error);
+    }
+    finally{
+      setLoading(false);
     }
   };
 
@@ -41,14 +45,28 @@ function ScoreRangeChart() {
   const labelOrder = ["High", "Moderate", "Low"];
   const labels = labelOrder.filter(label => chartData[label] !== undefined);
   const values = Object.values(chartData);
+  if (loading) {
+    return <div className="p-2">Loading...</div>;
+  }
+
+  if (labels.length === 0) {
+    return <div className="text-red-500 p-2">No data available</div>;
+  }
 
   const getFontSize = () => {
     const screenWidth = window.innerWidth;
-    return screenWidth < 640 ? "17px" : "22px";
+    if (screenWidth < 400) {
+      return "14px";
+    } else if (screenWidth < 640) {
+      return "16px";
+    } else {
+      return "20px";
+    }
   };
+
   const getFontSizeLabel = () => {
     const screenWidth = window.innerWidth;
-    return screenWidth < 640 ? "14px" : "18px";
+    return screenWidth < 640 ? "12px" : "16px";
   };
 
   const colors = labels.map(label => {
@@ -154,7 +172,7 @@ function ScoreRangeChart() {
   return (
     <div className="bg-gray-100 border p-6 rounded-lg border-gray-300">
       <div
-        className="w-full sm:w-3/4 mx-auto border border-gray-300 p-1 lg:p-6 rounded-lg"
+        className="w-full sm:w-5/6 mx-auto border border-gray-300 p-1 lg:p-6 rounded-lg"
         style={{ borderRadius: "10px" }}
       >
         <Chart options={options} series={series} type="bar" height={400} />

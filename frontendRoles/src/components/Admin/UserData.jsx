@@ -407,7 +407,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
                 <td className="px-4 py-2 border">
                   <button
                     onClick={() => promoteToAdmin(user._id)}
-                    className="font-medium text-blue-600 mr-2 underline"
+                    className="font-medium text-blue-600 mr-2 underline mt-2 xl:mt-0"
                   >
                     Promote
                   </button>
@@ -416,20 +416,10 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
                       setSelectUser(user.email);
                       handleReportUser(user._id);
                     }}
-                    className="font-medium text-blue-600 mr-2 underline"
+                    className="font-medium text-blue-600 mr-2 underline mt-2 xl:mt-0"
                   >
                     Report
                   </button>
-                  {showSOSButton && (
-                    <button
-                      onClick={() =>
-                        console.log("SOS button clicked for user", user._id)
-                      }
-                      className="font-medium text-red-600 underline"
-                    >
-                      SOS
-                    </button>
-                  )}
                 </td>
                 {showSummaryColumn && (
                   <td className="px-4 py-2 border">

@@ -9,7 +9,7 @@ import {
   FaBackward,
   FaArrowLeft,
   FaFilePdf,
-  FaBell
+  FaBell,
 } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -28,16 +28,31 @@ const AdminDashboard = () => {
   const { admin, setAdmin } = useContext(adminContext);
   const [selectedFilter, setSelectedFilter] = useState("score");
   const navigate = useNavigate();
-  const [showSidebar, setShowSidebar] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setShowSidebar(window.innerWidth >= 768); 
+    };
+
+    handleResize(); 
+
+    window.addEventListener("resize", handleResize); 
+
+    return () => window.removeEventListener("resize", handleResize); 
+  }, []);
 
   const getAllQuestions = async () => {
     try {
       const token = localStorage.getItem("adminToken");
-      const res = await axios.get("https://manthanr.onrender.com/v1/getAllData", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        "https://manthanr.onrender.com/v1/getAllData",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setQuestions(res.data);
     } catch (error) {
       console.log(error);
@@ -49,15 +64,17 @@ const AdminDashboard = () => {
   }, []);
 
   const toggleSidebar = () => {
-    setShowSidebar(!showSidebar);
+    if (window.innerWidth < 768) {
+      setShowSidebar(!showSidebar);
+    }
   };
 
-useEffect(()=>{
-  const token = localStorage.getItem('adminToken');
-  if(!token){
-    navigate('/adminLogin')
-  }
-})
+  useEffect(() => {
+    const token = localStorage.getItem("adminToken");
+    if (!token) {
+      navigate("/adminLogin");
+    }
+  });
 
   return (
     <div className="flex font-montserrat h-screen">
@@ -72,7 +89,10 @@ useEffect(()=>{
             <FaHouseUser className="mr-2" />
             Admin
           </h1>
-          <button onClick={toggleSidebar} className="bg-white p-0.5 mr-4 rounded-md flex md:hidden">
+          <button
+            onClick={toggleSidebar}
+            className="bg-white p-0.5 mr-4 rounded-md flex md:hidden"
+          >
             <FaArrowLeft className="md:hidden flex text-xs" />
           </button>
         </div>
@@ -80,10 +100,13 @@ useEffect(()=>{
           <li
             className={`${
               activeTab === "charts"
-                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-40"
+                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-44"
                 : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
             } `}
-            onClick={() => setActiveTab("charts")}
+            onClick={() => {
+              setActiveTab("charts");
+              toggleSidebar();
+            }}
           >
             <FaChartBar className="mr-2" />
             Chart
@@ -91,10 +114,13 @@ useEffect(()=>{
           <li
             className={
               activeTab === "allUsers"
-                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-40"
+                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-44"
                 : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
             }
-            onClick={() => setActiveTab("allUsers")}
+            onClick={() => {
+              setActiveTab("allUsers");
+              toggleSidebar();
+            }}
           >
             <FaUsers className="mr-2" />
             Users
@@ -102,22 +128,28 @@ useEffect(()=>{
           <li
             className={
               activeTab === "userreport"
-                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-40"
+                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-44"
                 : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
             }
-            onClick={() => setActiveTab("userreport")}
+            onClick={() => {
+              setActiveTab("userreport");
+              toggleSidebar();
+            }}
           >
             <FaFilePdf className="mr-2" />
-            User Report
+            User Reports
           </li>
           {/* Add SosNotification tab */}
           <li
             className={
               activeTab === "sosnotification"
-                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-40"
+                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-44"
                 : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
             }
-            onClick={() => setActiveTab("sosnotification")}
+            onClick={() => {
+              setActiveTab("sosnotification");
+              toggleSidebar();
+            }}
           >
             <FaBell className="mr-2" />
             SOS Notification
@@ -132,15 +164,14 @@ useEffect(()=>{
           <button onClick={toggleSidebar}>
             <FaBars className="text-white text-xl md:hidden" />
           </button>
-          <div className="hidden md:flex ">
+          <div className="hidden md:flex">
             <FaUserCircle className="text-white text-2xl lg:mr-2 md:absolute md:left-72 md:top-6" />
-            <p className="text-lg font-semibold text-white">Welcome back,{admin}</p>
           </div>
           <div className="relative">
             <button
               onClick={() => {
                 setAdmin("");
-                localStorage.removeItem('adminToken');
+                localStorage.removeItem("adminToken");
                 navigate("/adminlogin");
               }}
               className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
@@ -155,13 +186,13 @@ useEffect(()=>{
         <nav className="hidden lg:flex justify-between items-center bg-gray-700 p-4 shadow-xl">
           <div className="flex">
             <FaUserCircle className="text-white text-2xl mr-2" />
-            <p className="text-lg font-semibold text-white">{admin}</p>
+            <p className="text-lg font-semibold text-white">Welcome {admin}</p>
           </div>
           <div className="relative">
             <button
               onClick={() => {
                 setAdmin("");
-                localStorage.removeItem('adminToken');
+                localStorage.removeItem("adminToken");
                 navigate("/adminlogin");
               }}
               className="bg-gray-800 mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
@@ -176,7 +207,7 @@ useEffect(()=>{
         {activeTab === "charts" && <ScoreRangeChart />}
         {activeTab === "allUsers" && <UserData />}
         {activeTab === "userreport" && <UserReport />}
-        {/* {activeTab === "sosnotification" && <SOSNotifications />} */}
+        {activeTab === "sosnotification" && <SOSNotifications />}
       </div>
     </div>
   );

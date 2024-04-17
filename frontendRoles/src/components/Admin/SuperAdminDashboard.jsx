@@ -9,7 +9,7 @@ import {
   FaBell,
   FaFilePdf,
   FaArrowLeft,
-  FaBars
+  FaBars,
 } from "react-icons/fa";
 import axios from "axios";
 // import { Link } from "eact-router-dom";
@@ -18,17 +18,29 @@ import SOSNotifications from "./SOSNotifications";
 import UserReportSuper from "./UserReportSuper";
 import AdminWiseChart from "./AdminWiseChart";
 import { adminContext, superadminContext } from "../../context";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 const SuperAdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("Notifications"); // default active tab
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedAdmin, setSelectedAdmin] = useState("Admin1"); // Track selected admin
   const [admins, setAdmins] = useState([]);
-const {superadmin,setsuperadmin} = useContext(superadminContext);
+  const { superadmin, setsuperadmin } = useContext(superadminContext);
   const navigate = useNavigate();
   const [showSidebar, setShowSidebar] = useState(true);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setShowSidebar(window.innerWidth >= 768); 
+    };
+
+    handleResize(); 
+
+    window.addEventListener("resize", handleResize); 
+
+    return () => window.removeEventListener("resize", handleResize); 
+  }, []);
+  
   const getAllAdmins = () => {
     axios
       .get("https://manthanr.onrender.com/v1/getAllAdmins")
@@ -48,10 +60,10 @@ const {superadmin,setsuperadmin} = useContext(superadminContext);
     setIsDropdownOpen(!isDropdownOpen);
   };
   useEffect(() => {
-    const token = localStorage.getItem('superadminToken');
-    if(!token){ 
-      console.log('no token here');
-      navigate('/superadminlogin');
+    const token = localStorage.getItem("superadminToken");
+    if (!token) {
+      console.log("no token here");
+      navigate("/superadminlogin");
     }
     getAllAdmins();
   }, []);
@@ -67,8 +79,11 @@ const {superadmin,setsuperadmin} = useContext(superadminContext);
   }, [selectedAdmin]);
 
   const toggleSidebar = () => {
-    setShowSidebar(!showSidebar);
+    if (window.innerWidth < 768) {
+      setShowSidebar(!showSidebar);
+    }
   };
+
   return (
     <div className="flex font-montserrat h-screen">
       {/* Sidebar */}
@@ -79,10 +94,13 @@ const {superadmin,setsuperadmin} = useContext(superadminContext);
       >
         <div className="flex justify-between bg-gray-800 items-center">
           <h1 className="text-white text-base md:text-xl font-bold p-4 md:p-5 flex items-center uppercase">
-          <FaHouseUser className="mr-1" />
-          SuperAdmin
-        </h1>
-        <button onClick={toggleSidebar} className="bg-white p-0.5 mr-4 rounded-md flex md:hidden">
+            <FaHouseUser className="mr-1" />
+            SuperAdmin
+          </h1>
+          <button
+            onClick={toggleSidebar}
+            className="bg-white p-0.5 mr-4 rounded-md flex md:hidden"
+          >
             <FaArrowLeft className="md:hidden flex text-xs" />
           </button>
         </div>
@@ -93,7 +111,10 @@ const {superadmin,setsuperadmin} = useContext(superadminContext);
                 ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline  bg-slate-800 py-2 px-4 rounded-md w-40"
                 : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
             }
-            onClick={() => setActiveTab("Notifications")}
+            onClick={() => {
+              setActiveTab("Notifications");
+              toggleSidebar();
+            }}
           >
             <FaBell className="mr-2" />
             Notifications
@@ -104,7 +125,10 @@ const {superadmin,setsuperadmin} = useContext(superadminContext);
                 ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-40"
                 : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
             }
-            onClick={() => setActiveTab("Userreport")}
+            onClick={() => {
+              setActiveTab("Userreport");
+              toggleSidebar();
+            }}
           >
             <FaFilePdf className="mr-2" />
             Reports
@@ -121,18 +145,19 @@ const {superadmin,setsuperadmin} = useContext(superadminContext);
             Charts
             {isDropdownOpen && (
               <div className="absolute mt-40 w-48 bg-gray-800 rounded-md shadow-lg">
-             {   admins.map((admin) =>{
-                  return(
+                {admins.map((admin) => {
+                  return (
                     <button
-                    onClick={() => handleChartOptionClick(admin.email)}
-                    className="block px-4 py-2 text-sm text-white w-full hover:bg-gray-600"
-                  >
-                   {admin.username}
-                  </button>
-                  )
+                      onClick={() => {
+                        handleChartOptionClick(admin.email);
+                        toggleSidebar();
+                      }}
+                      className="block px-4 py-2 text-sm text-white w-full hover:bg-gray-600"
+                    >
+                      {admin.username}
+                    </button>
+                  );
                 })}
-              
-                
               </div>
             )}
           </li>
@@ -142,7 +167,10 @@ const {superadmin,setsuperadmin} = useContext(superadminContext);
                 ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-40"
                 : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
             }
-            onClick={() => setActiveTab("Users")}
+            onClick={() => {
+              setActiveTab("Users");
+              toggleSidebar();
+            }}
           >
             <FaUsers className="mr-2" />
             Users
@@ -158,14 +186,14 @@ const {superadmin,setsuperadmin} = useContext(superadminContext);
           </button>
           <div className="hidden md:flex">
             <FaUserCircle className="text-white text-2xl lg:mr-2 md:absolute md:left-72 md:top-6" />
-            <p className="text-lg font-semibold text-white">Hello,{superadmin}</p>
+            
           </div>
           <div className="relative">
             <button
               onClick={() => {
                 // setsuperadmin("");
-                localStorage.removeItem('superadminToken')
-                console.log(localStorage.getItem('superadminToken'),'ji')
+                localStorage.removeItem("superadminToken");
+                console.log(localStorage.getItem("superadminToken"), "ji");
                 navigate("/superadminlogin");
               }}
               className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
@@ -180,14 +208,16 @@ const {superadmin,setsuperadmin} = useContext(superadminContext);
         <nav className="hidden lg:flex justify-between items-center bg-gray-700 p-4 shadow-xl">
           <div className="flex">
             <FaUserCircle className="text-white text-2xl mr-2" />
-            <p className="text-lg font-semibold text-white">Hello,{superadmin}</p>
+            <p className="text-lg font-semibold text-white">
+              Welcome {superadmin}
+            </p>
           </div>
           <div className="relative">
             <button
               onClick={() => {
                 // setsuperadmin("");
-                localStorage.removeItem('superadminToken')
-                console.log(localStorage.getItem('superadminToken'),'ji')
+                localStorage.removeItem("superadminToken");
+                console.log(localStorage.getItem("superadminToken"), "ji");
                 navigate("/superadminlogin");
               }}
               className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
@@ -199,7 +229,7 @@ const {superadmin,setsuperadmin} = useContext(superadminContext);
         </nav>
         {/* Content based on active tab */}
         {activeTab === "Notifications" && <SOSNotifications />}
-        {activeTab === "Userreport" && <UserReportSuper  />}
+        {activeTab === "Userreport" && <UserReportSuper />}
         {activeTab === "charts" && <AdminWiseChart admin={selectedAdmin} />}
         {activeTab === "Users" && (
           <UserDataSuper showSOSButton={false} showSummaryColumn={true} />

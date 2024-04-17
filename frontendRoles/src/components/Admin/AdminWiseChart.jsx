@@ -90,6 +90,20 @@ function AdminWiseChart({ admin }) {
     else return "#000000"; 
   });
 
+  const getFontSize = () => {
+    const screenWidth = window.innerWidth;
+    if (screenWidth < 400) {
+      return "14px";
+    } else if (screenWidth < 640) {
+      return "16px";
+    } else {
+      return "20px";
+    }
+  };
+  const getFontSizeLabel = () => {
+    const screenWidth = window.innerWidth;
+    return screenWidth < 640 ? "12px" : "16px";
+  };
 
   const options = {
     chart: {
@@ -121,8 +135,8 @@ function AdminWiseChart({ admin }) {
       title: {
         text: "Well-being Level",
         style: {
-          fontWeight: "700",
-          fontSize: "18px",
+          fontWeight: "600",
+          fontSize: getFontSizeLabel(),
           fontFamily: "Montserrat, sans-serif",
         },
       },
@@ -139,8 +153,8 @@ function AdminWiseChart({ admin }) {
       title: {
         text: "Number of Users",
         style: {
-          fontWeight: "700",
-          fontSize: "18px",
+          fontWeight: "600",
+          fontSize: getFontSizeLabel(),
           fontFamily: "Montserrat, sans-serif",
         },
       },
@@ -159,7 +173,7 @@ function AdminWiseChart({ admin }) {
       margin: 26,
       offsetY: 10,
       style: {
-        fontSize: "22px",
+        fontSize: getFontSize(),
         fontWeight: "700",
         fontFamily: "Montserrat, sans-serif",
       },
@@ -187,17 +201,11 @@ function AdminWiseChart({ admin }) {
   return (
     <div className="bg-gray-100 border p-6 rounded-lg border-gray-300">
       <div
-        style={{
-          width: "70%",
-          margin: "auto",
-          border: "1px solid #A0AEC0",
-          padding: "20px",
-          borderRadius: "10px",
-        }}
+        className="w-full sm:w-5/6 mx-auto border border-gray-300 p-1 lg:p-6 rounded-lg"
+        style={{ borderRadius: "10px" }}
       >
         <Chart options={options} series={series} type="bar" height={400} />
       </div>
-      {/* hey */}
     </div>
   );
 }
