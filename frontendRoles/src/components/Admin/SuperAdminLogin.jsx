@@ -44,6 +44,10 @@ const SuperAdminLogin = () => {
       if(err.response.status===404){
         toast.error('please check email');
       }
+
+      if(err.response.status ===403){
+        toast.error('only super admins can login')
+      }
     });
     console.log("Logging in with email:", values.email, "and password:", values.password);
   };
