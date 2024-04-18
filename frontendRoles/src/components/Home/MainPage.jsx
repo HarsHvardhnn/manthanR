@@ -96,7 +96,7 @@ function MainPage() {
             <div className="mb-4 py-2 max-w-xl para">
               <p className="text-base font-medium paragraph ">
                 Enter{" "}
-                <span className="font-bold uppercase text-blue-600">
+                <span className="font-bold  text-blue-600">
                   ManoWealth
                 </span>{" "}
                 - A Place Where Your Mental Well-being Finds Support, Comfort,
