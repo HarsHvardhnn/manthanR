@@ -30,16 +30,13 @@ const ForgotPassword = () => {
       });
   }, 60000);
 
- 
-  
-
-
-
-
-
   const checkEmail = (values) => {
     setLoading(true); // Set loading to true initially
 
+    if (!values.email) {
+      setLoading(false); 
+      return;
+    }
     axios
       .post("https://manthanr.onrender.com/v1/check-email", {
         email: values.email,
@@ -123,152 +120,160 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md font-montserrat">
-      <div className="flex justify-between mx-1 mb-6">
-        <h2 className="text-2xl font-semibold ">Forgot Password</h2>
-        <div className="text-white rounded-lg my-auto bg-blue-500 hover:bg-blue-600">
-              <button className="p-2" onClick={() => {
+    <div className="w-full bg-blue-200 h-screen flex items-center">
+      <div className="w-11/12 sm:w-8/12 md:w-1/2 lg:w-1/3 xl:w-1/4 mx-auto p-6 bg-white rounded-lg shadow-md font-montserrat">
+        <div className="flex justify-between mx-1 mb-6">
+          <h2 className="text-xl sm:text-2xl font-semibold ">Forgot Password</h2>
+          <div className="text-white rounded-lg my-auto bg-blue-500 hover:bg-blue-600">
+            <button
+              className="p-2"
+              onClick={() => {
                 navigate("/");
-              }}>
-                <FaHome />
-              </button>
-            </div>
-      </div>
-      {wrongOtp && (
-        <p className="text-red-500 mt-1">Wrong OTP. Please retry.</p>
-      )}
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-      >
-        {({ isSubmitting, touched, handleBlur, values }) => (
-          <Form>
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-gray-600">
-                Email
-              </label>
-              <Field
-                type="email"
-                name="email"
-                onBlur={handleBlur}
-                className="w-full border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:border-blue-500"
-                disabled={showOTPFields}
-              />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="text-red-500 mt-1"
-              />
-            </div>
-            {
-              <>
-                {loading && (
-                  <MagnifyingGlass
-                    visible={true}
-                    height="80"
-                    width="80"
-                    ariaLabel="magnifying-glass-loading"
-                    wrapperStyle={{}}
-                    wrapperClass="magnifying-glass-wrapper"
-                    glassColor="#c0efff"
-                    color="#e15b64"
-                  />
-                )}
-                {!loading && !showOTPFields && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      // toast.success('checking email')
-                      checkEmail(values);
-                    }}
-                    className="w-full bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-                  >
-                    Send OTP
-                  </button>
-                )}
-              </>
-            }
-
-            {showOTPFields && (
-              <>
-                <div className="mb-4">
-                  <label htmlFor="otp" className="block text-gray-600">
-                    OTP
-                  </label>
-                  <Field
-                    type="text"
-                    name="otp"
-                    onBlur={handleBlur}
-                    className="w-full border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:border-blue-500"
-                  />
-                  <ErrorMessage
-                    name="otp"
-                    component="div"
-                    className="text-red-500 mt-1"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="newPassword" className="block text-gray-600">
-                    New Password
-                  </label>
-                  <Field
-                    type="password"
-                    name="newPassword"
-                    onBlur={handleBlur}
-                    className="w-full border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:border-blue-500"
-                  />
-                  <ErrorMessage
-                    name="newPassword"
-                    component="div"
-                    className="text-red-500 mt-1"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label
-                    htmlFor="confirmPassword"
-                    className="block text-gray-600"
-                  >
-                    Confirm Password
-                  </label>
-                  <Field
-                    type="password"
-                    name="confirmPassword"
-                    onBlur={handleBlur}
-                    className="w-full border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:border-blue-500"
-                  />
-                  <ErrorMessage
-                    name="confirmPassword"
-                    component="div"
-                    className="text-red-500 mt-1"
-                  />
-                </div>
-                {loading && (
-                  <MagnifyingGlass
-                    visible={true}
-                    height="80"
-                    width="80"
-                    ariaLabel="magnifying-glass-loading"
-                    wrapperStyle={{}}
-                    wrapperClass="magnifying-glass-wrapper"
-                    glassColor="#c0efff"
-                    color="#e15b64"
-                  />
-                )}
-                {!loading && (
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-                  >
-                    Submit
-                  </button>
-                )}
-              </>
-            )}
-          </Form>
+              }}
+            >
+              <FaHome />
+            </button>
+          </div>
+        </div>
+        {wrongOtp && (
+          <p className="text-red-500 mt-1">Wrong OTP. Please retry.</p>
         )}
-      </Formik>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          {({ isSubmitting, touched, handleBlur, values }) => (
+            <Form>
+              <div className="mb-4">
+                <label htmlFor="email" className="block text-gray-600">
+                  Email
+                </label>
+                <Field
+                  type="email"
+                  name="email"
+                  onBlur={handleBlur}
+                  className="w-full border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:border-blue-500"
+                  disabled={showOTPFields}
+                />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="text-red-500 mt-1"
+                />
+              </div>
+              {
+                <>
+                  {loading && (
+                    <MagnifyingGlass
+                      visible={true}
+                      height="80"
+                      width="80"
+                      ariaLabel="magnifying-glass-loading"
+                      wrapperStyle={{}}
+                      wrapperClass="magnifying-glass-wrapper"
+                      glassColor="#c0efff"
+                      color="#e15b64"
+                    />
+                  )}
+                  {!loading && !showOTPFields && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        // toast.success('checking email')
+                        checkEmail(values);
+                      }}
+                      className="w-full bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                    >
+                      Send OTP
+                    </button>
+                  )}
+                </>
+              }
+
+              {showOTPFields && (
+                <>
+                  <div className="mb-4">
+                    <label htmlFor="otp" className="block text-gray-600">
+                      OTP
+                    </label>
+                    <Field
+                      type="text"
+                      name="otp"
+                      onBlur={handleBlur}
+                      className="w-full border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:border-blue-500"
+                    />
+                    <ErrorMessage
+                      name="otp"
+                      component="div"
+                      className="text-red-500 mt-1"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="newPassword"
+                      className="block text-gray-600"
+                    >
+                      New Password
+                    </label>
+                    <Field
+                      type="password"
+                      name="newPassword"
+                      onBlur={handleBlur}
+                      className="w-full border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:border-blue-500"
+                    />
+                    <ErrorMessage
+                      name="newPassword"
+                      component="div"
+                      className="text-red-500 mt-1"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="confirmPassword"
+                      className="block text-gray-600"
+                    >
+                      Confirm Password
+                    </label>
+                    <Field
+                      type="password"
+                      name="confirmPassword"
+                      onBlur={handleBlur}
+                      className="w-full border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:border-blue-500"
+                    />
+                    <ErrorMessage
+                      name="confirmPassword"
+                      component="div"
+                      className="text-red-500 mt-1"
+                    />
+                  </div>
+                  {loading && (
+                    <MagnifyingGlass
+                      visible={true}
+                      height="80"
+                      width="80"
+                      ariaLabel="magnifying-glass-loading"
+                      wrapperStyle={{}}
+                      wrapperClass="magnifying-glass-wrapper"
+                      glassColor="#c0efff"
+                      color="#e15b64"
+                    />
+                  )}
+                  {!loading && (
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                    >
+                      Submit
+                    </button>
+                  )}
+                </>
+              )}
+            </Form>
+          )}
+        </Formik>
+      </div>
     </div>
   );
 };

@@ -7,10 +7,13 @@ import axios from 'axios';
 import { superadminContext } from "../../context";
 import Header from "../Home/Header";
 import Bg from "../Auth/StudentLoginBackground.jpg";
+import openEye from "../Auth/open.png";
+import closedEye from "../Auth/close.png";
 
 const SuperAdminLogin = () => {
   const {superadmin,setsuperadmin} =useContext(superadminContext);
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
   const [showForgotPasswordPopup, setShowForgotPasswordPopup] = useState(false);
   
   const initialValues = {
@@ -53,6 +56,10 @@ const SuperAdminLogin = () => {
     }
   },[]);
   
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="bg-admin-back min-h-screen flex justify-center items-center font-montserrat" style={{
       backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${Bg})`,
@@ -80,15 +87,26 @@ const SuperAdminLogin = () => {
                     required
                   />
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 relative">
                   <Field
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
                     placeholder="Password"
                     className="w-full py-1 px-2 border border-gray-300 rounded-md focus:outline bg-admin-back"
                     required
                   />
+                  <button
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                    className="absolute top-1/2 right-3 transform -translate-y-1/2 focus:outline-none"
+                  >
+                    <img
+                      src={showPassword ? openEye : closedEye}
+                      alt="Toggle Password Visibility"
+                      className="h-6 w-6"
+                    />
+                  </button>
                 </div>
                 <div className="flex justify-between">
                   <div>

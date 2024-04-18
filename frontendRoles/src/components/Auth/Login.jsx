@@ -35,10 +35,8 @@ const LoginPage = () => {
   });
   const onSubmit = (values) => {
     if (showForgotPasswordFields) {
-      // Handle forgot password submission
       handleForgotPassword(values);
     } else {
-      // Handle normal login submission
       handleLogin(values);
     }
   };

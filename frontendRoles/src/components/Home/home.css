@@ -6,7 +6,7 @@
       transform: translateY(0);
     }
     50% {
-      transform: translateY(-9px); /* Adjust the amount of bounce as needed */
+      transform: translateY(-9px); 
     }
   }
   
@@ -16,64 +16,32 @@
   
   @media (min-width: 1024px) {
     .typewriter-text {
-      font-size: 3.2rem;
+      font-size: 3rem;
     }
   }
-  
-  @media (max-width: 767px) and (min-width: 650px) {
+
+  @media (max-width: 1023px) and (min-width: 640px) {
     .typewriter-text {
       padding: 20x;
-      font-size: 4rem;
+      font-size: 3rem;
       margin-top: 20%;
-      width: 450px;
-      margin-left: 100px;
-    }
-    .para{
-        margin-left: 100px;
+      margin-left: 50px;
+      margin-bottom: 20px;
     }
     .paragraph{
-        margin-top: 110px;
         font-size: 22px;
-        width: 250px;
         line-height: 1.2;
+        margin-left: 10px;
     }
     .login-btn{
-        font-size: 18px;
-        margin-top: 50px;
-        margin-left: 100px;
+        font-size: 25px;
+        padding: 16px 22px;
+        margin-left: 10px;
     }
   }
-  @media (max-width: 1023px) and (min-width: 768px) {
-    .typewriter-text {
-      font-size: 2.8rem;
-      margin-top: 18%;
-    }
-    .paragraph{
-        margin-top: 110px;
-        font-size: 26px;
-        width: 300px;
-        line-height: 1.4;
 
-    }
-    .login-btn{
-        font-size: 20px;
-    }
-  }
-  @media (max-width: 1023px) and (min-width: 799px) {
-    
-    .paragraph{
-        margin-top: 250px;
-    }
-    
-  }
-  /* Font size for small screens */
-  @media (max-width: 767px) and (min-width: 640px) {
-    .typewriter-text {
-      font-size: 2rem;
-    }
-  }
   
-  /* Font size for extra-small screens */
+  /*extra-small screens */
   @media (max-width: 639px) {
     .typewriter-text {
       font-size: 1.9rem;
@@ -83,35 +51,19 @@
         margin-top: 28px;
     }
   }
-  
-  @media (max-width: 375px) and (min-width: 360px) {
-    .typewriter-text {
-        margin-top: 25%;
-        min-height: 146px;
-      }
-    .para{
-        margin-bottom: 0px;
-    }
-  }
   @media (max-width: 500px) and (min-width: 412px) {
     .typewriter-text{
         padding-right: 10px;
     }
   }
-  @media (max-width: 359px) {
-    .typewriter-text {
-        font-size: 1.2rem;
-        min-height: 100px;
-        margin-top: 20%;
-      }
-    .paragraph{
-        font-size: 12px;
-        padding-right: 15px;
+  @media (max-width: 450px) and (min-width: 361px) {
+    .typewriter-text{
+        font-size: 2.1rem;
     }
-    .login-btn{
-        margin-top: 0px;
-        font-size: 14px;
-        padding: 2px 10px;
+  }
+  @media (max-width: 400px) and (min-width: 370px) {
+    .para{
+      margin-bottom: 0px;
     }
   }
   @media (max-width: 412px) and (min-width: 400px) {
@@ -125,5 +77,34 @@
     }
     .login-btn{
         margin-top: 0px;
+    }
+  }
+  @media (max-width: 375px) and (min-width: 360px) {
+    .typewriter-text {
+        margin-top: 25%;
+        min-height: 146px;
+      }
+    .para{
+        margin-bottom: 0px;
+    }
+  }
+
+  @media (max-width: 359px) {
+    .typewriter-text {
+        font-size: 1.3rem;
+        min-height: 100px;
+        margin-top: 20%;
+      }
+      .image-small{
+        height: 180px;
+      }
+    .paragraph{
+        font-size: 12px;
+        padding-right: 15px;
+    }
+    .login-btn{
+        margin-top: 0px;
+        font-size: 14px;
+        padding: 2px 10px;
     }
   }
