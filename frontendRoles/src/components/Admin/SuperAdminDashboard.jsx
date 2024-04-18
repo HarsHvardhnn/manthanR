@@ -199,7 +199,7 @@ const SuperAdminDashboard = () => {
               onClick={() => {
                 // setsuperadmin("");
                 localStorage.removeItem("superadminToken");
-                console.log(localStorage.getItem("superadminToken"), "ji");
+                // console.log(localStorage.getItem("superadminToken"), "ji");
                 navigate("/superadminlogin");
               }}
               className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
@@ -223,7 +223,7 @@ const SuperAdminDashboard = () => {
               onClick={() => {
                 // setsuperadmin("");
                 localStorage.removeItem("superadminToken");
-                console.log(localStorage.getItem("superadminToken"), "ji");
+                // console.log(localStorage.getItem("superadminToken"), "ji");
                 navigate("/superadminlogin");
               }}
               className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
