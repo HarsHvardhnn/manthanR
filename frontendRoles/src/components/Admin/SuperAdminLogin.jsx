@@ -29,7 +29,7 @@ const SuperAdminLogin = () => {
       if (res.status === 200) {
         const { token } = res.data;
         const {username}=  res.data.user;
-        console.log(username)
+        // console.log(username)
         setsuperadmin(username);
         localStorage.setItem('superadminToken', token);
         toast.success('SuperAdmin login successful');
@@ -44,12 +44,17 @@ const SuperAdminLogin = () => {
       if(err.response.status===404){
         toast.error('please check email');
       }
+
+      if(err.response.status ===403){
+        toast.error('only super admins can login')
+      }
     });
     console.log("Logging in with email:", values.email, "and password:", values.password);
   };
 
   useEffect(()=>{
     const token = localStorage.getItem('superadminToken');
+    // console.log('supertoken is ' , token);
     if(token){
         // console.log('token still here');
         navigate('/superadmindashboard');
