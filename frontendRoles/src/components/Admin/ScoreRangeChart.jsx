@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import axios from "axios";
+import { ThreeDots } from "react-loader-spinner";
 
 function ScoreRangeChart() {
   const [userData, setUsers] = useState([]);
@@ -8,7 +9,9 @@ function ScoreRangeChart() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("https://manthanr.onrender.com/v1/getAllUsers");
+      const response = await axios.get(
+        "https://manthanr.onrender.com/v1/getAllUsers"
+      );
       const simplifiedUsers = response.data.map((user) => ({
         username: user.username,
         score: user.score,
@@ -16,8 +19,7 @@ function ScoreRangeChart() {
       setUsers(simplifiedUsers);
     } catch (error) {
       console.error("Error fetching users:", error);
-    }
-    finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -43,10 +45,24 @@ function ScoreRangeChart() {
   }, {});
 
   const labelOrder = ["High", "Moderate", "Low"];
-  const labels = labelOrder.filter(label => chartData[label] !== undefined);
+  const labels = labelOrder.filter((label) => chartData[label] !== undefined);
   const values = Object.values(chartData);
   if (loading) {
-    return <div className="p-2">Loading...</div>;
+    return (
+      <div className="w-full flex flex-col items-center justify-center mt-10 text-lg">
+        <ThreeDots
+          visible={true}
+          height="80"
+          width="80"
+          color="#4299e1"
+          radius="9"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+        <p>Loading...</p>
+      </div>
+    );
   }
 
   if (labels.length === 0) {
@@ -69,11 +85,11 @@ function ScoreRangeChart() {
     return screenWidth < 640 ? "12px" : "16px";
   };
 
-  const colors = labels.map(label => {
-    if (label === "High") return "#4CAF50"; 
-    else if (label === "Moderate") return "#FFD700"; 
-    else if (label === "Low") return "#FF5733"; 
-    else return "#000000"; 
+  const colors = labels.map((label) => {
+    if (label === "High") return "#4CAF50";
+    else if (label === "Moderate") return "#FFD700";
+    else if (label === "Low") return "#FF5733";
+    else return "#000000";
   });
 
   const options = {

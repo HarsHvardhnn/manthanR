@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import axios from 'axios';
+import { ThreeDots } from "react-loader-spinner";
 function AdminWiseChart({ admin }) {
   const [userData , setUserData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   async function fetchUserInformation(userIds) {
     const userInformation = [];
@@ -39,11 +41,15 @@ function AdminWiseChart({ admin }) {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setLoading(false); // Set loading to false regardless of success or failure
       });
   }
   
 
   useEffect(() =>{
+    setLoading(true);
     getData(admin);
   },[admin])
   // useEffect(() => { 
@@ -82,7 +88,27 @@ function AdminWiseChart({ admin }) {
   const labelOrder = ["High", "Moderate", "Low"];
   const labels = labelOrder.filter(label => chartData[label] !== undefined);
   const values = Object.values(chartData);
-  
+  if (loading) {
+    return (
+      <div className="w-full flex flex-col items-center justify-center mt-10 text-lg">
+        <ThreeDots
+          visible={true}
+          height="80"
+          width="80"
+          color="#4299e1"
+          radius="9"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (labels.length === 0) {
+    return <div className="text-red-500 p-2">No data available</div>;
+  }
   const colors = labels.map(label => {
     if (label === "High") return "#4CAF50"; 
     else if (label === "Moderate") return "#FFD700"; 
