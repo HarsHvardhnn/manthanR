@@ -54,7 +54,7 @@ const ProfileUpdatePage = () => {
       const res = await axios.post(
         "https://manthanr.onrender.com/v1/update-profile",
         {
-          user: user,
+          user: user.userID,
           firstname: values.firstName,
           lastname: values.lastName,
           courseAndYear: values.courseAndYear,

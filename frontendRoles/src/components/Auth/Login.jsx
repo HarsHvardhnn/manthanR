@@ -20,13 +20,13 @@ const LoginPage = () => {
   const {loading,setLoading}= useContext(loadingContext);
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPasswordFields, setShowForgotPasswordFields] =
-    useState(false); // State to toggle forgot password fields
+    useState(false); 
   const navigate = useNavigate();
   const initialValues = {
     email: "",
     password: "",
-    otp: "", // New field for OTP
-    newPassword: "", // New field for new password
+    otp: "", 
+    newPassword: "", 
     confirmPassword: "", // New field for confirm password
   };
 
