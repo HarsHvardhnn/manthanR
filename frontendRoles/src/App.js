@@ -26,7 +26,7 @@ import { adminEmailContext } from "./context";
 
 
 function App() {
-  const [user, setUser] = useState({ username: '', userID: '',email:'' });
+  const [user, setUser] = useState({ username: '', userID: '',email:'',assigned_admin:'' });
 
   const [auth, setAuth] = useState(false);
   const [superadmin, setsuperadmin] = useState("");

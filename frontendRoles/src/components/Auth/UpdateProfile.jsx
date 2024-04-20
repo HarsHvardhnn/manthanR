@@ -68,12 +68,14 @@ const ProfileUpdatePage = () => {
         }
       );
       // console.log(res);
+      // console.log(res);
       if (res.data.message === "Profile created successfully") {
         toast.success('profile updated');
         setIsUpdating(false); // Reset loading state
         setUser({
           ...user,
           username: values.firstName,
+          assigned_admin:res.data.admintoupdate.username
         });
         // Reset the form after successful submission
         // resetForm();
@@ -210,8 +212,8 @@ const ProfileUpdatePage = () => {
                           }`}
                         >
                           <option value="">Select Degree Type</option>
-                          <option value="Undergraduate">Undergraduate</option>
-                          <option value="Postgraduate">Postgraduate</option>
+                          <option value="undergrad">Undergraduate</option>
+                          <option value="postgrad">Postgraduate</option>
                           <option value="PhD">PhD</option>
                         </Field>
                         <ErrorMessage

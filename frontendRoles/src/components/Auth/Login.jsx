@@ -15,7 +15,7 @@ import Bg from "./StudentLoginBackground.jpg";
 import * as Yup from "yup";
 
 const LoginPage = () => {
-  const { setUser } = useContext(userContext);
+  const { user,setUser } = useContext(userContext);
   const { setAuth } = useContext(authContext);
   const [loading,setLoading] =useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -59,26 +59,28 @@ const LoginPage = () => {
          if (res.status === 200) {
           localStorage.setItem("token", res.data.token);
           toast.success("Login Successful")
-          console.log(res.data.user);
+          // console.log(res.data.user);
           setUser({
             username: res.data.user.username,
             userID: res.data.user._id,
-            email:values.email
+            email:values.email,
+            assigned_admin:res.data.user.assigned_admin
           });
 
-          navigate("/updateprofile");
+          // navigate("/updateprofile");
           setAuth(true);
 
-          // if (res.data.user.is_profile_complete) {
-          //   if (res.data.user.has_accepted_tnc) {
-          //     navigate("/updateprofile");
-          //     // navigate("/chatbot");
-          //   } else {
-          //     navigate("/disclaimer");
-          //   }
-          // } else {
-          //   navigate("/updateprofile");
-          // }
+          if (res.data.user.is_profile_complete) {
+            if (res.data.user.has_accepted_tnc) {
+              // navigate("/updateprofile");
+              navigate("/chatbot");
+              // console.log(user);
+            } else {
+              navigate("/disclaimer");
+            }
+          } else {
+            navigate("/updateprofile");
+          }
           // console.log(res.data.user._id);
         }
       })

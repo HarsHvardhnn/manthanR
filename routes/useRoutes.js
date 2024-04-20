@@ -1,6 +1,6 @@
 const express = require("express");
 const userModel=  require('../models/userSchema');
-const { login, signup, sendOtp, clearAll, updateProfile, getuserInfo, resetPassword } = require("../controllers/userController");
+const { login, signup, sendOtp, clearAll, updateProfile, getuserInfo, resetPassword, findUser } = require("../controllers/userController");
 const {
   getQuestions,
   getAllQuestions,
@@ -19,6 +19,7 @@ router.post("/login", login);
 router.post("/promote-to-admin", promoteToAdmin);
 router.post('/send-sos' ,sendSos );
 router.get('/get-all-sos',getAllSoS);
+router.get('/get-user/:id',findUser);
 // router.get('/', (req,res)=>{
 //     res.send('hel;lo woprld');
 //     console.log('object')
@@ -33,14 +34,14 @@ router.get('/getdata' , async (req,res) => {
 router.post('/update-tnc', async (req, res) => {
   try {
     const userId = req.body.userId; 
-    console.log(userId);
+    // console.log(userId);
 
     if (!userId) {
       return res.status(400).json({ error: 'User ID is required' });
     }
 
    const updatedUser = await userModel.findOneAndUpdate(
-      { username:userId },
+      { _id:userId },
       { has_accepted_tnc: true },
       { new: true } // To return the updated document
     );

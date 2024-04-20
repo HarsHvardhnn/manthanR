@@ -35,8 +35,7 @@ const Chatbot = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [isFetchingData, setIsFetchingData] = useState(false); // New state for loader
-
-  // const sendEmail = (username,message,email) => {
+ // const sendEmail = (username,message,email) => {
 
   //   const serviceId = 'service_0jzntyg';
   //   const templateId = 'template_ugy8wsb';
@@ -185,7 +184,7 @@ const Chatbot = () => {
             </div>
             <div className="hidden md:flex">
               <p className="py-2 px-4 bg-white rounded-xl font-bold text-base ml-2">
-                Hello {user.username} ✨
+                Hello {user.assigned_admin} ✨
               </p>
             </div>
           </div>
