@@ -210,7 +210,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
     return date.toLocaleString("en-US"); // Formats date-time string in default locale
   }
   return (
-    <div className="mx-auto p-2 md:p-4 pb-10  h-full bg-gray-100 font-montserrat text-xs md:text-sm">
+    <div className="mx-auto p-2 md:p-4 pb-10 bg-gray-100 font-montserrat text-xs md:text-sm overflow-y-auto h-[90%]">
       {loading ? (
         <div className="w-full flex flex-col items-center justify-center text-xl">
           <ThreeDots

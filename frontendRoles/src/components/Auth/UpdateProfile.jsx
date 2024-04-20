@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import bgImage from "./signupimg.jpg";
+import bgImage from "../Auth/StudentLoginBackground.jpg";
 import SubmitOTP from "./SubmitOtp";
 import { userContext } from "../../context";
 import Header from "../Home/Header";
@@ -79,7 +79,7 @@ const ProfileUpdatePage = () => {
   return (
     <>
       <Header />
-      <div className="min-h-screen flex justify-center items-center bg-blue-200 font-montserrat pt-20">
+      <div className="min-h-screen flex justify-center items-center font-montserrat pt-20 bg-blue-200">
         <div className="flex bg-white justify-center items-center w-11/12 sm:w-3/5 shadow-xl rounded-xl">
           <div className="flex-1 bg-white py-4 px-6 rounded-xl w-full sm:w-96">
             <h2 className="text-xl sm:text-2xl font-bold mb-4 uppercase">

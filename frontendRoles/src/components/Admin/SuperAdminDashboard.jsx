@@ -14,12 +14,12 @@ import {
 import axios from "axios";
 // import { Link } from "eact-router-dom";
 import UserDataSuper from "../Admin/UserDataSuper";
-import SOSNotifications from "./SOSNotifications";
 import UserReportSuper from "./UserReportSuper";
 import AdminWiseChart from "./AdminWiseChart";
 import { adminContext, superadminContext } from "../../context";
 import { useNavigate } from "react-router-dom";
 import AllUsersChart from "../SuperAdmin/AllUsersChart";
+import AddAdmin from "../SuperAdmin/AddAdmin";
 
 const SuperAdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("Notifications"); // default active tab
@@ -127,7 +127,7 @@ const SuperAdminDashboard = () => {
             <FaChartBar className="mr-2" />
             Overall Chart
           </li>
-          
+
           <li
             className={`${
               activeTab === "charts"
@@ -183,6 +183,20 @@ const SuperAdminDashboard = () => {
           >
             <FaUsers className="mr-2" />
             Users
+          </li>
+          <li
+            className={
+              activeTab === "AddAdmin"
+                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-40"
+                : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
+            }
+            onClick={() => {
+              setActiveTab("AddAdmin");
+              toggleSidebar();
+            }}
+          >
+            <FaUsers className="mr-2" />
+            Add Admin
           </li>
         </ul>
       </div>
@@ -242,6 +256,7 @@ const SuperAdminDashboard = () => {
         {activeTab === "Users" && (
           <UserDataSuper showSOSButton={false} showSummaryColumn={true} />
         )}
+        {activeTab === "AddAdmin" && <AddAdmin />}
       </div>
     </div>
   );
