@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiUser, FiMessageCircle, FiAlertCircle } from "react-icons/fi";
 import { BsInfoCircle } from "react-icons/bs";
@@ -8,6 +8,8 @@ import ReportMessage from "../Admin/ReportMessage";
 import Quotes from "./QuoteCarousel";
 import AdminDetails from "./AdminDetails";
 import ViewProfile from "./ViewProfile";
+import { userContext } from "../../context";
+import axios from "axios";
 
 const quotes = [
   "Just as you prioritize your physical health, remember to nurture your mental well-being daily.",
@@ -21,7 +23,10 @@ const UserSection = () => {
   const navigate = useNavigate();
   const [showReportModal, setShowReportModal] = useState(false);
   const [showAdminData, setShowAdminData] = useState(false);
+  const {user}=  useContext(userContext);
+  const [assigned_admin ,setAssigned_admin]=useState("");
   const [showProfile, setShowProfile] = useState(false);
+
 
   const handleReportClick = () => {
     setShowReportModal(true);
@@ -50,6 +55,18 @@ const UserSection = () => {
     setShowReportModal(false);
   };
 
+  const getAdmin = () => {
+    axios.get(`https://manthanr.onrender.com/v1/get-user-info/${user.assigned_admin}`).then((res)=>{
+      console.log(res);
+      // setAssigned_admin(res.data.user);
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
+
+  useEffect(()=>{
+    getAdmin();
+  },[]);
   const handleReportSubmit = (comment) => {
     console.log("Report submitted with comment:", comment);
     // axios.post('')
@@ -101,7 +118,7 @@ const UserSection = () => {
                 className="min-w-60 flex-col items-center w-2/5 mb-4 mx-auto py-4 px-8 h-32 bg-user-btns text-white rounded-xl hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
               >
                 <BsInfoCircle className="text-6xl mb-2 mx-auto" />
-                <div className="text-xl font-medium">Admin Details</div>
+                <div className="text-xl font-medium">admin details</div>
               </button>
             </div>
           </div>
