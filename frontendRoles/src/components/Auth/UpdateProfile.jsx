@@ -86,6 +86,7 @@ const ProfileUpdatePage = () => {
     }
   };
   
+  
   return (
     <>
       <Header />
@@ -107,7 +108,7 @@ const ProfileUpdatePage = () => {
                   <Form>
                     <div className="mb-4">
                       <div className="flex mb-2">
-                        <div className="w-1/2 mr-2">
+                        <div className="w-1/3 mr-2">
                           <Field
                             type="text"
                             name="firstName"
@@ -124,7 +125,7 @@ const ProfileUpdatePage = () => {
                             className="text-red-500 text-sm"
                           />
                         </div>
-                        <div className="w-1/2 ml-2">
+                        <div className="w-1/3 ml-2">
                           <Field
                             type="text"
                             name="lastName"
@@ -142,6 +143,7 @@ const ProfileUpdatePage = () => {
                           />
                         </div>
                       </div>
+                      
                     </div>
                     <div className="mb-4">
                       <Field
