@@ -20,6 +20,7 @@ import { adminContext, superadminContext } from "../../context";
 import { useNavigate } from "react-router-dom";
 import AllUsersChart from "../SuperAdmin/AllUsersChart";
 import AddAdmin from "../SuperAdmin/AddAdmin";
+import AllAdmins from "../SuperAdmin/AllAdmins";
 
 const SuperAdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("Notifications"); // default active tab
@@ -198,6 +199,20 @@ const SuperAdminDashboard = () => {
             <FaUsers className="mr-2" />
             Add Admin
           </li>
+          <li
+            className={
+              activeTab === "AllAdmins"
+                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-40"
+                : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
+            }
+            onClick={() => {
+              setActiveTab("AllAdmins");
+              toggleSidebar();
+            }}
+          >
+            <FaUsers className="mr-2" />
+            All Admins
+          </li>
         </ul>
       </div>
       {/* Main Content */}
@@ -257,6 +272,7 @@ const SuperAdminDashboard = () => {
           <UserDataSuper showSOSButton={false} showSummaryColumn={true} />
         )}
         {activeTab === "AddAdmin" && <AddAdmin />}
+        {activeTab === "AllAdmins" && <AllAdmins/>}
       </div>
     </div>
   );
