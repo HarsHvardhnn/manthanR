@@ -19,6 +19,7 @@ import UserReportSuper from "./UserReportSuper";
 import AdminWiseChart from "./AdminWiseChart";
 import { adminContext, superadminContext } from "../../context";
 import { useNavigate } from "react-router-dom";
+import AllUsersChart from "../SuperAdmin/AllUsersChart";
 
 const SuperAdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("Notifications"); // default active tab
@@ -114,32 +115,19 @@ const SuperAdminDashboard = () => {
         <ul className="p-4 md:p-8 text-base">
           <li
             className={
-              activeTab === "Notifications"
+              activeTab === "AllUsersChart"
                 ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline  bg-slate-800 py-2 px-4 rounded-md w-40"
                 : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
             }
             onClick={() => {
-              setActiveTab("Notifications");
+              setActiveTab("AllUsersChart");
               toggleSidebar();
             }}
           >
-            <FaBell className="mr-2" />
-            Notifications
+            <FaChartBar className="mr-2" />
+            Overall Chart
           </li>
-          <li
-            className={
-              activeTab === "Userreport"
-                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-40"
-                : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
-            }
-            onClick={() => {
-              setActiveTab("Userreport");
-              toggleSidebar();
-            }}
-          >
-            <FaFilePdf className="mr-2" />
-            Reports
-          </li>
+          
           <li
             className={`${
               activeTab === "charts"
@@ -149,7 +137,7 @@ const SuperAdminDashboard = () => {
             onClick={toggleDropdown}
           >
             <FaChartBar className="mr-2" />
-            Charts
+            Adminwise Charts
             {isDropdownOpen && (
               <div className="absolute mt-40 w-48 bg-gray-800 rounded-md shadow-lg">
                 {admins.map((admin) => {
@@ -167,6 +155,20 @@ const SuperAdminDashboard = () => {
                 })}
               </div>
             )}
+          </li>
+          <li
+            className={
+              activeTab === "Userreport"
+                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-40"
+                : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
+            }
+            onClick={() => {
+              setActiveTab("Userreport");
+              toggleSidebar();
+            }}
+          >
+            <FaFilePdf className="mr-2" />
+            Reports
           </li>
           <li
             className={
@@ -234,7 +236,7 @@ const SuperAdminDashboard = () => {
           </div>
         </nav>
         {/* Content based on active tab */}
-        {activeTab === "Notifications" && <SOSNotifications />}
+        {activeTab === "AllUsersChart" && <AllUsersChart />}
         {activeTab === "Userreport" && <UserReportSuper />}
         {activeTab === "charts" && <AdminWiseChart admin={selectedAdmin} />}
         {activeTab === "Users" && (

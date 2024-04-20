@@ -144,7 +144,7 @@ const AdminDashboard = () => {
             }}
           >
             <FaFilePdf className="mr-2" />
-            User Reports
+            Reported Users
           </li>
           {/* Add SosNotification tab */}
           <li
@@ -159,7 +159,7 @@ const AdminDashboard = () => {
             }}
           >
             <FaBell className="mr-2" />
-            SOS Notification
+            SOS Notifications
           </li>
         </ul>
       </div>

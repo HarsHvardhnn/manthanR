@@ -17,7 +17,7 @@ const insertQuestions = async (req, res) => {
         let userid;
 
         try {
-            const user = await userModel.findOne({ email: email });
+            const user = await userModel.findOne({ id: email });
             userid = user._id;
         } catch (err) {
             console.log(err);
@@ -27,7 +27,7 @@ const insertQuestions = async (req, res) => {
         try {
             // Update user score
             const updatedUser = await userModel.findOneAndUpdate(
-                { email: email },
+                { id: email },
                 { $set: { score: score } },
                 { new: true }
             );

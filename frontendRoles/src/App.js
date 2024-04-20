@@ -17,6 +17,7 @@ import SuperAdminDashboard from "./components/Admin/SuperAdminDashboard";
 import ForgotPassword from "./components/Auth/ForgotPassword";
 import SuperAdminLogin from "./components/Admin/SuperAdminLogin";
 import Disclaimer from "./components/Home/Disclaimer";
+import UserSection from "./components/User/UserSection";
 // import SuperAdminLogin from "./components/Admin/SuperAdminLogin";
 // import { useNavigate } from "react-router-dom";
 
@@ -25,7 +26,8 @@ import { adminEmailContext } from "./context";
 import { LoadingOverlay } from "react-overlay-loader";
 
 function App() {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState({ username: '', userID: '' });
+
   const [auth, setAuth] = useState(false);
   const [superadmin, setsuperadmin] = useState("");
   const [adminEmail, setAdminEmail] = useState("");
@@ -74,9 +76,13 @@ function App() {
       element: <SuperAdminDashboard />,
     },
     {
-      path: "/forgot-password",
-      element: <ForgotPassword />,
+      path:'/forgot-password',
+      element:(<ForgotPassword/>)
     },
+    {
+      path: '/UserSection',
+      element: <UserSection/>
+    }
   ]);
   return (
     <>

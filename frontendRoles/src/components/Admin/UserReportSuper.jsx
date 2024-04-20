@@ -2,13 +2,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import emailjs from "emailjs-com";
-import { BallTriangle } from "react-loader-spinner";
+import { ThreeDots } from "react-loader-spinner";
+import ReportMessage from "./ReportMessage";
 
 const UserReport = () => {
   const [reports, setReports] = useState([]);
   const [reportedUsers, setReportedUsers] = useState([]);
   const [userWithInfo, setUserWithInfo] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false); // State to manage showing the ReportMessage component
+  const [reportedUser, setReportedUser] = useState(null);
 
   async function fetchUserInformation(userIds) {
     const userInformation = [];
@@ -58,6 +61,7 @@ const UserReport = () => {
   }, []);
 
   const markAsRead = (reportId) => {
+    console.log("Mark as Read clicked for report ID:", reportId);
     setReports((prevReports) =>
       prevReports.map((report) =>
         report.id === reportId ? { ...report, read: true } : report
@@ -107,21 +111,24 @@ const UserReport = () => {
       )
     );
   };
-
+  const handleReportUser = (user) => {
+    setReportedUser(user);
+    setShowReportModal(true);
+  };
   return (
     <div className="p-4 overflow-y-auto h-[80%]">
       <h2 className="text-lg md:text-xl font-semibold mb-4">User Reports</h2>
       {loading ? (
-        <div className="h-ful w-full flex flex-col justify-center items-center">
-          <BallTriangle
-            height={100}
-            width={100}
-            radius={5}
-            color="blue"
-            ariaLabel="ball-triangle-loading"
+        <div className=" w-full flex flex-col justify-center items-center text-lg">
+          <ThreeDots
+            visible={true}
+            height="80"
+            width="80"
+            color="#4299e1"
+            radius="9"
+            ariaLabel="three-dots-loading"
             wrapperStyle={{}}
             wrapperClass=""
-            visible={true}
           />
           <p>Loading...</p>
         </div>
@@ -134,11 +141,18 @@ const UserReport = () => {
             } p-4 rounded-lg shadow mb-4`}
           >
             <p className="text-base md:text-lg">
-              <span className="font-semibold">Username:</span> {report.username}
+              <span className="font-semibold">Name:</span> {report.username}
             </p>
-            {/* <p className="text-lg">
-              <span className="font-semibold">User ID:</span> {report.userId}
-            </p> */}
+            <p className="text-lg">
+              <span className="font-semibold">Email:</span>
+            </p>
+            <p className="text-base md:text-lg">
+              <span className="font-semibold">Phone:</span>
+            </p>
+            <p className="text-base md:text-lg">
+              <span className="font-semibold">Admin:</span>{" "}
+              {/*under this admin*/}
+            </p>
             <p className="text-base md:text-lg">
               <span className="font-semibold">Score:</span> {report.score}
             </p>
@@ -158,7 +172,7 @@ const UserReport = () => {
                 className="mr-2 px-3 py-1 bg-blue-500 text-white rounded"
                 onClick={() => {
                   // console.log(report);
-                  reportUser(report);
+                  handleReportUser(report);
                 }}
               >
                 Report to psy
@@ -174,6 +188,15 @@ const UserReport = () => {
             </div>
           </div>
         ))
+      )}
+      {showReportModal && (
+        <ReportMessage
+          onClose={() => setShowReportModal(false)} 
+          onSubmit={(comment) => {
+            reportUser(reportedUser, comment);
+            setShowReportModal(false); 
+          }}
+        />
       )}
     </div>
   );

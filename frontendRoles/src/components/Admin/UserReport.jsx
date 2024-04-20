@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import emailjs from 'emailjs-com'; 
-import {BallTriangle } from 'react-loader-spinner'
+import {ThreeDots } from 'react-loader-spinner'
 
 
 const UserReport = () => {
@@ -120,17 +120,17 @@ const UserReport = () => {
 
   return (
     <div className="p-4 overflow-y-auto h-[80%]">
-      <h2 className="text-lg md:text-xl font-semibold mb-4">User Reports</h2>
-      {loading ? (<div className="h-ful w-full flex flex-col justify-center items-center">
-          <BallTriangle
-            height={100}
-            width={100}
-            radius={5}
-            color="blue"
-            ariaLabel="ball-triangle-loading"
+      <h2 className="text-lg md:text-xl font-semibold mb-4">Reported Users</h2>
+      {loading ? (<div className=" w-full flex flex-col justify-center items-center text-lg">
+      <ThreeDots
+            visible={true}
+            height="80"
+            width="80"
+            color="#4299e1"
+            radius="9"
+            ariaLabel="three-dots-loading"
             wrapperStyle={{}}
             wrapperClass=""
-            visible={true}
           />
           <p>Loading...</p>
         </div>) : (
@@ -142,11 +142,14 @@ const UserReport = () => {
           } p-4 rounded-lg shadow mb-4`}
         >
           <p className="text-base md:text-lg">
-            <span className="font-semibold">Username:</span> {report.username}
+            <span className="font-semibold">Name:</span> {report.username}
           </p>
-          {/* <p className="text-lg">
-            <span className="font-semibold">User ID:</span> {report.userId}
-          </p> */}
+          <p className="text-lg">
+            <span className="font-semibold">Email:</span>
+          </p>
+          <p className="text-base md:text-lg">
+            <span className="font-semibold">Phone:</span> 
+          </p>
           <p className="text-base md:text-lg">
             <span className="font-semibold">Score:</span> {report.score}
           </p>

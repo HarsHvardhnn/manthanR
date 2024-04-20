@@ -5,7 +5,7 @@ import * as XLSX from "xlsx";
 import ReportMessage from "./ReportMessage";
 import { adminContext, userContext } from "../../context";
 import jsPDF from "jspdf";
-import { BallTriangle, InfinitySpin } from "react-loader-spinner";
+import { ThreeDots } from "react-loader-spinner";
 import "jspdf-autotable";
 const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   // const {user} = useContext(userContext);
@@ -212,14 +212,19 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   return (
     <div className="mx-auto p-2 md:p-4 pb-10  h-full bg-gray-100 font-montserrat text-xs md:text-sm">
       {loading ? (
-        <div className="w-full h-full flex items-center justify-center">
-          <InfinitySpin
-            visible={true}
-            width="400"
-            color="blue"
-            ariaLabel="infinity-spin-loading"
-          />
-        </div>
+        <div className="w-full flex flex-col items-center justify-center text-xl">
+          <ThreeDots
+          visible={true}
+          height="80"
+          width="80"
+          color="#4299e1"
+          radius="9"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+        <p>Loading...</p>
+      </div>
       ) : (
         <>
           {showReportModal && (
@@ -396,7 +401,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                       </td>
                       {showSummaryColumn && (
                         <td className="px-4 py-2 border">
-                          {/* <button
+                          <button
                       onClick={() =>
                         console.log(
                           "Summary Report button clicked for user",
@@ -406,7 +411,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                       className="font-medium text-blue-600 underline"
                     >
                       Summary
-                    </button> */}
+                    </button>
                         </td>
                       )}
                     </tr>

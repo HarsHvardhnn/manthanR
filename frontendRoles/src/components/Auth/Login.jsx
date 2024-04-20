@@ -18,7 +18,6 @@ const LoginPage = () => {
   const { setUser } = useContext(userContext);
   const { setAuth } = useContext(authContext);
   const {loading,setLoading}= useContext(loadingContext);
-  const [userId, setUserId] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPasswordFields, setShowForgotPasswordFields] =
     useState(false); // State to toggle forgot password fields
@@ -61,8 +60,10 @@ const LoginPage = () => {
           localStorage.setItem("token", res.data.token);
           toast.success("Login Successful")
           // console.log(res.data.user);
-          setUserId(res.data.user._id);
-          setUser(res.data.user.username);
+          setUser({
+            username: res.data.username,
+            userID: res.data._id
+          });
 
           setAuth(true);
           if (res.data.user.is_profile_complete) {
