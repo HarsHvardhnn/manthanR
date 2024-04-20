@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { FiUser, FiMessageCircle, FiAlertCircle } from "react-icons/fi";
 import Header from "../Home/Header";
 import Bg from "./bg.png";
 import ReportMessage from "../Admin/ReportMessage";
 import Quotes from "./QuoteCarousel";
+// import { useNavigate } from "react-router-dom";
 
 const quotes = [
   "Just as you prioritize your physical health, remember to nurture your mental well-being daily.",
@@ -21,13 +22,19 @@ const UserSection = () => {
   const handleReportClick = () => {
     setShowReportModal(true);
   };
-
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+  });
   const handleCloseReportModal = () => {
     setShowReportModal(false);
   };
 
   const handleReportSubmit = (comment) => {
     console.log("Report submitted with comment:", comment);
+    // axios.post('')
     setShowReportModal(false);
   };
 

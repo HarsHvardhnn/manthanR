@@ -14,6 +14,7 @@ const AdminLogin = () => {
   const { admin, setAdmin } = useContext(adminContext);
   const { adminEmail, setAdminEmail } = useContext(adminEmailContext);
   const navigate = useNavigate();
+  const [loading,setLoading]=  useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPasswordPopup, setShowForgotPasswordPopup] = useState(false);
 
@@ -23,6 +24,7 @@ const AdminLogin = () => {
   };
 
   const onSubmit = (values) => {
+    setLoading(true);
     axios
       .post("https://manthanr.onrender.com/v1/adminLogin", {
         email: values.email,
@@ -45,14 +47,16 @@ const AdminLogin = () => {
         if (err.response.status === 404) {
           toast.error("please check email");
         }
-      });
+      }).finally(()=>{
+        setLoading(false);
+      })
   };
 
   useEffect(() => {
-    // const adminToken = localStorage.getItem('adminToken');
-    // if(adminToken){
-    //   navigate('/admindashboard')
-    // }
+    const adminToken = localStorage.getItem('adminToken');
+    if(adminToken){
+      navigate('/admindashboard')
+    }
   }, []);
 
   const handleSendOTP = (values) => {
@@ -136,7 +140,7 @@ const AdminLogin = () => {
                       type="submit"
                       className="w-full font-medium bg-admin text-white py-1 px-4 rounded-md focus:outline-none transition duration-300 ease-in-out transform hover:scale-105"
                     >
-                      Login
+                     {loading?'logging in...' : "login"}
                     </button>
                   </div>
                 </div>
@@ -145,45 +149,7 @@ const AdminLogin = () => {
           </Formik>
         </div>
       </div>
-      {showForgotPasswordPopup && (
-        <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50 font-montserrat">
-          <div className="bg-white p-6 rounded-xl shadow-xl max-w-md w-11/12 sm:w-full">
-            <div className="flex justify-between mb-4">
-              <h2 className="text-lg font-semibold">Forgot Password</h2>
-              <button
-                className=" text-white py-1 px-4 font-medium rounded-md bg-admin transition duration-300 ease-in-out transform hover:scale-105"
-                onClick={handleClosePopup}
-              >
-                Close
-              </button>
-            </div>
-            <Formik initialValues={{ email: "" }} onSubmit={handleSendOTP}>
-              {() => (
-                <Form>
-                  <div className="mb-4">
-                    <Field
-                      type="email"
-                      id="forgotPasswordEmail"
-                      name="forgotPasswordEmail"
-                      placeholder="Enter Registered Email"
-                      className="w-full px-2 py-1 bg-admin-back border border-gray-300 rounded-md"
-                      required
-                    />
-                  </div>
-                  <div className="text-center">
-                    <button
-                      type="submit"
-                      className=" bg-admin text-white font-medium py-1 px-4 rounded-md focus:outline-none transition duration-300 ease-in-out transform hover:scale-105"
-                    >
-                      Send OTP
-                    </button>
-                  </div>
-                </Form>
-              )}
-            </Formik>
-          </div>
-        </div>
-      )}
+     
     </div>
   );
 };

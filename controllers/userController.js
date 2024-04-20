@@ -121,6 +121,7 @@ const login = async (req, res) => {
     if(user.role !=='user'){
       return res.send('admins and super admins cant login').status(401);
     }
+    
     if (user.password === hashedPassword) {
       // Generate JWT token
       const token = jwt.sign({ userId: user._id, email: user.email }, 'H@rsh123', { expiresIn: '1h' });
@@ -179,7 +180,7 @@ const updateProfile = async (req, res) => {
 try {
   const {user} = req.body;
   console.log('user is ',user);
-  const user1 =  await userModel.findOne({username:user});
+  const user1 =  await userModel.findOne({id:user});
   console.log(user1);
 
   if(!user1){
