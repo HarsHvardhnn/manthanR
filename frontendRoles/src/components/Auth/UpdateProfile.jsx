@@ -15,8 +15,8 @@ const ProfileUpdatePage = () => {
   const [isUpdating, setIsUpdating] = useState(false); // State to track whether update is in progress
 
   const initialValues = {
-    firstName: user.firstName || "",
-    lastName: user.lastName || "",
+    firstName:"",
+    lastName:"",
     gender: "",
     contactNumber: "",
     dateOfBirth: "",
@@ -28,7 +28,7 @@ const ProfileUpdatePage = () => {
     hostelRoomNumber: "",
     relationshipStatus: "",
   };
-
+  console.log(' is' ,user);
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
     gender: Yup.string().required("Gender is required"),
@@ -48,24 +48,37 @@ const ProfileUpdatePage = () => {
   });
 
   const onSubmit = async (values) => {
-    console.log(values);
+    // console.log(values ,user.userID);
+  
     try {
       setIsUpdating(true); // Set loading state
       const res = await axios.post(
         "https://manthanr.onrender.com/v1/update-profile",
         {
-          user: user,
-          fullName: values.fullName,
+          user: user.userID,
+          firstname: values.firstName,
+          lastname: values.lastName,
           courseAndYear: values.courseAndYear,
           rollNumber: values.rollNumber,
           contactNumber: values.contactNumber,
           hostelName: values.hostelName,
           dateOfBirth: values.dateOfBirth,
           relationshipStatus: values.relationshipStatus,
+          degree: values.degreeType,
+          dept: values.department,
+          semester: values.semester,
         }
       );
-      console.log(res.data);
-      setIsUpdating(false); // Reset loading state
+
+      if(res.message ==='Profile created successfully'){
+        setIsUpdating(false); // Reset loading state
+        setUser({
+          ...user, 
+          username: values.firstName,
+        });
+        
+      }
+      // console.log(res.data);
       // Optionally reset the form after successful submission
     } catch (err) {
       console.log(err);
@@ -369,7 +382,7 @@ const ProfileUpdatePage = () => {
                         className="text-red-500 text-sm"
                       />
                     </div>
-                                
+
                     <Link
                       to="/Disclaimer"
                       className={`w-full text-center bg-blue-500 text-white py-2 px-4 rounded-md mt-2 hover:bg-blue-500 transition duration-300 ease-in-out transform hover:scale-105 ${

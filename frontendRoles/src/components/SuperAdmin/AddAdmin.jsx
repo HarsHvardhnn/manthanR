@@ -1,27 +1,27 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
+import axios from 'axios';
 const AddAdmin = () => {
   const initialValues = {
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
+    firstname: "",
+    lastname: "",
+    phone: "",
     email: "",
-    degreeType: "",
-    department: "",
-    yearOfCourse: "",
+    degree: "",
+    dept: "",
+    semester: "",
     password: "",
   };
 
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required("First Name is required"),
-    lastName: Yup.string().required("Last Name is required"),
-    phoneNumber: Yup.string().required("Phone Number is required"),
+    firstname: Yup.string().required("First Name is required"),
+    lastname: Yup.string().required("Last Name is required"),
+    phone: Yup.string().required("Phone Number is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
-    degreeType: Yup.string().required("Degree Type is required"),
-    department: Yup.string().required("Department is required"),
-    yearOfCourse: Yup.string().required("Year of Course is required"),
+    degree: Yup.string().required("Degree Type is required"),
+    dept: Yup.string().required("dept is required"),
+    semester: Yup.string().required("Year of Course is required"),
   });
 
   const onSubmit = (values, { resetForm }) => {
@@ -31,8 +31,16 @@ const AddAdmin = () => {
       password: password,
     };
 
-    // Send formData to backend
     console.log(formData);
+
+    axios.post('https://manthanr.onrender.com/v1/create-admin',formData).then((res)=>{
+      console.log(res);
+    }).catch((err)=>{
+      console.log(err);
+    })
+
+
+    // Send formData to backend
 
     resetForm();
   };
@@ -64,38 +72,38 @@ const AddAdmin = () => {
               <div className="flex justify-between w-full">
                 <div className="mb-4 mr-2 w-1/2">
                   <label
-                    htmlFor="firstName"
+                    htmlFor="firstname"
                     className="block text-sm font-medium text-gray-700"
                   >
                     First Name
                   </label>
                   <Field
                     type="text"
-                    id="firstName"
-                    name="firstName"
+                    id="firstname"
+                    name="firstname"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   />
                   <ErrorMessage
-                    name="firstName"
+                    name="firstname"
                     component="div"
                     className="text-red-500 text-sm"
                   />
                 </div>
                 <div className="mb-4 w-1/2 ml-2">
                   <label
-                    htmlFor="lastName"
+                    htmlFor="lastname"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Last Name
                   </label>
                   <Field
                     type="text"
-                    id="lastName"
-                    name="lastName"
+                    id="lastname"
+                    name="lastname"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   />
                   <ErrorMessage
-                    name="lastName"
+                    name="lastname"
                     component="div"
                     className="text-red-500 text-sm"
                   />
@@ -103,19 +111,19 @@ const AddAdmin = () => {
               </div>
               <div className="mb-4">
                 <label
-                  htmlFor="phoneNumber"
+                  htmlFor="phone"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Phone Number
                 </label>
                 <Field
                   type="text"
-                  id="phoneNumber"
-                  name="phoneNumber"
+                  id="phone"
+                  name="phone"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 />
                 <ErrorMessage
-                  name="phoneNumber"
+                  name="phone"
                   component="div"
                   className="text-red-500 text-sm"
                 />
@@ -141,15 +149,15 @@ const AddAdmin = () => {
               </div>
               <div className="mb-4">
                 <label
-                  htmlFor="degreeType"
+                  htmlFor="degree"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Degree Type
                 </label>
                 <Field
                   as="select"
-                  id="degreeType"
-                  name="degreeType"
+                  id="degree"
+                  name="degree"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="">Select Degree Type</option>
@@ -158,25 +166,25 @@ const AddAdmin = () => {
                   <option value="PhD">PHD</option>
                 </Field>
                 <ErrorMessage
-                  name="degreeType"
+                  name="degree"
                   component="div"
                   className="text-red-500 text-sm"
                 />
               </div>
               <div className="mb-4">
                 <label
-                  htmlFor="department"
+                  htmlFor="dept"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Department
+                  dept
                 </label>
                 <Field
                   as="select"
-                  id="department"
-                  name="department"
+                  id="dept"
+                  name="dept"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option value="">Select Department</option>
+                  <option value="">Select dept</option>
                   <option value="cse">CSE</option>
                   <option value="me">ME</option>
                   <option value="ee">EE</option>
@@ -187,22 +195,22 @@ const AddAdmin = () => {
                   <option value="chem">CHEM</option>
                 </Field>
                 <ErrorMessage
-                  name="department"
+                  name="dept"
                   component="div"
                   className="text-red-500 text-sm"
                 />
               </div>
               <div className="mb-4">
                 <label
-                  htmlFor="yearOfCourse"
+                  htmlFor="semester"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Year of Course
                 </label>
                 <Field
                   as="select"
-                  id="yearOfCourse"
-                  name="yearOfCourse"
+                  id="semester"
+                  name="semester"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="">Select Year of Course</option>
@@ -213,7 +221,7 @@ const AddAdmin = () => {
                   ))}
                 </Field>
                 <ErrorMessage
-                  name="yearOfCourse"
+                  name="semester"
                   component="div"
                   className="text-red-500 text-sm"
                 />

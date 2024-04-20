@@ -10,23 +10,23 @@ import { useContext, useEffect } from "react";
 import { toast } from "react-toastify";
 import Header from "../Home/Header";
 import Bg from "./StudentLoginBackground.jpg";
-import { LoadingOverlay } from "react-overlay-loader";
+
 
 import * as Yup from "yup";
 
 const LoginPage = () => {
   const { setUser } = useContext(userContext);
   const { setAuth } = useContext(authContext);
-  const {loading,setLoading}= useContext(loadingContext);
+  const [loading,setLoading] =useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPasswordFields, setShowForgotPasswordFields] =
-    useState(false); // State to toggle forgot password fields
+    useState(false); 
   const navigate = useNavigate();
   const initialValues = {
     email: "",
     password: "",
-    otp: "", // New field for OTP
-    newPassword: "", // New field for new password
+    otp: "", 
+    newPassword: "", 
     confirmPassword: "", // New field for confirm password
   };
 
@@ -59,23 +59,26 @@ const LoginPage = () => {
          if (res.status === 200) {
           localStorage.setItem("token", res.data.token);
           toast.success("Login Successful")
-          // console.log(res.data.user);
+          console.log(res.data.user);
           setUser({
-            username: res.data.username,
-            userID: res.data._id,
+            username: res.data.user.username,
+            userID: res.data.user._id,
             email:values.email
           });
 
+          navigate("/updateprofile");
           setAuth(true);
-          if (res.data.user.is_profile_complete) {
-            if (res.data.user.has_accepted_tnc) {
-              navigate("/chatbot");
-            } else {
-              navigate("/disclaimer");
-            }
-          } else {
-            navigate("/updateprofile");
-          }
+
+          // if (res.data.user.is_profile_complete) {
+          //   if (res.data.user.has_accepted_tnc) {
+          //     navigate("/updateprofile");
+          //     // navigate("/chatbot");
+          //   } else {
+          //     navigate("/disclaimer");
+          //   }
+          // } else {
+          //   navigate("/updateprofile");
+          // }
           // console.log(res.data.user._id);
         }
       })
@@ -114,7 +117,7 @@ const LoginPage = () => {
   }, []);
 
   return (
-    <LoadingOverlay loading={loading}>
+    
 
     <div
       className="min-h-screen flex justify-center items-center bg-blue-200 font-montserrat"
@@ -217,7 +220,7 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
-    </LoadingOverlay>
+
   );
 };
 

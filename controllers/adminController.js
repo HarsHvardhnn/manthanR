@@ -47,6 +47,34 @@ const promoteToAdmin = async (req, res) => {
     }
   };
 
+
+  const createAdmin = async (req,res)=>{
+    try{
+      const {firstname,lastname,phone,email,degree,dept,semester,password} =  req.body;
+      console.log(firstname,lastname,phone,email,degree,dept,semester)
+      const admin =await  userModel.create({
+        username:firstname,
+        lastname:lastname,
+        contactNumber:phone,
+        email:email,
+        degree:degree,
+        semester:semester,
+        dept:dept,
+        password:password,
+        role:'admin'
+
+
+      })
+ console.log(admin);
+      return res.send('admin created').status(201);
+    }
+    catch(err){
+      console.log(err);
+      return res.send('internal server error').status(500);
+    }
+  }
+
+  
   const getalladmins = async (req, res) => {
     try {
       const data = await userModel.find({ role: "admin" });
@@ -63,4 +91,4 @@ const promoteToAdmin = async (req, res) => {
   }
   
 
-  module.exports = {promoteToAdmin ,adminLogin ,getalladmins};
+  module.exports = {promoteToAdmin ,adminLogin ,getalladmins,createAdmin};
