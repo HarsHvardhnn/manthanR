@@ -23,9 +23,9 @@ import AddAdmin from "../SuperAdmin/AddAdmin";
 import AllAdmins from "../SuperAdmin/AllAdmins";
 
 const SuperAdminDashboard = () => {
-  const [activeTab, setActiveTab] = useState("AllUsersChart"); 
+  const [activeTab, setActiveTab] = useState("AllUsersChart");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedAdmin, setSelectedAdmin] = useState("Admin1"); 
+  const [selectedAdmin, setSelectedAdmin] = useState("Admin1");
   const [admins, setAdmins] = useState([]);
   const { superadmin, setsuperadmin } = useContext(superadminContext);
   const navigate = useNavigate();
@@ -48,7 +48,6 @@ const SuperAdminDashboard = () => {
       .get("https://manthanr.onrender.com/v1/getAllAdmins")
       .then((res) => {
         setAdmins(res.data);
-        // console.log(res.data);
       })
       .catch((Err) => {
         console.log(Err);
@@ -68,11 +67,10 @@ const SuperAdminDashboard = () => {
   }, []);
   const handleChartOptionClick = (admin) => {
     setActiveTab("charts");
-    setSelectedAdmin(admin); // Update selectedAdmin state with the clicked admin
+    setSelectedAdmin(admin);
     setIsDropdownOpen(false);
   };
 
-  // Log selectedAdmin whenever it changes
   useEffect(() => {
     console.log(selectedAdmin);
   }, [selectedAdmin]);
@@ -110,11 +108,11 @@ const SuperAdminDashboard = () => {
             <FaArrowLeft className="md:hidden flex text-xs" />
           </button>
         </div>
-        <ul className="p-4 md:p-8 text-base">
+        <ul className="p-4 text-base">
           <li
             className={
               activeTab === "AllUsersChart"
-                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline  bg-slate-800 py-2 px-4 rounded-md w-40"
+                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline  bg-slate-800 py-2 px-4 rounded-md w-44"
                 : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
             }
             onClick={() => {
@@ -129,13 +127,13 @@ const SuperAdminDashboard = () => {
           <li
             className={`${
               activeTab === "charts"
-                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-40 relative"
+                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-44 relative"
                 : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
             } `}
             onClick={toggleDropdown}
           >
             <FaChartBar className="mr-2" />
-            Adminwise Charts
+            Admin Charts
             {isDropdownOpen && (
               <div className="absolute mt-40 w-48 bg-gray-800 rounded-md shadow-lg">
                 {admins.map((admin) => {
@@ -157,7 +155,7 @@ const SuperAdminDashboard = () => {
           <li
             className={
               activeTab === "Userreport"
-                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-40"
+                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-44"
                 : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
             }
             onClick={() => {
@@ -171,7 +169,7 @@ const SuperAdminDashboard = () => {
           <li
             className={
               activeTab === "Users"
-                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-40"
+                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-44"
                 : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
             }
             onClick={() => {
@@ -180,12 +178,12 @@ const SuperAdminDashboard = () => {
             }}
           >
             <FaUsers className="mr-2" />
-            Users
+            User List
           </li>
           <li
             className={
               activeTab === "AddAdmin"
-                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-40"
+                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-44"
                 : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
             }
             onClick={() => {
@@ -194,12 +192,12 @@ const SuperAdminDashboard = () => {
             }}
           >
             <FaUsers className="mr-2" />
-            Add Admin
+            New Admin{" "}
           </li>
           <li
             className={
               activeTab === "AllAdmins"
-                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-40"
+                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-44"
                 : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
             }
             onClick={() => {
@@ -208,7 +206,7 @@ const SuperAdminDashboard = () => {
             }}
           >
             <FaUsers className="mr-2" />
-            All Admins
+            Admin List{" "}
           </li>
         </ul>
       </div>
@@ -269,7 +267,7 @@ const SuperAdminDashboard = () => {
           <UserDataSuper showSOSButton={false} showSummaryColumn={true} />
         )}
         {activeTab === "AddAdmin" && <AddAdmin />}
-        {activeTab === "AllAdmins" && <AllAdmins/>}
+        {activeTab === "AllAdmins" && <AllAdmins />}
       </div>
     </div>
   );

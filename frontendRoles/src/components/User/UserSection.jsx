@@ -130,7 +130,7 @@ const getUser= ()=>{
                 className="min-w-60 flex-col items-center w-2/5 mb-4 mx-auto py-4 px-8 h-32 bg-user-btns text-white rounded-xl hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
               >
                 <BsInfoCircle className="text-6xl mb-2 mx-auto" />
-                <div className="text-xl font-medium">admin details</div>
+                <div className="text-xl font-medium">Admin Details</div>
               </button>
             </div>
           </div>

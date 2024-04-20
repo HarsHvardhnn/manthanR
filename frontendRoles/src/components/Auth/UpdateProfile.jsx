@@ -8,15 +8,19 @@ import SubmitOTP from "./SubmitOtp";
 import { userContext } from "../../context";
 import Header from "../Home/Header";
 import { toast } from "react-toastify";
+import { FaCameraRetro } from "react-icons/fa";
+import { BsPlusLg } from "react-icons/bs";
+
 const ProfileUpdatePage = () => {
   const { user, setUser } = useContext(userContext);
   const [formValues, setFormvalues] = useState(null);
   const [otp, setOtp] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(false); // State to track whether update is in progress
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [image, setImage] = useState(null);
 
   const initialValues = {
-    firstName:"",
-    lastName:"",
+    firstName: "",
+    lastName: "",
     gender: "",
     contactNumber: "",
     dateOfBirth: "",
@@ -28,7 +32,7 @@ const ProfileUpdatePage = () => {
     hostelRoomNumber: "",
     relationshipStatus: "",
   };
- 
+
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
     gender: Yup.string().required("Gender is required"),
@@ -46,6 +50,19 @@ const ProfileUpdatePage = () => {
       "Relationship Status is required"
     ),
   });
+
+  const uploadImage = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
 
   const onSubmit = async (values) => {
     try {
@@ -70,12 +87,12 @@ const ProfileUpdatePage = () => {
       // console.log(res);
       // console.log(res);
       if (res.data.message === "Profile created successfully") {
-        toast.success('profile updated');
+        toast.success("profile updated");
         setIsUpdating(false); // Reset loading state
         setUser({
           ...user,
           username: values.firstName,
-          assigned_admin:res.data.admintoupdate.username
+          assigned_admin: res.data.admintoupdate.username,
         });
         // Reset the form after successful submission
         // resetForm();
@@ -85,8 +102,7 @@ const ProfileUpdatePage = () => {
       setIsUpdating(false); // Reset loading state even if update fails
     }
   };
-  
-  
+
   return (
     <>
       <Header />
@@ -108,7 +124,7 @@ const ProfileUpdatePage = () => {
                   <Form>
                     <div className="mb-4">
                       <div className="flex mb-2">
-                        <div className="w-1/3 mr-2">
+                        <div className="w-2/5 mr-2">
                           <Field
                             type="text"
                             name="firstName"
@@ -125,7 +141,7 @@ const ProfileUpdatePage = () => {
                             className="text-red-500 text-sm"
                           />
                         </div>
-                        <div className="w-1/3 ml-2">
+                        <div className="w-2/5 mx-2">
                           <Field
                             type="text"
                             name="lastName"
@@ -142,8 +158,28 @@ const ProfileUpdatePage = () => {
                             className="text-red-500 text-sm"
                           />
                         </div>
+                        <div className="w-1/5 ml-2 mr-1 flex items-center">
+                          <p className="w-full">Upload Image</p>
+                          <label className="relative overflow-hidden flex items-center justify-center h-full w-12 bg-gray-200 rounded-lg cursor-pointer">
+                            <input
+                              type="file"
+                              className="absolute top-0 left-0 h-full w-full opacity-0 cursor-pointer"
+                              accept="image/*"
+                              onChange={uploadImage}
+                            />
+
+                            {image ? (
+                              <img
+                                src={image}
+                                alt="Uploaded"
+                                className="border-2 rounded-sm w-full h-full content-stretch"
+                              />
+                            ) : (
+                              <BsPlusLg className="h-4 w-4" />
+                            )}
+                          </label>
+                        </div>
                       </div>
-                      
                     </div>
                     <div className="mb-4">
                       <Field
@@ -388,7 +424,9 @@ const ProfileUpdatePage = () => {
                     <Link
                       to="/Disclaimer"
                       className={`w-full text-center bg-blue-500 text-white py-2 px-4 rounded-md mt-2 hover:bg-blue-500 transition duration-300 ease-in-out transform hover:scale-105 ${
-                        !isValid || isUpdating ? "pointer-events-none opacity-50" : ""
+                        !isValid || isUpdating
+                          ? "pointer-events-none opacity-50"
+                          : ""
                       }`}
                       onClick={() => {
                         console.log(values);
@@ -416,8 +454,6 @@ const ProfileUpdatePage = () => {
 };
 
 export default ProfileUpdatePage;
-
-
 
 // import React, { useContext, useState } from "react";
 // import { Link } from "react-router-dom";
@@ -470,7 +506,7 @@ export default ProfileUpdatePage;
 
 //   const onSubmit = async (values) => {
 //     // console.log(values ,user.userID);
-  
+
 //     try {
 //       setIsUpdating(true); // Set loading state
 //       const res = await axios.post(
@@ -494,10 +530,10 @@ export default ProfileUpdatePage;
 //       if(res.message ==='Profile created successfully'){
 //         setIsUpdating(false); // Reset loading state
 //         setUser({
-//           ...user, 
+//           ...user,
 //           username: values.firstName,
 //         });
-        
+
 //       }
 //       // console.log(res.data);
 //       // Optionally reset the form after successful submission

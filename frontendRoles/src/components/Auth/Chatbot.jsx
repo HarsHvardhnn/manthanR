@@ -203,18 +203,6 @@ const Chatbot = () => {
             >
               Restart Chat
             </button>
-            <button
-              onClick={() => {
-                // console.log(auth);
-                setAuth(false);
-                localStorage.removeItem("token");
-                navigate("/login");
-                // console.log(auth);
-              }}
-              className="bg-white font-bold py-2 px-4 rounded-xl text-sm transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              Logout
-            </button>
           </div>
 
           <div className="sm:hidden font-bold rounded-lg bg-white flex">
@@ -224,19 +212,6 @@ const Chatbot = () => {
               title="Restart"
             >
               <FaRedo />
-            </button>
-            <button
-              onClick={() => {
-                // console.log(auth);
-                setAuth(false);
-                localStorage.removeItem("token");
-                navigate("/login");
-                // console.log(auth);
-              }}
-              className="my-1 mx-auto px-4 border-l rounded-r-xl text-xs transition duration-300 ease-in-out transform hover:scale-105"
-              title="Logout"
-            >
-              <FaSignOutAlt />
             </button>
           </div>
         </div>

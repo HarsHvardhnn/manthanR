@@ -338,7 +338,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                   <tr className="">
                     <th className="px-1 md:px-4 py-1 md:py-2 border">Index</th>
                     <th className="px-1 md:px-4 py-1 md:py-2 border">
-                      Username
+                      Full Name
                     </th>
                     <th className="px-1 md:px-4 py-1 md:py-2 border">Email</th>
                     <th className="px-1 md:px-4 py-1 md:py-2 border">Phone</th>
