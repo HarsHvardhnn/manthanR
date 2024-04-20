@@ -48,7 +48,7 @@ const ProfileUpdatePage = () => {
   });
 
   const onSubmit = async (values) => {
-    console.log(values ,user.userID);
+    // console.log(values ,user.userID);
   
     try {
       setIsUpdating(true); // Set loading state
@@ -69,8 +69,16 @@ const ProfileUpdatePage = () => {
           semester: values.semester,
         }
       );
-      console.log(res.data);
-      setIsUpdating(false); // Reset loading state
+
+      if(res.message ==='Profile created successfully'){
+        setIsUpdating(false); // Reset loading state
+        setUser({
+          ...user, 
+          username: values.firstName,
+        });
+        
+      }
+      // console.log(res.data);
       // Optionally reset the form after successful submission
     } catch (err) {
       console.log(err);

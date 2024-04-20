@@ -10,7 +10,7 @@ const { auth } = require("../middlewares/authMiddleware");
 const { setAnswers } = require("../controllers/AnswerController");
 const router = express.Router();
 const { insertQuestions, getUsers, getAllAnswers } = require("../controllers/newController");
-const { promoteToAdmin, adminLogin,getalladmins } = require("../controllers/adminController");
+const { promoteToAdmin, adminLogin,getalladmins ,createAdmin } = require("../controllers/adminController");
 const { submitReport, getReportedUsers ,getAdminWiseData, notifyAdmin } = require("../controllers/supAdminController");
 const Profile = require("../models/profileModel");
 const {sendSos, getAllSoS} = require("../controllers/SoScontroller");
@@ -134,7 +134,7 @@ router.get('/get-profile/:id', async (req, res) => {
     return res.status(500).send('Internal server error');
   }
 });
-
+router.post('/create-admin',createAdmin)
 // router.get('/getQuestions' , getQuestions);
 router.post('/submit-report' , submitReport);
 router.get('/get-reported-users' , getReportedUsers);

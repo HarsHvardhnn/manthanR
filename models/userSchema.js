@@ -9,6 +9,10 @@ const userSchema = new mongoose.Schema({
   lastname:{
     type:String,
     unique:false,
+  },
+  contactNumber: {
+    type: String,
+    // required: true
   }
   ,
   email: {
