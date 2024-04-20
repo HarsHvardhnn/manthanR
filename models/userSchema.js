@@ -33,6 +33,18 @@ const userSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+},
+assigned_admin:{
+  type:mongoose.Schema.Types.ObjectId,
+},
+degree:{
+  type:String,
+},
+dept:{
+  type:String,
+},
+semester:{
+  type:String
 }
 
 });

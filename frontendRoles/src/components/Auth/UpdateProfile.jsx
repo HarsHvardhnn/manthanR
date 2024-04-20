@@ -62,6 +62,9 @@ const ProfileUpdatePage = () => {
           hostelName: values.hostelName,
           dateOfBirth: values.dateOfBirth,
           relationshipStatus: values.relationshipStatus,
+          degree:values.degreeType,
+          dept:values.department,
+          semester:values.semester
         }
       );
       console.log(res.data);
