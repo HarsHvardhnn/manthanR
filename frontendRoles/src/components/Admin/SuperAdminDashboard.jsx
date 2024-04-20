@@ -23,9 +23,9 @@ import AddAdmin from "../SuperAdmin/AddAdmin";
 import AllAdmins from "../SuperAdmin/AllAdmins";
 
 const SuperAdminDashboard = () => {
-  const [activeTab, setActiveTab] = useState("Notifications"); // default active tab
+  const [activeTab, setActiveTab] = useState("AllUsersChart"); 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedAdmin, setSelectedAdmin] = useState("Admin1"); // Track selected admin
+  const [selectedAdmin, setSelectedAdmin] = useState("Admin1"); 
   const [admins, setAdmins] = useState([]);
   const { superadmin, setsuperadmin } = useContext(superadminContext);
   const navigate = useNavigate();
