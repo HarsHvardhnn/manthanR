@@ -47,7 +47,27 @@ const promoteToAdmin = async (req, res) => {
     }
   };
 
-
+  const deleteAdmin = async (req, res) => {
+    try {
+      const { id } = req.params;
+  
+      if (!id) {
+        return res.status(400).send('Admin ID is required');
+      }
+  
+      const deletedAdmin = await userModel.findByIdAndDelete(id);
+  
+      if (!deletedAdmin) {
+        return res.status(404).send('Admin not found');
+      }
+  
+      return res.status(200).send('Admin deleted successfully');
+    } catch (err) {
+      console.error(err);
+      return res.status(500).send('Internal server error');
+    }
+  };
+  
   const createAdmin = async (req,res)=>{
     try{
       const {firstname,lastname,phone,email,degree,dept,semester,password} =  req.body;
@@ -91,4 +111,4 @@ const promoteToAdmin = async (req, res) => {
   }
   
 
-  module.exports = {promoteToAdmin ,adminLogin ,getalladmins,createAdmin};
+  module.exports = {promoteToAdmin ,adminLogin ,getalladmins,createAdmin,deleteAdmin};

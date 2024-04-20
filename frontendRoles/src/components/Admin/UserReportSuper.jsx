@@ -33,7 +33,7 @@ const UserReport = () => {
         console.error(error);
       }
     }
-
+  console.log(userInformation)
     return userInformation;
   }
 
@@ -43,12 +43,12 @@ const UserReport = () => {
       const response = await axios.get(
         "https://manthanr.onrender.com/v1/get-reported-users"
       );
-      console.log(response.data);
+      // console.log(response.data);
       setReportedUsers(response.data);
 
       const userInformation = await fetchUserInformation(response.data);
 
-      console.log(userInformation);
+    
       setUserWithInfo(userInformation);
     } catch (error) {
       console.log(error);
@@ -149,7 +149,7 @@ const UserReport = () => {
                   <span className="font-semibold">Email:</span>
                 </p>
                 <p className="text-base md:text-lg">
-                  <span className="font-semibold">Phone:</span>
+                  <span className="font-semibold">{report.contactNumber}</span>
                 </p>
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">Admin:</span>{" "}

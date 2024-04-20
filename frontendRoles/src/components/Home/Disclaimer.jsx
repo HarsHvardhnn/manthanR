@@ -13,8 +13,8 @@ const Disclaimer = () => {
     // console.log(user);
     axios.post('https://manthanr.onrender.com/v1/update-tnc', { userId: user.userID })
       .then((res) => {
-        // toast.success('You accepted the terms and conditions');
-        console.log(res)
+        toast.success('You accepted the terms and conditions');
+        // console.log(res)
         navigate('/Chatbot');
       })
       .catch((err) => {

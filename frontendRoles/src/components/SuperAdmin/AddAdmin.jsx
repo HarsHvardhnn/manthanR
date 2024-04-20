@@ -2,6 +2,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from 'axios';
+
 const AddAdmin = () => {
   const initialValues = {
     firstname: "",
@@ -17,7 +18,7 @@ const AddAdmin = () => {
   const validationSchema = Yup.object().shape({
     firstname: Yup.string().required("First Name is required"),
     lastname: Yup.string().required("Last Name is required"),
-    phone: Yup.string().required("Phone Number is required"),
+    phone: Yup.string().min(10).max(10).required("Phone Number is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     degree: Yup.string().required("Degree Type is required"),
     dept: Yup.string().required("dept is required"),
@@ -38,7 +39,6 @@ const AddAdmin = () => {
     }).catch((err)=>{
       console.log(err);
     })
-
 
     // Send formData to backend
 
@@ -67,7 +67,7 @@ const AddAdmin = () => {
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, isValid }) => (
             <Form>
               <div className="flex justify-between w-full">
                 <div className="mb-4 mr-2 w-1/2">
@@ -229,7 +229,7 @@ const AddAdmin = () => {
               <button
                 type="submit"
                 className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600"
-                disabled={isSubmitting}
+                disabled={!isValid || isSubmitting} 
               >
                 Add Admin
               </button>
