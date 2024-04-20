@@ -213,6 +213,7 @@ const updateProfile = async (req, res) => {
         lastname: lastname,
         is_profile_complete: true,
         degree: degree,
+        contactNumber:contactNumber,
         semester: semester,
         dept: dept,
         assigned_admin:admintoupdate._id,
@@ -241,7 +242,6 @@ const updateProfile = async (req, res) => {
   }
 };
 
-
 async function getuserInfo(req, res) {
   try {
     const userId = req.params.id;
@@ -251,23 +251,27 @@ async function getuserInfo(req, res) {
     }
 
     const userInfo = await userModel.findOne({ _id: userId });
-    const userProfile = await Profile.findOne({user:userId});
-    
     if (!userInfo) {
       return res.status(404).json({ error: "User not found." });
     }
-    userInfo.phone = userProfile? userProfile.contactNumber: null;
+
+    // Find profile information for the user
+    // const userProfile = await Profile.findOne({ user: userId });
+    // if (!userProfile) {
+    //   console.log("Profile not found for user:", userId);
+    //   // Handle the case when profile information is not found
+    // }
+
+    // // Add contactNumber from userProfile to userInfo
+    // userInfo.phone =  userProfile.contactNumber;
+
     // console.log(userInfo);
-  
     res.status(200).json(userInfo);
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({ error: "An error occurred while processing your request." });
+    res.status(500).json({ error: "An error occurred while processing your request." });
   }
 }
-
 
 module.exports = {
 
