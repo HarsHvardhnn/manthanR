@@ -205,6 +205,8 @@ const updateProfile = async (req, res) => {
       dept: dept
     });
     const admintoupdate = admins[0];
+    console.log('amdins',admins);
+      console.log(admintoupdate)
     const update = await userModel.findOneAndUpdate(
       { _id: user },
       {
