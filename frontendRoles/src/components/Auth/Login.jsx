@@ -56,6 +56,17 @@ const LoginPage = () => {
           toast.error('Sorry admins arent allowed to login');
           return;
          }
+          
+         axios.get(`https://manthanr.onrender.com/v1/get-user-info/${res.data.user.assigned_admin}`).then((res)=>{
+          console.log('user data' , res);
+          setUser({
+            ...user,
+            assigned_admin:res.data.username,
+          })
+         }).catch((err)=>{
+          console.log(err);
+         })
+
          if (res.status === 200) {
           localStorage.setItem("token", res.data.token);
           toast.success("Login Successful")
@@ -64,7 +75,7 @@ const LoginPage = () => {
             username: res.data.user.username,
             userID: res.data.user._id,
             email:values.email,
-            assigned_admin:res.data.user.assigned_admin
+            // assigned_admin:res.data.user.assigned_admin
           });
 
           // navigate("/updateprofile");

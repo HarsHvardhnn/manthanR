@@ -19,16 +19,16 @@ router.post("/login", login);
 router.post("/promote-to-admin", promoteToAdmin);
 router.post('/send-sos' ,sendSos );
 router.get('/get-all-sos',getAllSoS);
-router.get('/get-user/:id',findUser);
+// router.get('/get-user/:id',findUser);
 // router.get('/', (req,res)=>{
 //     res.send('hel;lo woprld');
 //     console.log('object')
 // })
 // Assuming your userModel file is located in '../models/userModel'
 
-router.get('/getdata' , async (req,res) => {
-  res.send('hi').status(200);
-})
+// router.get('/getdata' , async (req,res) => {
+//   res.send('hi').status(200);
+// })
 
 
 router.post('/update-tnc', async (req, res) => {
