@@ -250,7 +250,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
     return date.toLocaleString("en-US"); 
   }
   return (
-    <div className="mx-auto p-2 md:p-4 pb-10 bg-gray-100 font-montserrat text-xs md:text-sm overflow-y-auto h-[80%]">
+    <div className="mx-auto p-2 md:p-4 pb-10 bg-gray-100 font-montserrat text-xs md:text-sm overflow-y-auto h-[90%]">
       {loading ? (
         <div className="w-full flex flex-col items-center justify-center mt-10 text-lg">
           <ThreeDots
@@ -372,7 +372,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
               No data available for the selected filter.
             </p>
           ) : (
-            <div className="overflow-y-auto mt-4 h-[80%]">
+            <div className="overflow-y-auto mt-4 h-[90%]">
               <table className="w-full max-w-6xl mx-auto bg-white border rounded-md">
                 <thead>
                   <tr className="">
