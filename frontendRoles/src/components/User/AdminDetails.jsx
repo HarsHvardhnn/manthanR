@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import ReportMessage from "../Admin/ReportMessage";
 
-const AdminDetails = ({ onClose }) => {
+const AdminDetails = ({ onClose ,assigned_admin }) => {
   const [showReportModal, setShowReportModal] = useState(false);
 
-  const adminData = {
-    name: "John Doe",
-    email: "john.doe@example.com",
-    number: "+1234567890",
-  };
+
 
   const handleReportClick = () => {
     setShowReportModal(true);
@@ -46,13 +42,13 @@ const AdminDetails = ({ onClose }) => {
         </div>
         <div>
           <p className="text-gray-700">
-            <span className="font-semibold">Name:</span> {adminData.name}
+            <span className="font-semibold">Name:</span> {assigned_admin.username}
           </p>
           <p className="text-gray-700">
-            <span className="font-semibold">Email:</span> {adminData.email}
+            <span className="font-semibold">Email:</span> {assigned_admin.email}
           </p>
           <p className="text-gray-700">
-            <span className="font-semibold">Number:</span> {adminData.number}
+            <span className="font-semibold">Number:</span> {assigned_admin.contactNumber}
           </p>
           <div className="mt-4">
             <p className="text-red-500 font-semibold">

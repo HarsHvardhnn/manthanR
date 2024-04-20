@@ -403,7 +403,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
                       <td className="px-4 py-2 border">{index + 1}</td>
                       <td className="px-4 py-2 border">{user.username}</td>
                       <td className="px-4 py-2 border">{user.email}</td>
-                      <td className="px-4 py-2 border">{user.phoneNumber}</td>
+                      <td className="px-4 py-2 border">{user.contactNumber}</td>
                       <td className="px-4 py-2 border">{user.score}</td>
                       <td className="px-4 py-2 border">
                         {convertISOToDate(user.createdAt)}

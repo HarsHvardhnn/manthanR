@@ -2,21 +2,22 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import ProfileUpdatePage from "../Auth/UpdateProfile";
 
-const ViewProfile = ({ onClose }) => {
+const ViewProfile = ({ onClose ,data }) => {
+  // console.log(data);
   const navigate = useNavigate();
-  const sampleUser = {
-    name: "John Doe",
-    gender: "Male",
-    contactNumber: "+1234567890",
-    dateOfBirth: "1990-01-01",
-    degreeType: "Bachelor",
-    department: "Computer Science",
-    semester: "5",
-    rollNumber: "CS12345",
-    hostelName: "ABC Hostel",
-    hostelRoomNumber: "101",
-    relationshipStatus: "Single",
-  };
+  // const data = {
+  //   name: "John Doe",
+  //   gender: "Male",
+  //   contactNumber: "+1234567890",
+  //   dateOfBirth: "1990-01-01",
+  //   degreeType: "Bachelor",
+  //   department: "Computer Science",
+  //   semester: "5",
+  //   rollNumber: "CS12345",
+  //   hostelName: "ABC Hostel",
+  //   hostelRoomNumber: "101",
+  //   relationshipStatus: "Single",
+  // };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center font-montserrat bg-gray-800 bg-opacity-75 z-50">
@@ -44,47 +45,47 @@ const ViewProfile = ({ onClose }) => {
         </div>
         <div>
           <p>
-            <span className="font-semibold">Name:</span> {sampleUser.name}
+            <span className="font-semibold">Name:</span> {data?.username}
           </p>
-          <p>
-            <span className="font-semibold">Gender:</span> {sampleUser.gender}
-          </p>
-          <p>
+          {/* <p>
+            <span className="font-semibold">Gender:</span> {data?.gender}
+          </p> */}
+          {/* <p>
             <span className="font-semibold">Contact Number:</span>{" "}
-            {sampleUser.contactNumber}
-          </p>
+            {data?.contactNumber}
+          </p> */}
           <p>
-            <span className="font-semibold">Date of Birth:</span>{" "}
-            {sampleUser.dateOfBirth}
+            <span className="font-semibold">Email:</span>{" "}
+            {data?.email}
           </p>
           <p>
             <span className="font-semibold">Degree Type:</span>{" "}
-            {sampleUser.degreeType}
+            {data?.degree}
           </p>
           <p>
             <span className="font-semibold">Department:</span>{" "}
-            {sampleUser.department}
+            {data?.dept}
           </p>
           <p>
             <span className="font-semibold">Semester:</span>{" "}
-            {sampleUser.semester}
+            {data?.semester}
           </p>
-          <p>
+          {/* <p>
             <span className="font-semibold">Roll Number:</span>{" "}
-            {sampleUser.rollNumber}
-          </p>
-          <p>
+            {data?.rollNumber}
+          </p> */}
+          {/* <p>
             <span className="font-semibold">Hostel Name:</span>{" "}
-            {sampleUser.hostelName}
-          </p>
-          <p>
+            {data?.hostelName}
+          </p> */}
+          {/* <p>
             <span className="font-semibold">Hostel Room Number:</span>{" "}
-            {sampleUser.hostelRoomNumber}
-          </p>
-          <p>
+            {data?.hostelRoomNumber}
+          </p> */}
+          {/* <p>
             <span className="font-semibold">Relationship Status:</span>{" "}
-            {sampleUser.relationshipStatus}
-          </p>
+            {data?.relationshipStatus}
+          </p> */}
         </div>
         <div>
           <button onClick={() => {navigate("/ProfileUpdatePage")}} className="bg-blue-500 text-white rounded-lg px-4 py-1 mt-2 w-full">

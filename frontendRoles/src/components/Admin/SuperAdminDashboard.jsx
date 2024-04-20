@@ -48,14 +48,11 @@ const SuperAdminDashboard = () => {
       .get("https://manthanr.onrender.com/v1/getAllAdmins")
       .then((res) => {
         setAdmins(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((Err) => {
         console.log(Err);
       });
-  };
-  const handleLogout = () => {
-    // Your logout logic here
   };
 
   const toggleDropdown = () => {
@@ -64,7 +61,7 @@ const SuperAdminDashboard = () => {
   useEffect(() => {
     const token = localStorage.getItem("superadminToken");
     if (!token) {
-      console.log("no token here");
+      // console.log("no token here");
       navigate("/superadminlogin");
     }
     getAllAdmins();

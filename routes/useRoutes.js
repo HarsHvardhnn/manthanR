@@ -1,6 +1,6 @@
 const express = require("express");
 const userModel=  require('../models/userSchema');
-const { login, signup, sendOtp, clearAll, updateProfile, getuserInfo, resetPassword, findUser } = require("../controllers/userController");
+const { login, signup, sendOtp, clearAll, updateProfile, getuserInfo, resetPassword} = require("../controllers/userController");
 const {
   getQuestions,
   getAllQuestions,

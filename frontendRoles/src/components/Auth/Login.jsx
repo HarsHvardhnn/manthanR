@@ -19,6 +19,7 @@ const LoginPage = () => {
   const { setAuth } = useContext(authContext);
   const [loading,setLoading] =useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [assigned_admin,setAssigned_admin] = useState({});
   const [showForgotPasswordFields, setShowForgotPasswordFields] =
     useState(false); 
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const LoginPage = () => {
     password: "",
     otp: "", 
     newPassword: "", 
-    confirmPassword: "", // New field for confirm password
+    confirmPassword: "", 
   };
 
   const validationSchema = Yup.object().shape({
@@ -57,16 +58,11 @@ const LoginPage = () => {
           return;
          }
           
-         axios.get(`https://manthanr.onrender.com/v1/get-user-info/${res.data.user.assigned_admin}`).then((res)=>{
-          // console.log('user data' , res);
-          setUser({
-            ...user,
-            assigned_admin:res.data.username,
-          })
-         }).catch((err)=>{
-          console.log(err);
+         setUser({
+          ...user,
+          assigned_admin_id:res.data.user.assigned_admin
          })
-
+ 
          if (res.status === 200) {
           localStorage.setItem("token", res.data.token);
           toast.success("Login Successful")
@@ -75,7 +71,7 @@ const LoginPage = () => {
             username: res.data.user.username,
             userID: res.data.user._id,
             email:values.email,
-            // assigned_admin:res.data.user.assigned_admin
+            assigned_admin:res.data.user.assigned_admin
           });
           // console.log(user);
                     localStorage.setItem("user", JSON.stringify(user));
