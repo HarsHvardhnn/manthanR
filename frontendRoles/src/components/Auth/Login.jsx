@@ -58,7 +58,7 @@ const LoginPage = () => {
          }
           
          axios.get(`https://manthanr.onrender.com/v1/get-user-info/${res.data.user.assigned_admin}`).then((res)=>{
-          console.log('user data' , res);
+          // console.log('user data' , res);
           setUser({
             ...user,
             assigned_admin:res.data.username,
@@ -77,6 +77,9 @@ const LoginPage = () => {
             email:values.email,
             // assigned_admin:res.data.user.assigned_admin
           });
+          // console.log(user);
+                    localStorage.setItem("user", JSON.stringify(user));
+
 
           // navigate("/updateprofile");
           setAuth(true);
@@ -84,7 +87,7 @@ const LoginPage = () => {
           if (res.data.user.is_profile_complete) {
             if (res.data.user.has_accepted_tnc) {
               // navigate("/updateprofile");
-              navigate("/chatbot");
+              navigate("/usersection");
               // console.log(user);
             } else {
               navigate("/disclaimer");

@@ -28,7 +28,7 @@ const Chatbot = () => {
   const [progress, setProgress] = useState(0);
   const [userScore, setUserScore] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const { user } = useContext(userContext);
+  const { user,setUser } = useContext(userContext);
   const { auth, setAuth } = useContext(authContext);
   const [answers, setAnswers] = useState([]);
   const [showThankYou, setShowThankYou] = useState(false);
@@ -159,8 +159,16 @@ const Chatbot = () => {
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/login");
+    } else {
+      const userString = localStorage.getItem('user');
+      if (userString) {
+        const user = JSON.parse(userString); 
+        setUser(user); 
+        // console.log(userString);
+      }
     }
   }, []);
+  
   useEffect(() => {
     const newProgress =
       questions.length > 0
