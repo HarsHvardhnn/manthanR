@@ -17,7 +17,7 @@ import * as Yup from "yup";
 const LoginPage = () => {
   const { setUser } = useContext(userContext);
   const { setAuth } = useContext(authContext);
-  const {loading,setLoading}= useContext(loadingContext);
+  const [loading,setLoading] =useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPasswordFields, setShowForgotPasswordFields] =
     useState(false); 
@@ -66,8 +66,8 @@ const LoginPage = () => {
             email:values.email
           });
 
-          setAuth(true);
           navigate("/updateprofile");
+          setAuth(true);
 
           // if (res.data.user.is_profile_complete) {
           //   if (res.data.user.has_accepted_tnc) {
