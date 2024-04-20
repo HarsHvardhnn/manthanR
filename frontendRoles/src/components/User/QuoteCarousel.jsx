@@ -21,7 +21,7 @@ const QuoteCarousel = ({ quotes }) => {
     <Slider {...settings}>
       {quotes.map((quote, index) => (
         <div key={index}>
-          <h2 className="text-2xl text-center font-medium rounded-2xl py-2 max-w-4xl mx-auto mt-2">
+          <h2 className="text-lg text-user-btns text-center font-medium rounded-2xl py-2 max-w-4xl mx-auto mt-2">
             {quote}
           </h2>
         </div>

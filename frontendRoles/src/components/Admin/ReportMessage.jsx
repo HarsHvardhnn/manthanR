@@ -12,11 +12,8 @@ const ReportMessage = ({ onClose, onSubmit }) => {
   };
 
   return (
-    <div className="fixed z-10 inset-0 overflow-y-auto font-montserrat">
+    <div className="fixed z-50 inset-0 overflow-y-auto font-montserrat bg-opacity-75 bg-gray-800">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-        </div>
 
         <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
           &#8203;
@@ -26,7 +23,7 @@ const ReportMessage = ({ onClose, onSubmit }) => {
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div className="sm:flex ">
               <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
-                <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">Remarks</h3>
+                <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4 uppercase underline">Remarks</h3>
                 <div className="mt-2">
                   <textarea
                     className=" w-full h-56 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-400 resize-none"

@@ -18,6 +18,7 @@ import ForgotPassword from "./components/Auth/ForgotPassword";
 import SuperAdminLogin from "./components/Admin/SuperAdminLogin";
 import Disclaimer from "./components/Home/Disclaimer";
 import UserSection from "./components/User/UserSection";
+import ProfileUpdatePage from "./components/Auth/UpdateProfile";
 // import SuperAdminLogin from "./components/Admin/SuperAdminLogin";
 // import { useNavigate } from "react-router-dom";
 
@@ -82,6 +83,10 @@ function App() {
     {
       path: '/UserSection',
       element: <UserSection/>
+    },
+    {
+      path: '/ProfileUpdatePage',
+      element: <ProfileUpdatePage/>
     }
   ]);
   return (
