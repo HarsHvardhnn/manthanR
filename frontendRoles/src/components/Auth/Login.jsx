@@ -10,7 +10,7 @@ import { useContext, useEffect } from "react";
 import { toast } from "react-toastify";
 import Header from "../Home/Header";
 import Bg from "./StudentLoginBackground.jpg";
-import { LoadingOverlay } from "react-overlay-loader";
+
 
 import * as Yup from "yup";
 
@@ -117,7 +117,7 @@ const LoginPage = () => {
   }, []);
 
   return (
-    <LoadingOverlay loading={loading}>
+    
 
     <div
       className="min-h-screen flex justify-center items-center bg-blue-200 font-montserrat"
@@ -220,7 +220,7 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
-    </LoadingOverlay>
+
   );
 };
 
