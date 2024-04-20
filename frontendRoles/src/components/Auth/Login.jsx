@@ -69,7 +69,8 @@ const LoginPage = () => {
           setAuth(true);
           if (res.data.user.is_profile_complete) {
             if (res.data.user.has_accepted_tnc) {
-              navigate("/chatbot");
+              navigate("/updateprofile");
+              // navigate("/chatbot");
             } else {
               navigate("/disclaimer");
             }

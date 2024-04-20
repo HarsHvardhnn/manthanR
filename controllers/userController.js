@@ -178,7 +178,7 @@ const clearAll = async (req, res) => {
 const updateProfile = async (req, res) => {
   try {
     const { user } = req.body;
-    // console.log("user is ", user);
+    console.log("user is ", user);
     const user1 = await userModel.findOne({ id: user });
     console.log(user1);
     const admins = userModel.find({ role: "admin" });
