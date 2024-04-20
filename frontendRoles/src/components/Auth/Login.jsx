@@ -5,17 +5,19 @@ import openEye from "./open.png";
 import closedEye from "./close.png";
 import bgImage from "./signupimg.jpg";
 import { useNavigate } from "react-router-dom";
-import { userContext, authContext } from "../../context";
+import { userContext, authContext, loadingContext } from "../../context";
 import { useContext, useEffect } from "react";
 import { toast } from "react-toastify";
 import Header from "../Home/Header";
 import Bg from "./StudentLoginBackground.jpg";
+import { LoadingOverlay } from "react-overlay-loader";
 
 import * as Yup from "yup";
 
 const LoginPage = () => {
   const { setUser } = useContext(userContext);
   const { setAuth } = useContext(authContext);
+  const {loading,setLoading}= useContext(loadingContext);
   const [userId, setUserId] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPasswordFields, setShowForgotPasswordFields] =
@@ -34,21 +36,28 @@ const LoginPage = () => {
     password: Yup.string().required("Password is required"),
   });
   const onSubmit = (values) => {
+    
     if (showForgotPasswordFields) {
       handleForgotPassword(values);
     } else {
       handleLogin(values);
     }
   };
-
+  
   const handleLogin = (values) => {
+    setLoading(true);
+    console.log(loading);
     axios
-      .post("https://manthanr.onrender.com/v1/login", {
+    .post("https://manthanr.onrender.com/v1/login", {
         email: values.email,
         password: values.password,
       })
       .then((res) => {
-        if (res.status === 200) {
+         if(res.data==='admins and super admins cant login'){
+          toast.error('Sorry admins arent allowed to login');
+          return;
+         }
+         if (res.status === 200) {
           localStorage.setItem("token", res.data.token);
           toast.success("Login Successful")
           // console.log(res.data.user);
@@ -70,8 +79,10 @@ const LoginPage = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error(err.response.data);
-      });
+        toast.error(err.response.status);
+      }).finally(()=>{
+        setLoading(false);
+      })
   };
 
   const handleForgotPassword = (values) => {
@@ -79,9 +90,9 @@ const LoginPage = () => {
       .post("https://manthanr.onrender.com/v1/sendOtp", { email: values.email })
       .then((res) => {
         if (res === 200) {
-          // Handle sending OTP
+
           toast.success("OTP sent");
-          // You can implement OTP verification and password update logic here
+      
         }
       })
       .catch((err) => {
@@ -101,6 +112,8 @@ const LoginPage = () => {
   }, []);
 
   return (
+    <LoadingOverlay loading={loading}>
+
     <div
       className="min-h-screen flex justify-center items-center bg-blue-200 font-montserrat"
       style={{
@@ -193,7 +206,7 @@ const LoginPage = () => {
                   </button>
 
                   <button className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md text-white mt-1 text-xs sm:text-base">
-                    Login
+             {loading?('loading...'):("Login")}
                   </button>
                 </div>
               </Form>
@@ -202,6 +215,7 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
+    </LoadingOverlay>
   );
 };
 

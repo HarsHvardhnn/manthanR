@@ -13,9 +13,12 @@ const { insertQuestions, getUsers, getAllAnswers } = require("../controllers/new
 const { promoteToAdmin, adminLogin,getalladmins } = require("../controllers/adminController");
 const { submitReport, getReportedUsers ,getAdminWiseData, notifyAdmin } = require("../controllers/supAdminController");
 const Profile = require("../models/profileModel");
+const {sendSos, getAllSoS} = require("../controllers/SoScontroller");
 router.post("/signup", signup);
 router.post("/login", login);
 router.post("/promote-to-admin", promoteToAdmin);
+router.post('/send-sos' ,sendSos );
+router.get('/get-all-sos',getAllSoS);
 // router.get('/', (req,res)=>{
 //     res.send('hel;lo woprld');
 //     console.log('object')

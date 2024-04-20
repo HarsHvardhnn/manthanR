@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { superadminContext, userContext ,adminContext  } from "./context";
+import { superadminContext, userContext, adminContext } from "./context";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Login from "./components/Auth/Login";
 import "./App.css";
-import UpdateProfile from "./components/Auth/UpdateProfile"
+import UpdateProfile from "./components/Auth/UpdateProfile";
 import Chatbot from "./components/Auth/Chatbot";
 import MainPage from "./components/Home/MainPage";
 import AdminLogin from "./components/Auth/AdminLogin";
 import { authContext } from "./context";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AdminPanel from "./AdminPanel";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 // import AdminDashboard from "./components/SuperAdmin/SuperAdminDashboard";
@@ -20,16 +20,17 @@ import Disclaimer from "./components/Home/Disclaimer";
 // import SuperAdminLogin from "./components/Admin/SuperAdminLogin";
 // import { useNavigate } from "react-router-dom";
 
-
+import { loadingContext } from "./context";
 import { adminEmailContext } from "./context";
-
+import { LoadingOverlay } from "react-overlay-loader";
 
 function App() {
   const [user, setUser] = useState("");
   const [auth, setAuth] = useState(false);
-  const [superadmin,setsuperadmin] = useState("");
-  const [adminEmail,setAdminEmail] = useState("")
-  const [admin,setAdmin] = useState("");
+  const [superadmin, setsuperadmin] = useState("");
+  const [adminEmail, setAdminEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [admin, setAdmin] = useState("");
 
   const router = createBrowserRouter([
     {
@@ -42,9 +43,9 @@ function App() {
     },
     {
       path: "/adminPanel",
-      element: <AdminPanel/>,
+      element: <AdminPanel />,
     },
-     {
+    {
       path: "/Chatbot",
       element: <Chatbot />,
     },
@@ -57,43 +58,43 @@ function App() {
       element: <AdminLogin />,
     },
     {
-      path:"/superadminlogin",
-      element:<SuperAdminLogin/>
+      path: "/superadminlogin",
+      element: <SuperAdminLogin />,
     },
     {
-      path:'/disclaimer',
-      element:<Disclaimer/>
-    }
-    ,
+      path: "/disclaimer",
+      element: <Disclaimer />,
+    },
     {
       path: "/AdminDashboard",
       element: <AdminDashboard />,
     },
     {
       path: "/SuperAdminDashboard",
-      element: <SuperAdminDashboard/>,
+      element: <SuperAdminDashboard />,
     },
     {
-      path:'/forgot-password',
-      element:(<ForgotPassword/>)
-    }
-  
+      path: "/forgot-password",
+      element: <ForgotPassword />,
+    },
   ]);
   return (
     <>
-      <userContext.Provider value={{ user, setUser }}>
-        <superadminContext.Provider value={{superadmin,setsuperadmin}}>
-          <adminEmailContext.Provider value={{adminEmail,setAdminEmail}}>
-
-        <adminContext.Provider value={{admin,setAdmin}}>
-        <authContext.Provider value={{ auth, setAuth }}>
-          <RouterProvider router={router} />
-          <ToastContainer/>
-        </authContext.Provider>
-        </adminContext.Provider>
-          </adminEmailContext.Provider>
-        </superadminContext.Provider>
-      </userContext.Provider>
+      <loadingContext.Provider value={{ loading, setLoading }}>
+        <userContext.Provider value={{ user, setUser }}>
+          <superadminContext.Provider value={{ superadmin, setsuperadmin }}>
+            <adminEmailContext.Provider value={{ adminEmail, setAdminEmail }}>
+              <adminContext.Provider value={{ admin, setAdmin }}>
+                <authContext.Provider value={{ auth, setAuth }}>
+                    <RouterProvider router={router} />
+                    <ToastContainer />
+               
+                </authContext.Provider>
+              </adminContext.Provider>
+            </adminEmailContext.Provider>
+          </superadminContext.Provider>
+        </userContext.Provider>
+      </loadingContext.Provider>
     </>
   );
 }
