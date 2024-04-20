@@ -62,7 +62,8 @@ const LoginPage = () => {
           // console.log(res.data.user);
           setUser({
             username: res.data.username,
-            userID: res.data._id
+            userID: res.data._id,
+            email:values.email
           });
 
           setAuth(true);

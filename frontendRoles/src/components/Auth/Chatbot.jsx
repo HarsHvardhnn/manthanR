@@ -127,7 +127,7 @@ const Chatbot = () => {
       .post(
         "https://manthanr.onrender.com/v1/Doit",
         {
-          email: user.userID,
+          email: user.email,
           answers: answers,
           score: userScore,
         },

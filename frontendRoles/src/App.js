@@ -26,7 +26,7 @@ import { adminEmailContext } from "./context";
 import { LoadingOverlay } from "react-overlay-loader";
 
 function App() {
-  const [user, setUser] = useState({ username: '', userID: '' });
+  const [user, setUser] = useState({ username: '', userID: '',email:'' });
 
   const [auth, setAuth] = useState(false);
   const [superadmin, setsuperadmin] = useState("");
