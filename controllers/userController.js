@@ -251,13 +251,14 @@ async function getuserInfo(req, res) {
     }
 
     const userInfo = await userModel.findOne({ _id: userId });
-
-    // Check if user information is found
+    const userProfile = await Profile.findOne({user:userId});
+    
     if (!userInfo) {
       return res.status(404).json({ error: "User not found." });
     }
-    console.log(userInfo);
-    // Return the user information
+    userInfo.phone = userProfile? userProfile.contactNumber: null;
+    // console.log(userInfo);
+  
     res.status(200).json(userInfo);
   } catch (err) {
     console.error(err);
