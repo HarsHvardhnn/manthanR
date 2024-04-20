@@ -25,8 +25,9 @@ const UserSection = () => {
   const [showAdminData, setShowAdminData] = useState(false);
   const {user}=  useContext(userContext);
   const [assigned_admin ,setAssigned_admin]=useState("");
+  const [User,setuser]=  useState({});
   const [showProfile, setShowProfile] = useState(false);
-
+  // console.log(user);
 
   const handleReportClick = () => {
     setShowReportModal(true);
@@ -57,15 +58,26 @@ const UserSection = () => {
 
   const getAdmin = () => {
     axios.get(`https://manthanr.onrender.com/v1/get-user-info/${user.assigned_admin}`).then((res)=>{
-      console.log(res);
-      // setAssigned_admin(res.data.user);
+      // console.log(res);
+      setAssigned_admin(res.data);
     }).catch((err)=>{
       console.log(err);
     })
   }
 
+const getUser= ()=>{
+  axios.get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`).then((res)=>{
+    console.log(res);
+    setuser(res.data);
+  }).catch((err)=>{
+    console.log(err);
+  })
+  
+}
+
   useEffect(()=>{
     getAdmin();
+    getUser();
   },[]);
   const handleReportSubmit = (comment) => {
     console.log("Report submitted with comment:", comment);
@@ -132,9 +144,9 @@ const UserSection = () => {
         />
       )}
       {/* Admin Data */}
-      {showAdminData && <AdminDetails onClose={closeAdminData} />}
+      {showAdminData && <AdminDetails onClose={closeAdminData} assigned_admin={assigned_admin}/>}
       {/* View Profile */}
-      {showProfile && <ViewProfile onClose={closeProfile}/>}
+      {showProfile && <ViewProfile onClose={closeProfile} data={user}/>}
     </>
   );
 };

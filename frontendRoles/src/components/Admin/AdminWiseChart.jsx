@@ -3,9 +3,9 @@ import Chart from "react-apexcharts";
 import axios from 'axios';
 import { ThreeDots } from "react-loader-spinner";
 function AdminWiseChart({ admin }) {
-  const [userData , setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  
+  const [userData , setUserData] = useState([]);
   async function fetchUserInformation(userIds) {
     const userInformation = [];
   
