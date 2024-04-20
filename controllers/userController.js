@@ -192,7 +192,6 @@ const updateProfile = async (req, res) => {
     const userId = user1._id;
     //  console.log(userId);
     const {
-      fullName,
       courseAndYear,
       rollNumber,
       contactNumber,
@@ -201,6 +200,8 @@ const updateProfile = async (req, res) => {
       relationshipStatus,
       degree,
       dept,
+      firstname,
+      lastname,
       semester,
     } = req.body;
     console.log(
@@ -227,6 +228,8 @@ const updateProfile = async (req, res) => {
     }
     await userModel.findOneAndUpdate(
       { _id: userId },
+      {username:firstname},
+      {lastname:lastname},
       { is_profile_complete: true },
       { degree: degree },
       { semester: semester },
@@ -236,7 +239,6 @@ const updateProfile = async (req, res) => {
     // Create a new profile instance
     const profile = await Profile.create({
       user: userId,
-      fullName,
       courseAndYear,
       rollNumber,
       contactNumber,

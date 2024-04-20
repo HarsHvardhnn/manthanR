@@ -55,16 +55,17 @@ const ProfileUpdatePage = () => {
         "https://manthanr.onrender.com/v1/update-profile",
         {
           user: user,
-          fullName: values.fullName,
+          firstname: values.firstName,
+          lastname: values.lastName,
           courseAndYear: values.courseAndYear,
           rollNumber: values.rollNumber,
           contactNumber: values.contactNumber,
           hostelName: values.hostelName,
           dateOfBirth: values.dateOfBirth,
           relationshipStatus: values.relationshipStatus,
-          degree:values.degreeType,
-          dept:values.department,
-          semester:values.semester
+          degree: values.degreeType,
+          dept: values.department,
+          semester: values.semester,
         }
       );
       console.log(res.data);
@@ -372,7 +373,7 @@ const ProfileUpdatePage = () => {
                         className="text-red-500 text-sm"
                       />
                     </div>
-                                
+
                     <Link
                       to="/Disclaimer"
                       className={`w-full text-center bg-blue-500 text-white py-2 px-4 rounded-md mt-2 hover:bg-blue-500 transition duration-300 ease-in-out transform hover:scale-105 ${
