@@ -59,10 +59,10 @@ const LoginPage = () => {
          if (res.status === 200) {
           localStorage.setItem("token", res.data.token);
           toast.success("Login Successful")
-          // console.log(res.data.user);
+          console.log(res.data.user);
           setUser({
-            username: res.data.username,
-            userID: res.data._id,
+            username: res.data.user.username,
+            userID: res.data.user._id,
             email:values.email
           });
 

@@ -15,8 +15,8 @@ const ProfileUpdatePage = () => {
   const [isUpdating, setIsUpdating] = useState(false); // State to track whether update is in progress
 
   const initialValues = {
-    firstName: user.firstName || "",
-    lastName: user.lastName || "",
+    firstName:"",
+    lastName:"",
     gender: "",
     contactNumber: "",
     dateOfBirth: "",
@@ -28,7 +28,7 @@ const ProfileUpdatePage = () => {
     hostelRoomNumber: "",
     relationshipStatus: "",
   };
-
+  console.log(' is' ,user);
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
     gender: Yup.string().required("Gender is required"),
@@ -48,7 +48,8 @@ const ProfileUpdatePage = () => {
   });
 
   const onSubmit = async (values) => {
-    console.log(values);
+    console.log(values ,user.userID);
+  
     try {
       setIsUpdating(true); // Set loading state
       const res = await axios.post(

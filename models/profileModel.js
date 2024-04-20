@@ -6,10 +6,6 @@ const profileSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  courseAndYear: {
-    type: String,
-    required: true
-  },
   rollNumber: {
     type: String,
     required: true

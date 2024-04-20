@@ -179,20 +179,16 @@ const updateProfile = async (req, res) => {
   try {
     const { user } = req.body;
     console.log("user is ", user);
-    const user1 = await userModel.findOne({ id: user });
+    const user1 = await userModel.findOne({ _id: user });
     console.log(user1);
-    const admins = userModel.find({ role: "admin" });
+    const admins = await userModel.find({ role: "admin" });
     console.log(admins);
 
     if (!user1) {
-      return res.send("user not found").status(404);
+      return res.status(404).send("user not found");
     }
-    // console.log(user1._id);
 
-    const userId = user1._id;
-    //  console.log(userId);
     const {
-      courseAndYear,
       rollNumber,
       contactNumber,
       hostelName,
@@ -204,42 +200,23 @@ const updateProfile = async (req, res) => {
       lastname,
       semester,
     } = req.body;
-    console.log(
-      fullName,
-      courseAndYear,
-      rollNumber,
-      contactNumber,
-      hostelName,
-      dateOfBirth,
-      relationshipStatus
-    );
-    // Check if the required fields are provided
-    if (
-      !userId ||
-      !fullName ||
-      !courseAndYear ||
-      !rollNumber ||
-      !contactNumber ||
-      !hostelName ||
-      !dateOfBirth ||
-      !relationshipStatus
-    ) {
-      return res.status(400).json({ error: "All fields are required" });
-    }
-    await userModel.findOneAndUpdate(
-      { _id: userId },
-      {username:firstname},
-      {lastname:lastname},
-      { is_profile_complete: true },
-      { degree: degree },
-      { semester: semester },
-      { dept: dept },
+
+    const update = await userModel.findOneAndUpdate(
+      { _id: user },
+      {
+        username: firstname,
+        lastname: lastname,
+        is_profile_complete: true,
+        degree: degree,
+        semester: semester,
+        dept: dept,
+      },
       { new: true }
     );
-    // Create a new profile instance
+    console.log('update is' ,update);
+
     const profile = await Profile.create({
-      user: userId,
-      courseAndYear,
+      user: user,
       rollNumber,
       contactNumber,
       hostelName,
@@ -247,15 +224,13 @@ const updateProfile = async (req, res) => {
       relationshipStatus,
     });
 
-    // Save the profile to the database
-    // await profile.save();
-
     res.status(201).json({ message: "Profile created successfully", profile });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
   }
 };
+
 
 async function getuserInfo(req, res) {
   try {
