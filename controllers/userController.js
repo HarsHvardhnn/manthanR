@@ -178,11 +178,9 @@ const clearAll = async (req, res) => {
 const updateProfile = async (req, res) => {
   try {
     const { user } = req.body;
-    console.log("user is ", user);
+    // console.log("user is ", user);
     const user1 = await userModel.findOne({ _id: user });
-    console.log(user1);
-    const admins = await userModel.find({ role: "admin" });
-    console.log(admins);
+    // console.log(user1);
 
     if (!user1) {
       return res.status(404).send("user not found");
@@ -199,8 +197,14 @@ const updateProfile = async (req, res) => {
       firstname,
       lastname,
       semester,
-    } = req.body;
-
+    } = req.body;  
+    const admins = await userModel.find({
+      role: 'admin',
+      semester:semester,
+      degree: degree,
+      dept: dept
+    });
+    const admintoupdate = admins[0];
     const update = await userModel.findOneAndUpdate(
       { _id: user },
       {
@@ -210,10 +214,11 @@ const updateProfile = async (req, res) => {
         degree: degree,
         semester: semester,
         dept: dept,
+        assigned_admin:admintoupdate._id,
       },
       { new: true }
     );
-    console.log('update is' ,update);
+    // console.log('update is' ,update);
 
     const profile = await Profile.create({
       user: user,
@@ -222,9 +227,13 @@ const updateProfile = async (req, res) => {
       hostelName,
       dateOfBirth,
       relationshipStatus,
-    });
+    });  
+    // console.log(semester,dept,degree)
 
-    res.status(201).json({ message: "Profile created successfully", profile });
+   
+
+
+    res.status(201).json({ message: "Profile created successfully", profile ,admintoupdate  });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
