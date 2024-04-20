@@ -67,16 +67,18 @@ const LoginPage = () => {
           });
 
           setAuth(true);
-          if (res.data.user.is_profile_complete) {
-            if (res.data.user.has_accepted_tnc) {
-              navigate("/updateprofile");
-              // navigate("/chatbot");
-            } else {
-              navigate("/disclaimer");
-            }
-          } else {
-            navigate("/updateprofile");
-          }
+          navigate("/updateprofile");
+
+          // if (res.data.user.is_profile_complete) {
+          //   if (res.data.user.has_accepted_tnc) {
+          //     navigate("/updateprofile");
+          //     // navigate("/chatbot");
+          //   } else {
+          //     navigate("/disclaimer");
+          //   }
+          // } else {
+          //   navigate("/updateprofile");
+          // }
           // console.log(res.data.user._id);
         }
       })
