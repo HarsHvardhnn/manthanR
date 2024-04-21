@@ -214,7 +214,7 @@ const AdminDashboard = () => {
         {activeTab === "charts" && <ScoreRangeChart />}
         {activeTab === "allUsers" && <UserData />}
         {activeTab === "userreport" && <UserReport />}
-        {activeTab === "sosnotification" && <SOSNotifications />}
+        {activeTab === "sosnotification" && <SOSNotifications  admin={admin}/>}
       </div>
     </div>
   );
