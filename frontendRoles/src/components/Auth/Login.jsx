@@ -58,10 +58,10 @@ const LoginPage = () => {
           return;
          }
           
-         setUser({
-          ...user,
-          assigned_admin_id:res.data.user.assigned_admin
-         })
+        //  setUser({
+        //   ...user,
+        //   assigned_admin_id:res.data.user.assigned_admin
+        //  })
  
          if (res.status === 200) {
           localStorage.setItem("token", res.data.token);

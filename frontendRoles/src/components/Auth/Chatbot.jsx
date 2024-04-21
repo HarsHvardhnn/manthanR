@@ -35,7 +35,8 @@ const Chatbot = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [isFetchingData, setIsFetchingData] = useState(false); // New state for loader
- // const sendEmail = (username,message,email) => {
+  console.log('user in chatbot' ,user);
+   // const sendEmail = (username,message,email) => {
 
   //   const serviceId = 'service_0jzntyg';
   //   const templateId = 'template_ugy8wsb';
@@ -159,14 +160,8 @@ const Chatbot = () => {
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/login");
-    } else {
-      const userString = localStorage.getItem('user');
-      if (userString) {
-        const user = JSON.parse(userString); 
-        setUser(user); 
-        // console.log(userString);
-      }
-    }
+    } 
+    
   }, []);
   
   useEffect(() => {
@@ -192,7 +187,7 @@ const Chatbot = () => {
             </div>
             <div className="hidden md:flex">
               <p className="py-2 px-4 bg-white rounded-xl font-bold text-base ml-2">
-                Hello {user.assigned_admin} ✨
+                Hello {user.username} ✨
               </p>
             </div>
           </div>
