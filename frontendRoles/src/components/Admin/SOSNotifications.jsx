@@ -7,9 +7,9 @@ const SOSNotifications = ({admin}) => {
   const [notifications, setNotifications] = useState();
   
 const getsos = () =>{
-  axios.get(`https://manthanr.onrender.com/v1/get-all-sos/66237416f18215de806b5b8e`).then((res)=>{
-    // setNotifications(res.data); 
-  console.log(res)
+  axios.get(`https://manthanr.onrender.com/v1/get-all-sos/${admin.adminID}`).then((res)=>{
+    setNotifications(res.data); 
+  // console.log(res)
   
   
   }).catch((Err)=>{
@@ -18,7 +18,7 @@ const getsos = () =>{
 
   useEffect(()=>{
 getsos();
-  },[]);
+  },[notifications]);
 
 
   const markAsRead = (notificationId) => {
@@ -57,7 +57,7 @@ getsos();
             <div>
               <p className="text-base md:text-lg">
                 <span className="font-semibold">Name: </span>
-                {notification.userame}
+                {notification.username}
               </p>
               {/* <p className="text-base md:text-lg">
                 <span className="font-semibold">Email: </span>
