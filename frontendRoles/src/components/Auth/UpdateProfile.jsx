@@ -107,7 +107,7 @@ const ProfileUpdatePage = () => {
     <>
       <Header />
       <div className="min-h-screen flex justify-center items-center font-montserrat pt-20 bg-blue-200">
-        <div className="flex bg-white justify-center items-center w-11/12 sm:w-3/5 shadow-xl rounded-xl">
+        <div className="flex bg-white justify-center items-center w-11/12 md:w-3/4 lg:w-10/12 xl:w-3/5 shadow-xl rounded-xl">
           <div className="flex-1 bg-white py-4 px-6 rounded-xl w-full sm:w-96">
             <h2 className="text-xl sm:text-2xl font-bold mb-4 uppercase">
               Update Profile
@@ -122,9 +122,10 @@ const ProfileUpdatePage = () => {
               >
                 {({ values, errors, touched, isValid }) => (
                   <Form>
+                    
                     <div className="mb-4">
                       <div className="flex mb-2">
-                        <div className="w-2/5 mr-2">
+                        <div className="w-1/2 mr-2">
                           <Field
                             type="text"
                             name="firstName"
@@ -141,7 +142,7 @@ const ProfileUpdatePage = () => {
                             className="text-red-500 text-sm"
                           />
                         </div>
-                        <div className="w-2/5 mx-2">
+                        <div className="w-1/2 mx-2">
                           <Field
                             type="text"
                             name="lastName"
@@ -158,34 +159,13 @@ const ProfileUpdatePage = () => {
                             className="text-red-500 text-sm"
                           />
                         </div>
-                        <div className="w-1/5 ml-2 mr-1 flex items-center">
-                          <p className="w-full">Upload Image</p>
-                          <label className="relative overflow-hidden flex items-center justify-center h-full w-12 bg-gray-200 rounded-lg cursor-pointer">
-                            <input
-                              type="file"
-                              className="absolute top-0 left-0 h-full w-full opacity-0 cursor-pointer"
-                              accept="image/*"
-                              onChange={uploadImage}
-                            />
-
-                            {image ? (
-                              <img
-                                src={image}
-                                alt="Uploaded"
-                                className="border-2 rounded-sm w-full h-full content-stretch"
-                              />
-                            ) : (
-                              <BsPlusLg className="h-4 w-4" />
-                            )}
-                          </label>
-                        </div>
                       </div>
                     </div>
                     <div className="mb-4">
                       <Field
                         as="select"
                         name="gender"
-                        className={`w-full px-2.5 py-1.5 text-sm sm:text-base border rounded-md focus:outline-none ${
+                        className={`w-full px-2.5 py-1.5 text-xs sm:text-sm xl:text-base border rounded-md focus:outline-none ${
                           errors.gender && touched.gender
                             ? "border-red-500"
                             : " focus:border-black"
@@ -243,7 +223,7 @@ const ProfileUpdatePage = () => {
                         <Field
                           as="select"
                           name="degreeType"
-                          className={`w-full px-2.5 py-1.5 text-sm sm:text-base border rounded-md focus:outline-none ${
+                          className={`w-full px-2.5 py-1.5 text-xs sm:text-sm xl:text-base border rounded-md focus:outline-none ${
                             errors.degreeType && touched.degreeType
                               ? "border-red-500"
                               : " focus:border-black"
@@ -265,7 +245,7 @@ const ProfileUpdatePage = () => {
                         <Field
                           as="select"
                           name="department"
-                          className={`w-full px-2.5 py-1.5 text-sm sm:text-base border rounded-md focus:outline-none ${
+                          className={`w-full px-2.5 py-1.5 text-xs sm:text-sm xl:text-base border rounded-md focus:outline-none ${
                             errors.department && touched.department
                               ? "border-red-500"
                               : " focus:border-black"
@@ -291,7 +271,7 @@ const ProfileUpdatePage = () => {
                         <Field
                           as="select"
                           name="semester"
-                          className={`w-full px-2.5 py-1.5 text-sm sm:text-base border rounded-md focus:outline-none ${
+                          className={`w-full px-2.5 py-1.5 text-xs sm:text-sm xl:text-base border rounded-md focus:outline-none ${
                             errors.semester && touched.semester
                               ? "border-red-500"
                               : " focus:border-black"
@@ -339,7 +319,7 @@ const ProfileUpdatePage = () => {
                         <Field
                           as="select"
                           name="hostelName"
-                          className={`w-full px-2.5 py-1.5 text-sm sm:text-base border rounded-md focus:outline-none ${
+                          className={`w-full px-2.5 py-1.5 text-xs sm:text-sm xl:text-base border rounded-md focus:outline-none ${
                             errors.hostelName && touched.hostelName
                               ? "border-red-500"
                               : " focus:border-black"
@@ -419,6 +399,27 @@ const ProfileUpdatePage = () => {
                         component="div"
                         className="text-red-500 text-sm"
                       />
+                    </div>
+                    <div className="mb-4 sm:w-1/2 md:w-1/3 ml-2 flex items-center">
+                      <p className="w-full text-base sm:text-lg lg:text-xl uppercase">Upload Image</p>
+                      <label className="relative overflow-hidden flex items-center justify-center h-16 w-20 md:h-20 md:w-28 bg-gray-200 rounded-lg cursor-pointer">
+                        <input
+                          type="file"
+                          className="absolute top-0 left-0 h-full w-full opacity-0 cursor-pointer"
+                          accept="image/*"
+                          onChange={uploadImage}
+                        />
+
+                        {image ? (
+                          <img
+                            src={image}
+                            alt="Uploaded"
+                            className="border-2 rounded-sm w-full h-full content-stretch"
+                          />
+                        ) : (
+                          <BsPlusLg className="h-6 w-6 md:h-8 md:w-8" />
+                        )}
+                      </label>
                     </div>
 
                     <Link

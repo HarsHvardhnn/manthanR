@@ -103,7 +103,7 @@ const AdminDashboard = () => {
             <FaArrowLeft className="md:hidden flex text-xs" />
           </button>
         </div>
-        <ul className="p-4 md:p-8 text-base">
+        <ul className="p-4 text-base">
           <li
             className={`${
               activeTab === "charts"
@@ -130,7 +130,7 @@ const AdminDashboard = () => {
             }}
           >
             <FaUsers className="mr-2" />
-            Users
+            User List
           </li>
           <li
             className={
