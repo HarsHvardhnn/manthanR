@@ -32,10 +32,10 @@ const AddAdmin = () => {
       password: password,
     };
 
-    console.log(formData);
+    // console.log(formData);
 
     axios.post('https://manthanr.onrender.com/v1/create-admin',formData).then((res)=>{
-      console.log(res);
+      // console.log(res);
     }).catch((err)=>{
       console.log(err);
     })

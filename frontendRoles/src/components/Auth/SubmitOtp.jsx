@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import {useNavigate} from 'react-router-dom'
 const SubmitOTP = ({ values ,setUser}) => {
   const navigate = useNavigate();
-  console.log("values in ", values);
+  // console.log("values in ", values);
   const { username, email, password } = values;
   const initialValues = {
     otp: "",
@@ -18,7 +18,7 @@ const SubmitOTP = ({ values ,setUser}) => {
    
   const clearDb = () =>{
     axios.delete('https://manthanr.onrender.com/v1/clear').then((res)=>{
-      console.log('cleared');
+      // console.log('cleared');
     }).catch((err) => {
       console.log(err);
     })
@@ -33,7 +33,7 @@ const SubmitOTP = ({ values ,setUser}) => {
         password: password,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         toast.success('Signed up successfully');
         setUser(email);
         navigate('/Chatbot')

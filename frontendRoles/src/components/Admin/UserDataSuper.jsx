@@ -32,7 +32,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       .then((res) => {
         // console.log(res.data);
         setQuestions(res.data);
-        console.log(users);
+        // console.log(users);
       })
       .catch((err) => {
         console.log(err);
@@ -65,12 +65,12 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
         message: message,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
         console.log(err);
       });
-    console.log(fetchedReportedUsers);
+    // console.log(fetchedReportedUsers);
   };
 
   //  useEffect(() => {
@@ -101,7 +101,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   };
 
   const handleReportSubmit = (comment) => {
-    console.log("Reported user with id:", selectedUserId, "Comment:", comment);
+    // console.log("Reported user with id:", selectedUserId, "Comment:", comment);
     submitReport(selectUser, comment, admin);
     setShowReportModal(false);
   };
@@ -153,20 +153,19 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
           return userDate.getMonth() + 1 === parseInt(selectedMonth, 10);
         });
 
-  // Function to filter users based on selected year
   const filteredByYear =
     selectedYear === "All"
       ? filteredByMonth
       : filteredByMonth.filter((user) => {
-          const userYear = user.createdAt.substring(0, 4); // Extracting year from the date string
-          console.log("User Year:", userYear);
-          console.log("Selected Year:", selectedYear);
+          const userYear = user.createdAt.substring(0, 4);
+          // console.log("User Year:", userYear);
+          // console.log("Selected Year:", selectedYear);
           return userYear === selectedYear;
         });
 
   const exportToPDF = (users) => {
     const doc = new jsPDF();
-    console.log(doc);
+    // console.log(doc);
     // const headers = [['Username', 'Email', 'Phone Number', 'Score', 'Date', 'Category']];
 
     const data = filteredUsers.map((user) => [
@@ -177,7 +176,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       convertISOToDate(user.createdAt),
       categorizeUser(user.score),
     ]);
-    console.log(data);
+    // console.log(data);
     const rows = data.map(Object.values);
 
     // Add table to PDF
@@ -214,17 +213,17 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       {loading ? (
         <div className="w-full flex flex-col items-center justify-center text-xl">
           <ThreeDots
-          visible={true}
-          height="80"
-          width="80"
-          color="#4299e1"
-          radius="9"
-          ariaLabel="three-dots-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-        />
-        <p>Loading...</p>
-      </div>
+            visible={true}
+            height="80"
+            width="80"
+            color="#4299e1"
+            radius="9"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
+          <p>Loading...</p>
+        </div>
       ) : (
         <>
           {showReportModal && (
@@ -386,32 +385,16 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                     Report
                   </button> */}
                         {showSOSButton && (
-                          <button
-                            onClick={() =>
-                              console.log(
-                                "SOS button clicked for user",
-                                user._id
-                              )
-                            }
-                            className="font-medium text-red-600 underline"
-                          >
+                          <button className="font-medium text-red-600 underline">
                             SOS
                           </button>
                         )}
                       </td>
                       {showSummaryColumn && (
                         <td className="px-4 py-2 border">
-                          <button
-                      onClick={() =>
-                        console.log(
-                          "Summary Report button clicked for user",
-                          user._id
-                        )
-                      }
-                      className="font-medium text-blue-600 underline"
-                    >
-                      Summary
-                    </button>
+                          <button className="font-medium text-blue-600 underline">
+                            Summary
+                          </button>
                         </td>
                       )}
                     </tr>

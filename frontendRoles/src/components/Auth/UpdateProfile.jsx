@@ -429,7 +429,7 @@ const ProfileUpdatePage = () => {
                           : ""
                       }`}
                       onClick={() => {
-                        console.log(values);
+                        // console.log(values);
                         onSubmit(values);
                       }}
                       style={{ display: "block", margin: "auto" }}

@@ -46,7 +46,7 @@ const LoginPage = () => {
   
   const handleLogin = (values) => {
     setLoading(true);
-    console.log(loading);
+    // console.log(loading);
     axios
     .post("https://manthanr.onrender.com/v1/login", {
         email: values.email,

@@ -14,7 +14,7 @@ const AdminDetails = ({ onClose ,assigned_admin }) => {
   };
 
   const handleReportSubmit = (comment) => {
-    console.log("Report submitted with comment:", comment);
+    // console.log("Report submitted with comment:", comment);
     // axios.post('')
     setShowReportModal(false);
   };
