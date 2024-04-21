@@ -19,7 +19,7 @@ router.post("/signup", signup);
 router.post("/login", login);
 router.post("/promote-to-admin", promoteToAdmin);
 router.post('/send-sos' ,sendSos );
-router.get('/get-all-sos',getAllSoS);
+router.get('/get-all-sos/:id',getAllSoS);
 // router.get('/get-user/:id',findUser);
 // router.get('/', (req,res)=>{
 //     res.send('hel;lo woprld');

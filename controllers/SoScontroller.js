@@ -22,7 +22,8 @@ const sendSos = async (req, res) => {
 
 const getAllSoS = async (req,res)=> {
   try{
-    const notifications = await Notification.find({});
+    const {adminID}= req.params;
+    const notifications = await Notification.find({admin:adminID});
     if(!notifications){
       return  res.send('no messages').status(404);
     }

@@ -193,7 +193,7 @@ const AdminDashboard = () => {
         <nav className="hidden lg:flex justify-between items-center bg-gray-700 p-4 shadow-xl">
           <div className="flex">
             <FaUserCircle className="text-white text-2xl mr-2" />
-            <p className="text-lg font-semibold text-white">Welcome {admin}</p>
+            <p className="text-lg font-semibold text-white">Welcome {admin.username}</p>
           </div>
           <div className="relative">
             <button

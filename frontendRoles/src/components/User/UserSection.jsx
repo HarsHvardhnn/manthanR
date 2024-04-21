@@ -10,6 +10,7 @@ import AdminDetails from "./AdminDetails";
 import ViewProfile from "./ViewProfile";
 import { userContext } from "../../context";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const quotes = [
   "Just as you prioritize your physical health, remember to nurture your mental well-being daily.",
@@ -67,10 +68,10 @@ const UserSection = () => {
 
 const getUser= ()=>{
   axios.get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`).then((res)=>{
-    console.log(res);
+    // console.log(res);
     setuser(res.data);
   }).catch((err)=>{
-    console.log(err);
+   toast.error(err.message)
   })
   
 }
@@ -89,8 +90,10 @@ const getUser= ()=>{
     message:comment
    }).then((res)=>{
     if(res.status===201){
-      console.log('data sent');
-    }
+      // console.log('data sent');
+    if(res.data.message === 'Notification sent successfully')
+     toast.warn('YOUR ADMIN HAS BEEN WARNED') 
+  }
    }).catch((err)=>{
     console.log(err);
    })

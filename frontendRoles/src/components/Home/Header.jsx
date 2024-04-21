@@ -45,7 +45,7 @@ function Header() {
           </button>
         </div>
         <div>
-          {   pathname === '/UserSection' ? null: (token && (
+          {   pathname === '/usersection' ? null: (token && (
               <button
                 onClick={() => {
                   navigate("/UserSection");

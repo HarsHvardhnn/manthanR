@@ -35,7 +35,8 @@ const AdminLogin = () => {
           const { token } = res.data;
           localStorage.setItem("adminToken", token);
           toast.success("Admin login successful");
-          setAdmin(res.data.user.username);
+          setAdmin({username:res.data.user.username,
+          adminID:res.data.user._id});
           setAdminEmail(res.data.user.email);
           navigate("/AdminDashboard");
         }

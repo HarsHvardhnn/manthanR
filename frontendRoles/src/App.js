@@ -32,7 +32,10 @@ function App() {
   const [superadmin, setsuperadmin] = useState("");
   const [adminEmail, setAdminEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const [admin, setAdmin] = useState("");
+  const [admin, setAdmin] = useState({
+    username:'',
+    adminID:''
+  });
 
   const router = createBrowserRouter([
     {

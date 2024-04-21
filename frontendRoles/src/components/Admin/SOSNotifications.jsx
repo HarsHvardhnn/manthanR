@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BallTriangle, InfinitySpin } from "react-loader-spinner";
 
 const SOSNotifications = () => {
@@ -35,6 +35,11 @@ const SOSNotifications = () => {
       read: true,
     },
   ]);
+
+  useEffect(()=>{
+
+  },[]);
+
 
   const markAsRead = (notificationId) => {
     setNotifications((prevNotifications) =>
