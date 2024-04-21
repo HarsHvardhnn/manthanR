@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,useLocation } from "react-router-dom";
 
 import Logo from "./Header.png";
 
 function Header() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { pathname } = location;
+  
+  console.log('path is ' ,pathname)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [token, setToken] = useState(null);
   useEffect(() => {
@@ -41,15 +45,17 @@ function Header() {
           </button>
         </div>
         <div>
-          {token && (
-            <button
-              onClick={() => {
-                navigate("/UserSection");
-              }}
-              className=" px-2 py-1 sm:px-4 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
-            >
-              Menu
-            </button>
+          {   pathname === '/UserSection' ? null: (token && (
+              <button
+                onClick={() => {
+                  navigate("/UserSection");
+                }}
+                className="px-2 py-1 sm:px-4 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
+              >
+                Menu
+              </button>
+                  )
+
           )}
         </div>
         <div

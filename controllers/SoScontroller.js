@@ -1,19 +1,19 @@
-const Notification = require("../models/notificationModel");
+const {NotificationModel} = require("../models/notificationModel");
 
 const sendSos = async (req, res) => {
   const { userId, admin, message, username } = req.body;
-
+  // console.log(userId, admin, message, username )
   try {
-    const notification = await Notification.create({
+    const notification = await NotificationModel.create({
       user: userId,
-      admin,
-      message,
-      username,
+      admin:admin,
+      message:message,
+      userName: username,
     });
 
     return res
       .status(201)
-      .json({ message: "Notification sent successfully", notification });
+      .json({ message: "Notification sent successfully"});
   } catch (error) {
     console.error("Error sending notification:", error);
     return res.status(500).json({ error: "Failed to send notification" });

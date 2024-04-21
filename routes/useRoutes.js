@@ -14,6 +14,7 @@ const { promoteToAdmin, adminLogin,getalladmins ,createAdmin ,deleteAdmin } = re
 const { submitReport, getReportedUsers ,getAdminWiseData, notifyAdmin } = require("../controllers/supAdminController");
 const Profile = require("../models/profileModel");
 const {sendSos, getAllSoS} = require("../controllers/SoScontroller");
+
 router.post("/signup", signup);
 router.post("/login", login);
 router.post("/promote-to-admin", promoteToAdmin);
