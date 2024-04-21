@@ -71,7 +71,7 @@ const AllAdmins = () => {
 
 
   const handleDeleteAdmin = (id) => {
-    console.log(`Deleting admin with ID: ${id}`);
+    // console.log(`Deleting admin with ID: ${id}`);
   };
 
   return (

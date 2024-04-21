@@ -81,8 +81,8 @@ const getUser= ()=>{
     getUser();
   },[]);
   const handleReportSubmit = (comment) => {
-    console.log("Report submitted with comment:", comment);
-  console.log('user is', user);
+  //   console.log("Report submitted with comment:", comment);
+  // console.log('user is', user);
      axios.post('https://manthanr.onrender.com/v1/send-sos',{
     userId:user.userID,
     admin:user.assigned_admin,

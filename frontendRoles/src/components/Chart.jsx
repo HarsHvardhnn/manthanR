@@ -8,7 +8,7 @@ function BarChart() {
 
 //  const [questions ,setQuestions] = useState([]);
  
- console.log(questions)
+//  console.log(questions)
 //  setQuestions(ques);
 //  useEffect(()=>{
 //   setQuestions(ques[0].questions);

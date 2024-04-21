@@ -23,7 +23,7 @@ const ForgotPassword = () => {
     axios
       .delete("https://manthanr.onrender.com/v1/clear")
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -97,7 +97,7 @@ const ForgotPassword = () => {
           axios
             .delete("https://manthanr.onrender.com/v1/clear")
             .then((res) => {
-              console.log(res);
+              // console.log(res);
             })
             .catch((err) => {
               console.log(err);

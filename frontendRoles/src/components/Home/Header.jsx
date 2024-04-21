@@ -8,7 +8,7 @@ function Header() {
   const location = useLocation();
   const { pathname } = location;
   
-  console.log('path is ' ,pathname)
+  // console.log('path is ' ,pathname)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [token, setToken] = useState(null);
   useEffect(() => {

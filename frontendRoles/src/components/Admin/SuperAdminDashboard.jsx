@@ -72,7 +72,7 @@ const SuperAdminDashboard = () => {
   };
 
   useEffect(() => {
-    console.log(selectedAdmin);
+    // console.log(selectedAdmin);
   }, [selectedAdmin]);
 
   const toggleSidebar = () => {

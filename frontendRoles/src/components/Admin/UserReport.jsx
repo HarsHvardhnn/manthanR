@@ -40,12 +40,12 @@ const UserReport = () => {
       const response = await axios.get(
         "https://manthanr.onrender.com/v1/get-reported-users"
       );
-      console.log(response.data);
+      // console.log(response.data);
       setReportedUsers(response.data);
 
       const userInformation = await fetchUserInformation(response.data);
 
-      console.log(userInformation);
+      // console.log(userInformation);
       setUserWithInfo(userInformation);
     } catch (error) {
       console.log(error);

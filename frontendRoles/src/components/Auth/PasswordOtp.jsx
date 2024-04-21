@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import {useNavigate} from 'react-router-dom'
 const PasswordOtp = ({ values }) => {
   const navigate = useNavigate();
-  console.log("values in ", values);
+  // console.log("values in ", values);
   const { username, email, password } = values;
   const initialValues = {
     otp: "",
@@ -25,7 +25,7 @@ const PasswordOtp = ({ values }) => {
         password: password,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         toast.success('Signed up successfully');
         navigate('/Chatbot')
 

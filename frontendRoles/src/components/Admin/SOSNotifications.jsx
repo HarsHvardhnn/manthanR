@@ -3,7 +3,7 @@ import { BallTriangle, InfinitySpin } from "react-loader-spinner";
 import axios from "axios";
 const SOSNotifications = ({admin}) => {
   const [loading, setLoading] = useState(false);
-  console.log(admin)
+  // console.log(admin)
   const [notifications, setNotifications] = useState();
   
 const getsos = () =>{

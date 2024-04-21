@@ -33,7 +33,7 @@ const UserReport = () => {
         console.error(error);
       }
     }
-  console.log(userInformation)
+  // console.log(userInformation)
     return userInformation;
   }
 

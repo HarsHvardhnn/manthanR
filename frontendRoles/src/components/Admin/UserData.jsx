@@ -151,7 +151,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
     emailjs
       .send(serviceId, templateId, templateParams, userId)
       .then((response) => {
-        console.log("Email sent:", response);
+        // console.log("Email sent:", response);
       })
       .catch((error) => {
         console.error("Email error:", error);
@@ -199,14 +199,14 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
       ? filteredByMonth
       : filteredByMonth.filter((user) => {
           const userYear = user.createdAt.substring(0, 4); // Extracting year from the date string
-          console.log("User Year:", userYear);
-          console.log("Selected Year:", selectedYear);
+          // console.log("User Year:", userYear);
+          // console.log("Selected Year:", selectedYear);
           return userYear === selectedYear;
         });
 
   const exportToPDF = (users) => {
     const doc = new jsPDF();
-    console.log(doc);
+    // console.log(doc);
     // const headers = [['Username', 'Email', 'Phone Number', 'Score', 'Date', 'Category']];
 
     const data = filteredUsers.map((user) => [
@@ -217,7 +217,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
       convertISOToDate(user.createdAt),
       categorizeUser(user.score),
     ]);
-    console.log(data);
+    // console.log(data);
     const rows = data.map(Object.values);
 
     // Add table to PDF
@@ -247,7 +247,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
   };
   function convertISOToDateTime(isoDate) {
     const date = new Date(isoDate);
-    return date.toLocaleString("en-US"); 
+    return date.toLocaleString("en-US");
   }
   return (
     <div className="mx-auto p-2 md:p-4 pb-10 bg-gray-100 font-montserrat text-xs md:text-sm overflow-y-auto h-[90%]">
@@ -430,15 +430,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
                       </td>
                       {showSummaryColumn && (
                         <td className="px-4 py-2 border">
-                          <button
-                            onClick={() =>
-                              console.log(
-                                "Summary Report button clicked for user",
-                                user._id
-                              )
-                            }
-                            className="font-medium text-blue-600 underline"
-                          >
+                          <button className="font-medium text-blue-600 underline">
                             Summary
                           </button>
                         </td>

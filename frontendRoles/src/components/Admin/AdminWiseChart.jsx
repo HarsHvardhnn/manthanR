@@ -30,13 +30,13 @@ function AdminWiseChart({ admin }) {
   }
   
   const getData = (selectedAdmin) => {
-    console.log(selectedAdmin);
+    // console.log(selectedAdmin);
     axios.post('https://manthanr.onrender.com/v1/getAdminWiseData', { admin: selectedAdmin })
       .then(async (res) => {
-        console.log('response',res.data);
+        // console.log('response',res.data);
         // const userIds = res.data.map(user => ({ user: user.userId, message: user.message }));
         const userInformation = await fetchUserInformation(res.data);
-        console.log("User Information:", userInformation);
+        // console.log("User Information:", userInformation);
         setUserData(userInformation)
       })
       .catch((err) => {
