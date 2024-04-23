@@ -20,7 +20,17 @@ const TypingLoader = () => (
       <div className="animate-pulse w-3 h-3 bg-gray-400 rounded-full mr-1"></div>
     </div>
   </div>
-);
+); 
+
+const getHeader = () => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    return 'Bearer ' + token;
+  } else {
+    return {}; 
+  }
+};
+
 
 const Chatbot = () => {
   const navigate = useNavigate();
@@ -35,7 +45,7 @@ const Chatbot = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [isFetchingData, setIsFetchingData] = useState(false); // New state for loader
-  console.log('user in chatbot' ,user);
+  // console.log('user in chatbot' ,user);
    // const sendEmail = (username,message,email) => {
 
   //   const serviceId = 'service_0jzntyg';
@@ -67,7 +77,7 @@ const Chatbot = () => {
 
   useEffect(() => {
     axios
-      .get("https://manthanr.onrender.com/v1/getQ")
+      .get("https://manthanr.onrender.com/v1/getQ",{headers:getHeader()})
       .then((res) => {
         // console.log(res.data);
         const questionsArray = res.data.map((questionObj) => questionObj.text);
