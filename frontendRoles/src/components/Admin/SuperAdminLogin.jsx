@@ -33,6 +33,7 @@ const SuperAdminLogin = () => {
         const {username}=  res.data.user;
         // console.log(username)
         setsuperadmin(username);
+        console.log(token);
         localStorage.setItem('superadminToken', token);
         toast.success('SuperAdmin login successful');
         // setsuperadmin(values.email);
