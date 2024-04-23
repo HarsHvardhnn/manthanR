@@ -122,7 +122,28 @@ const ProfileUpdatePage = () => {
               >
                 {({ values, errors, touched, isValid }) => (
                   <Form>
-                    <div className="mb-4">
+                    <div className="mb-4 flex flex-col gap-2">
+                    <div className="w-[25%] ml-2 mr-1 flex items-center">
+                          {/* <p className="w-full">Upload Image</p> */}
+                          <label className="relative overflow-hidden flex items-center justify-center h-28 w-20 bg-gray-200 rounded-lg cursor-pointer">
+                            <input
+                              type="file"
+                              className="absolute top-0 left-0 h-20 w-20 opacity-0 cursor-pointer"
+                              accept="image/*"
+                              onChange={uploadImage}
+                            />
+
+                            {image ? (
+                              <img
+                                src={image}
+                                alt="Uploaded"
+                                className="border-2 rounded-sm w-full h-full content-stretch"
+                              />
+                            ) : (
+                              <BsPlusLg className="h-12 w-12" />
+                            )}
+                          </label>
+                        </div>
                       <div className="flex mb-2">
                         <div className="w-2/5 mr-2">
                           <Field
@@ -158,27 +179,7 @@ const ProfileUpdatePage = () => {
                             className="text-red-500 text-sm"
                           />
                         </div>
-                        <div className="w-1/5 ml-2 mr-1 flex items-center">
-                          <p className="w-full">Upload Image</p>
-                          <label className="relative overflow-hidden flex items-center justify-center h-full w-12 bg-gray-200 rounded-lg cursor-pointer">
-                            <input
-                              type="file"
-                              className="absolute top-0 left-0 h-full w-full opacity-0 cursor-pointer"
-                              accept="image/*"
-                              onChange={uploadImage}
-                            />
-
-                            {image ? (
-                              <img
-                                src={image}
-                                alt="Uploaded"
-                                className="border-2 rounded-sm w-full h-full content-stretch"
-                              />
-                            ) : (
-                              <BsPlusLg className="h-4 w-4" />
-                            )}
-                          </label>
-                        </div>
+                   
                       </div>
                     </div>
                     <div className="mb-4">
