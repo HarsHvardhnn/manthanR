@@ -60,7 +60,7 @@ const AddAdmin = () => {
 
   return (
     <div className="w-full bg-gray-100 overflow-y-auto h-[90%]">
-      <div className="w-3/4 mx-auto bg-white rounded p-8 shadow-md">
+      <div className="sm:w-3/4 md:w-11/12 lg:w-3/4 mx-auto bg-white rounded p-8 shadow-md">
         <h2 className="text-2xl font-semibold mb-4">Add Admin</h2>
         <Formik
           initialValues={initialValues}

@@ -41,8 +41,10 @@ function MainPage() {
       const newScreenWidth = window.innerWidth;
       if (newScreenWidth < 640) {
         setBgImageUrl(Bg2);
-      } else if (screenWidth > 640 && screenWidth < 1080) {
-        setBgImageUrl(Bg);
+      } else if (newScreenWidth > 640 && newScreenWidth < 1023) {
+        setBgImageUrl(Bg3);
+      } else if (newScreenWidth > 1023 && newScreenWidth < 1280) {
+        setBgImageUrl(Bg4);
       } else {
         setBgImageUrl(Bg);
       }

@@ -43,7 +43,7 @@ function AdminWiseChart({ admin }) {
         console.log(err);
       })
       .finally(() => {
-        setLoading(false); // Set loading to false regardless of success or failure
+        setLoading(false); 
       });
   }
   

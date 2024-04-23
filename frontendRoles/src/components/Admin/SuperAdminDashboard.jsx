@@ -108,7 +108,7 @@ const SuperAdminDashboard = () => {
             <FaArrowLeft className="md:hidden flex text-xs" />
           </button>
         </div>
-        <ul className="p-4 text-base">
+        <ul className="p-2 sm:p-4 text-base">
           <li
             className={
               activeTab === "AllUsersChart"
