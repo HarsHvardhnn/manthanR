@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import * as XLSX from "xlsx";
-import ReportMessage from "./ReportMessage";
+import ReportMessage from "../Admin/ReportMessage";
 import { adminContext, userContext } from "../../context";
 import jsPDF from "jspdf";
 import { ThreeDots } from "react-loader-spinner";

@@ -16,6 +16,7 @@ import ViewProfile from "./ViewProfile";
 import { userContext } from "../../context";
 import axios from "axios";
 import { toast } from "react-toastify";
+import chatbot from "../Auth/Chatbot"
 
 const quotes = [
   "Just as you prioritize your physical health, remember to nurture your mental well-being daily.",
@@ -208,6 +209,9 @@ const UserSection = () => {
               </button>
             </div>
           </div>
+        </div>
+        <div className="lg:w-1/2">
+          <chatbot/>
         </div>
       </div>
       {/* Report Modal */}
