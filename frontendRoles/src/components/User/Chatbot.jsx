@@ -75,6 +75,7 @@ const Chatbot = () => {
   //     });
   // };
 
+  
   useEffect(() => {
     axios
       .get("https://manthanr.onrender.com/v1/getQ",{headers:getHeader()})

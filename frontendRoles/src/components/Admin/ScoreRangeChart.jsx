@@ -7,10 +7,19 @@ function ScoreRangeChart() {
   const [userData, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const getHeader = () => {
+    const token = localStorage.getItem('adminToken');
+    if (token) {
+      return 'Bearer ' + token;
+    } else {
+      return {}; 
+    }
+  };
+
   const fetchUsers = async () => {
     try {
       const response = await axios.get(
-        "https://manthanr.onrender.com/v1/getAllUsers"
+        "https://manthanr.onrender.com/v1/getAllUsers",{headers:getHeader()}
       );
       const simplifiedUsers = response.data.map((user) => ({
         username: user.username,

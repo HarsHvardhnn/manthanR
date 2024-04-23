@@ -5,6 +5,14 @@ import { ThreeDots } from "react-loader-spinner";
 function AdminWiseChart({ admin }) {
   const [loading, setLoading] = useState(true);
   
+  const getHeader = () => {
+    const token = localStorage.getItem('superadminToken');
+    if (token) {
+      return 'Bearer ' + token;
+    } else {
+      return {}; 
+    }
+  };
   const [userData , setUserData] = useState([]);
   async function fetchUserInformation(userIds) {
     const userInformation = [];
@@ -14,7 +22,7 @@ function AdminWiseChart({ admin }) {
         const userId = userObj.user;
   
         const response = await axios.get(
-          `https://manthanr.onrender.com/v1/get-user-info/${userId}`
+          `https://manthanr.onrender.com/v1/get-user-info/${userId}`, {headers:getHeader()}
         );
         const userData = {
           ...response.data,

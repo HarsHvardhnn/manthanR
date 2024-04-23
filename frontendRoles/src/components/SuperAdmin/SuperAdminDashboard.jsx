@@ -43,9 +43,18 @@ const SuperAdminDashboard = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const getHeader = () => {
+    const token = localStorage.getItem('superadminToken');
+    if (token) {
+      return 'Bearer ' + token;
+    } else {
+      return {}; 
+    }
+  };
+
   const getAllAdmins = () => {
     axios
-      .get("https://manthanr.onrender.com/v1/getAllAdmins")
+      .get("https://manthanr.onrender.com/v1/getAllAdmins",{headers:getHeader()})
       .then((res) => {
         setAdmins(res.data);
       })

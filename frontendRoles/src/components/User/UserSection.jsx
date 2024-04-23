@@ -16,7 +16,6 @@ import ViewProfile from "./ViewProfile";
 import { userContext } from "../../context";
 import axios from "axios";
 import { toast } from "react-toastify";
-import chatbot from "../Auth/Chatbot"
 
 const quotes = [
   "Just as you prioritize your physical health, remember to nurture your mental well-being daily.",
@@ -92,10 +91,19 @@ const UserSection = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const getHeader = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      return 'Bearer ' + token;
+    } else {
+      return {}; 
+    }
+  };
+
   const getAdmin = () => {
     axios
       .get(
-        `https://manthanr.onrender.com/v1/get-user-info/${user.assigned_admin}`
+        `https://manthanr.onrender.com/v1/get-user-info/${user.assigned_admin}`,{headers:getHeader()}
       )
       .then((res) => {
         // console.log(res);
@@ -108,7 +116,7 @@ const UserSection = () => {
 
   const getUser = () => {
     axios
-      .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`)
+      .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`,{headers:getHeader()})
       .then((res) => {
         // console.log(res);
         setuser(res.data);
@@ -209,9 +217,6 @@ const UserSection = () => {
               </button>
             </div>
           </div>
-        </div>
-        <div className="lg:w-1/2">
-          <chatbot/>
         </div>
       </div>
       {/* Report Modal */}

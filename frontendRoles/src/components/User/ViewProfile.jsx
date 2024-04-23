@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import ProfileUpdatePage from "../Auth/UpdateProfile";
+import ProfileUpdatePage from "./UpdateProfile";
 
 const ViewProfile = ({ onClose ,data }) => {
   // console.log(data);

@@ -22,7 +22,8 @@ const UserReport = () => {
         const userId = userObj.user;
 
         const response = await axios.get(
-          `https://manthanr.onrender.com/v1/get-user-info/${userId}`
+          `https://manthanr.onrender.com/v1/get-user-info/${userId}`,
+          { headers: getHeader() }
         );
         const userData = {
           ...response.data,
@@ -36,12 +37,20 @@ const UserReport = () => {
     // console.log(userInformation)
     return userInformation;
   }
-
+  const getHeader = () => {
+    const token = localStorage.getItem("superadminToken");
+    if (token) {
+      return "Bearer " + token;
+    } else {
+      return {};
+    }
+  };
   const getReportedUsers = async () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        "https://manthanr.onrender.com/v1/get-reported-users"
+        "https://manthanr.onrender.com/v1/get-reported-users",
+        { headers: getHeader() }
       );
       // console.log(response.data);
       setReportedUsers(response.data);
