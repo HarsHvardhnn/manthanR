@@ -3,12 +3,13 @@ const jwt = require('jsonwebtoken');
 
 const verifyToken = (req, res, next) => {
   
-  const authHeader = req.headers['authorization'];
+  const authHeader = req.headers['Authorization'];
+  console.log(req.headers)
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Access denied. Token is required.' });
+    return res.status(401).json({ message: 'Access denied1. Token is required.' });
   }
-  console.log(authHeader)
-
+  console.log(authHeader.split(' ')[1])
+ 
 
   const token = authHeader.split(' ')[1];
   if (!token) {

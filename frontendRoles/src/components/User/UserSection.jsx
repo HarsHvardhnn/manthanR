@@ -111,8 +111,9 @@ const UserSection = () => {
       axios
         .get(`https://manthanr.onrender.com/v1/get-user-info/${user.assigned_admin}`, {
           headers: {
-            Authorization: `Bearer ${token}` // Set Authorization header with the token
+            Authorization: `Bearer ${token}`
           }
+          
         })
         .then((res) => {
           // console.log(res);
@@ -125,8 +126,12 @@ const UserSection = () => {
   };
 
   const getUser = () => {
+    const token = localStorage.getItem('token');
     axios
-      .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`,)
+      .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`,   {  headers: {
+        Authorization: `Bearer ${token}`}
+      }
+      )
       .then((res) => {
         // console.log(res);
         setuser(res.data);
@@ -143,13 +148,21 @@ const UserSection = () => {
   const handleReportSubmit = (comment) => {
     //   console.log("Report submitted with comment:", comment);
     // console.log('user is', user);
+    const token = localStorage.getItem('token');
+
     axios
       .post("https://manthanr.onrender.com/v1/send-sos", {
         userId: user.userID,
         admin: user.assigned_admin,
         username: user.username,
         message: comment,
-      })
+       } ,
+ {
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+ }
+      )
       .then((res) => {
         if (res.status === 201) {
           // console.log('data sent');
