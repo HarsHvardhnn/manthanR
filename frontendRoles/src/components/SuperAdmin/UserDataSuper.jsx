@@ -36,8 +36,11 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   };
 
   const getAllQuestions = async () => {
+        const token = localStorage.getItem('superadminToken');
     axios
-      .get("https://manthanr.onrender.com/v1/getAllData",{headers:getHeader()})
+      .get("https://manthanr.onrender.com/v1/getAllData",{  headers: {
+        Authorization: `Bearer ${token}`}
+      })
       .then((res) => {
         // console.log(res.data);
         setQuestions(res.data);
@@ -49,9 +52,12 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   };
   const fetchUsers = async () => {
     try {
+      const token = localStorage.getItem('superadminToken');
       setLoading(true);
       const response = await axios.get(
-        "https://manthanr.onrender.com/v1/getAllUsers",{headers:getHeader()}
+        "https://manthanr.onrender.com/v1/getAllUsers",{  headers: {
+          Authorization: `Bearer ${token}`}
+        }
       );
       setUsers(response.data);
       // console.log('users ', users);
@@ -67,11 +73,14 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   }, []);
 
   const submitReport = async (selectedUserId, message, admin) => {
+    const token = localStorage.getItem('superadminToken');
     axios
       .post("https://manthanr.onrender.com/v1/submit-report", {
         admin: admin,
         user: selectedUserId,
         message: message,
+      },{  headers: {
+        Authorization: `Bearer ${token}`}
       })
       .then((res) => {
         // console.log(res);
@@ -87,9 +96,12 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   //  })
   const promoteToAdmin = async (id) => {
     try {
+      const token = localStorage.getItem('superadminToken');
       const res = await axios.post(
         "https://manthanr.onrender.com/v1/promote-to-admin",
-        { user: id }
+        { user: id },{  headers: {
+          Authorization: `Bearer ${token}`}
+        }
       );
       if (res.status === 200) {
         toast.success("User promoted to admin");

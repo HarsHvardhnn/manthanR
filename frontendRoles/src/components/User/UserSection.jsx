@@ -25,6 +25,15 @@ const quotes = [
   "Mental wellness isn't just about avoiding illness; it's about thriving. Prioritize your mental health.",
 ];
 
+
+
+const axiosConfig =axios.create({
+  baseURL: 'http://localhost:3030/v1', // Base URL for API requests
+
+  // Additional configuration options can be added here
+});
+
+
 const UserSection = () => {
   const navigate = useNavigate();
   const [showReportModal, setShowReportModal] = useState(false);
@@ -91,32 +100,38 @@ const UserSection = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const getHeader = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      return 'Bearer ' + token;
-    } else {
-      return {}; 
-    }
-  };
+
 
   const getAdmin = () => {
-    axios
-      .get(
-        `https://manthanr.onrender.com/v1/get-user-info/${user.assigned_admin}`,{headers:getHeader()}
-      )
-      .then((res) => {
-        // console.log(res);
-        setAssigned_admin(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const token = localStorage.getItem('token');
+    console.log(token);
+    
+   
+    
+      axios
+        .get(`https://manthanr.onrender.com/v1/get-user-info/${user.assigned_admin}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+          
+        })
+        .then((res) => {
+          // console.log(res);
+          setAssigned_admin(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    
   };
 
   const getUser = () => {
+    const token = localStorage.getItem('token');
     axios
-      .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`,{headers:getHeader()})
+      .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`,   {  headers: {
+        Authorization: `Bearer ${token}`}
+      }
+      )
       .then((res) => {
         // console.log(res);
         setuser(res.data);
@@ -133,13 +148,21 @@ const UserSection = () => {
   const handleReportSubmit = (comment) => {
     //   console.log("Report submitted with comment:", comment);
     // console.log('user is', user);
+    const token = localStorage.getItem('token');
+
     axios
       .post("https://manthanr.onrender.com/v1/send-sos", {
         userId: user.userID,
         admin: user.assigned_admin,
         username: user.username,
         message: comment,
-      })
+       } ,
+ {
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+ }
+      )
       .then((res) => {
         if (res.status === 201) {
           // console.log('data sent');

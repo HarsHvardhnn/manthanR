@@ -20,17 +20,16 @@ const TypingLoader = () => (
       <div className="animate-pulse w-3 h-3 bg-gray-400 rounded-full mr-1"></div>
     </div>
   </div>
-); 
+);
 
 const getHeader = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   if (token) {
-    return 'Bearer ' + token;
+    return "Bearer " + token;
   } else {
-    return {}; 
+    return {};
   }
 };
-
 
 const Chatbot = () => {
   const navigate = useNavigate();
@@ -38,7 +37,7 @@ const Chatbot = () => {
   const [progress, setProgress] = useState(0);
   const [userScore, setUserScore] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const { user,setUser } = useContext(userContext);
+  const { user, setUser } = useContext(userContext);
   const { auth, setAuth } = useContext(authContext);
   const [answers, setAnswers] = useState([]);
   const [showThankYou, setShowThankYou] = useState(false);
@@ -46,7 +45,7 @@ const Chatbot = () => {
   const [questions, setQuestions] = useState([]);
   const [isFetchingData, setIsFetchingData] = useState(false); // New state for loader
   // console.log('user in chatbot' ,user);
-   // const sendEmail = (username,message,email) => {
+  // const sendEmail = (username,message,email) => {
 
   //   const serviceId = 'service_0jzntyg';
   //   const templateId = 'template_ugy8wsb';
@@ -75,10 +74,25 @@ const Chatbot = () => {
   //     });
   // };
 
-  
+  const axiosConfig = axios.create({
+    baseURL: "https://manthanr.onrender.com/v1", // Base URL for API requests
+
+    // Additional configuration options can be added here
+  });
+
+  // You can then use this axiosConfig object when making Axios requests
+  // For example:
+  // axios.get('/endpoint', axiosConfig)
+  // axios.post('/endpoint', data, axiosConfig)
+
   useEffect(() => {
-    axios
-      .get("https://manthanr.onrender.com/v1/getQ",{headers:getHeader()})
+    const token = localStorage.getItem("token");
+    axiosConfig
+      .get("/getQ", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         // console.log(res.data);
         const questionsArray = res.data.map((questionObj) => questionObj.text);
@@ -171,10 +185,9 @@ const Chatbot = () => {
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/login");
-    } 
-    
+    }
   }, []);
-  
+
   useEffect(() => {
     const newProgress =
       questions.length > 0

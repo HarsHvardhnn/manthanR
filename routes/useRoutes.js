@@ -42,7 +42,7 @@ const verifyToken = require("../middlewares/authenticateToken");
 router.post("/signup", signup);
 router.post("/login",  login);
 router.post("/promote-to-admin", verifyToken, promoteToAdmin);
-router.post("/send-sos", verifyToken, sendSos);
+router.post("/send-sos",  sendSos);
 router.get("/get-all-sos/:id", verifyToken, getAllSoS);
 // router.get('/get-user/:id',findUser);
 // router.get('/', (req,res)=>{
@@ -119,7 +119,7 @@ router.post("/super-login", verifyToken, async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-router.post("/check-email", verifyToken, async (req, res) => {
+router.post("/check-email",  async (req, res) => {
   try {
     const { email } = req.body;
     console.log(email);
@@ -138,7 +138,7 @@ router.get("/getAllUsers", verifyToken, getUsers);
 router.post("/setAnswer", verifyToken, setAnswers);
 router.post("/sendOtp", verifyToken, sendOtp);
 router.post("/reset-password", verifyToken, resetPassword);
-router.get("/getQ", getAllQuestions);
+router.get("/getQ",verifyToken, getAllQuestions);
 router.get("/getAllData", verifyToken, getAllAnswers);
 router.post("/adminLogin", verifyToken, adminLogin);
 
@@ -163,7 +163,7 @@ router.delete("/delete-admin/:id", verifyToken, deleteAdmin);
 // router.get('/getQuestions' , getQuestions);
 router.post("/submit-report", verifyToken, submitReport);
 router.get("/get-reported-users", verifyToken, getReportedUsers);
-router.get("/get-user-info/:id", verifyToken, getuserInfo);
+router.get("/get-user-info/:id",verifyToken ,getuserInfo);
 router.post("/getAdminwisedata", getAdminWiseData);
 router.get("/getAllAdmins", verifyToken, getalladmins);
 router.post("/reportpsy", verifyToken, notifyAdmin);

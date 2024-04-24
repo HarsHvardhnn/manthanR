@@ -40,8 +40,11 @@ const AllAdmins = () => {
   
   const getAllAdmins = () => {
     setLoading(true);
+    const token = localStorage.getItem('superadminToken');
     axios
-      .get("https://manthanr.onrender.com/v1/getAllAdmins", {headers:getHeader()})
+      .get("https://manthanr.onrender.com/v1/getAllAdmins",{  headers: {
+        Authorization: `Bearer ${token}`}
+      })
       .then((res) => {
         setUserData(res.data);
         // console.log(res.data)
