@@ -78,7 +78,7 @@ const Chatbot = () => {
   
   useEffect(() => {
     axios
-      .get("https://manthanr.onrender.com/v1/getQ",{headers:getHeader()})
+      .get("https://manthanr.onrender.com/v1/getQ")
       .then((res) => {
         // console.log(res.data);
         const questionsArray = res.data.map((questionObj) => questionObj.text);
