@@ -423,7 +423,7 @@ const ProfileUpdatePage = () => {
                     </div>
 
                     <Link
-                      to="/Disclaimer"
+                      to="/usersection"
                       className={`w-full text-center bg-blue-500 text-white py-2 px-4 rounded-md mt-2 hover:bg-blue-500 transition duration-300 ease-in-out transform hover:scale-105 ${
                         !isValid || isUpdating
                           ? "pointer-events-none opacity-50"

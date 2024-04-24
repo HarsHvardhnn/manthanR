@@ -36,7 +36,7 @@ const Disclaimer = () => {
           <button
             className="mb-4 bg-blue-500 hover:bg-blue-600 py-1 px-2 text-white rounded-lg"
             onClick={() => {
-            navigate('/login');
+            navigate('/usersection');
             }}
           >
             <FaArrowLeft />

@@ -242,7 +242,7 @@ const Chatbot = () => {
         >
           <div className="chat">
             {currentQuestionIndex === questions.length ? (
-              <p>Survey completed</p>
+              <p className="text-center font-bold text-xl uppercase mt-8 mb-2">Survey completed</p>
             ) : (
               <>
                 {answers.map((answer, index) => (
@@ -347,18 +347,20 @@ const Chatbot = () => {
                         Strongly Disagree
                       </button>
                     </div>
+                    <div className="w-full">
+            <ProgressBar width={progress} />
+          </div>
                   </div>
+                  
                 )}
               </>
             )}
           </div>
 
-          <div className="w-full">
-            <ProgressBar width={progress} />
-          </div>
+          
           {showThankYou && (
             <div className="text-center mt-2">
-              <p className="text-base sm:text-xl font-bold">
+              <p className="text-base sm:text-2xl uppercase font-bold">
                 Thank You for Your Responses!
               </p>
             </div>
@@ -372,7 +374,7 @@ const Chatbot = () => {
                   submitAns();
                   // console.log(answers)
                 }}
-                className="bg-white font-bold py-1 px-4 text-sm sm:text-base rounded-xl border border-gray-700 transition duration-300 ease-in-out transform hover:scale-105"
+                className="bg-white font-bold py-1 px-4 text-sm sm:text-base rounded-xl border border-gray-700 transition duration-300 ease-in-out transform hover:bg-blue-600 hover:text-white hover:scale-105"
               >
                 Submit
               </button>
