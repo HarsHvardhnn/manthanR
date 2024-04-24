@@ -138,7 +138,7 @@ router.get("/getAllUsers", verifyToken, getUsers);
 router.post("/setAnswer", verifyToken, setAnswers);
 router.post("/sendOtp", verifyToken, sendOtp);
 router.post("/reset-password", verifyToken, resetPassword);
-router.get("/getQ", verifyToken, getAllQuestions);
+router.get("/getQ", getAllQuestions);
 router.get("/getAllData", verifyToken, getAllAnswers);
 router.post("/adminLogin", verifyToken, adminLogin);
 
