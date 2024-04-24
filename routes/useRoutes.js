@@ -163,7 +163,7 @@ router.delete("/delete-admin/:id", verifyToken, deleteAdmin);
 // router.get('/getQuestions' , getQuestions);
 router.post("/submit-report", verifyToken, submitReport);
 router.get("/get-reported-users", verifyToken, getReportedUsers);
-router.get("/get-user-info/:id",getuserInfo);
+router.get("/get-user-info/:id",verifyToken ,getuserInfo);
 router.post("/getAdminwisedata", getAdminWiseData);
 router.get("/getAllAdmins", verifyToken, getalladmins);
 router.post("/reportpsy", verifyToken, notifyAdmin);

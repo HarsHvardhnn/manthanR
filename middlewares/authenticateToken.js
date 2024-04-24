@@ -7,6 +7,7 @@ const verifyToken = (req, res, next) => {
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ message: 'Access denied. Token is required.' });
   }
+  console.log(authHeader)
 
 
   const token = authHeader.split(' ')[1];

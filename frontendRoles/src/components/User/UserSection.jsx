@@ -25,6 +25,15 @@ const quotes = [
   "Mental wellness isn't just about avoiding illness; it's about thriving. Prioritize your mental health.",
 ];
 
+
+
+const axiosConfig =axios.create({
+  baseURL: 'http://localhost:3030/v1', // Base URL for API requests
+
+  // Additional configuration options can be added here
+});
+
+
 const UserSection = () => {
   const navigate = useNavigate();
   const [showReportModal, setShowReportModal] = useState(false);
@@ -94,17 +103,25 @@ const UserSection = () => {
 
 
   const getAdmin = () => {
-    axios
-      .get(
-        `https://manthanr.onrender.com/v1/get-user-info/${user.assigned_admin}`,
-      )
-      .then((res) => {
-        // console.log(res);
-        setAssigned_admin(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const token = localStorage.getItem('token');
+    console.log(token);
+    
+   
+    
+      axios
+        .get(`https://manthanr.onrender.com/v1/get-user-info/${user.assigned_admin}`, {
+          headers: {
+            Authorization: `Bearer ${token}` // Set Authorization header with the token
+          }
+        })
+        .then((res) => {
+          // console.log(res);
+          setAssigned_admin(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    
   };
 
   const getUser = () => {

@@ -149,7 +149,7 @@ const Chatbot = () => {
     setIsFetchingData(true); // Start loader
     axios
       .post(
-        "/Doit",
+        "https://manthanr.onrender.com/v1/Doit",
         {
           email: user.email,
           answers: answers,
