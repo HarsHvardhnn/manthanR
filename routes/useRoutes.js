@@ -42,7 +42,7 @@ const verifyToken = require("../middlewares/authenticateToken");
 router.post("/signup", signup);
 router.post("/login",  login);
 router.post("/promote-to-admin", verifyToken, promoteToAdmin);
-router.post("/send-sos", verifyToken, sendSos);
+router.post("/send-sos",  sendSos);
 router.get("/get-all-sos/:id", verifyToken, getAllSoS);
 // router.get('/get-user/:id',findUser);
 // router.get('/', (req,res)=>{
