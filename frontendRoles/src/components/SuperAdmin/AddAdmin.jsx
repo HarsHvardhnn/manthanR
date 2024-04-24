@@ -31,10 +31,12 @@ const AddAdmin = () => {
       ...values,
       password: password,
     };
-
+    const token = localStorage.getItem('superadminToken');
     // console.log(formData);
 
-    axios.post('https://manthanr.onrender.com/v1/create-admin',formData).then((res)=>{
+    axios.post('https://manthanr.onrender.com/v1/create-admin',formData,{  headers: {
+      Authorization: `Bearer ${token}`}
+    }).then((res)=>{
       // console.log(res);
     }).catch((err)=>{
       console.log(err);

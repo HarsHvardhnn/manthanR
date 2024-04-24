@@ -16,13 +16,16 @@ function AdminWiseChart({ admin }) {
   const [userData , setUserData] = useState([]);
   async function fetchUserInformation(userIds) {
     const userInformation = [];
-  
+    
+    const token = localStorage.getItem('superadminToken');
     for (const userObj of userIds) {
       try {
         const userId = userObj.user;
-  
+        
         const response = await axios.get(
-          `https://manthanr.onrender.com/v1/get-user-info/${userId}`, {headers:getHeader()}
+          `https://manthanr.onrender.com/v1/get-user-info/${userId}`, {  headers: {
+            Authorization: `Bearer ${token}`}
+          }
         );
         const userData = {
           ...response.data,
@@ -33,13 +36,16 @@ function AdminWiseChart({ admin }) {
         console.error(error);
       }
     }
-  
+    
     return userInformation;
   }
   
   const getData = (selectedAdmin) => {
     // console.log(selectedAdmin);
-    axios.post('https://manthanr.onrender.com/v1/getAdminWiseData', { admin: selectedAdmin })
+    const token = localStorage.getItem('superadminToken');
+    axios.post('https://manthanr.onrender.com/v1/getAdminWiseData', { admin: selectedAdmin },{  headers: {
+      Authorization: `Bearer ${token}`}
+    })
       .then(async (res) => {
         // console.log('response',res.data);
         // const userIds = res.data.map(user => ({ user: user.userId, message: user.message }));
