@@ -86,13 +86,14 @@ const Chatbot = () => {
   // axios.post('/endpoint', data, axiosConfig)
 
   useEffect(() => {
-    const token =localStorage.getItem('token');
-    
+    const token = localStorage.getItem("token");
+
     axios
-      .get("https://manthanr.onrender.com/v1/getQ",{  headers: {
-        Authorization:` Bearer ${token}`}
-      }
-)
+      .get("https://manthanr.onrender.com/v1/getQ", {
+        headers: {
+          Authorization: ` Bearer ${token}`,
+        },
+      })
       .then((res) => {
         // console.log(res.data);
         const questionsArray = res.data.map((questionObj) => questionObj.text);
@@ -242,7 +243,9 @@ const Chatbot = () => {
         >
           <div className="chat">
             {currentQuestionIndex === questions.length ? (
-              <p className="text-center font-bold text-xl uppercase mt-8 mb-2">Survey completed</p>
+              <p className="text-center font-bold text-xl uppercase mt-8 mb-2">
+                Survey completed
+              </p>
             ) : (
               <>
                 {answers.map((answer, index) => (
@@ -347,17 +350,16 @@ const Chatbot = () => {
                         Strongly Disagree
                       </button>
                     </div>
-                    <div className="w-full">
-            <ProgressBar width={progress} />
-          </div>
                   </div>
-                  
                 )}
               </>
             )}
           </div>
-
-          
+          {!showThankYou && (
+            <div className="w-full mt-2">
+              <ProgressBar width={progress} />
+            </div>
+          )}
           {showThankYou && (
             <div className="text-center mt-2">
               <p className="text-base sm:text-2xl uppercase font-bold">
