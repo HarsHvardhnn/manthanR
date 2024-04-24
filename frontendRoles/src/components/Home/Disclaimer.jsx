@@ -11,7 +11,11 @@ const Disclaimer = () => {
 
   const handleSubmit = () => {
     // console.log(user);
-    axios.post('https://manthanr.onrender.com/v1/update-tnc', { userId: user.userID })
+    const token = localStorage.getItem('token');
+
+    axios.post('https://manthanr.onrender.com/v1/update-tnc', {  headers: {
+      Authorization:` Bearer ${token}`}
+    })
       .then((res) => {
         toast.success('You accepted the terms and conditions');
         // console.log(res)
