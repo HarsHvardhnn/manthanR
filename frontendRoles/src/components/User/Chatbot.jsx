@@ -86,13 +86,13 @@ const Chatbot = () => {
   // axios.post('/endpoint', data, axiosConfig)
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    axiosConfig
-      .get("/getQ", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    const token =localStorage.getItem('token');
+    
+    axios
+      .get("https://manthanr.onrender.com/v1/getQ",{  headers: {
+        Authorization:` Bearer ${token}`}
+      }
+)
       .then((res) => {
         // console.log(res.data);
         const questionsArray = res.data.map((questionObj) => questionObj.text);

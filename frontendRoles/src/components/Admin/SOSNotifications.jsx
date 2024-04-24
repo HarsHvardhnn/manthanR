@@ -15,8 +15,11 @@ const SOSNotifications = ({ admin }) => {
     }
   };
   const getsos = () => {
+    const token = localStorage.getItem('adminToken');
     axios
-      .get(`https://manthanr.onrender.com/v1/get-all-sos/${admin.adminID}`,{headers:getHeader()})
+      .get(`https://manthanr.onrender.com/v1/get-all-sos/${admin.adminID}`,{  headers: {
+        Authorization:` Bearer ${token}`}
+      })
       .then((res) => {
         setNotifications(res.data);
         // console.log(res)

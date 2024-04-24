@@ -39,8 +39,11 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
   };
   
   const getAllQuestions = async () => {
+    const token = localStorage.getItem('adminToken');
     axios
-      .get("https://manthanr.onrender.com/v1/getAllData",{headers:getHeader()})
+      .get("https://manthanr.onrender.com/v1/getAllData",{  headers: {
+        Authorization:` Bearer ${token}`}
+      })
       .then((res) => {
         // console.log(res.data);
         setQuestions(res.data);
