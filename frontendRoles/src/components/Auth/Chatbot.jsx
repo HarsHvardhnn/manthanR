@@ -22,6 +22,10 @@ const TypingLoader = () => (
   </div>
 ); 
 
+
+//user--token
+//admin-adminToken
+//superadmin-superadminToken
 const getHeader = () => {
   const token = localStorage.getItem('token');
   if (token) {
