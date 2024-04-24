@@ -119,7 +119,7 @@ router.post("/super-login", verifyToken, async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-router.post("/check-email", verifyToken, async (req, res) => {
+router.post("/check-email",  async (req, res) => {
   try {
     const { email } = req.body;
     console.log(email);
