@@ -1,23 +1,22 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import Image from "./adminimage.jpg";
-import { toast } from "react-toastify";
+import Image from '../Auth/adminimage.jpg';
+import {toast} from 'react-toastify';
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { adminContext, adminEmailContext } from "../../context";
+import axios from 'axios';
+import { superadminContext } from "../../context";
 import Header from "../Home/Header";
-import Bg from "./StudentLoginBackground.jpg";
-import openEye from "./open.png";
-import closedEye from "./close.png";
+import Bg from "../Auth/StudentLoginBackground.jpg";
+import openEye from "../Auth/open.png";
+import closedEye from "../Auth/close.png";
 
-const AdminLogin = () => {
-  const { admin, setAdmin } = useContext(adminContext);
-  const { adminEmail, setAdminEmail } = useContext(adminEmailContext);
+const SuperAdminLogin = () => {
+  const {superadmin,setsuperadmin} =useContext(superadminContext);
   const navigate = useNavigate();
-  const [loading,setLoading]=  useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading,setLoading] =  useState(false);
   const [showForgotPasswordPopup, setShowForgotPasswordPopup] = useState(false);
-
+  
   const initialValues = {
     email: "",
     password: "",
@@ -25,72 +24,64 @@ const AdminLogin = () => {
 
   const onSubmit = (values) => {
     setLoading(true);
-    axios
-      .post("https://manthanr.onrender.com/v1/adminLogin", {
-        email: values.email,
-        password: values.password,
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          const { token } = res.data;
-          localStorage.setItem("adminToken", token);
-          toast.success("Admin login successful");
-          setAdmin({username:res.data.user.username,
-          adminID:res.data.user._id});
-          setAdminEmail(res.data.user.email);
-          navigate("/AdminDashboard");
-        }
-      })
-      .catch((err) => {
-        if (err.response.status === 401) {
-          toast.error("wrong password");
-        }
-        if (err.response.status === 404) {
-          toast.error("please check email");
-        }
-      }).finally(()=>{
-        setLoading(false);
-      })
+    axios.post('https://manthanr.onrender.com/v1/super-login', {
+      email: values.email,
+      password: values.password
+    }).then((res) => {
+      if (res.status === 200) {
+        const { token } = res.data;
+        const {username}=  res.data.user;
+        // console.log(username)
+        setsuperadmin(username);
+        localStorage.setItem('superadminToken', token);
+        toast.success('SuperAdmin login successful');
+        // setsuperadmin(values.email);
+        navigate('/SuperAdminDashboard');
+      }
+    }).catch((err) => {
+      if(err.response.status === 401){
+        toast.error('wrong password');
+
+      }
+      if(err.response.status===404){
+        toast.error('please check email');
+      }
+
+      if(err.response.status ===403){
+        toast.error('only super admins can login')
+      }
+    }).finally(()=>{
+      setLoading(false);
+    })
+    // console.log("Logging in with email:", values.email, "and password:", values.password);
   };
 
-  useEffect(() => {
-    const adminToken = localStorage.getItem('adminToken');
-    if(adminToken){
-      navigate('/admindashboard')
+  useEffect(()=>{
+    const token = localStorage.getItem('superadminToken');
+    // console.log('supertoken is ' , token);
+    if(token){
+        // console.log('token still here');
+        navigate('/superadmindashboard');
     }
-  }, []);
-
-  const handleSendOTP = (values) => {
-    // console.log(values);
-  };
-  const handleForgotPassword = () => {
-    setShowForgotPasswordPopup(true);
-  };
-
-  const handleClosePopup = () => {
-    setShowForgotPasswordPopup(false);
-  };
-
+  },[]);
+  
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   return (
-    <div
-      className="bg-admin-back min-h-screen flex justify-center items-center font-montserrat"
-      style={{
-        backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${Bg})`,
-        backgroundSize: "Cover",
-      }}
-    >
-      <Header />
+    <div className="bg-admin-back min-h-screen flex justify-center items-center font-montserrat" style={{
+      backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${Bg})`,
+      backgroundSize: "Cover",
+    }}>
+      <Header/>
       <div className="flex flex-col items-center min-w-lg bg-white shadow-xl rounded-xl mx-auto w-11/12 sm:w-fit">
         <div className="rounded-t-xl">
           <img src={Image} alt="" className="sm:max-w-sm rounded-t-xl" />
         </div>
         <div className="pt-2 py-2 px-4 rounded-b-xl shadow-md w-full">
           <h2 className="text-2xl font-bold text-center uppercase mb-2">
-            Admin Login
+            Super Admin Login
           </h2>
           <Formik initialValues={initialValues} onSubmit={onSubmit}>
             {() => (
@@ -130,7 +121,7 @@ const AdminLogin = () => {
                   <div>
                     <button
                       type="button"
-                      onClick={() => navigate("/forgot-password")}
+                      onClick={ ()=> navigate("/forgot-password")}
                       className="underline mt-1 font-medium"
                     >
                       Forgot Password
@@ -150,9 +141,8 @@ const AdminLogin = () => {
           </Formik>
         </div>
       </div>
-     
     </div>
   );
 };
 
-export default AdminLogin;
+export default SuperAdminLogin;

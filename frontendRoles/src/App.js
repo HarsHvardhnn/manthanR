@@ -3,22 +3,22 @@ import { superadminContext, userContext, adminContext } from "./context";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Login from "./components/Auth/Login";
 import "./App.css";
-import UpdateProfile from "./components/Auth/UpdateProfile";
-import Chatbot from "./components/Auth/Chatbot";
+import UpdateProfile from "./components/User/UpdateProfile";
+import Chatbot from "./components/User/Chatbot";
 import MainPage from "./components/Home/MainPage";
-import AdminLogin from "./components/Auth/AdminLogin";
+import AdminLogin from "./components/Auth/AdminLogin"
 import { authContext } from "./context";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminPanel from "./AdminPanel";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 // import AdminDashboard from "./components/SuperAdmin/SuperAdminDashboard";
-import SuperAdminDashboard from "./components/Admin/SuperAdminDashboard";
+import SuperAdminDashboard from "./components/SuperAdmin/SuperAdminDashboard";
 import ForgotPassword from "./components/Auth/ForgotPassword";
-import SuperAdminLogin from "./components/Admin/SuperAdminLogin";
+import SuperAdminLogin from "./components/Auth/SuperAdminLogin";
 import Disclaimer from "./components/Home/Disclaimer";
 import UserSection from "./components/User/UserSection";
-import ProfileUpdatePage from "./components/Auth/UpdateProfile";
+import ProfileUpdatePage from "./components/User/UpdateProfile";
 // import SuperAdminLogin from "./components/Admin/SuperAdminLogin";
 // import { useNavigate } from "react-router-dom";
 

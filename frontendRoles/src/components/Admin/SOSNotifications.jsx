@@ -1,25 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { BallTriangle, InfinitySpin } from "react-loader-spinner";
 import axios from "axios";
-const SOSNotifications = ({admin}) => {
+const SOSNotifications = ({ admin }) => {
   const [loading, setLoading] = useState(false);
   // console.log(admin)
   const [notifications, setNotifications] = useState();
-  
-const getsos = () =>{
-  axios.get(`https://manthanr.onrender.com/v1/get-all-sos/${admin.adminID}`).then((res)=>{
-    setNotifications(res.data); 
-  // console.log(res)
-  
-  
-  }).catch((Err)=>{
-    console.log(Err);  })
-}
 
-  useEffect(()=>{
-getsos();
-  },[notifications]);
+  const getHeader = () => {
+    const token = localStorage.getItem('adminToken');
+    if (token) {
+      return 'Bearer ' + token;
+    } else {
+      return {}; 
+    }
+  };
+  const getsos = () => {
+    axios
+      .get(`https://manthanr.onrender.com/v1/get-all-sos/${admin.adminID}`,{headers:getHeader()})
+      .then((res) => {
+        setNotifications(res.data);
+        // console.log(res)
+      })
+      .catch((Err) => {
+        console.log(Err);
+      });
+  };
 
+  useEffect(() => {
+    getsos();
+  }, [notifications]);
 
   const markAsRead = (notificationId) => {
     setNotifications((prevNotifications) =>

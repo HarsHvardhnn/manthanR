@@ -108,15 +108,17 @@ function MainPage() {
             <div>
               <button
                 onClick={() => {
-                  if (loggedin) {
-                    navigate("/usersection");
-                  } else {
-                    navigate("/login");
-                  }
+                  navigate("/login")
+                  // if (loggedin) {
+                  //   navigate("/usersection");
+                  // } else {
+                  //   navigate("/login");
+                  // }
                 }}
                 className="login-btn bg-blue-600 text-white w-fit py-2 px-5 text-xl sm:text-base md:text-lg font-semibold rounded-full cursor-pointer shadow-lg z-50 transition duration-300 ease-in-out transform hover:scale-105"
               >
-                {loggedin ? "Profile" : "Login"}
+                Login
+                {/* {loggedin ? "Profile" : "Login"} */}
               </button>
             </div>
           </div>

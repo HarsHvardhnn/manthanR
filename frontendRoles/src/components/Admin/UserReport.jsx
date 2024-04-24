@@ -11,6 +11,15 @@ const UserReport = () => {
   const [userWithInfo, setUserWithInfo] = useState([]);
   const [loading,setLoading] = useState(false);
 
+  const getHeader = () => {
+    const token = localStorage.getItem('adminToken');
+    if (token) {
+      return 'Bearer ' + token;
+    } else {
+      return {}; 
+    }
+  };
+
   async function fetchUserInformation(userIds) {
     const userInformation = [];
 
@@ -19,7 +28,7 @@ const UserReport = () => {
         const userId = userObj.user;
 
         const response = await axios.get(
-          `https://manthanr.onrender.com/v1/get-user-info/${userId}`
+          `https://manthanr.onrender.com/v1/get-user-info/${userId}`, {header: getHeader()}
         );
         const userData = {
           ...response.data,

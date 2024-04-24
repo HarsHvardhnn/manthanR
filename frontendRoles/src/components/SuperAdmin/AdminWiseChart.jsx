@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
-import axios from "axios";
+import axios from 'axios';
 import { ThreeDots } from "react-loader-spinner";
-
-function AllUsersChart() {
-  const [userData, setUsers] = useState([]);
+function AdminWiseChart({ admin }) {
   const [loading, setLoading] = useState(true);
-
+  
   const getHeader = () => {
     const token = localStorage.getItem('superadminToken');
     if (token) {
@@ -15,27 +13,69 @@ function AllUsersChart() {
       return {}; 
     }
   };
-
-  const fetchUsers = async () => {
-    try {
-      const response = await axios.get(
-        "https://manthanr.onrender.com/v1/getAllUsers",{headers:getHeader()}
-      );
-      const simplifiedUsers = response.data.map((user) => ({
-        username: user.username,
-        score: user.score,
-      }));
-      setUsers(simplifiedUsers);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    } finally {
-      setLoading(false);
+  const [userData , setUserData] = useState([]);
+  async function fetchUserInformation(userIds) {
+    const userInformation = [];
+  
+    for (const userObj of userIds) {
+      try {
+        const userId = userObj.user;
+  
+        const response = await axios.get(
+          `https://manthanr.onrender.com/v1/get-user-info/${userId}`, {headers:getHeader()}
+        );
+        const userData = {
+          ...response.data,
+          message: userObj.message 
+        };
+        userInformation.push(userData);
+      } catch (error) {
+        console.error(error);
+      }
     }
-  };
+  
+    return userInformation;
+  }
+  
+  const getData = (selectedAdmin) => {
+    // console.log(selectedAdmin);
+    axios.post('https://manthanr.onrender.com/v1/getAdminWiseData', { admin: selectedAdmin })
+      .then(async (res) => {
+        // console.log('response',res.data);
+        // const userIds = res.data.map(user => ({ user: user.userId, message: user.message }));
+        const userInformation = await fetchUserInformation(res.data);
+        // console.log("User Information:", userInformation);
+        setUserData(userInformation)
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false); 
+      });
+  }
+  
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+  useEffect(() =>{
+    setLoading(true);
+    getData(admin);
+  },[admin])
+  // useEffect(() => { 
+  //   const fetchData = async () => {
+  //     // Simulated fetching delay for demonstration
+  //     await new Promise(resolve => setTimeout(resolve, 1000));
+ 
+
+  //     const selectedAdminData = hardcodedUserData.find(data => data.adminName === admin);
+  //     if (selectedAdminData) {
+  //       setUserData(selectedAdminData.users);
+  //     } else {
+  //       setUserData([]);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [admin]);
 
   const categorizeScores = (score) => {
     if (score >= 175) {
@@ -54,7 +94,7 @@ function AllUsersChart() {
   }, {});
 
   const labelOrder = ["High", "Moderate", "Low"];
-  const labels = labelOrder.filter((label) => chartData[label] !== undefined);
+  const labels = labelOrder.filter(label => chartData[label] !== undefined);
   const values = Object.values(chartData);
   if (loading) {
     return (
@@ -77,6 +117,12 @@ function AllUsersChart() {
   if (labels.length === 0) {
     return <div className="text-red-500 p-2">No data available</div>;
   }
+  const colors = labels.map(label => {
+    if (label === "High") return "#4CAF50"; 
+    else if (label === "Moderate") return "#FFD700"; 
+    else if (label === "Low") return "#FF5733"; 
+    else return "#000000"; 
+  });
 
   const getFontSize = () => {
     const screenWidth = window.innerWidth;
@@ -88,18 +134,10 @@ function AllUsersChart() {
       return "20px";
     }
   };
-
   const getFontSizeLabel = () => {
     const screenWidth = window.innerWidth;
     return screenWidth < 640 ? "12px" : "16px";
   };
-
-  const colors = labels.map((label) => {
-    if (label === "High") return "#4CAF50";
-    else if (label === "Moderate") return "#FFD700";
-    else if (label === "Low") return "#FF5733";
-    else return "#000000";
-  });
 
   const options = {
     chart: {
@@ -129,7 +167,7 @@ function AllUsersChart() {
     },
     xaxis: {
       title: {
-        text: "Well-Being Level",
+        text: "Well-being Level",
         style: {
           fontWeight: "600",
           fontSize: getFontSizeLabel(),
@@ -206,4 +244,4 @@ function AllUsersChart() {
   );
 }
 
-export default AllUsersChart;
+export default AdminWiseChart;

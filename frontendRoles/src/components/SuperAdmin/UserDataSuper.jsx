@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import * as XLSX from "xlsx";
-import ReportMessage from "./ReportMessage";
+import ReportMessage from "../Admin/ReportMessage";
 import { adminContext, userContext } from "../../context";
 import jsPDF from "jspdf";
 import { ThreeDots } from "react-loader-spinner";
@@ -26,9 +26,18 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   const [users, setUsers] = useState([]);
   const [questions, setQuestions] = useState([]);
 
+  const getHeader = () => {
+    const token = localStorage.getItem('superadminToken');
+    if (token) {
+      return 'Bearer ' + token;
+    } else {
+      return {}; 
+    }
+  };
+
   const getAllQuestions = async () => {
     axios
-      .get("https://manthanr.onrender.com/v1/getAllData")
+      .get("https://manthanr.onrender.com/v1/getAllData",{headers:getHeader()})
       .then((res) => {
         // console.log(res.data);
         setQuestions(res.data);
@@ -42,7 +51,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
     try {
       setLoading(true);
       const response = await axios.get(
-        "https://manthanr.onrender.com/v1/getAllUsers"
+        "https://manthanr.onrender.com/v1/getAllUsers",{headers:getHeader()}
       );
       setUsers(response.data);
       // console.log('users ', users);

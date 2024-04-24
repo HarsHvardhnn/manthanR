@@ -29,10 +29,19 @@ const AllAdmins = () => {
   //   return userInformation;
   // }
 
+  const getHeader = () => {
+    const token = localStorage.getItem('superadminToken');
+    if (token) {
+      return 'Bearer ' + token;
+    } else {
+      return {}; 
+    }
+  };
+  
   const getAllAdmins = () => {
     setLoading(true);
     axios
-      .get("https://manthanr.onrender.com/v1/getAllAdmins")
+      .get("https://manthanr.onrender.com/v1/getAllAdmins", {headers:getHeader()})
       .then((res) => {
         setUserData(res.data);
         // console.log(res.data)
