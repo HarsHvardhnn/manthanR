@@ -78,7 +78,7 @@ const Chatbot = () => {
   
   useEffect(() => {
     axios
-      .get("https://manthanr.onrender.com/v1/getQ")
+      .get("https://manthanr.onrender.com/v1/getQ",{headers:getHeader()})
       .then((res) => {
         // console.log(res.data);
         const questionsArray = res.data.map((questionObj) => questionObj.text);
@@ -197,7 +197,7 @@ const Chatbot = () => {
               />
             </div>
             <div className="hidden md:flex">
-              <p className="py-2 px-4 bg-white rounded-xl font-bold text-base ml-2">
+              <p className="py-2 px-6 bg-white rounded-xl font-bold text-base ml-2">
                 Hello {user.username} ✨
               </p>
             </div>
@@ -205,7 +205,7 @@ const Chatbot = () => {
           <div className="hidden sm:flex">
             <button
               onClick={handleRestart}
-              className="bg-white font-bold mx-2 py-2 px-4 rounded-xl text-sm transition duration-300 ease-in-out transform hover:scale-105"
+              className="bg-white font-bold mx-2 py-2 px-6 rounded-xl text-sm transition duration-300 ease-in-out transform hover:scale-105"
             >
               Restart Chat
             </button>
