@@ -75,10 +75,23 @@ const Chatbot = () => {
   //     });
   // };
 
+  const axiosConfig =axios.create({
+    baseURL: 'https://manthanr.onrender.com/v1', // Base URL for API requests
+
+    // Additional configuration options can be added here
+  });
+  
+  // You can then use this axiosConfig object when making Axios requests
+  // For example:
+  // axios.get('/endpoint', axiosConfig)
+  // axios.post('/endpoint', data, axiosConfig)
+  
+
+   
   
   useEffect(() => {
-    axios
-      .get("https://manthanr.onrender.com/v1/getQ")
+    axiosConfig
+      .get("/getQ",{headers:getHeader()})
       .then((res) => {
         // console.log(res.data);
         const questionsArray = res.data.map((questionObj) => questionObj.text);
@@ -136,7 +149,7 @@ const Chatbot = () => {
     setIsFetchingData(true); // Start loader
     axios
       .post(
-        "https://manthanr.onrender.com/v1/Doit",
+        "/Doit",
         {
           email: user.email,
           answers: answers,
