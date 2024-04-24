@@ -91,19 +91,12 @@ const UserSection = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const getHeader = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      return 'Bearer ' + token;
-    } else {
-      return {}; 
-    }
-  };
+
 
   const getAdmin = () => {
     axios
       .get(
-        `https://manthanr.onrender.com/v1/get-user-info/${user.assigned_admin}`,{headers:getHeader()}
+        `https://manthanr.onrender.com/v1/get-user-info/${user.assigned_admin}`,
       )
       .then((res) => {
         // console.log(res);
@@ -116,7 +109,7 @@ const UserSection = () => {
 
   const getUser = () => {
     axios
-      .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`,{headers:getHeader()})
+      .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`,)
       .then((res) => {
         // console.log(res);
         setuser(res.data);
