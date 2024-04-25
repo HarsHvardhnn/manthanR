@@ -6,14 +6,14 @@ const SOSNotifications = ({ admin }) => {
   // console.log(admin)
   const [notifications, setNotifications] = useState();
 
-  const getHeader = () => {
-    const token = localStorage.getItem('adminToken');
-    if (token) {
-      return 'Bearer ' + token;
-    } else {
-      return {}; 
-    }
-  };
+  // const getHeader = () => {
+  //   const token = localStorage.getItem('adminToken');
+  //   if (token) {
+  //     return 'Bearer ' + token;
+  //   } else {
+  //     return {}; 
+  //   }
+  // };
   const getsos = () => {
     const token = localStorage.getItem('adminToken');
     axios

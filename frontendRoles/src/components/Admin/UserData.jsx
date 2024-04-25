@@ -54,11 +54,14 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
       });
   };
   const fetchUsers = async () => {
+    const token = localStorage.getItem('adminToken');
     try {
       setLoading(true);
       const response = await axios.get(
         "https://manthanr.onrender.com/v1/getAllUsers"
-      );
+      ,{  headers: {
+        Authorization:` Bearer ${token}`}
+      });
       setUsers(response.data);
       // console.log('users ', users);
     } catch (error) {
@@ -73,11 +76,14 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
   }, []);
 
   const submitReport = async (selectedUserId, message, admin) => {
+    const token = localStorage.getItem('adminToken');
     axios
       .post("https://manthanr.onrender.com/v1/submit-report", {
         admin: adminEmail,
         user: selectedUserId,
         message: message,
+      },{  headers: {
+        Authorization:` Bearer ${token}`}
       })
       .then((res) => {
         if (res.status === 200) {
@@ -100,10 +106,15 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
   //   getReportedUsers();
   //  })
   const promoteToAdmin = async (id) => {
+    const token = localStorage.getItem('adminToken');
     try {
       const res = await axios.post(
         "https://manthanr.onrender.com/v1/promote-to-admin",
         { user: id }
+        ,
+        {  headers: {
+          Authorization:` Bearer ${token}`}
+        }
       );
       if (res.status === 200) {
         toast.success("User promoted to admin");

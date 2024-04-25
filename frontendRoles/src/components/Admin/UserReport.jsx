@@ -11,14 +11,14 @@ const UserReport = () => {
   const [userWithInfo, setUserWithInfo] = useState([]);
   const [loading,setLoading] = useState(false);
 
-  const getHeader = () => {
-    const token = localStorage.getItem('adminToken');
-    if (token) {
-      return 'Bearer ' + token;
-    } else {
-      return {}; 
-    }
-  };
+  // const getHeader = () => {
+  //   const token = localStorage.getItem('adminToken');
+  //   if (token) {
+  //     return 'Bearer ' + token;
+  //   } else {
+  //     return {}; 
+  //   }
+  // };
 
   async function fetchUserInformation(userIds) {
     const userInformation = [];
