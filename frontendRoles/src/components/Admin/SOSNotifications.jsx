@@ -14,6 +14,7 @@ const SOSNotifications = ({ admin }) => {
   //     return {}; 
   //   }
   // };
+  // console.log(admin);
   const getsos = () => {
     const token = localStorage.getItem('adminToken');
     axios
@@ -21,6 +22,7 @@ const SOSNotifications = ({ admin }) => {
         Authorization:` Bearer ${token}`}
       })
       .then((res) => {
+        console.log(res);
         setNotifications(res.data);
         // console.log(res)
       })
@@ -31,7 +33,7 @@ const SOSNotifications = ({ admin }) => {
 
   useEffect(() => {
     getsos();
-  }, [notifications]);
+  }, []);
 
   const markAsRead = (notificationId) => {
     setNotifications((prevNotifications) =>

@@ -29,14 +29,14 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
   const [users, setUsers] = useState([]);
   const [questions, setQuestions] = useState([]);
 
-  const getHeader = () => {
-    const token = localStorage.getItem('adminToken');
-    if (token) {
-      return 'Bearer ' + token;
-    } else {
-      return {}; 
-    }
-  };
+  // const getHeader = () => {
+  //   const token = localStorage.getItem('adminToken');
+  //   if (token) {
+  //     return 'Bearer ' + token;
+  //   } else {
+  //     return {}; 
+  //   }
+  // };
   
   const getAllQuestions = async () => {
     const token = localStorage.getItem('adminToken');
