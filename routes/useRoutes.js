@@ -80,7 +80,7 @@ router.post("/update-tnc", verifyToken, async (req, res) => {
   }
 });
 
-router.post("/super-login", verifyToken, async (req, res) => {
+router.post("/super-login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -140,7 +140,7 @@ router.post("/sendOtp", verifyToken, sendOtp);
 router.post("/reset-password", verifyToken, resetPassword);
 router.get("/getQ",verifyToken, getAllQuestions);
 router.get("/getAllData", verifyToken, getAllAnswers);
-router.post("/adminLogin", verifyToken, adminLogin);
+router.post("/adminLogin", adminLogin);
 
 router.post("/update-profile", verifyToken, updateProfile);
 router.get("/get-profile/:id", verifyToken, async (req, res) => {
