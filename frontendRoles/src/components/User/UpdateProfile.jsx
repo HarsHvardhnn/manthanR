@@ -64,7 +64,9 @@ const ProfileUpdatePage = () => {
     }
   };
 
+  console.log(user);
   const onSubmit = async (values) => {
+    const token = localStorage.getItem('token');
     try {
       setIsUpdating(true); // Set loading state
       const res = await axios.post(
@@ -82,6 +84,8 @@ const ProfileUpdatePage = () => {
           degree: values.degreeType,
           dept: values.department,
           semester: values.semester,
+        }, {  headers: {
+          Authorization:` Bearer ${token}`}
         }
       );
       // console.log(res);
