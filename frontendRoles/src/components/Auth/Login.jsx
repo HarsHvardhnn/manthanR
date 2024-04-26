@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
 import openEye from "./open.png";
 import closedEye from "./close.png";
-import bgImage from "./signupimg.jpg";
+import Img from "./signupimg.jpg";
 import { useNavigate } from "react-router-dom";
 import { userContext, authContext, loadingContext } from "../../context";
 import { useContext, useEffect } from "react";
@@ -143,7 +143,7 @@ const LoginPage = () => {
         {/* Left section  */}
         <div className="flex-1">
           <img
-            src={bgImage}
+            src={Img}
             alt="Background"
             className="w-full h-full object-cover rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none"
           />

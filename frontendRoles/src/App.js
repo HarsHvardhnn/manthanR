@@ -12,7 +12,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminPanel from "./AdminPanel";
 import AdminDashboard from "./components/Admin/AdminDashboard";
-// import AdminDashboard from "./components/SuperAdmin/SuperAdminDashboard";
+import Signup from "./components/Auth/Signup";
 import SuperAdminDashboard from "./components/SuperAdmin/SuperAdminDashboard";
 import ForgotPassword from "./components/Auth/ForgotPassword";
 import SuperAdminLogin from "./components/Auth/SuperAdminLogin";
@@ -89,6 +89,10 @@ function App() {
     {
       path: '/ProfileUpdatePage',
       element: <ProfileUpdatePage/>
+    },
+    {
+      path: '/Signup',
+      element: <Signup/>
     }
   ]);
   return (

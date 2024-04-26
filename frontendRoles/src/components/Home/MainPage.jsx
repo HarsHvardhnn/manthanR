@@ -115,7 +115,7 @@ function MainPage() {
                   //   navigate("/login");
                   // }
                 }}
-                className="login-btn bg-blue-600 text-white w-fit py-2 px-5 text-xl sm:text-base md:text-lg font-semibold rounded-full cursor-pointer shadow-lg z-50 transition duration-300 ease-in-out transform hover:scale-105"
+                className="login-btn bg-blue-600 text-white w-fit py-2 px-7 text-xl sm:text-base md:text-lg font-semibold sm:font-bold uppercase rounded-full cursor-pointer shadow-lg z-50 transition duration-300 ease-in-out transform hover:scale-105"
               >
                 Login
                 {/* {loggedin ? "Profile" : "Login"} */}
