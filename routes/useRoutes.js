@@ -9,6 +9,7 @@ const {
   getuserInfo,
   resetPassword,
 } = require("../controllers/userController");
+
 const {
   getQuestions,
   getAllQuestions,
@@ -149,9 +150,21 @@ router.get("/getQ",verifyToken, getAllQuestions);
 router.get("/getAllData", verifyToken, getAllAnswers);
 router.post("/adminLogin", adminLogin);
 
+router.get('/pfp/:id' , verifyToken , async (req,res)=>{
+  try {
+    const user =  await  userModel.findOne({_id:req.params.id});
+    return res.send(user?.profile_pic).status(200);
+  }
+  catch(err){
+    return res.send('error').status(500);
+  }
+} )
+
 router.post("/update-profile", upload.single('image'),uploadImage,  verifyToken, updateProfile);
 router.get("/get-profile/:id", verifyToken, async (req, res) => {
   try {
+
+
     const { id } = req.params;
     console.log(id);
     const userProfile = await Profile.findById(id);

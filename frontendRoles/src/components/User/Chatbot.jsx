@@ -42,6 +42,7 @@ const Chatbot = () => {
   const [answers, setAnswers] = useState([]);
   const [showThankYou, setShowThankYou] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [pfp, setPfp] = useState("");
   const [questions, setQuestions] = useState([]);
   const [isFetchingData, setIsFetchingData] = useState(false); // New state for loader
   // console.log('user in chatbot' ,user);
@@ -140,6 +141,22 @@ const Chatbot = () => {
     setProgress(0);
   };
 
+  const getpfp = () => {
+    const token = localStorage.getItem("token");
+    axios
+      .get(`https://manthanr.onrender.com/v1/pfp/${user.userID}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setPfp(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const submitAns = (values) => {
     // Get the token from localStorage
     const token = localStorage.getItem("token");
@@ -157,9 +174,11 @@ const Chatbot = () => {
           answers: answers,
           score: userScore,
         },
-       { headers: {
-          Authorization: `Bearer ${token}`,
-        },}
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       )
       .then((res) => {
         // console.log(res);
@@ -189,6 +208,7 @@ const Chatbot = () => {
     if (!token) {
       navigate("/login");
     }
+    getpfp();
   }, []);
 
   useEffect(() => {
@@ -207,7 +227,7 @@ const Chatbot = () => {
           <div className="flex justify-start">
             <div>
               <img
-                src={bot}
+                src={pfp}
                 alt="logo"
                 className="max-h-10 max-w-10 ml-2 rounded-full"
               />

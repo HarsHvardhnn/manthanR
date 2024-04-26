@@ -130,6 +130,8 @@ const ProfileUpdatePage = () => {
       if (image) {
         formData.append('image', image);
       }
+
+      console.log(formData);
   
       const res = await axios.post(
         "https://manthanr.onrender.com/v1/update-profile",
@@ -148,13 +150,13 @@ const ProfileUpdatePage = () => {
         setUser({
           ...user,
           username: values.firstName,
-          assigned_admin: res.data.admintoupdate.username,
+          assigned_admin: res.data.admintoupdate._id,
         });
         navigate('/usersection')
       }
     } catch (err) {
       console.log(err);
-      setIsUpdating(false); // Reset loading state even if update fails
+      setIsUpdating(false); 
     }
   };
   

@@ -9,11 +9,12 @@ cloudinary.config({
 const upload = multer({ dest: 'uploads/' });
 
 function uploadImage(req, res, next) {
-    if (!req.file) {
+    // console.log(req.body);
+        if (!req.body.image) {
       return res.status(400).json({ error: 'No image file provided' });
     }
   
-    cloudinary.uploader.upload(req.file.path, function(error, result) {
+    cloudinary.uploader.upload(req.body.image, function(error, result) {
       if (error) {
         console.error('Error uploading image to Cloudinary:', error);
         return res.status(500).json({ error: 'Error uploading image' });
