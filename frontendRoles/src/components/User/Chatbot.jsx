@@ -91,7 +91,7 @@ const Chatbot = () => {
     axios
       .get("https://manthanr.onrender.com/v1/getQ", {
         headers: {
-          Authorization: ` Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
@@ -157,7 +157,9 @@ const Chatbot = () => {
           answers: answers,
           score: userScore,
         },
-        { headers }
+       { headers: {
+          Authorization: `Bearer ${token}`,
+        },}
       )
       .then((res) => {
         // console.log(res);

@@ -109,8 +109,8 @@ const UserSection = () => {
    
     
       axios
-        .get(`http://localhost:4000/v1/get-user-info/${user.assigned_admin}`, {  headers: {
-          Authorization:` Bearer ${token}`}
+        .get(`https://manthanr.onrender.com/v1/get-user-info/${user.assigned_admin}`, {  headers: {
+          Authorization:`Bearer ${token}`}
         })
         .then((res) => {
           // console.log(res);
