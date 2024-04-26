@@ -14,7 +14,7 @@ const Disclaimer = () => {
     const token = localStorage.getItem('token');
 
     axios.post('https://manthanr.onrender.com/v1/update-tnc', {  headers: {
-      Authorization:` Bearer ${token}`}
+      Authorization:`Bearer ${token}`}
     })
       .then((res) => {
         toast.success('You accepted the terms and conditions');

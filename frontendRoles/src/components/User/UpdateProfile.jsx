@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -17,6 +17,7 @@ const ProfileUpdatePage = () => {
   const [otp, setOtp] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [image, setImage] = useState(null);
+  const navigate = useNavigate();
 
   const initialValues = {
     firstName: "",
@@ -64,11 +65,12 @@ const ProfileUpdatePage = () => {
     }
   };
 
-  console.log(user);
+  // console.log(user);
   const onSubmit = async (values) => {
+    console.log(user);
     const token = localStorage.getItem('token');
     try {
-      setIsUpdating(true); // Set loading state
+      setIsUpdating(true); 
       const res = await axios.post(
         "https://manthanr.onrender.com/v1/update-profile",
         {
@@ -84,7 +86,8 @@ const ProfileUpdatePage = () => {
           degree: values.degreeType,
           dept: values.department,
           semester: values.semester,
-        }, {  headers: {
+        }, { 
+           headers: {
           Authorization:` Bearer ${token}`}
         }
       );
@@ -92,14 +95,13 @@ const ProfileUpdatePage = () => {
       // console.log(res);
       if (res.data.message === "Profile created successfully") {
         toast.success("profile updated");
-        setIsUpdating(false); // Reset loading state
+        setIsUpdating(false);
         setUser({
           ...user,
           username: values.firstName,
           assigned_admin: res.data.admintoupdate.username,
         });
-        // Reset the form after successful submission
-        // resetForm();
+        navigate('/usersection')
       }
     } catch (err) {
       console.log(err);
@@ -427,7 +429,7 @@ const ProfileUpdatePage = () => {
                     </div>
 
                     <Link
-                      to="/usersection"
+                      // to="/usersection"
                       className={`w-full text-center bg-blue-500 text-white py-2 px-4 rounded-md mt-2 hover:bg-blue-500 transition duration-300 ease-in-out transform hover:scale-105 ${
                         !isValid || isUpdating
                           ? "pointer-events-none opacity-50"

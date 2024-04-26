@@ -67,7 +67,7 @@ router.post("/update-tnc", verifyToken, async (req, res) => {
     const updatedUser = await userModel.findOneAndUpdate(
       { _id: userId },
       { has_accepted_tnc: true },
-      { new: true } // To return the updated document
+      { new: true } 
     );
 
     if (!updatedUser) {
