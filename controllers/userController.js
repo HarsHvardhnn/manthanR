@@ -178,6 +178,7 @@ const clearAll = async (req, res) => {
 const updateProfile = async (req, res) => {
   try {
     const { user } = req.body;
+    
     console.log("user is ", user);
     const user1 = await userModel.findOne({ _id: user });
     // console.log(user1);
@@ -198,6 +199,7 @@ const updateProfile = async (req, res) => {
       lastname,
       semester,
     } = req.body;  
+    const {imageUrl} = req;
     const admins = await userModel.find({
       role: 'admin',
       semester:semester,
@@ -217,6 +219,7 @@ const updateProfile = async (req, res) => {
         semester: semester,
         dept: dept,
         assigned_admin:admintoupdate._id,
+        profile_pic:imageUrl
       },
       { new: true }
     );

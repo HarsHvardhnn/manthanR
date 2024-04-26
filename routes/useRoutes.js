@@ -14,6 +14,7 @@ const {
   getAllQuestions,
 } = require("../controllers/QuestionController");
 const jwt = require("jsonwebtoken");
+const {upload,uploadImage} = require('../middlewares/fileUpload')
 const { auth } = require("../middlewares/authMiddleware");
 const { setAnswers } = require("../controllers/AnswerController");
 const router = express.Router();
@@ -38,6 +39,7 @@ const {
 const Profile = require("../models/profileModel");
 const { sendSos, getAllSoS } = require("../controllers/SoScontroller");
 const verifyToken = require("../middlewares/authenticateToken");
+// const uploadImage = require("../middlewares/fileUpload");
 
 router.post("/signup", signup);
 router.post("/login",  login);
@@ -79,6 +81,11 @@ router.post("/update-tnc", verifyToken, async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 });
+
+router.post('/upload', upload.single('image'), uploadImage, function(req, res) {
+  res.json({ imageUrl: req.imageUrl });
+});
+
 
 router.post("/super-login", async (req, res) => {
   try {
@@ -142,7 +149,7 @@ router.get("/getQ",verifyToken, getAllQuestions);
 router.get("/getAllData", verifyToken, getAllAnswers);
 router.post("/adminLogin", adminLogin);
 
-router.post("/update-profile", verifyToken, updateProfile);
+router.post("/update-profile", upload.single('image'),uploadImage,  verifyToken, updateProfile);
 router.get("/get-profile/:id", verifyToken, async (req, res) => {
   try {
     const { id } = req.params;

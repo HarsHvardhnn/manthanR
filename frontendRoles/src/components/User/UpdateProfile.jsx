@@ -66,33 +66,82 @@ const ProfileUpdatePage = () => {
   };
 
   // console.log(user);
+  // const onSubmit = async (values) => {
+  //   console.log(user);
+  //   const token = localStorage.getItem('token');
+  //   try {
+  //     setIsUpdating(true); 
+  //     const res = await axios.post(
+  //       "https://manthanr.onrender.com/v1/update-profile",
+  //       {
+  //         user: user.userID,
+  //         firstname: values.firstName,
+  //         lastname: values.lastName,
+  //         courseAndYear: values.courseAndYear,
+  //         rollNumber: values.rollNumber,
+  //         contactNumber: values.contactNumber,
+  //         hostelName: values.hostelName,
+  //         dateOfBirth: values.dateOfBirth,
+  //         relationshipStatus: values.relationshipStatus,
+  //         degree: values.degreeType,
+  //         dept: values.department,
+  //         semester: values.semester,
+  //       }, { 
+  //          headers: {
+  //         Authorization:` Bearer ${token}`}
+  //       }
+  //     );
+  //     // console.log(res);
+  //     // console.log(res);
+  //     if (res.data.message === "Profile created successfully") {
+  //       toast.success("profile updated");
+  //       setIsUpdating(false);
+  //       setUser({
+  //         ...user,
+  //         username: values.firstName,
+  //         assigned_admin: res.data.admintoupdate.username,
+  //       });
+  //       navigate('/usersection')
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //     setIsUpdating(false); // Reset loading state even if update fails
+  //   }
+  // };
+
   const onSubmit = async (values) => {
-    console.log(user);
     const token = localStorage.getItem('token');
     try {
       setIsUpdating(true); 
+  
+      const formData = new FormData();
+      formData.append('user', user.userID);
+      formData.append('firstname', values.firstName);
+      formData.append('lastname', values.lastName);
+      formData.append('courseAndYear', values.courseAndYear);
+      formData.append('rollNumber', values.rollNumber);
+      formData.append('contactNumber', values.contactNumber);
+      formData.append('hostelName', values.hostelName);
+      formData.append('dateOfBirth', values.dateOfBirth);
+      formData.append('relationshipStatus', values.relationshipStatus);
+      formData.append('degree', values.degreeType);
+      formData.append('dept', values.department);
+      formData.append('semester', values.semester);
+      if (image) {
+        formData.append('image', image);
+      }
+  
       const res = await axios.post(
         "https://manthanr.onrender.com/v1/update-profile",
-        {
-          user: user.userID,
-          firstname: values.firstName,
-          lastname: values.lastName,
-          courseAndYear: values.courseAndYear,
-          rollNumber: values.rollNumber,
-          contactNumber: values.contactNumber,
-          hostelName: values.hostelName,
-          dateOfBirth: values.dateOfBirth,
-          relationshipStatus: values.relationshipStatus,
-          degree: values.degreeType,
-          dept: values.department,
-          semester: values.semester,
-        }, { 
-           headers: {
-          Authorization:` Bearer ${token}`}
+        formData,
+        { 
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            // Make sure to set Content-Type to multipart/form-data
+          }
         }
       );
-      // console.log(res);
-      // console.log(res);
+  
       if (res.data.message === "Profile created successfully") {
         toast.success("profile updated");
         setIsUpdating(false);
@@ -108,6 +157,7 @@ const ProfileUpdatePage = () => {
       setIsUpdating(false); // Reset loading state even if update fails
     }
   };
+  
 
   return (
     <>
