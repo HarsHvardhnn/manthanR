@@ -17,6 +17,7 @@ const SOSNotifications = ({ admin }) => {
   // console.log(admin);
   const getsos = () => {
     const token = localStorage.getItem('adminToken');
+    console.log(admin);
     axios
       .get(`https://manthanr.onrender.com/v1/get-all-sos/${admin.adminID}`,{  headers: {
         Authorization:`Bearer ${token}`}
@@ -71,7 +72,7 @@ const SOSNotifications = ({ admin }) => {
             <div>
               <p className="text-base md:text-lg">
                 <span className="font-semibold">Name: </span>
-                {notification.username}
+                {notification.userName}
               </p>
               {/* <p className="text-base md:text-lg">
                 <span className="font-semibold">Email: </span>

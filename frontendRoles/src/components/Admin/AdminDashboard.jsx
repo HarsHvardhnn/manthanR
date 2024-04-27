@@ -54,6 +54,7 @@ const AdminDashboard = () => {
   const getAllQuestions = async () => {
     try {
       const token = localStorage.getItem("adminToken");
+      
       const res = await axios.get(
         "https://manthanr.onrender.com/v1/getAllData",
         {
