@@ -1,6 +1,7 @@
 const { notifyPsy } = require("../mailService");
 const supAdminModel = require("../models/superAdminModel");
 const userModel = require("../models/userSchema")
+const jwt  = require('jsonwebtoken')
 
 const submitReport = async (req, res) => {
     try {
@@ -69,6 +70,25 @@ const getReportedUsers = async (req, res) => {
     }
 }
 
+const authorityLogin = async (req, res) => {
+    const { email, password } = req.body;
+    const user = await userModel.findOne({ email: email });
+
+    if (!user) {
+        return res.status(404).send('Invalid email or password.');
+    }
+
+    if (password !== user.password) {
+        return res.status(401).send('Invalid password.');
+    }
+
+    const token = jwt.sign({ userId: user.id, username: user.username, role: user.role }, 'H@rsh123', { expiresIn: '1h' });
+    res.json({ user, token });
+}
 
 
-module.exports ={submitReport , getReportedUsers ,getAdminWiseData ,notifyAdmin };
+
+
+
+
+module.exports ={submitReport ,authorityLogin, getReportedUsers ,getAdminWiseData ,notifyAdmin };

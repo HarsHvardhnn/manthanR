@@ -42,14 +42,14 @@ const AdminDashboard = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const getHeader = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      return 'Bearer ' + token;
-    } else {
-      return {}; 
-    }
-  };
+  // const getHeader = () => {
+  //   const token = localStorage.getItem('token');
+  //   if (token) {
+  //     return 'Bearer ' + token;
+  //   } else {
+  //     return {}; 
+  //   }
+  // };
   
   const getAllQuestions = async () => {
     try {

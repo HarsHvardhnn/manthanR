@@ -3,7 +3,7 @@ import React from 'react';
 function GoToTop() {
     const goToTop = () => {
         window.scrollTo({top: 0, behavior: "smooth"});
-        console.log("dkj")
+        // console.log("dkj")
     }
 
     return (

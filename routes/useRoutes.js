@@ -36,6 +36,7 @@ const {
   getReportedUsers,
   getAdminWiseData,
   notifyAdmin,
+  authorityLogin
 } = require("../controllers/supAdminController");
 const Profile = require("../models/profileModel");
 const { sendSos, getAllSoS } = require("../controllers/SoScontroller");
@@ -187,4 +188,6 @@ router.get("/get-user-info/:id",verifyToken ,getuserInfo);
 router.post("/getAdminwisedata", getAdminWiseData);
 router.get("/getAllAdmins", verifyToken, getalladmins);
 router.post("/reportpsy", verifyToken, notifyAdmin);
+
+router.post('/single-login' , authorityLogin)
 module.exports = router;
