@@ -54,6 +54,10 @@ dept:{
 },
 semester:{
   type:String
+},
+profile_pic:{
+  type:String,
+  
 }
 
 });

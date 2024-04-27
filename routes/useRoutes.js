@@ -9,11 +9,13 @@ const {
   getuserInfo,
   resetPassword,
 } = require("../controllers/userController");
+
 const {
   getQuestions,
   getAllQuestions,
 } = require("../controllers/QuestionController");
 const jwt = require("jsonwebtoken");
+const {upload,uploadImage} = require('../middlewares/fileUpload')
 const { auth } = require("../middlewares/authMiddleware");
 const { setAnswers } = require("../controllers/AnswerController");
 const router = express.Router();
@@ -38,6 +40,7 @@ const {
 const Profile = require("../models/profileModel");
 const { sendSos, getAllSoS } = require("../controllers/SoScontroller");
 const verifyToken = require("../middlewares/authenticateToken");
+// const uploadImage = require("../middlewares/fileUpload");
 
 router.post("/signup", signup);
 router.post("/login",  login);
@@ -67,7 +70,7 @@ router.post("/update-tnc", verifyToken, async (req, res) => {
     const updatedUser = await userModel.findOneAndUpdate(
       { _id: userId },
       { has_accepted_tnc: true },
-      { new: true } // To return the updated document
+      { new: true } 
     );
 
     if (!updatedUser) {
@@ -79,6 +82,11 @@ router.post("/update-tnc", verifyToken, async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 });
+
+router.post('/upload', upload.single('image'), uploadImage, function(req, res) {
+  res.json({ imageUrl: req.imageUrl });
+});
+
 
 router.post("/super-login", async (req, res) => {
   try {
@@ -141,9 +149,22 @@ router.post("/reset-password", resetPassword);
 router.get("/getQ",verifyToken, getAllQuestions);
 router.get("/getAllData", verifyToken, getAllAnswers);
 router.post("/adminLogin", adminLogin);
-router.post("/update-profile", verifyToken, updateProfile);
+
+router.get('/pfp/:id' , verifyToken , async (req,res)=>{
+  try {
+    const user =  await  userModel.findOne({_id:req.params.id});
+    return res.send(user?.profile_pic).status(200);
+  }
+  catch(err){
+    return res.send('error').status(500);
+  }
+} )
+
+router.post("/update-profile", upload.single('image'),uploadImage,  verifyToken, updateProfile);
 router.get("/get-profile/:id", verifyToken, async (req, res) => {
   try {
+
+
     const { id } = req.params;
     console.log(id);
     const userProfile = await Profile.findById(id);

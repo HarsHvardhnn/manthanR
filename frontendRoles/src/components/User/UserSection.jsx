@@ -110,7 +110,7 @@ const UserSection = () => {
     
       axios
         .get(`https://manthanr.onrender.com/v1/get-user-info/${user.assigned_admin}`, {  headers: {
-          Authorization:` Bearer ${token}`}
+          Authorization:`Bearer ${token}`}
         })
         .then((res) => {
           // console.log(res);

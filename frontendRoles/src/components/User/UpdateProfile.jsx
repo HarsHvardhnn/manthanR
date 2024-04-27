@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -17,6 +17,7 @@ const ProfileUpdatePage = () => {
   const [otp, setOtp] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [image, setImage] = useState(null);
+  const navigate = useNavigate();
 
   const initialValues = {
     firstName: "",
@@ -64,48 +65,101 @@ const ProfileUpdatePage = () => {
     }
   };
 
-  console.log(user);
+  // console.log(user);
+  // const onSubmit = async (values) => {
+  //   console.log(user);
+  //   const token = localStorage.getItem('token');
+  //   try {
+  //     setIsUpdating(true); 
+  //     const res = await axios.post(
+  //       "https://manthanr.onrender.com/v1/update-profile",
+  //       {
+  //         user: user.userID,
+  //         firstname: values.firstName,
+  //         lastname: values.lastName,
+  //         courseAndYear: values.courseAndYear,
+  //         rollNumber: values.rollNumber,
+  //         contactNumber: values.contactNumber,
+  //         hostelName: values.hostelName,
+  //         dateOfBirth: values.dateOfBirth,
+  //         relationshipStatus: values.relationshipStatus,
+  //         degree: values.degreeType,
+  //         dept: values.department,
+  //         semester: values.semester,
+  //       }, { 
+  //          headers: {
+  //         Authorization:` Bearer ${token}`}
+  //       }
+  //     );
+  //     // console.log(res);
+  //     // console.log(res);
+  //     if (res.data.message === "Profile created successfully") {
+  //       toast.success("profile updated");
+  //       setIsUpdating(false);
+  //       setUser({
+  //         ...user,
+  //         username: values.firstName,
+  //         assigned_admin: res.data.admintoupdate.username,
+  //       });
+  //       navigate('/usersection')
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //     setIsUpdating(false); // Reset loading state even if update fails
+  //   }
+  // };
+
   const onSubmit = async (values) => {
     const token = localStorage.getItem('token');
     try {
-      setIsUpdating(true); // Set loading state
+      setIsUpdating(true); 
+  
+      const formData = new FormData();
+      formData.append('user', user.userID);
+      formData.append('firstname', values.firstName);
+      formData.append('lastname', values.lastName);
+      formData.append('courseAndYear', values.courseAndYear);
+      formData.append('rollNumber', values.rollNumber);
+      formData.append('contactNumber', values.contactNumber);
+      formData.append('hostelName', values.hostelName);
+      formData.append('dateOfBirth', values.dateOfBirth);
+      formData.append('relationshipStatus', values.relationshipStatus);
+      formData.append('degree', values.degreeType);
+      formData.append('dept', values.department);
+      formData.append('semester', values.semester);
+      if (image) {
+        formData.append('image', image);
+      }
+
+      console.log(formData);
+  
       const res = await axios.post(
         "https://manthanr.onrender.com/v1/update-profile",
-        {
-          user: user.userID,
-          firstname: values.firstName,
-          lastname: values.lastName,
-          courseAndYear: values.courseAndYear,
-          rollNumber: values.rollNumber,
-          contactNumber: values.contactNumber,
-          hostelName: values.hostelName,
-          dateOfBirth: values.dateOfBirth,
-          relationshipStatus: values.relationshipStatus,
-          degree: values.degreeType,
-          dept: values.department,
-          semester: values.semester,
-        }, {  headers: {
-          Authorization:` Bearer ${token}`}
+        formData,
+        { 
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            // Make sure to set Content-Type to multipart/form-data
+          }
         }
       );
-      // console.log(res);
-      // console.log(res);
+  
       if (res.data.message === "Profile created successfully") {
         toast.success("profile updated");
-        setIsUpdating(false); // Reset loading state
+        setIsUpdating(false);
         setUser({
           ...user,
           username: values.firstName,
-          assigned_admin: res.data.admintoupdate.username,
+          assigned_admin: res.data.admintoupdate._id,
         });
-        // Reset the form after successful submission
-        // resetForm();
+        navigate('/usersection')
       }
     } catch (err) {
       console.log(err);
-      setIsUpdating(false); // Reset loading state even if update fails
+      setIsUpdating(false); 
     }
   };
+  
 
   return (
     <>
@@ -427,7 +481,7 @@ const ProfileUpdatePage = () => {
                     </div>
 
                     <Link
-                      to="/usersection"
+                      // to="/usersection"
                       className={`w-full text-center bg-blue-500 text-white py-2 px-4 rounded-md mt-2 hover:bg-blue-500 transition duration-300 ease-in-out transform hover:scale-105 ${
                         !isValid || isUpdating
                           ? "pointer-events-none opacity-50"
