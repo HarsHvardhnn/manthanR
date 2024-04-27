@@ -83,11 +83,12 @@ function Header() {
               className=" px-2 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
               aria-haspopup="true"
               aria-expanded={isDropdownOpen ? "true" : "false"}
+              onClick={() => {navigate("/AdminLogin")}}
             >
               Admin
             </button>
           )}
-          {!token && isDropdownOpen && (
+          {/* {!token && isDropdownOpen && (
             <div className="absolute right-0 sm:left-0 z-10 w-fit bg-white rounded-md shadow-lg ">
               <button
                 onClick={() => {
@@ -106,7 +107,7 @@ function Header() {
                 SuperAdmin
               </button>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>

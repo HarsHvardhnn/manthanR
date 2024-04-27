@@ -229,7 +229,7 @@ const Chatbot = () => {
               <img
                 src={pfp}
                 alt="logo"
-                className="max-h-10 max-w-10 ml-2 rounded-full"
+                className="max-h-10 max-w-10 ml-2 rounded-full h-10 w-10"
               />
             </div>
             <div className="hidden md:flex">

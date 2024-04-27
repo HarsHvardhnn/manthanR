@@ -4,7 +4,7 @@ import Image from "./adminimage.jpg";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { adminContext, adminEmailContext } from "../../context";
+import { adminContext, adminEmailContext, superadminContext } from "../../context";
 import Header from "../Home/Header";
 import Bg from "./StudentLoginBackground.jpg";
 import openEye from "./open.png";
@@ -14,6 +14,7 @@ const AdminLogin = () => {
   const { admin, setAdmin } = useContext(adminContext);
   const { adminEmail, setAdminEmail } = useContext(adminEmailContext);
   const navigate = useNavigate();
+  const {superadmin,setsuperadmin} =useContext(superadminContext);
   const [loading,setLoading]=  useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPasswordPopup, setShowForgotPasswordPopup] = useState(false);
@@ -26,22 +27,39 @@ const AdminLogin = () => {
   const onSubmit = (values) => {
     setLoading(true);
     axios
-      .post("https://manthanr.onrender.com/v1/adminLogin", {
+      .post("https://manthanr.onrender.com/v1/single-login", {
         email: values.email,
         password: values.password,
       })
       .then((res) => {
-        if (res.status === 200) {
-          const { token } = res.data;
-          localStorage.setItem("adminToken", token);
-          toast.success("Admin login successful");
-          setAdmin({username:res.data.user.username,
-          adminID:res.data.user._id});
-          setAdminEmail(res.data.user.email);
-          navigate("/AdminDashboard");
+                 
+        const token = res.data.token;
+        if(token){
+               
+          if(res.data.user.role === 'admin'){
+            localStorage.setItem('adminToken' , token);
+            toast.success('welcome admin');
+            setAdmin({username:res.data.user.username,
+              adminID:res.data.user._id});
+              setAdminEmail(res.data.user.email);
+              navigate("/AdminDashboard");
+          }
+           
+          else if (res.data.user.role=== 'super admin'){
+
+            setsuperadmin(res.data.user.username);
+            localStorage.setItem('superadminToken', token);
+            toast.success('SuperAdmin login successful');
+            // setsuperadmin(values.email);
+            navigate('/SuperAdminDashboard');
+
+          }
+  
+
         }
       })
       .catch((err) => {
+        console.log(err)
         if (err.response.status === 401) {
           toast.error("wrong password");
         }

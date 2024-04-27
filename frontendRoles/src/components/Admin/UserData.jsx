@@ -231,12 +231,12 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
     const doc = new jsPDF();
     // console.log(doc);
     // const headers = [['Username', 'Email', 'Phone Number', 'Score', 'Date', 'Category']];
-
+    console.log(filteredUsers);
     const data = filteredUsers.map((user) => [
       user.username,
-      user.email,
+      user?.email,
       // user.phoneNumber,
-      user.score.toString(),
+      user.score?.toString(),
       convertISOToDate(user.createdAt),
       categorizeUser(user.score),
     ]);

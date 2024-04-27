@@ -73,7 +73,7 @@ const SuperAdminDashboard = () => {
     const token = localStorage.getItem("superadminToken");
     if (!token) {
       // console.log("no token here");
-      navigate("/superadminlogin");
+      navigate("/adminlogin");
     }
     getAllAdmins();
   }, []);
@@ -238,7 +238,7 @@ const SuperAdminDashboard = () => {
                 // setsuperadmin("");
                 localStorage.removeItem("superadminToken");
                 // console.log(localStorage.getItem("superadminToken"), "ji");
-                navigate("/superadminlogin");
+                navigate("/adminlogin");
               }}
               className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
             >
@@ -262,7 +262,7 @@ const SuperAdminDashboard = () => {
                 // setsuperadmin("");
                 localStorage.removeItem("superadminToken");
                 // console.log(localStorage.getItem("superadminToken"), "ji");
-                navigate("/superadminlogin");
+                navigate("/adminlogin");
               }}
               className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
             >
