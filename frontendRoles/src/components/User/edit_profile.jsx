@@ -4,7 +4,10 @@ import * as Yup from "yup";
 import { userContext } from "../../context";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
 const EditProfileForm = () => {
+  const navigate = useNavigate();
   const [image, setImage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { user } = useContext(userContext);
@@ -103,6 +106,7 @@ const EditProfileForm = () => {
         console.log(res);
         if (res.data.message === "Profile updated successfully") {
           toast.success("profile updated");
+          navigate("/usersection");
         }
       })
       .catch((err) => {

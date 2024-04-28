@@ -74,6 +74,7 @@ function Header() {
               onClick={() => {
                 localStorage.removeItem("token");
                 navigate("/login");
+                localStorage.removeItem('user')
               }}
             >
               Logout

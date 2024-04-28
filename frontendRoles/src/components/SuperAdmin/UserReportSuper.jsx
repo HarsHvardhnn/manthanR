@@ -14,64 +14,72 @@ const UserReport = () => {
   const [reportedUser, setReportedUser] = useState(null);
   const [filterByPsy, setFilterByPsy] = useState(false); // Add state for filtering by psy report
 
-  async function fetchUserInformation(userIds) {
-    const userInformation = [];
-    const token = localStorage.getItem("superadminToken");
-    for (const userObj of userIds) {
-      try {
-        const userId = userObj.user;
+  // async function fetchUserInformation(userIds) {
+  //   const userInformation = [];
+  //   const token = localStorage.getItem("superadminToken");
+  //   for (const userObj of userIds) {
+  //     try {
+  //       const userId = userObj.user;
 
-        const response = await axios.get(
-          `https://manthanr.onrender.com/v1/get-user-info/${userId}`,
-          {  headers: {
-            Authorization: `Bearer ${token}`}
-          }
-        );
-        const userData = {
-          ...response.data,
-          message: userObj.message,
-        };
-        userInformation.push(userData);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    // console.log(userInformation)
-    return userInformation;
-  }
-  const getHeader = () => {
-    const token = localStorage.getItem("superadminToken");
-    if (token) {
-      return "Bearer " + token;
-    } else {
-      return {};
-    }
-  };
-  const getReportedUsers = async () => {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem("superadminToken");
-      const response = await axios.get(
-        "https://manthanr.onrender.com/v1/get-reported-users",
-        {  headers: {
-          Authorization: `Bearer ${token}`}
-        }
-      );
-      // console.log(response.data);
-      setReportedUsers(response.data);
+  //       const response = await axios.get(
+  //         `https://manthanr.onrender.com/v1/get-user-info/${userId}`,
+  //         {  headers: {
+  //           Authorization: `Bearer ${token}`}
+  //         }
+  //       );
+  //       const userData = {
+  //         ...response.data,
+  //         message: userObj.message,
+  //       };
+  //       userInformation.push(userData);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  //   // console.log(userInformation)
+  //   return userInformation;
+  // }
 
-      const userInformation = await fetchUserInformation(response.data);
+  // const getReportedUsers = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const token = localStorage.getItem("superadminToken");
+  //     const response = await axios.get(
+  //       "https://manthanr.onrender.com/v1/get-reported-users",
+  //       {  headers: {
+  //         Authorization: `Bearer ${token}`}
+  //       }
+  //     );
+  //     // console.log(response.data);
+  //     setReportedUsers(response.data);
 
-      setUserWithInfo(userInformation);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
+  //     const userInformation = await fetchUserInformation(response.data);
+
+  //     setUserWithInfo(userInformation);
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  
+
+ const getUsers = () => {
+  const token = localStorage.getItem('superadminToken')
+  axios.get('https://manthanr.onrender.com/v1/get-user-with-info' ,{
+    headers:{
+      Authorization:`Bearer ${token}`
     }
-  };
+  }).then((res)=>{
+    console.log(res);
+    setUserWithInfo(res.data)
+  }).catch((err)=>{
+    console.log(err);
+  })
+ }
 
   useEffect(() => {
-    getReportedUsers();
+    getUsers();
   }, []);
 
   const reportUser = (report) => {
@@ -158,13 +166,13 @@ const UserReport = () => {
                   <span className="font-semibold">Name:</span> {report.username}
                 </p>
                 <p className="text-lg">
-                  <span className="font-semibold">Email:</span>
+                  <span className="font-semibold">Email:</span> {report.email}
                 </p>
                 <p className="text-base md:text-lg">
-                  <span className="font-semibold">{report.contactNumber}</span>
+                  <span className="font-semibold">Contact Number:</span> {report.profile.contactNumber}
                 </p>
                 <p className="text-base md:text-lg">
-                  <span className="font-semibold">Admin:</span>{" "}
+                  <span className="font-semibold">Admin:</span>{report.assigned_admin}
                   {/*under this admin*/}
                 </p>
                 <p className="text-base md:text-lg">

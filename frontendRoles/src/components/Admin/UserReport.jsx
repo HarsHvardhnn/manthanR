@@ -20,57 +20,72 @@ const UserReport = () => {
   //   }
   // };
 
-  async function fetchUserInformation(userIds) {
-    const userInformation = [];
-    const token = localStorage.getItem('adminToken');
-    for (const userObj of userIds) {
-      try {
-        const userId = userObj.user;
+  // async function fetchUserInformation(userIds) {
+  //   const userInformation = [];
+  //   const token = localStorage.getItem('adminToken');
+  //   for (const userObj of userIds) {
+  //     try {
+  //       const userId = userObj.user;
 
-        const response = await axios.get(
-          `https://manthanr.onrender.com/v1/get-user-info/${userId}`, {  headers: {
-            Authorization:`Bearer ${token}`}
-          }
-        );
-        const userData = {
-          ...response.data,
-          message: userObj.message,
-        };
-        userInformation.push(userData);
-      } catch (error) {
-        console.error(error);
+  //       const response = await axios.get(
+  //         `https://manthanr.onrender.com/v1/get-user-info/${userId}`, {  headers: {
+  //           Authorization:`Bearer ${token}`}
+  //         }
+  //       );
+  //       const userData = {
+  //         ...response.data,
+  //         message: userObj.message,
+  //       };
+  //       userInformation.push(userData);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+
+  //   return userInformation;
+  // }
+
+  // const getReportedUsers = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const token = localStorage.getItem('adminToken');
+  //     const response = await axios.get(
+  //       "https://manthanr.onrender.com/v1/get-reported-users", {  headers: {
+  //         Authorization:`Bearer ${token}`}
+  //       }
+  //     );
+  //     // console.log(response.data);
+  //     setReportedUsers(response.data);
+
+  //     const userInformation = await fetchUserInformation(response.data);
+
+  //     // console.log(userInformation);
+  //     setUserWithInfo(userInformation);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //   finally{
+  //     setLoading(false);
+  //   }
+  // };
+
+  const getUsers = () => {
+    const token = localStorage.getItem('adminToken')
+    axios.get('https://manthanr.onrender.com/v1/get-user-with-info' ,{
+      headers:{
+        Authorization:`Bearer ${token}`
       }
-    }
-
-    return userInformation;
-  }
-
-  const getReportedUsers = async () => {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem('adminToken');
-      const response = await axios.get(
-        "https://manthanr.onrender.com/v1/get-reported-users", {  headers: {
-          Authorization:`Bearer ${token}`}
-        }
-      );
-      // console.log(response.data);
-      setReportedUsers(response.data);
-
-      const userInformation = await fetchUserInformation(response.data);
-
-      // console.log(userInformation);
-      setUserWithInfo(userInformation);
-    } catch (error) {
-      console.log(error);
-    }
-    finally{
-      setLoading(false);
-    }
-  };
+    }).then((res)=>{
+      console.log(res);
+      setUserWithInfo(res.data)
+    }).catch((err)=>{
+      console.log(err);
+    })
+   }
+  
 
   useEffect(() => {
-    getReportedUsers();
+    getUsers();
   }, []);
 
   const markAsRead = (reportId) => {
@@ -159,10 +174,10 @@ const UserReport = () => {
             <span className="font-semibold">Name:</span> {report.username}
           </p>
           <p className="text-lg">
-            <span className="font-semibold">Email:</span>
+            <span className="font-semibold">Email:</span> {report.email}
           </p>
           <p className="text-base md:text-lg">
-            <span className="font-semibold">Phone:</span> 
+            <span className="font-semibold">Phone:</span> {report.profile.contactNumber}
           </p>
           <p className="text-base md:text-lg">
             <span className="font-semibold">Score:</span> {report.score}

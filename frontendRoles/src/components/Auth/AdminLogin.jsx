@@ -43,14 +43,25 @@ const AdminLogin = () => {
               adminID:res.data.user._id});
               setAdminEmail(res.data.user.email);
               navigate("/AdminDashboard");
+              const object = {username:res.data.user.username,
+                adminID:res.data.user._id}
+                console.log(object)
+                const storeObject = JSON.stringify(object);
+              localStorage.setItem('admin' , storeObject)
+
           }
            
           else if (res.data.user.role=== 'super admin'){
 
             setsuperadmin(res.data.user.username);
             localStorage.setItem('superadminToken', token);
+
             toast.success('SuperAdmin login successful');
             // setsuperadmin(values.email);
+            const superadmin = res.data.user.username;
+         
+            localStorage.setItem('superadmin' ,superadmin)
+
             navigate('/SuperAdminDashboard');
 
           }
@@ -60,12 +71,12 @@ const AdminLogin = () => {
       })
       .catch((err) => {
         console.log(err)
-        if (err.response.status === 401) {
-          toast.error("wrong password");
-        }
-        if (err.response.status === 404) {
-          toast.error("please check email");
-        }
+        // if (err.response.status === 401) {
+        //   toast.error("wrong password");
+        // }
+        // if (err.response.status === 404) {
+        //   toast.error("please check email");
+        // }
       }).finally(()=>{
         setLoading(false);
       })

@@ -162,6 +162,35 @@ router.get('/pfp/:id' , verifyToken , async (req,res)=>{
   }
 } )
 
+router.get('/get-user-with-info', verifyToken, async (req, res) => {
+  try {
+
+    const userData = await userModel.find({});
+
+    const profileData = await Profile.find({});
+
+    const mergedData = userData.map(user => {
+      const profile = profileData.find(profile => String(profile.user) === String(user._id));
+      return {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        assigned_admin:user.assigned_admin,
+        profile: profile || {} 
+      };
+    });
+
+    // console.log('Merged Data:', mergedData);
+    res.status(200).json(mergedData);
+  } catch (error) {
+    console.error('Error merging user data:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
+
 router.post('/edit-profile' ,upload.single('image'),uploadImage ,verifyToken ,editProfile)
 
 router.post("/update-profile", upload.single('image'),uploadImage,  verifyToken, updateProfile);

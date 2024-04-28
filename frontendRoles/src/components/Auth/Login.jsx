@@ -10,7 +10,7 @@ import { useContext, useEffect } from "react";
 import { toast } from "react-toastify";
 import Header from "../Home/Header";
 import Bg from "./StudentLoginBackground.jpg";
-
+import useLocalStorage from "../../use-persist-hook";
 
 import * as Yup from "yup";
 
@@ -18,6 +18,7 @@ const LoginPage = () => {
   const { user,setUser } = useContext(userContext);
   const { setAuth } = useContext(authContext);
   const [loading,setLoading] =useState(false);
+  const [storedValue, setStoredValue] = useLocalStorage();
   const [showPassword, setShowPassword] = useState(false);
   const [assigned_admin,setAssigned_admin] = useState({});
   const [showForgotPasswordFields, setShowForgotPasswordFields] =
@@ -67,6 +68,7 @@ const LoginPage = () => {
           localStorage.setItem("token", res.data.token);
           toast.success("Login Successful")
           console.log(res.data.token);
+          
           setUser({
             username: res.data.user.username,
             userID: res.data.user._id,
@@ -74,7 +76,14 @@ const LoginPage = () => {
             assigned_admin:res.data.user.assigned_admin
           });
           // console.log(user);
-                    localStorage.setItem("user", JSON.stringify(user));
+          const object ={
+            username: res.data.user.username,
+            userID: res.data.user._id,
+            email:values.email,
+            assigned_admin:res.data.user.assigned_admin
+          };
+          const storeObject = JSON.stringify(object);
+          localStorage.setItem('user' , storeObject);
 
 
           // navigate("/updateprofile");

@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReportMessage from "../Admin/ReportMessage";
 
-const AdminDetails = ({ onClose ,assigned_admin }) => {
+const AdminDetails = ({ onClose ,loading,getAdmin ,assigned_admin }) => {
   const [showReportModal, setShowReportModal] = useState(false);
 
-
+  useEffect(()=>{
+    getAdmin()
+  },[])
 
   const handleReportClick = () => {
     setShowReportModal(true);
@@ -40,28 +42,30 @@ const AdminDetails = ({ onClose ,assigned_admin }) => {
             </svg>
           </button>
         </div>
-        <div>
-          <p className="text-gray-700">
-            <span className="font-semibold">Name:</span> {assigned_admin.username}
+    {
+      loading? ('...loading details'):(    <div>
+        <p className="text-gray-700">
+          <span className="font-semibold">Name:</span> {assigned_admin.username}
+        </p>
+        <p className="text-gray-700">
+          <span className="font-semibold">Email:</span> {assigned_admin.email}
+        </p>
+        <p className="text-gray-700">
+          <span className="font-semibold">Number:</span> {assigned_admin.contactNumber}
+        </p>
+        <div className="mt-4">
+          <p className="text-red-500 font-semibold">
+            Feeling depressed? Contact admin now.
           </p>
-          <p className="text-gray-700">
-            <span className="font-semibold">Email:</span> {assigned_admin.email}
-          </p>
-          <p className="text-gray-700">
-            <span className="font-semibold">Number:</span> {assigned_admin.contactNumber}
-          </p>
-          <div className="mt-4">
-            <p className="text-red-500 font-semibold">
-              Feeling depressed? Contact admin now.
-            </p>
-            <button
-              className="mt-2 bg-red-600 text-white w-full px-4 py-2 rounded-lg hover:bg-red-700"
-              onClick={handleReportClick}
-            >
-              Send SOS
-            </button>
-          </div>
+          <button
+            className="mt-2 bg-red-600 text-white w-full px-4 py-2 rounded-lg hover:bg-red-700"
+            onClick={handleReportClick}
+          >
+            Send SOS
+          </button>
         </div>
+      </div>)
+    }
       </div>
       {showReportModal && (
         <ReportMessage
