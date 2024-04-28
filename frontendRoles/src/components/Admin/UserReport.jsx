@@ -29,7 +29,7 @@ const UserReport = () => {
 
         const response = await axios.get(
           `https://manthanr.onrender.com/v1/get-user-info/${userId}`, {  headers: {
-            Authorization:` Bearer ${token}`}
+            Authorization:`Bearer ${token}`}
           }
         );
         const userData = {
@@ -51,7 +51,7 @@ const UserReport = () => {
       const token = localStorage.getItem('adminToken');
       const response = await axios.get(
         "https://manthanr.onrender.com/v1/get-reported-users", {  headers: {
-          Authorization:` Bearer ${token}`}
+          Authorization:`Bearer ${token}`}
         }
       );
       // console.log(response.data);
@@ -148,7 +148,7 @@ const UserReport = () => {
           />
           <p>Loading...</p>
         </div>) : (
-      userWithInfo.map((report) => (
+      userWithInfo.reverse().map((report) => (
         <div
           key={report.id}
           className={`${

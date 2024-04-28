@@ -143,7 +143,7 @@ const UserReport = () => {
           <p>Loading...</p>
         </div>
       ) : (
-        userWithInfo.map(
+        userWithInfo.reverse().map(
           (report) =>
             // Check if filterByPsy is true and report is psy report
             (!filterByPsy || report.isPsyReport) && (

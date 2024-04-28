@@ -133,13 +133,13 @@ const ProfileUpdatePage = () => {
 
       console.log(formData);
   
-      const res = await axios.post(
+      const res = await axios.post( 
+        // "http://localhost:3030/v1/update-profile",
         "https://manthanr.onrender.com/v1/update-profile",
         formData,
         { 
           headers: {
             'Authorization': `Bearer ${token}`,
-            // Make sure to set Content-Type to multipart/form-data
           }
         }
       );

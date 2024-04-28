@@ -42,7 +42,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
     const token = localStorage.getItem('adminToken');
     axios
       .get("https://manthanr.onrender.com/v1/getAllData",{  headers: {
-        Authorization:` Bearer ${token}`}
+        Authorization:`Bearer ${token}`}
       })
       .then((res) => {
         // console.log(res.data);
@@ -60,7 +60,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
       const response = await axios.get(
         "https://manthanr.onrender.com/v1/getAllUsers"
       ,{  headers: {
-        Authorization:` Bearer ${token}`}
+        Authorization:`Bearer ${token}`}
       });
       setUsers(response.data);
       // console.log('users ', users);
@@ -83,7 +83,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
         user: selectedUserId,
         message: message,
       },{  headers: {
-        Authorization:` Bearer ${token}`}
+        Authorization:`Bearer ${token}`}
       })
       .then((res) => {
         if (res.status === 200) {
@@ -113,7 +113,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
         { user: id }
         ,
         {  headers: {
-          Authorization:` Bearer ${token}`}
+          Authorization:`Bearer ${token}`}
         }
       );
       if (res.status === 200) {

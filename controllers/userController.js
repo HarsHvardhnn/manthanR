@@ -206,6 +206,23 @@ const updateProfile = async (req, res) => {
       degree: degree,
       dept: dept
     });
+
+
+    //console
+
+    console.log(      rollNumber,
+      contactNumber,
+      hostelName,
+      dateOfBirth,
+      relationshipStatus,
+      degree,
+      dept,
+      firstname,
+      lastname,
+      semester);
+
+
+      console.log(imageUrl);
     const admintoupdate = admins[0];
 
     const update = await userModel.findOneAndUpdate(

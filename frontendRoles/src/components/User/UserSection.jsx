@@ -190,7 +190,7 @@ const UserSection = () => {
             <div className="flex flex-col justify-between mt-20 sm:mt-36 items-center h-2/5 w-full mx-auto ">
               <div className="flex items-center justify-center ">
                 <h1 className="text-3xl sm:text-4xl lg:text-6xl text-white sm:text-user-btns-dark font-bold">
-                  Hello, User!
+                  Hello,{user.username}!
                 </h1>
               </div>
               <div className="h-1/6 mb-6 w-5/6 sm:w-4/6 mx-auto">

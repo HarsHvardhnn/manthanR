@@ -21,7 +21,7 @@ function ScoreRangeChart() {
       const token = localStorage.getItem('adminToken');
       const response = await axios.get(
         "https://manthanr.onrender.com/v1/getAllUsers",{  headers: {
-          Authorization:` Bearer ${token}`}
+          Authorization:`Bearer ${token}`}
         }
       );
       const simplifiedUsers = response.data.map((user) => ({

@@ -288,6 +288,7 @@ const Chatbot = () => {
                     <p
                       className={`py-1 px-4 m-2 w-fit text-sm sm:text-base rounded-tr-2xl rounded-tl-2xl rounded-bl-2xl float-right font-medium text-white bg-blue-500 shadow-md`}
                     >
+                 
                       {answer.answer}
                     </p>
                   </div>
@@ -330,7 +331,7 @@ const Chatbot = () => {
                           });
                           setUserScore(userScore + 5);
                         }}
-                      >
+                      > 
                         Strongly Agree
                       </button>
                       <button
