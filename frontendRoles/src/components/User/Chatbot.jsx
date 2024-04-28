@@ -208,8 +208,18 @@ const Chatbot = () => {
     if (!token) {
       navigate("/login");
     }
-    getpfp();
+    
+    const storedUserData = localStorage.getItem("user");
+    if (storedUserData) {
+      const parsedUserData = JSON.parse(storedUserData);
+      setUser(parsedUserData);
+    }
+  
   }, []);
+
+  useEffect(()=>{
+    getpfp();
+  },[user])
 
   useEffect(() => {
     const newProgress =
@@ -265,9 +275,11 @@ const Chatbot = () => {
         >
           <div className="chat">
             {currentQuestionIndex === questions.length ? (
-              <p className="text-center font-bold text-xl uppercase mt-8 mb-2">
-                Survey completed
-              </p>
+             
+              questions.length===0?(<p>Loading...</p>):( <p className="text-center font-bold text-xl uppercase mt-8 mb-2">
+              Survey completed
+            </p>)
+             
             ) : (
               <>
                 {answers.map((answer, index) => (

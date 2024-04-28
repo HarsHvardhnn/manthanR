@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ProfileUpdatePage from "./UpdateProfile";
 
-const ViewProfile = ({ onClose ,data }) => {
+const ViewProfile = ({ onClose ,loading ,getUser,data }) => {
   // console.log(data);
-
+  
   const navigate = useNavigate();
+  
   // const data = {
   //   name: "John Doe",
   //   gender: "Male",
@@ -19,7 +20,9 @@ const ViewProfile = ({ onClose ,data }) => {
   //   hostelRoomNumber: "101",
   //   relationshipStatus: "Single",
   // };
-
+  useEffect(()=>{
+    getUser()
+  },[])
   return (
     <div className="fixed inset-0 flex items-center justify-center font-montserrat bg-gray-800 bg-opacity-75 z-50">
       <div className="bg-white w-[90%] sm:w-96 p-6 rounded-lg">
@@ -44,50 +47,52 @@ const ViewProfile = ({ onClose ,data }) => {
             </svg>
           </button>
         </div>
-        <div>
-          <p>
-            <span className="font-semibold">Name:</span> {data?.username}
-          </p>
-          {/* <p>
-            <span className="font-semibold">Gender:</span> {data?.gender}
-          </p> */}
-          {/* <p>
-            <span className="font-semibold">Contact Number:</span>{" "}
-            {data?.contactNumber}
-          </p> */}
-          <p>
-            <span className="font-semibold">Email:</span>{" "}
-            {data?.email}
-          </p>
-          <p>
-            <span className="font-semibold">Degree Type:</span>{" "}
-            {data?.degree}
-          </p>
-          <p>
-            <span className="font-semibold">Department:</span>{" "}
-            {data?.dept}
-          </p>
-          <p>
-            <span className="font-semibold">Semester:</span>{" "}
-            {data?.semester}
-          </p>
-          {/* <p>
-            <span className="font-semibold">Roll Number:</span>{" "}
-            {data?.rollNumber}
-          </p> */}
-          {/* <p>
-            <span className="font-semibold">Hostel Name:</span>{" "}
-            {data?.hostelName}
-          </p> */}
-          {/* <p>
-            <span className="font-semibold">Hostel Room Number:</span>{" "}
-            {data?.hostelRoomNumber}
-          </p> */}
-          {/* <p>
-            <span className="font-semibold">Relationship Status:</span>{" "}
-            {data?.relationshipStatus}
-          </p> */}
-        </div>
+     {
+      loading ? ('...loading'):(   <div>
+        <p>
+          <span className="font-semibold">Name:</span> {data?.username}
+        </p>
+        {/* <p>
+          <span className="font-semibold">Gender:</span> {data?.gender}
+        </p> */}
+        {/* <p>
+          <span className="font-semibold">Contact Number:</span>{" "}
+          {data?.contactNumber}
+        </p> */}
+        <p>
+          <span className="font-semibold">Email:</span>{" "}
+          {data?.email}
+        </p>
+        <p>
+          <span className="font-semibold">Degree Type:</span>{" "}
+          {data?.degree}
+        </p>
+        <p>
+          <span className="font-semibold">Department:</span>{" "}
+          {data?.dept}
+        </p>
+        <p>
+          <span className="font-semibold">Semester:</span>{" "}
+          {data?.semester}
+        </p>
+        {/* <p>
+          <span className="font-semibold">Roll Number:</span>{" "}
+          {data?.rollNumber}
+        </p> */}
+        {/* <p>
+          <span className="font-semibold">Hostel Name:</span>{" "}
+          {data?.hostelName}
+        </p> */}
+        {/* <p>
+          <span className="font-semibold">Hostel Room Number:</span>{" "}
+          {data?.hostelRoomNumber}
+        </p> */}
+        {/* <p>
+          <span className="font-semibold">Relationship Status:</span>{" "}
+          {data?.relationshipStatus}
+        </p> */}
+      </div>)
+     }
         <div>
           <button onClick={() => {navigate("/ProfileUpdatePage" ,{ state: { from: "/usersection" } })}} className="bg-blue-500 text-white rounded-lg px-4 py-1 mt-2 w-full">
             Edit Details

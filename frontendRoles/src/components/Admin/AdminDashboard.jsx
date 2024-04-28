@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("charts");
   const [users, setUsers] = useState([]);
-  const [questions, setQuestions] = useState([]);
+  // const [questions, setQuestions] = useState([]);
   const { admin, setAdmin } = useContext(adminContext);
   const [selectedFilter, setSelectedFilter] = useState("score");
   const navigate = useNavigate();
@@ -51,27 +51,27 @@ const AdminDashboard = () => {
   //   }
   // };
   
-  const getAllQuestions = async () => {
-    try {
-      const token = localStorage.getItem("adminToken");
+  // const getAllQuestions = async () => {
+  //   try {
+  //     const token = localStorage.getItem("adminToken");
       
-      const res = await axios.get(
-        "https://manthanr.onrender.com/v1/getAllData",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setQuestions(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     const res = await axios.get(
+  //       "https://manthanr.onrender.com/v1/getAllData",
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     setQuestions(res.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    getAllQuestions();
-  }, []);
+  // useEffect(() => {
+  //   getAllQuestions();
+  // }, []);
 
   const toggleSidebar = () => {
     if (window.innerWidth < 768) {
@@ -84,7 +84,10 @@ const AdminDashboard = () => {
     if (!token) {
       navigate("/adminLogin");
     }
-  });
+    const object = localStorage.getItem('admin');
+    const obj = JSON.parse(object);
+    setAdmin(obj);
+  },[]);
   const getPadding = () => {
     const screenWidth = window.innerWidth;
     return screenWidth >= 768 ? "1.365rem" : undefined;
@@ -189,6 +192,7 @@ const AdminDashboard = () => {
               onClick={() => {
                 setAdmin("");
                 localStorage.removeItem("adminToken");
+                localStorage.removeItem("admin");
                 navigate("/adminlogin");
               }}
               className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
@@ -210,6 +214,7 @@ const AdminDashboard = () => {
               onClick={() => {
                 setAdmin("");
                 localStorage.removeItem("adminToken");
+                localStorage.removeItem("admin");
                 navigate("/adminlogin");
               }}
               className="bg-gray-800 mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
@@ -222,7 +227,7 @@ const AdminDashboard = () => {
 
         {/* Content based on activeTab */}
         {activeTab === "charts" && <ScoreRangeChart />}
-        {activeTab === "allUsers" && <UserData />}
+        {activeTab === "allUsers" && <UserData admin={admin}/>}
         {activeTab === "userreport" && <UserReport />}
         {activeTab === "sosnotification" && <SOSNotifications  admin={admin}/>}
       </div>

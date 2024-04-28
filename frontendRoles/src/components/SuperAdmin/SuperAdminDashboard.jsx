@@ -43,15 +43,6 @@ const SuperAdminDashboard = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const getHeader = () => {
-    const token = localStorage.getItem('superadminToken');
-    if (token) {
-      return 'Bearer ' + token;
-    } else {
-      return {}; 
-    }
-  };
-
   const getAllAdmins = () => {
     const token = localStorage.getItem("superadminToken");
     axios
@@ -75,8 +66,15 @@ const SuperAdminDashboard = () => {
       // console.log("no token here");
       navigate("/adminlogin");
     }
-    getAllAdmins();
+   const username = localStorage.getItem('superadmin');
+   setsuperadmin(username);
+
+   
   }, []);
+
+  useEffect(()=>{
+    getAllAdmins();
+  },[superadmin])
   const handleChartOptionClick = (admin) => {
     setActiveTab("charts");
     setSelectedAdmin(admin);

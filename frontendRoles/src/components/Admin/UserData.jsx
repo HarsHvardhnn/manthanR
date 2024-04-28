@@ -9,7 +9,7 @@ import { ThreeDots } from "react-loader-spinner";
 
 import emailjs from "emailjs-com";
 import "jspdf-autotable";
-const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
+const UserData = ({ showSOSButton = true, showSummaryColumn = false ,admin}) => {
   // const {user} = useContext(userContext);
   // const [users, setUsers] = useState([]);
   const [reportedUsers, setReportedUsers] = useState([]);
@@ -22,7 +22,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false }) => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [fetchedReportedUsers, setFetchedReportedUsers] = useState();
-  const { admin } = useContext(adminContext);
+  // const { admin } = useContext(adminContext);
   const { adminEmail } = useContext(adminEmailContext);
 
   const [selectUser, setSelectUser] = useState(null);

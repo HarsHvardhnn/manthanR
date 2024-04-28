@@ -16,7 +16,7 @@ import ViewProfile from "./ViewProfile";
 import { userContext } from "../../context";
 import axios from "axios";
 import { toast } from "react-toastify";
-
+import useLocalStorage from "../../use-persist-hook";
 const quotes = [
   "Just as you prioritize your physical health, remember to nurture your mental well-being daily.",
   "Your mental health is not a luxury; it's a necessity. Take time to care for your mind.",
@@ -38,11 +38,14 @@ const UserSection = () => {
   const navigate = useNavigate();
   const [showReportModal, setShowReportModal] = useState(false);
   const [showAdminData, setShowAdminData] = useState(false);
-  const { user } = useContext(userContext);
+  const { user ,setUser } = useContext(userContext);
   const [assigned_admin, setAssigned_admin] = useState("");
+  const [storedValue, setStoredValue] = useLocalStorage();
   const [User, setuser] = useState({});
   const [showProfile, setShowProfile] = useState(false);
   const [bgImageUrl, setBgImageUrl] = useState("");
+  const [state,setState] =  useState(null);
+  const [loading,setLoading] = useState();
 
 
   const handleReportClick = () => {
@@ -63,11 +66,24 @@ const UserSection = () => {
     setShowProfile(false);
   };
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-    }
-  });
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return navigate("/login");
+      }
+  
+      // Update user state from localStorage
+      const storedUserData = localStorage.getItem("user");
+      if (storedUserData) {
+        const parsedUserData = JSON.parse(storedUserData);
+        setUser(parsedUserData);
+      }
+    };
+  
+    fetchData();
+  }, []);
+  
+  
   const handleCloseReportModal = () => {
     setShowReportModal(false);
   };
@@ -103,11 +119,11 @@ const UserSection = () => {
 
 
 
-  const getAdmin = () => {
+  const getAdmin =  async  () => {
     const token = localStorage.getItem('token');
-    console.log(token);
-    
-   
+    // console.log(token);
+    console.log(user);
+    setLoading(true);
     
       axios
         .get(`https://manthanr.onrender.com/v1/get-user-info/${user.assigned_admin}`, {  headers: {
@@ -119,12 +135,15 @@ const UserSection = () => {
         })
         .catch((err) => {
           console.log(err);
+        }).finally(()=>{
+          setLoading(false);
         });
     
   };
 
-  const getUser = () => {
+  const getUser = async () => {
     const token = localStorage.getItem('token');
+    setLoading(true);
     axios
       .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`,   {  headers: {
         Authorization: `Bearer ${token}`}
@@ -136,12 +155,13 @@ const UserSection = () => {
       })
       .catch((err) => {
         toast.error(err.message);
+      }).finally(()=>{
+        setLoading(false)
       });
   };
 
   useEffect(() => {
-    getAdmin();
-    getUser();
+
   }, []);
   const handleReportSubmit = (comment) => {
     //   console.log("Report submitted with comment:", comment);
@@ -190,7 +210,11 @@ const UserSection = () => {
           <div className="">
             <div className="flex flex-col justify-between mt-20 sm:mt-36 items-center h-2/5 w-full mx-auto ">
               <div className="flex items-center justify-center ">
-                <h1 className="text-3xl sm:text-4xl lg:text-6xl text-white sm:text-user-btns-dark font-bold">
+                <h1 onClick={()=>{
+                  // console.log(state)
+                  console.log(user);
+                  console.log(User)
+                }} className="text-3xl sm:text-4xl lg:text-6xl text-white sm:text-user-btns-dark font-bold">
                   Hello,{user.username}!
                 </h1>
               </div>
@@ -215,7 +239,7 @@ const UserSection = () => {
               </button>
               <button
                 onClick={() => {
-                  navigate("/ChatBot");
+                  navigate("/disclaimer");
                 }}
                 className="btn min-w-32 sm:min-w-60 flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
               >
@@ -249,13 +273,15 @@ const UserSection = () => {
       )}
       {/* Admin Data */}
       {showAdminData && (
-        <AdminDetails
+        <AdminDetails  
+        loading={loading}
+          getAdmin={getAdmin}
           onClose={closeAdminData}
           assigned_admin={assigned_admin}
         />
       )}
       {/* View Profile */}
-      {showProfile && <ViewProfile onClose={closeProfile} data={user} />}
+      {showProfile && <ViewProfile loading={loading} getUser={getUser} onClose={closeProfile} data={user} />}
     </>
   );
 };
