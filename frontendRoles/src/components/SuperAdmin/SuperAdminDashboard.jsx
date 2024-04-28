@@ -235,6 +235,7 @@ const SuperAdminDashboard = () => {
               onClick={() => {
                 // setsuperadmin("");
                 localStorage.removeItem("superadminToken");
+                localStorage.removeItem('superadmin')
                 // console.log(localStorage.getItem("superadminToken"), "ji");
                 navigate("/adminlogin");
               }}
@@ -259,6 +260,7 @@ const SuperAdminDashboard = () => {
               onClick={() => {
                 // setsuperadmin("");
                 localStorage.removeItem("superadminToken");
+                localStorage.removeItem('superadmin')
                 // console.log(localStorage.getItem("superadminToken"), "ji");
                 navigate("/adminlogin");
               }}
