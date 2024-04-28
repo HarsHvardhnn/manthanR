@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiUser, FiMessageCircle, FiAlertCircle } from "react-icons/fi";
 import { BsInfoCircle } from "react-icons/bs";
+import { ShimmerCircularImage, ShimmerButton } from 'react-shimmer-effects'; // Import shimmer components
 import Header from "../Home/Header";
 import "./user.css";
 import Bg from "./bg1.png";
@@ -36,17 +37,23 @@ const UserSection = () => {
   const navigate = useNavigate();
   const [showReportModal, setShowReportModal] = useState(false);
   const [showAdminData, setShowAdminData] = useState(false);
-  const { user ,setUser } = useContext(userContext);
+  const { user, setUser } = useContext(userContext);
   const [assigned_admin, setAssigned_admin] = useState("");
   const [storedValue, setStoredValue] = useLocalStorage();
   const [User, setuser] = useState({});
   const [showProfile, setShowProfile] = useState(false);
   const [bgImageUrl, setBgImageUrl] = useState("");
-  const [state,setState] =  useState(null);
-  const [loading,setLoading] = useState();
+  const [state, setState] = useState(null);
+  const [loading, setLoading] = useState();
   const [pfp, setPfp] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
 
+  useEffect(() => {
+    if (pfp) {
+      setIsLoading(false); 
+    }
+  }, [pfp]);
 
   const handleReportClick = () => {
     setShowReportModal(true);
@@ -71,7 +78,7 @@ const UserSection = () => {
       if (!token) {
         return navigate("/login");
       }
-      
+
       // Update user state from localStorage
       const storedUserData = localStorage.getItem("user");
       if (storedUserData) {
@@ -79,14 +86,14 @@ const UserSection = () => {
         setUser(parsedUserData);
       }
     };
-  
+
     fetchData();
   }, []);
-  
+
   useEffect(() => {
     getpfp();
-  },[user]);
-  
+  }, [user]);
+
   const handleCloseReportModal = () => {
     setShowReportModal(false);
   };
@@ -136,32 +143,35 @@ const UserSection = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-
-
-  const getAdmin =  async  () => {
-    const token = localStorage.getItem('token');
+  const getAdmin = async () => {
+    const token = localStorage.getItem("token");
     // console.log(token);
     console.log(user);
     setLoading(true);
-    
-      axios
-        .get(`https://manthanr.onrender.com/v1/get-user-info/${user.assigned_admin}`, {  headers: {
-          Authorization:`Bearer ${token}`}
-        })
-        .then((res) => {
-          // console.log(res);
-          setAssigned_admin(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        }).finally(()=>{
-          setLoading(false);
-        });
-    
+
+    axios
+      .get(
+        `https://manthanr.onrender.com/v1/get-user-info/${user.assigned_admin}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        // console.log(res);
+        setAssigned_admin(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const getUser = async () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     setLoading(true);
     axios
       .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`, {
@@ -175,14 +185,13 @@ const UserSection = () => {
       })
       .catch((err) => {
         toast.error(err.message);
-      }).finally(()=>{
-        setLoading(false)
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
-  useEffect(() => {
-
-  }, []);
+  useEffect(() => {}, []);
   const handleReportSubmit = (comment) => {
     //   console.log("Report submitted with comment:", comment);
     // console.log('user is', user);
@@ -252,14 +261,22 @@ const UserSection = () => {
               </div>
             </div> */}
 
-            <div className="sm:mt-36 grid grid-cols-3 grid-rows-2 gap-4 mx-20">
+            <div className="sm:mt-36 grid grid-cols-3 grid-rows-2 gap-0 mx-20">
               <div className="row-span-2">
                 <div className="flex justify-center">
-                  <img
-                    src={pfp}
-                    alt="Profile"
-                    className="ml-2 rounded-full h-32 w-32"
-                  />
+                {isLoading ? ( 
+                    <ShimmerCircularImage
+                      size={120}
+                      borderRadius="50%"
+                    />
+                  ) : (
+                    <img
+                      src={pfp}
+                      alt="Profile"
+                      className="ml-2 rounded-full h-32 w-32"
+                      onLoad={() => setIsLoading(false)} 
+                    />
+                  )}
                 </div>
               </div>
               <div className="col-span-2 row-span-2">
@@ -329,15 +346,22 @@ const UserSection = () => {
       )}
       {/* Admin Data */}
       {showAdminData && (
-        <AdminDetails  
-        loading={loading}
+        <AdminDetails
+          loading={loading}
           getAdmin={getAdmin}
           onClose={closeAdminData}
           assigned_admin={assigned_admin}
         />
       )}
       {/* View Profile */}
-      {showProfile && <ViewProfile loading={loading} getUser={getUser} onClose={closeProfile} data={user} />}
+      {showProfile && (
+        <ViewProfile
+          loading={loading}
+          getUser={getUser}
+          onClose={closeProfile}
+          data={user}
+        />
+      )}
     </>
   );
 };
