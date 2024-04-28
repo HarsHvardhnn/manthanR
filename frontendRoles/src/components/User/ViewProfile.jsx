@@ -4,6 +4,7 @@ import ProfileUpdatePage from "./UpdateProfile";
 
 const ViewProfile = ({ onClose ,data }) => {
   // console.log(data);
+
   const navigate = useNavigate();
   // const data = {
   //   name: "John Doe",
@@ -88,7 +89,7 @@ const ViewProfile = ({ onClose ,data }) => {
           </p> */}
         </div>
         <div>
-          <button onClick={() => {navigate("/ProfileUpdatePage")}} className="bg-blue-500 text-white rounded-lg px-4 py-1 mt-2 w-full">
+          <button onClick={() => {navigate("/ProfileUpdatePage" ,{ state: { from: "/usersection" } })}} className="bg-blue-500 text-white rounded-lg px-4 py-1 mt-2 w-full">
             Edit Details
           </button>
         </div>

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -10,8 +10,15 @@ import Header from "../Home/Header";
 import { toast } from "react-toastify";
 import { FaCameraRetro } from "react-icons/fa";
 import { BsPlusLg } from "react-icons/bs";
+import EditProfileForm from "./edit_profile";
 
 const ProfileUpdatePage = () => {
+
+  const location = useLocation();
+// console.log(location)
+const prevRoute = location.state.from === '/usersection';
+console.log(prevRoute);
+  // console.log('prevpath' , previousRoute);
   const { user, setUser } = useContext(userContext);
   const [formValues, setFormvalues] = useState(null);
   const [otp, setOtp] = useState(false);
@@ -127,11 +134,12 @@ const ProfileUpdatePage = () => {
       formData.append('degree', values.degreeType);
       formData.append('dept', values.department);
       formData.append('semester', values.semester);
+      formData.append('room' ,values.hostelRoomNumber)
       if (image) {
         formData.append('image', image);
       }
 
-      console.log(formData);
+      // console.log(formData);
   
       const res = await axios.post( 
         // "http://localhost:3030/v1/update-profile",
@@ -163,8 +171,11 @@ const ProfileUpdatePage = () => {
 
   return (
     <>
-      <Header />
-      <div className="min-h-screen flex justify-center items-center font-montserrat pt-20 bg-blue-200">
+      <Header />  
+ 
+{    prevRoute?(<EditProfileForm/>):
+
+  (    <div className="min-h-screen flex justify-center items-center font-montserrat pt-20 bg-blue-200">
         <div className="flex bg-white justify-center items-center w-11/12 md:w-3/4 lg:w-10/12 xl:w-3/5 shadow-xl rounded-xl">
           <div className="flex-1 bg-white py-4 px-6 rounded-xl w-full sm:w-96">
             <h2 className="text-xl sm:text-2xl font-bold mb-4 uppercase">
@@ -507,7 +518,7 @@ const ProfileUpdatePage = () => {
             )}
           </div>
         </div>
-      </div>
+      </div>)}
     </>
   );
 };

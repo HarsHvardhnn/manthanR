@@ -59,6 +59,7 @@ profile_pic:{
   type:String,
   
 }
+,
 
 });
 

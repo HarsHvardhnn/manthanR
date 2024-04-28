@@ -175,6 +175,60 @@ const clearAll = async (req, res) => {
   }
 };
 
+const editProfile = async (req, res) => {
+  try {
+    const { user } = req.body; // Assuming user ID is available in req object
+    const {
+      contactNumber,
+      hostelName,
+      relationshipStatus,
+      semester,
+      room,
+    } = req.body;
+    const { imageUrl } = req;
+
+    const updateFields = {
+      ...(contactNumber && { contactNumber }),
+      ...(imageUrl && { profile_pic: imageUrl }),
+      ...(semester && { semester }),
+    };
+
+    const update = await userModel.findOneAndUpdate(
+      { _id: user },
+      { $set: updateFields },
+      { new: true }
+    );
+
+    if (!update) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const profile = await Profile.findOneAndUpdate(
+      { user: user },
+      {
+        $set: {
+          roomNumber: room,
+          hostelName: hostelName,
+          relationshipStatus: relationshipStatus,
+        },
+      },
+      { new: true }
+    );
+
+    if (!profile) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
+
+    return res.status(200).json({ message: "Profile updated successfully" });
+  } catch (err) {
+    console.error("Error:", err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+
+
 const updateProfile = async (req, res) => {
   try {
     const { user } = req.body;
@@ -188,17 +242,25 @@ const updateProfile = async (req, res) => {
     }
 
     const {
-      rollNumber,
-      contactNumber,
-      hostelName,
+      rollNumber, 
+      contactNumber, //
+      hostelName, //
+      relationshipStatus, //
+      semester,//
+      room,
       dateOfBirth,
-      relationshipStatus,
       degree,
       dept,
       firstname,
       lastname,
-      semester,
-    } = req.body;  
+    } = req.body; 
+    
+
+    // if(!relationshipStatus && ! )
+    
+
+
+
     const {imageUrl} = req;
     const admins = await userModel.find({
       role: 'admin',
@@ -249,6 +311,7 @@ const updateProfile = async (req, res) => {
       hostelName,
       dateOfBirth,
       relationshipStatus,
+      roomNumber:room,
     });  
     // console.log(semester,dept,degree)
 
@@ -302,4 +365,5 @@ module.exports = {
   clearAll,
   updateProfile,
   getuserInfo,
+  editProfile
 };

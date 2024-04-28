@@ -44,6 +44,7 @@ const UserSection = () => {
   const [showProfile, setShowProfile] = useState(false);
   const [bgImageUrl, setBgImageUrl] = useState("");
 
+
   const handleReportClick = () => {
     setShowReportModal(true);
   };

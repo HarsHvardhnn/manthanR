@@ -8,6 +8,7 @@ const {
   updateProfile,
   getuserInfo,
   resetPassword,
+  editProfile,
 } = require("../controllers/userController");
 
 const {
@@ -160,6 +161,8 @@ router.get('/pfp/:id' , verifyToken , async (req,res)=>{
     return res.send('error').status(500);
   }
 } )
+
+router.post('/edit-profile' ,upload.single('image'),uploadImage ,verifyToken ,editProfile)
 
 router.post("/update-profile", upload.single('image'),uploadImage,  verifyToken, updateProfile);
 router.get("/get-profile/:id", verifyToken, async (req, res) => {

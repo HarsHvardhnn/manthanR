@@ -16,7 +16,7 @@ const profileSchema = new mongoose.Schema({
   },
   hostelName: {
     type: String,
-    required: true
+
   },
   dateOfBirth: {
     type: Date,
@@ -25,6 +25,10 @@ const profileSchema = new mongoose.Schema({
   relationshipStatus: {
     type: String,
     required: true
+  },
+  roomNumber:{
+    type:String,
+
   }
 });
 
