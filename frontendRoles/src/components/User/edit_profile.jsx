@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 const EditProfileForm = () => {
   const [image, setImage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const {user} = useContext(userContext);
+  const { user } = useContext(userContext);
   const initialValues = {
     phoneNumber: "",
     hostelName: "",
@@ -22,7 +22,9 @@ const EditProfileForm = () => {
       .required("Phone Number is required"),
     hostelName: Yup.string().required("Hostel Name is required"),
     hostelRoomNumber: Yup.string().required("Hostel Room Number is required"),
-    relationshipStatus: Yup.string().required("Relationship Status is required"),
+    relationshipStatus: Yup.string().required(
+      "Relationship Status is required"
+    ),
     semester: Yup.string().required("Semester is required"),
   });
 
@@ -75,7 +77,7 @@ const EditProfileForm = () => {
     setIsSubmitting(true);
 
     const formData = new FormData();
-    formData.append('user', user.userID);
+    formData.append("user", user.userID);
     formData.append("phoneNumber", values.phoneNumber);
     formData.append("hostelName", values.hostelName);
     formData.append("hostelRoomNumber", values.hostelRoomNumber);
@@ -85,108 +87,152 @@ const EditProfileForm = () => {
       formData.append("image", image);
     }
 
-    const token = localStorage.getItem('token')
-    axios.post( 
-      // "http://localhost:3030/v1/edit-profile",
-      "https://manthanr.onrender.com/v1/edit-profile",
-      formData,
-      { 
-        headers: {
-          'Authorization': `Bearer ${token}`,
+    const token = localStorage.getItem("token");
+    axios
+      .post(
+        // "http://localhost:3030/v1/edit-profile",
+        "https://manthanr.onrender.com/v1/edit-profile",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      }
-    ).then((res)=>{
-      console.log(res)
-      if(res.data.message === 'Profile updated successfully'){
-        toast.success('profile updated')
-      }
-    }).catch((err)=>{
-     toast.error('some error occured')
-    });
-
+      )
+      .then((res) => {
+        console.log(res);
+        if (res.data.message === "Profile updated successfully") {
+          toast.success("profile updated");
+        }
+      })
+      .catch((err) => {
+        toast.error("some error occured");
+      });
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
-      {({ errors, touched, isValid }) => (
-        <Form className="w-full max-w-sm mx-auto relative top-20">
-          <div className="mb-4">
-            <input
-              type="file"
-              onChange={uploadImage}
-              accept="image/*"
-              className="mb-2"
-            />
-            {image && <img src={image} alt="Selected" className="mb-2 w-full rounded-md" />}
-          </div>
-          <div className="mb-4">
-            <Field
-              type="tel"
-              name="phoneNumber"
-              placeholder="Phone Number"
-              className="w-full px-3 py-2 border rounded-md"
-            />
-            <ErrorMessage name="phoneNumber" component="div" className="text-red-500 text-sm" />
-          </div>
-          <div className="mb-4">
-            <Field
-              as="select"
-              name="hostelName"
-              className="w-full px-3 py-2 border rounded-md"
+    <div className="w-full bg-blue-200 min-h-screen ">
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {({ errors, touched, isValid }) => (
+          <Form className="w-[40%] mx-auto relative top-28 font-montserrat shadow-xl p-6 rounded-xl bg-white">
+            <div>
+              <h1 className="uppercase font-bold text-xl mb-4 underline">
+                Edit Profile
+              </h1>
+            </div>
+            
+            <div className="mb-4">
+              <Field
+                type="tel"
+                name="phoneNumber"
+                placeholder="Phone Number"
+                className="w-full px-3 py-2 border rounded-md"
+              />
+              <ErrorMessage
+                name="phoneNumber"
+                component="div"
+                className="text-red-500 text-sm"
+              />
+            </div>
+            <div className="mb-4">
+              <Field
+                as="select"
+                name="hostelName"
+                className="w-full px-3 py-2 border rounded-md"
+              >
+                {hostelOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </Field>
+              <ErrorMessage
+                name="hostelName"
+                component="div"
+                className="text-red-500 text-sm"
+              />
+            </div>
+            <div className="mb-4">
+              <Field
+                type="text"
+                name="hostelRoomNumber"
+                placeholder="Hostel Room Number"
+                className="w-full px-3 py-2 border rounded-md"
+              />
+              <ErrorMessage
+                name="hostelRoomNumber"
+                component="div"
+                className="text-red-500 text-sm"
+              />
+            </div>
+            <div className="mb-4">
+              <Field
+                as="select"
+                name="relationshipStatus"
+                className="w-full px-3 py-2 border rounded-md"
+              >
+                {relationshipStatusOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </Field>
+              <ErrorMessage
+                name="relationshipStatus"
+                component="div"
+                className="text-red-500 text-sm"
+              />
+            </div>
+            <div className="mb-4">
+              <Field
+                as="select"
+                name="semester"
+                className="w-full px-3 py-2 border rounded-md"
+              >
+                {semesterOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </Field>
+              <ErrorMessage
+                name="semester"
+                component="div"
+                className="text-red-500 text-sm"
+              />
+            </div>
+            <div className="mb-4">
+              <input
+                type="file"
+                onChange={uploadImage}
+                accept="image/*"
+                className="mb-2"
+              />
+              {image && (
+                <img
+                  src={image}
+                  alt="Selected"
+                  className="max-h-60 max-w-40 rounded-md"
+                />
+              )}
+            </div>
+            <button
+              type="submit"
+              className={`bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 ${
+                isSubmitting || !isValid ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={isSubmitting || !isValid}
             >
-              {hostelOptions.map(option => (
-                <option key={option.value} value={option.value}>{option.label}</option>
-              ))}
-            </Field>
-            <ErrorMessage name="hostelName" component="div" className="text-red-500 text-sm" />
-          </div>
-          <div className="mb-4">
-            <Field
-              type="text"
-              name="hostelRoomNumber"
-              placeholder="Hostel Room Number"
-              className="w-full px-3 py-2 border rounded-md"
-            />
-            <ErrorMessage name="hostelRoomNumber" component="div" className="text-red-500 text-sm" />
-          </div>
-          <div className="mb-4">
-            <Field
-              as="select"
-              name="relationshipStatus"
-              className="w-full px-3 py-2 border rounded-md"
-            >
-              {relationshipStatusOptions.map(option => (
-                <option key={option.value} value={option.value}>{option.label}</option>
-              ))}
-            </Field>
-            <ErrorMessage name="relationshipStatus" component="div" className="text-red-500 text-sm" />
-          </div>
-          <div className="mb-4">
-            <Field
-              as="select"
-              name="semester"
-              className="w-full px-3 py-2 border rounded-md"
-            >
-              {semesterOptions.map(option => (
-                <option key={option.value} value={option.value}>{option.label}</option>
-              ))}
-            </Field>
-            <ErrorMessage name="semester" component="div" className="text-red-500 text-sm" />
-          </div>
-          <button
-            type="submit"
-            className={`bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 ${isSubmitting || !isValid ? "opacity-50 cursor-not-allowed" : ""}`}
-            disabled={isSubmitting || !isValid}
-          >
-            {isSubmitting ? "Submitting..." : "Submit"}
-          </button>
-        </Form>
-      )}
-    </Formik>
+              {isSubmitting ? "Submitting..." : "Submit"}
+            </button>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 };
 
