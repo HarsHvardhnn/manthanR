@@ -7,6 +7,7 @@ import { adminContext, userContext } from "../../context";
 import jsPDF from "jspdf";
 import { ThreeDots } from "react-loader-spinner";
 import "jspdf-autotable";
+
 const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   // const {user} = useContext(userContext);
   // const [users, setUsers] = useState([]);
@@ -206,8 +207,8 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
     const data = filteredUsers.map((user) => [
       user.username,
       user.email,
-      user.contactNumber,
-      user.score.toString(),
+      user.contactNumber || "",
+      user.score?.toString(),
       convertISOToDate(user.createdAt),
       categorizeUser(user.score),
     ]);
@@ -216,7 +217,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
 
     // Add table to PDF
     doc.autoTable({
-      head: [["Username", "Email", "Score", "Date", "Category"]],
+      head: [["Username", "Email", "Phone", "Score", "Date", "Category"]],
       body: rows,
     });
 

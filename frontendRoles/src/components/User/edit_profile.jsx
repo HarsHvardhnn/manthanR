@@ -21,8 +21,8 @@ const EditProfileForm = () => {
 
   const validationSchema = Yup.object().shape({
     phoneNumber: Yup.string()
-      .matches(/^[0-9]+$/, "Must be only digits")
-      .required("Phone Number is required"),
+    .matches(/^[0-9]{10}$/, "Must be only digits and exactly 10 digits")
+    .required("Phone Number is required"),
     hostelName: Yup.string().required("Hostel Name is required"),
     hostelRoomNumber: Yup.string().required("Hostel Room Number is required"),
     relationshipStatus: Yup.string().required(
@@ -146,7 +146,7 @@ const EditProfileForm = () => {
               <Field
                 as="select"
                 name="hostelName"
-                className="w-full px-3 py-2 border rounded-md"
+                className="w-full px-3 py-2 border rounded-md text-xs sm:text-sm xl:text-base"
               >
                 {hostelOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -177,7 +177,7 @@ const EditProfileForm = () => {
               <Field
                 as="select"
                 name="relationshipStatus"
-                className="w-full px-3 py-2 border rounded-md"
+                className="w-full px-3 py-2 border rounded-md text-xs sm:text-sm xl:text-base"
               >
                 {relationshipStatusOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -195,7 +195,7 @@ const EditProfileForm = () => {
               <Field
                 as="select"
                 name="semester"
-                className="w-full px-3 py-2 border rounded-md"
+                className="w-full px-3 py-2 border rounded-md text-xs sm:text-sm xl:text-base"
               >
                 {semesterOptions.map((option) => (
                   <option key={option.value} value={option.value}>

@@ -15,7 +15,7 @@ import EditProfileForm from "./edit_profile";
 const ProfileUpdatePage = () => {
   const location = useLocation();
   // console.log(location)
-  const prevRoute = location.state.from === "/usersection";
+  const prevRoute = location.state?.from === "/usersection";
   console.log(prevRoute);
   // console.log('prevpath' , previousRoute);
   const { user, setUser } = useContext(userContext);
@@ -44,7 +44,7 @@ const ProfileUpdatePage = () => {
     firstName: Yup.string().required("First Name is required"),
     gender: Yup.string().required("Gender is required"),
     contactNumber: Yup.string()
-      .matches(/^[0-9]+$/, "Must be only digits")
+      .matches(/^[0-9]{10}$/, "Must be only digits and exactly 10 digits")
       .required("Contact Number is required"),
     dateOfBirth: Yup.string().required("Date of Birth is required"),
     degreeType: Yup.string().required("Degree Type is required"),
@@ -469,13 +469,13 @@ const ProfileUpdatePage = () => {
                         />
                       </div>
                       <div className="mb-4 sm:w-1/2 md:w-1/3 ml-2 flex items-center">
-                        <p className="w-full text-base sm:text-lg lg:text-xl uppercase">
+                        <p className="w-fit text-base sm:text-lg lg:text-xl uppercase">
                           Upload Image
                         </p>
-                        <label className="relative overflow-hidden flex items-center justify-center h-16 w-20 md:h-20 md:w-28 bg-gray-200 rounded-lg cursor-pointer">
+                        <label className="ml-4 relative overflow-hidden flex items-center justify-center h-16 w-20 md:h-20 md:w-28 bg-gray-200 rounded-lg cursor-pointer">
                           <input
                             type="file"
-                            className="absolute top-0 left-0 h-full w-full opacity-0 cursor-pointer"
+                            className="absolute top-0 left-0 h-full opacity-0 cursor-pointer"
                             accept="image/*"
                             onChange={uploadImage}
                           />

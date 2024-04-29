@@ -59,7 +59,7 @@ const UserSection = () => {
     const handleResize = () => {
       const screenWidth = window.innerWidth;
       if (screenWidth < 640) {
-        setShimmerSize(80);
+        setShimmerSize(70);
       }
       else if (screenWidth < 640) {
         setShimmerSize(90);
@@ -290,7 +290,7 @@ const UserSection = () => {
                     <img
                       src={pfp}
                       alt="Profile"
-                      className="ml-2 rounded-full h-24 w-24 sm:h-32 sm:w-32 "
+                      className="ml-2 rounded-full h-[87px] w-[87px] sm:h-32 sm:w-32 shadow-xl"
                       onLoad={() => setIsLoading(false)}
                     />
                   )}

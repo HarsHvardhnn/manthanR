@@ -165,7 +165,7 @@ const UserReport = () => {
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">User Name:</span> {report.username}
                 </p>
-                <p className="text-lg">
+                <p className="text-base md:text-lg">
                   <span className="font-semibold">User Email:</span> {report.email}
                 </p>
                 <p className="text-base md:text-lg">
