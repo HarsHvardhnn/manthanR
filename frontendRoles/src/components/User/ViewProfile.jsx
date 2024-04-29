@@ -72,6 +72,10 @@ const ViewProfile = ({ onClose ,loading ,getUser,data }) => {
           {data?.dept}
         </p>
         <p>
+          <span className="font-semibold">Course:</span>{" "}
+          {data?.dept}
+        </p>
+        <p>
           <span className="font-semibold">Semester:</span>{" "}
           {data?.semester}
         </p>

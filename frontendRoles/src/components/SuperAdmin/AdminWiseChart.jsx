@@ -1,69 +1,77 @@
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
-import axios from 'axios';
+import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
 function AdminWiseChart({ admin }) {
   const [loading, setLoading] = useState(true);
-  
-
-  const [userData , setUserData] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
+  const [userData, setUserData] = useState([]);
   async function fetchUserInformation(userIds) {
     const userInformation = [];
-    
-    const token = localStorage.getItem('superadminToken');
+
+    const token = localStorage.getItem("superadminToken");
     for (const userObj of userIds) {
       try {
         const userId = userObj.user;
-        
+
         const response = await axios.get(
-          `https://manthanr.onrender.com/v1/get-user-info/${userId}`, {  headers: {
-            Authorization: `Bearer ${token}`}
+          `https://manthanr.onrender.com/v1/get-user-info/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
         const userData = {
           ...response.data,
-          message: userObj.message 
+          message: userObj.message,
         };
         userInformation.push(userData);
       } catch (error) {
         console.error(error);
       }
     }
-    
+
     return userInformation;
   }
-  
+
   const getData = (selectedAdmin) => {
     // console.log(selectedAdmin);
-    const token = localStorage.getItem('superadminToken');
-    axios.post('https://manthanr.onrender.com/v1/getAdminWiseData', { admin: selectedAdmin },{  headers: {
-      Authorization: `Bearer ${token}`}
-    })
+    const token = localStorage.getItem("superadminToken");
+    axios
+      .post(
+        "https://manthanr.onrender.com/v1/getAdminWiseData",
+        { admin: selectedAdmin },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then(async (res) => {
         // console.log('response',res.data);
         // const userIds = res.data.map(user => ({ user: user.userId, message: user.message }));
         const userInformation = await fetchUserInformation(res.data);
         // console.log("User Information:", userInformation);
-        setUserData(userInformation)
+        setUserData(userInformation);
       })
       .catch((err) => {
         console.log(err);
       })
       .finally(() => {
-        setLoading(false); 
+        setLoading(false);
       });
-  }
-  
+  };
 
-  useEffect(() =>{
+  useEffect(() => {
     setLoading(true);
-    getData(admin);
-  },[admin])
-  // useEffect(() => { 
+    getData(admin, selectedMonth, selectedYear);
+  }, [admin, selectedMonth, selectedYear]);
+  // useEffect(() => {
   //   const fetchData = async () => {
   //     // Simulated fetching delay for demonstration
   //     await new Promise(resolve => setTimeout(resolve, 1000));
- 
 
   //     const selectedAdminData = hardcodedUserData.find(data => data.adminName === admin);
   //     if (selectedAdminData) {
@@ -75,6 +83,14 @@ function AdminWiseChart({ admin }) {
 
   //   fetchData();
   // }, [admin]);
+
+  const handleMonthChange = (e) => {
+    setSelectedMonth(e.target.value);
+  };
+
+  const handleYearChange = (e) => {
+    setSelectedYear(e.target.value);
+  };
 
   const categorizeScores = (score) => {
     if (score >= 175) {
@@ -93,7 +109,7 @@ function AdminWiseChart({ admin }) {
   }, {});
 
   const labelOrder = ["High", "Moderate", "Low"];
-  const labels = labelOrder.filter(label => chartData[label] !== undefined);
+  const labels = labelOrder.filter((label) => chartData[label] !== undefined);
   const values = Object.values(chartData);
   if (loading) {
     return (
@@ -116,11 +132,11 @@ function AdminWiseChart({ admin }) {
   if (labels.length === 0) {
     return <div className="text-red-500 p-2">No data available</div>;
   }
-  const colors = labels.map(label => {
-    if (label === "High") return "#4CAF50"; 
-    else if (label === "Moderate") return "#FFD700"; 
-    else if (label === "Low") return "#FF5733"; 
-    else return "#000000"; 
+  const colors = labels.map((label) => {
+    if (label === "High") return "#4CAF50";
+    else if (label === "Moderate") return "#FFD700";
+    else if (label === "Low") return "#FF5733";
+    else return "#000000";
   });
 
   const getFontSize = () => {
@@ -237,6 +253,42 @@ function AdminWiseChart({ admin }) {
         className="w-full sm:w-5/6 mx-auto border border-gray-300 p-1 lg:p-6 rounded-lg"
         style={{ borderRadius: "10px" }}
       >
+        <div className="flex justify-center mb-4">
+          <div className="mr-4">
+            <select
+              value={selectedMonth}
+              onChange={handleMonthChange}
+              className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-black text-xs md:text-sm"
+            >
+              <option value="">Select Month</option>
+              <option value="All">All</option>
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          <div>
+            <select
+              value={selectedYear}
+              onChange={handleYearChange}
+              className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-black text-xs md:text-sm"
+            >
+              <option value="">Select Year</option>
+              <option value="All">All</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+            </select>
+          </div>
+        </div>
         <Chart options={options} series={series} type="bar" height={400} />
       </div>
     </div>

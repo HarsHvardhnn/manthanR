@@ -27,19 +27,21 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   const [questions, setQuestions] = useState([]);
 
   const getHeader = () => {
-    const token = localStorage.getItem('superadminToken');
+    const token = localStorage.getItem("superadminToken");
     if (token) {
-      return 'Bearer ' + token;
+      return "Bearer " + token;
     } else {
-      return {}; 
+      return {};
     }
   };
 
   const getAllQuestions = async () => {
-        const token = localStorage.getItem('superadminToken');
+    const token = localStorage.getItem("superadminToken");
     axios
-      .get("https://manthanr.onrender.com/v1/getAllData",{  headers: {
-        Authorization: `Bearer ${token}`}
+      .get("https://manthanr.onrender.com/v1/getAllData", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then((res) => {
         // console.log(res.data);
@@ -52,11 +54,14 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   };
   const fetchUsers = async () => {
     try {
-      const token = localStorage.getItem('superadminToken');
+      const token = localStorage.getItem("superadminToken");
       setLoading(true);
       const response = await axios.get(
-        "https://manthanr.onrender.com/v1/getAllUsers",{  headers: {
-          Authorization: `Bearer ${token}`}
+        "https://manthanr.onrender.com/v1/getAllUsers",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       setUsers(response.data);
@@ -73,15 +78,21 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   }, []);
 
   const submitReport = async (selectedUserId, message, admin) => {
-    const token = localStorage.getItem('superadminToken');
+    const token = localStorage.getItem("superadminToken");
     axios
-      .post("https://manthanr.onrender.com/v1/submit-report", {
-        admin: admin,
-        user: selectedUserId,
-        message: message,
-      },{  headers: {
-        Authorization: `Bearer ${token}`}
-      })
+      .post(
+        "https://manthanr.onrender.com/v1/submit-report",
+        {
+          admin: admin,
+          user: selectedUserId,
+          message: message,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         // console.log(res);
       })
@@ -96,11 +107,14 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   //  })
   const promoteToAdmin = async (id) => {
     try {
-      const token = localStorage.getItem('superadminToken');
+      const token = localStorage.getItem("superadminToken");
       const res = await axios.post(
         "https://manthanr.onrender.com/v1/promote-to-admin",
-        { user: id },{  headers: {
-          Authorization: `Bearer ${token}`}
+        { user: id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       if (res.status === 200) {
@@ -192,7 +206,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
     const data = filteredUsers.map((user) => [
       user.username,
       user.email,
-      // user.phoneNumber,
+      user.contactNumber,
       user.score.toString(),
       convertISOToDate(user.createdAt),
       categorizeUser(user.score),
@@ -215,7 +229,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       filteredByYear.map((user) => ({
         Username: user.username,
         Email: user.email,
-        "Phone Number": user.phoneNumber,
+        "Phone Number": user.contactNumber,
         Score: user.score,
         Date: convertISOToDateTime(user.createdAt),
         Category: categorizeUser(user.score),
@@ -229,6 +243,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
     const date = new Date(isoDate);
     return date.toLocaleString("en-US"); // Formats date-time string in default locale
   }
+  const totalCount = filteredByYear.length;
   return (
     <div className="mx-auto p-2 md:p-4 pb-10 bg-gray-100 font-montserrat text-xs md:text-sm overflow-y-auto h-[90%]">
       {loading ? (
@@ -356,6 +371,14 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
               <table className="w-full max-w-6xl mx-auto bg-white border rounded-md">
                 <thead>
                   <tr className="">
+                    <td
+                      colSpan={8}
+                      className="text-lg text-center uppercase mt-2 font-bold"
+                    >
+                      Total Users: {totalCount}
+                    </td>
+                  </tr>
+                  <tr className="">
                     <th className="px-1 md:px-4 py-1 md:py-2 border">Index</th>
                     <th className="px-1 md:px-4 py-1 md:py-2 border">
                       Full Name
@@ -391,10 +414,10 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                       </td>
                       <td className="px-4 py-2 border">
                         <button
-                          onClick={() => promoteToAdmin(user._id)}
+                          onClick={() => handleReportUser(user._id)}
                           className="font-medium text-blue-600 mr-2 underline"
                         >
-                          Promote
+                          Report to Psychiatrist
                         </button>
                         {/* <button
                     onClick={() => {
@@ -411,13 +434,6 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                           </button>
                         )}
                       </td>
-                      {showSummaryColumn && (
-                        <td className="px-4 py-2 border">
-                          <button className="font-medium text-blue-600 underline">
-                            Summary
-                          </button>
-                        </td>
-                      )}
                     </tr>
                   ))}
                 </tbody>

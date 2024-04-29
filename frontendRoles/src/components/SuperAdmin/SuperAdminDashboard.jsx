@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { useState, useEffect } from "react";
 import {
   FaChartBar,
@@ -12,6 +12,7 @@ import {
   FaBars,
 } from "react-icons/fa";
 import axios from "axios";
+import "../User/scrollbar.css";
 // import { Link } from "eact-router-dom";
 import UserDataSuper from "./UserDataSuper";
 import UserReportSuper from "./UserReportSuper";
@@ -30,6 +31,7 @@ const SuperAdminDashboard = () => {
   const { superadmin, setsuperadmin } = useContext(superadminContext);
   const navigate = useNavigate();
   const [showSidebar, setShowSidebar] = useState(true);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -43,11 +45,28 @@ const SuperAdminDashboard = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      // Close dropdown if clicked outside
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
   const getAllAdmins = () => {
     const token = localStorage.getItem("superadminToken");
     axios
-      .get("https://manthanr.onrender.com/v1/getAllAdmins",{  headers: {
-        Authorization: `Bearer ${token}`}
+      .get("https://manthanr.onrender.com/v1/getAllAdmins", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then((res) => {
         setAdmins(res.data);
@@ -66,15 +85,13 @@ const SuperAdminDashboard = () => {
       // console.log("no token here");
       navigate("/adminlogin");
     }
-   const username = localStorage.getItem('superadmin');
-   setsuperadmin(username);
-
-   
+    const username = localStorage.getItem("superadmin");
+    setsuperadmin(username);
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     getAllAdmins();
-  },[superadmin])
+  }, [superadmin]);
   const handleChartOptionClick = (admin) => {
     setActiveTab("charts");
     setSelectedAdmin(admin);
@@ -145,7 +162,10 @@ const SuperAdminDashboard = () => {
             <FaChartBar className="mr-2" />
             Admin Charts
             {isDropdownOpen && (
-              <div className="absolute mt-40 w-48 bg-gray-800 rounded-md shadow-lg">
+              <div
+                ref={dropdownRef}
+                className="admins absolute mt-60 max-w-44 max-h-48 overflow-auto bg-gray-800 rounded-md shadow-lg"
+              >
                 {admins.map((admin) => {
                   return (
                     <button
@@ -153,7 +173,7 @@ const SuperAdminDashboard = () => {
                         handleChartOptionClick(admin.email);
                         toggleSidebar();
                       }}
-                      className="block px-4 py-2 text-sm text-white w-full hover:bg-gray-600"
+                      className="block px-4 py-2 text-xs text-white w-full hover:bg-gray-600"
                     >
                       {admin.username}
                     </button>
@@ -235,7 +255,7 @@ const SuperAdminDashboard = () => {
               onClick={() => {
                 // setsuperadmin("");
                 localStorage.removeItem("superadminToken");
-                localStorage.removeItem('superadmin')
+                localStorage.removeItem("superadmin");
                 // console.log(localStorage.getItem("superadminToken"), "ji");
                 navigate("/adminlogin");
               }}
@@ -260,7 +280,7 @@ const SuperAdminDashboard = () => {
               onClick={() => {
                 // setsuperadmin("");
                 localStorage.removeItem("superadminToken");
-                localStorage.removeItem('superadmin')
+                localStorage.removeItem("superadmin");
                 // console.log(localStorage.getItem("superadminToken"), "ji");
                 navigate("/adminlogin");
               }}

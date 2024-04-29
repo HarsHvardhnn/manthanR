@@ -115,14 +115,14 @@ const EditProfileForm = () => {
   };
 
   return (
-    <div className="w-full bg-blue-200 min-h-screen ">
+    <div className="w-full bg-blue-200 min-h-screen">
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
         {({ errors, touched, isValid }) => (
-          <Form className="w-[40%] mx-auto relative top-28 font-montserrat shadow-xl p-6 rounded-xl bg-white">
+          <Form className="w-[90%] sm:w-[70%] md:w-[60%] lg:w-[40%] mx-auto relative top-20 sm:top-28 font-montserrat shadow-xl p-6 rounded-xl bg-white">
             <div>
               <h1 className="uppercase font-bold text-xl mb-4 underline">
                 Edit Profile
@@ -214,7 +214,7 @@ const EditProfileForm = () => {
                 type="file"
                 onChange={uploadImage}
                 accept="image/*"
-                className="mb-2"
+                className="mb-2 max-w-60"
               />
               {image && (
                 <img

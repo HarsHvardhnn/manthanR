@@ -238,14 +238,14 @@ const Chatbot = () => {
   return (
     <>
       <Header />
-      <div className="max-w-full px-4 pb-24 font-montserrat h-screen bg-blue-200 pt-24">
+      <div className="max-w-full px-4 pb-24 font-montserrat h-screen bg-blue-200 pt-16 md:pt-24">
         <div className="max-w-6xl mx-auto flex justify-between px-4 py-2 bg-blue-500 rounded-tr-xl rounded-tl-xl">
           <div className="flex justify-start">
             <div>
               <img
                 src={pfp}
                 alt="logo"
-                className="max-h-10 max-w-10 ml-2 rounded-full h-10 w-10"
+                className="ml-2 rounded-full h-9 w-9"
               />
             </div>
             <div className="hidden md:flex">
@@ -254,19 +254,19 @@ const Chatbot = () => {
               </p>
             </div>
           </div>
-          <div className="hidden sm:flex">
+          <div className="hidden sm:flex ">
             <button
               onClick={handleRestart}
               className="bg-white font-bold mx-2 py-2 px-6 rounded-xl text-sm transition duration-300 ease-in-out transform hover:scale-105"
             >
-              Restart Chat
+              Restart Survey
             </button>
           </div>
 
-          <div className="sm:hidden font-bold rounded-lg bg-white flex">
+          <div className="sm:hidden font-bold rounded-lg bg-white my-auto py-1.5">
             <button
               onClick={handleRestart}
-              className="my-1 mx-auto px-4 border-r rounded-l-xl text-xs transition duration-300 ease-in-out transform hover:scale-105"
+              className="my-1 mx-auto px-4 rounded-l-xl text-xs transition duration-300 ease-in-out transform hover:scale-105"
               title="Restart"
             >
               <FaRedo />
@@ -276,7 +276,7 @@ const Chatbot = () => {
 
         <div
           ref={chatContainerRef}
-          className="chat-container max-w-6xl mx-auto text-lg bg-white px-4 py-2 rounded-br-xl rounded-bl-xl shadow-lg mb-4 min-h-96"
+          className="chat-container max-w-6xl mx-auto text-lg bg-white lg:px-4 py-2 rounded-br-xl rounded-bl-xl shadow-lg mb-4 min-h-96"
           style={{ maxHeight: "calc(100vh - 200px)", overflowY: "scroll" }}
         >
           <div className="chat">
@@ -305,11 +305,11 @@ const Chatbot = () => {
                         {answer.question}
                       </p>
                     </div>
-                    <div className="flex float-right">
+                    <div className="flex float-right m-1 items-center ">
                       <p
                         className={`py-1 px-4 w-fit text-sm sm:text-xl rounded-tr-full rounded-tl-full rounded-bl-full font-medium text-white bg-blue-500 shadow-md`}
                       >
-                        {emojiMapping[answer.answer]}  <span className="text-base">{answer.answer}</span>
+                        {emojiMapping[answer.answer]}  <span className="text-sm sm:text-base">{answer.answer}</span>
                       </p>
                       <img
                         src={pfp}
@@ -348,9 +348,9 @@ const Chatbot = () => {
                         )}
                       </div>
                     </div>
-                    <div className="options pl-12 pt-1 text-xs sm:text-sm">
+                    <div className="options pl-10 sm:pl-12 pt-1 text-xs sm:text-sm">
                       <button
-                        className="inline-block m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                        className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
                         onClick={() => {
                           handleAnswer({
                             answer: "Strongly Agree",
@@ -359,58 +359,58 @@ const Chatbot = () => {
                         }}
                       >
                         <div className="flex flex-col">
-                          <p className="p-1 text-3xl bg-gray-200 border rounded-md">
+                          <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
                             😄
                           </p>
-                          <p className=" max-w-14 text-[10px] leading-normal  text-center">
+                          <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal text-center">
                             Strongly Agree
                           </p>
                         </div>
                       </button>
                       <button
-                        className="inline-block m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                        className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
                         onClick={() => {
                           handleAnswer({ answer: "Agree" });
                           setUserScore(userScore + 2);
                         }}
                       >
                         <div className="flex flex-col">
-                          <p className="p-1 text-3xl bg-gray-200 border rounded-md">
+                          <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
                             😊
                           </p>
-                          <p className=" max-w-14 text-[10px] leading-normal ">Agree</p>
+                          <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">Agree</p>
                         </div>
                       </button>
                       <button
-                        className="inline-block m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                        className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
                         onClick={() => {
                           handleAnswer({ answer: "Undecided" });
                           setUserScore(userScore + 3);
                         }}
                       >
                         <div className="flex flex-col">
-                          <p className="p-1 text-3xl bg-gray-200 border rounded-md">
+                          <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
                             😑
                           </p>
-                          <p className=" max-w-14 text-[10px] leading-normal ">Undecided</p>
+                          <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">Undecided</p>
                         </div>
                       </button>
                       <button
-                        className="inline-block m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                        className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
                         onClick={() => {
                           handleAnswer({ answer: "Disagree" });
                           setUserScore(userScore + 2);
                         }}
                       >
                         <div className="flex flex-col">
-                          <p className="p-1 text-3xl bg-gray-200 border rounded-md">
+                          <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
                             😔
                           </p>
-                          <p className=" max-w-14 text-[10px] leading-normal ">Disagree</p>
+                          <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">Disagree</p>
                         </div>
                       </button>
                       <button
-                        className="inline-block m-1 px-2 py-1  font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                        className="inline-block sm:m-1 px-2 py-1  font-medium transition duration-300 ease-in-out transform hover:scale-105"
                         onClick={() => {
                           handleAnswer({
                             answer: "Strongly Disagree",
@@ -419,10 +419,10 @@ const Chatbot = () => {
                         }}
                       >
                         <div className="flex flex-col">
-                          <p className="p-1 text-3xl bg-gray-200 border rounded-md">
+                          <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
                             😞
                           </p>
-                          <p className=" max-w-14 text-[10px] leading-normal ">Strongly Diagree</p>
+                          <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">Strongly Diagree</p>
                         </div>
                       </button>
                     </div>
@@ -432,12 +432,13 @@ const Chatbot = () => {
             )}
           </div>
           {!showThankYou && (
-            <div className="sm:w-11/12 w-full mx-auto mt-2 ">
+            <div className="w-11/12 mx-auto mt-2">
               <ProgressBar
                 completed={progress} 
                 bgColor="#FFB02E" 
-                baseBgColor="#e0e0e0" // Base background color
+                baseBgColor="#e0e0e0" 
                 height="20px" 
+                labelSize="10px"
                 borderRadius="10px" 
               />
             </div>

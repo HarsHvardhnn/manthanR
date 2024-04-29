@@ -2,7 +2,7 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import "./scrollbar.css"
 const QuoteCarousel = ({ quotes }) => {
   const settings = {
     dots: false,
@@ -21,7 +21,7 @@ const QuoteCarousel = ({ quotes }) => {
     <Slider {...settings}>
       {quotes.map((quote, index) => (
         <div key={index}>
-          <h2 className="text-sm md:text-base lg:text-sm text-white md:w-full sm:text-user-btns text-left font-medium rounded-2xl py-2 max-w-4xl mx-auto sm:mt-2">
+          <h2 className="quote text-xs md:text-base lg:text-sm text-white md:w-full sm:text-user-btns text-left font-medium rounded-2xl max-w-4xl mx-auto sm:mt-2">
             {quote}
           </h2>
         </div>
