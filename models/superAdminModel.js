@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const userModel= require('./userSchema')
 const supAdminModelSchema = new mongoose.Schema({
   admin:{
     type:String,
@@ -7,7 +7,7 @@ const supAdminModelSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "userModel",
     required: true,
   },
   message: {
@@ -19,7 +19,7 @@ const supAdminModelSchema = new mongoose.Schema({
     default:false,
   },
   actionSummary:{
-    type:[String],
+    type:[],
     default:[]
 
   }

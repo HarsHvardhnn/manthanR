@@ -57,18 +57,31 @@ const notifyAdmin = async (req,res) => {
     }
 }
 
-
 const getReportedUsers = async (req, res) => {
     try {
-     const users = await supAdminModel.find({});
-     return res.send(users).status(200);
-    
-    }
-    catch(err){
+        const supAdminUsers = await supAdminModel.find({}).lean();
+            // console.log(supAdminUsers)
+        // Array to store merged data
+        const mergedUsers = [];
+
+        // Fetching and merging data for each user
+        for (const supAdminUser of supAdminUsers) {
+            // Find user from userModel
+            const userModelData = await userModel.findById(supAdminUser.user, 'username email score contactNumber').lean(); // Ensure contactNumber is included in the projection
+            // Merge data from both models
+            const mergedUser = { ...supAdminUser, ...userModelData };
+            mergedUsers.push(mergedUser);
+        }
+
+        return res.send(mergedUsers).status(200);
+    } catch(err) {
         console.log(err);
-        res.send('error').status(500);
+        return res.status(500).send('Error');
     }
 }
+
+
+
 
 const authorityLogin = async (req, res) => {
     const { email, password } = req.body;

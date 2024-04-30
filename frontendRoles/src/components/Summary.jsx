@@ -1,11 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
-
-const CommentsComponent = () => {
+import axios from "axios";
+const CommentsComponent = ({comments,setComments,savee,sumID}) => {
   const [newComment, setNewComment] = useState("");
-  const [comments, setComments] = useState([]);
+
   const [editingCommentId, setEditingCommentId] = useState(null);
 
+
+
+  const getSummary = () => {
+    const token = localStorage.getItem('superadminToken');
+    axios.get(`https://manthanr.onrender.com/v1/get-summary/${sumID}`, { headers: { Authorization: `Bearer ${token}` } })
+      .then((res) => {
+        // Find the actionSummary array within res.data
+        const actionSummary = res.data.find(item => Array.isArray(item.actionSummary))?.actionSummary || [];
+        setComments(actionSummary);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+  
+
+   useEffect(()=>{
+    getSummary();
+   },[])
+  
   const handleAddComment = () => {
     if (newComment.trim() !== "") {
       const currentTime = new Date();
@@ -17,6 +37,7 @@ const CommentsComponent = () => {
       setComments(newComments);
       setNewComment("");
     }
+   
   };
 
   const handleDeleteComment = (id) => {
@@ -41,10 +62,10 @@ const CommentsComponent = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex flex-col bg-blue-200 p-24">
+    <div className="fixed top-0 left-0 w-full h-full flex flex-col bg-gray-200 bg-opacity-60 p-24">
         
       <div className="flex-1 overflow-y-auto bg-white p-10 w-[70%] mx-auto rounded-lg">
-        {comments.map((comment) => (
+        {comments?.map((comment) => (
           <div key={comment.id} className="mb-4">
             <div className="bg-gray-200 p-4 rounded-lg shadow">
               <p className="text-gray-700">{comment.text}</p>
@@ -94,9 +115,18 @@ const CommentsComponent = () => {
         />
         <button
           onClick={handleAddComment}
+          // onClick={()=>{
+          //   console.log(comments)
+          // }}
           className="px-4 py-2 bg-blue-500 text-white rounded-lg ml-2 hover:bg-blue-600"
         >
           Save
+        </button>
+        <button
+          onClick={savee}
+          className="px-4 py-2 bg-blue-500 text-white rounded-lg ml-2 hover:bg-blue-600"
+        >
+          Upload
         </button>
       </div>
     </div>
