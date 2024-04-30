@@ -131,9 +131,11 @@ const SuperAdminDashboard = () => {
           </h1>
           <button
             onClick={toggleSidebar}
-            className="bg-white p-0.5 mr-4 rounded-md flex md:hidden"
+            className="bg-white p-0.5 mr-4 rounded-md md:hidden"
           >
-            <FaArrowLeft className="md:hidden flex text-xs" />
+            <div className="flex">
+              <FaArrowLeft className="md:hidden text-xs" />
+            </div>
           </button>
         </div>
         <ul className="p-2 sm:p-4 text-base">

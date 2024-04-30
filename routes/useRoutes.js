@@ -244,7 +244,7 @@ router.post('/report-to-psych',verifyToken, async (req, res) => {
 });
 
 
-router.post('/upload-summary' , async (req, res) => {
+router.post('/upload-summary' ,verifyToken, async (req, res) => {
   try {
    
     const errors = validationResult(req);
@@ -279,7 +279,7 @@ router.post('/upload-summary' , async (req, res) => {
 })
 
 
-router.get('/get-summary/:id', async (req,res) => {
+router.get('/get-summary/:id',verifyToken, async (req,res) => {
   try{
     const { id }= req.params;
     const summary = await supAdminModel.find({user:id});

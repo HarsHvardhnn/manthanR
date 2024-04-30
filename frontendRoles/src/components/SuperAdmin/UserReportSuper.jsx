@@ -22,7 +22,7 @@ const UserReport = () => {
   const getUsers = () => {
     const token = localStorage.getItem("superadminToken");
     axios
-      .get("http://localhost:3030/v1/get-reported-users", {
+      .get("https://manthanr.onrender.com/v1/get-reported-users", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -106,7 +106,7 @@ const UserReport = () => {
     const sum = JSON.stringify(comments);
 
     const token = localStorage.getItem('superadminToken');
-    axios.post('http://localhost:3030/v1/upload-summary',{
+    axios.post('https://manthanr.onrender.com/v1/upload-summary',{
       userID:sumID,
       summary :sum
     },{headers:{
