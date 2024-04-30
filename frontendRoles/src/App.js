@@ -20,7 +20,7 @@ import UserSection from "./components/User/UserSection";
 import ProfileUpdatePage from "./components/User/UpdateProfile";
 // import SuperAdminLogin from "./components/Admin/SuperAdminLogin";
 // import { useNavigate } from "react-router-dom";
-
+import Summary from "./components/Summary";
 import { loadingContext } from "./context";
 import { adminEmailContext } from "./context";
 
@@ -88,6 +88,10 @@ function App() {
     {
       path: '/ProfileUpdatePage',
       element: <ProfileUpdatePage/>
+    },
+    {
+      path: '/Summary',
+      element: <Summary/>
     }
   ]);
   return (
