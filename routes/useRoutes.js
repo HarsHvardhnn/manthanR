@@ -10,7 +10,7 @@ const {
   resetPassword,
   editProfile,
 } = require("../controllers/userController");
-
+const { validationResult } = require('express-validator');
 const {
   getQuestions,
   getAllQuestions,
@@ -42,6 +42,7 @@ const {
 const Profile = require("../models/profileModel");
 const { sendSos, getAllSoS } = require("../controllers/SoScontroller");
 const verifyToken = require("../middlewares/authenticateToken");
+const supAdminModel = require("../models/superAdminModel");
 // const uploadImage = require("../middlewares/fileUpload");
 
 router.post("/signup", signup);
@@ -209,6 +210,36 @@ router.get("/get-profile/:id", verifyToken, async (req, res) => {
   } catch (err) {
     console.error(err);
     return res.status(500).send("Internal server error");
+  }
+});
+router.post('/report-to-psych',verifyToken, async (req, res) => {
+  try {
+   
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const id = req.body.userID;
+  
+    if (!id) {
+      return res.status(400).json({ error: "User ID is required" });
+    }
+
+    const update = await supAdminModel.findOneAndUpdate(
+      { user: id },
+      { reported_psych: true },
+      { new: true }
+    );
+
+    if (!update) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res.status(200).json(update);
+  } catch (err) {
+    console.error("Error:", err);
+    return res.status(500).json({ error: "Internal server error" });
   }
 });
 router.post("/create-admin", verifyToken, createAdmin);

@@ -266,6 +266,31 @@ const SuperAdminDashboard = () => {
             </button>
           </div>
         </nav>
+        <nav className="md:flex justify-between items-center bg-gray-700 p-4 shadow-xl">
+  <div>
+    <FaUserCircle className="text-white text-2xl lg:mr-2" />
+  </div>
+  <div>
+    <button
+      onClick={() => {
+        localStorage.removeItem("superadminToken");
+        localStorage.removeItem('superadmin')
+        navigate("/adminlogin");
+      }}
+      className="bg-gray-800 mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
+    >
+      <FaSignOutAlt className="mr-2" />
+      Logout
+    </button>
+  </div>
+</nav>
+
+<nav className="md:hidden flex justify-between items-center bg-gray-700 p-4 shadow-xl">
+  <button onClick={toggleSidebar}>
+    <FaBars className="text-white text-xl" />
+  </button>
+</nav>
+
 
         {/* Desktop Navbar */}
         <nav className="hidden lg:flex justify-between items-center bg-gray-700 p-4 shadow-xl">

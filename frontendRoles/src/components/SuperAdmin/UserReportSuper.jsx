@@ -78,6 +78,20 @@ const UserReport = () => {
   })
  }
 
+  const reportToPsych = (user)=>{
+    const token = localStorage.getItem('superadminToken');
+    axios.post('https://manthanr.onrender.com/v1/report-to-psych',{
+      userID:user._id,
+    },{headers:{
+      Authorization:`Bearer ${token}`,
+    }}).then((res)=>{
+      console.log(res);
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
+
+
   useEffect(() => {
     getUsers();
   }, []);
@@ -86,6 +100,7 @@ const UserReport = () => {
     toast.success("User reported");
 
     sendEmail(report);
+    reportToPsych(report);
   };
 
   const sendEmail = (report) => {
