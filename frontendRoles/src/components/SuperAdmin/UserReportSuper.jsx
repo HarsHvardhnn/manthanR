@@ -4,93 +4,65 @@ import { toast } from "react-toastify";
 import emailjs from "emailjs-com";
 import { ThreeDots } from "react-loader-spinner";
 import ReportMessage from "../Admin/ReportMessage";
+import CommentsComponent from "../Summary";
+// import { toast } from "react-toastify";
 
 const UserReport = () => {
-  const [reports, setReports] = useState([]);
-  const [reportedUsers, setReportedUsers] = useState([]);
+  const [showSummary,setShowSummary] = useState(false);
   const [userWithInfo, setUserWithInfo] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
   const [reportedUser, setReportedUser] = useState(null);
   const [filterByPsy, setFilterByPsy] = useState(false); // Add state for filtering by psy report
+  const [comments, setComments] = useState();
+  const [sumID,setSumId] = useState('');
 
-  // async function fetchUserInformation(userIds) {
-  //   const userInformation = [];
-  //   const token = localStorage.getItem("superadminToken");
-  //   for (const userObj of userIds) {
-  //     try {
-  //       const userId = userObj.user;
 
-  //       const response = await axios.get(
-  //         `https://manthanr.onrender.com/v1/get-user-info/${userId}`,
-  //         {  headers: {
-  //           Authorization: `Bearer ${token}`}
-  //         }
-  //       );
-  //       const userData = {
-  //         ...response.data,
-  //         message: userObj.message,
-  //       };
-  //       userInformation.push(userData);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-  //   // console.log(userInformation)
-  //   return userInformation;
-  // }
 
-  // const getReportedUsers = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const token = localStorage.getItem("superadminToken");
-  //     const response = await axios.get(
-  //       "https://manthanr.onrender.com/v1/get-reported-users",
-  //       {  headers: {
-  //         Authorization: `Bearer ${token}`}
-  //       }
-  //     );
-  //     // console.log(response.data);
-  //     setReportedUsers(response.data);
+  const getUsers = () => {
+    const token = localStorage.getItem("superadminToken");
+    axios
+      .get("http://localhost:3030/v1/get-reported-users", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setUserWithInfo(res.data);
+        // console.log(res.data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-  //     const userInformation = await fetchUserInformation(response.data);
-
-  //     setUserWithInfo(userInformation);
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-  
-
- const getUsers = () => {
-  const token = localStorage.getItem('superadminToken')
-  axios.get('https://manthanr.onrender.com/v1/get-user-with-info' ,{
-    headers:{
-      Authorization:`Bearer ${token}`
-    }
-  }).then((res)=>{
-    console.log(res);
-    setUserWithInfo(res.data)
-  }).catch((err)=>{
-    console.log(err);
-  })
- }
-
-  const reportToPsych = (user)=>{
-    const token = localStorage.getItem('superadminToken');
-    axios.post('https://manthanr.onrender.com/v1/report-to-psych',{
-      userID:user._id,
-    },{headers:{
-      Authorization:`Bearer ${token}`,
-    }}).then((res)=>{
-      console.log(res);
-    }).catch((err)=>{
-      console.log(err);
-    })
+  function savee(){
+    console.log(comments);
   }
+ 
 
+
+  const reportToPsych = (user) => {
+    const token = localStorage.getItem("superadminToken");
+    axios
+      .post(
+        "https://manthanr.onrender.com/v1/report-to-psych",
+        {
+          userID: user._id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     getUsers();
@@ -98,7 +70,6 @@ const UserReport = () => {
 
   const reportUser = (report) => {
     toast.success("User reported");
-
     sendEmail(report);
     reportToPsych(report);
   };
@@ -115,7 +86,6 @@ const UserReport = () => {
       from_name: "super admin",
       to_email: "abhisektiwari2014@gmail.com",
       username: username,
-      // details:JSON.stringify(newObject),
       subject: "User Reported",
       message: `The user ${username} has been reported.`,
     };
@@ -132,6 +102,24 @@ const UserReport = () => {
       });
   };
 
+  const uploadSummary =  () => {
+    const sum = JSON.stringify(comments);
+
+    const token = localStorage.getItem('superadminToken');
+    axios.post('http://localhost:3030/v1/upload-summary',{
+      userID:sumID,
+      summary :sum
+    },{headers:{
+      Authorization:`Bearer ${token}`
+    }}).then((res)=>{
+      if(res.status ===200){
+        toast.success('Uploaded summary')
+      }
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
+
   const handleReportUser = (user) => {
     setReportedUser(user);
     setShowReportModal(true);
@@ -139,6 +127,9 @@ const UserReport = () => {
 
   return (
     <div className="p-4 overflow-y-auto h-[80%]">
+      {
+        showSummary && <CommentsComponent comments={comments} setComments={setComments} savee={uploadSummary} sumID={sumID}/>
+      }
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg md:text-xl font-semibold">User Reports</h2>
         <div className="flex items-center space-x-4">
@@ -169,7 +160,7 @@ const UserReport = () => {
         userWithInfo.reverse().map(
           (report) =>
             // Check if filterByPsy is true and report is psy report
-            (!filterByPsy || report.isPsyReport) && (
+            (!filterByPsy || report.reported_psych) && (
               <div
                 key={report.id}
                 className={`${
@@ -178,34 +169,51 @@ const UserReport = () => {
               >
                 {/* Your report content */}
                 <p className="text-base md:text-lg">
-                  <span className="font-semibold">User Name:</span> {report.username}
+                  <span className="font-semibold">User Name:</span>{" "}
+                  {report.username}
                 </p>
                 <p className="text-base md:text-lg">
-                  <span className="font-semibold">User Email:</span> {report.email}
+                  <span className="font-semibold">User Email:</span>{" "}
+                  {report.email}
                 </p>
                 <p className="text-base md:text-lg">
-                  <span className="font-semibold">Contact Number:</span> {report.profile.contactNumber}
+                  <span className="font-semibold">Contact Number:</span>{" "}
+                  {report.contactNumber}
                 </p>
                 <p className="text-base md:text-lg">
-                  <span className="font-semibold">Assigned Admin:</span>{report.assigned_admin}
+                  <span className="font-semibold">Assigned Admin:</span>
+                  {report?.assigned_admin}
                   {/*under this admin*/}
                 </p>
                 <p className="text-base md:text-lg">
-                  <span className="font-semibold">User Score:</span> {report.score}
+                  <span className="font-semibold">User Score:</span>{" "}
+                  {report.score}
                 </p>
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">Admin Comments:</span>{" "}
                   {report.message}
                 </p>
-                <div className="mt-2 text-base md:text-lg">
+                <div className="mt-2 text-base md:text-lg flex items-center justify-between">
                   <button
-                    className="mr-2 px-3 py-1 bg-blue-500 text-white rounded"
+                    className={`mr-2 px-3 py-1 rounded ${
+                      report.reported_psych
+                        ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+                        : "bg-blue-500 text-white"
+                    }`}
                     onClick={() => {
-                      // console.log(report);
                       handleReportUser(report);
                     }}
+                    disabled={report.reported_psych}
                   >
-                    Report to Psychiatrist
+                    {report.reported_psych
+                      ? "Already Reported"
+                      : "Report to Psychiatrist"}
+                  </button>
+                  <button  onClick={()=>{
+                    setSumId(report?.user)
+                    setShowSummary(true)
+                  }} className={`mr-2 px-3 py-1 rounded bg-blue-500 text-white`}>
+                     Summary
                   </button>
                 </div>
               </div>

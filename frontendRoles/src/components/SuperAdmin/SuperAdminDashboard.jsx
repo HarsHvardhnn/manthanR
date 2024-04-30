@@ -33,6 +33,7 @@ const SuperAdminDashboard = () => {
   const [showSidebar, setShowSidebar] = useState(true);
   const dropdownRef = useRef(null);
 
+
   useEffect(() => {
     const handleResize = () => {
       setShowSidebar(window.innerWidth >= 768);
@@ -243,57 +244,40 @@ const SuperAdminDashboard = () => {
       {/* Main Content */}
       <div className="w-full md:ml-64">
         {/* Mobile Navbar */}
-        <nav className="lg:hidden flex justify-between items-center bg-gray-700 p-4 shadow-xl">
-          <button onClick={toggleSidebar}>
-            <FaBars className="text-white text-xl md:hidden" />
-          </button>
-          <div className="hidden md:flex">
-            <FaUserCircle className="text-white text-2xl lg:mr-2 md:absolute md:left-72 md:top-6" />
-          </div>
-          <div className="relative">
-            <button
-              onClick={() => {
-                // setsuperadmin("");
-                localStorage.removeItem("superadminToken");
-                localStorage.removeItem("superadmin");
-                // console.log(localStorage.getItem("superadminToken"), "ji");
-                navigate("/adminlogin");
-              }}
-              className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
-            >
-              <FaSignOutAlt className="mr-2" />
-              Logout
+        <nav className="md:hidden  justify-between w-full items-center bg-gray-700 p-4 shadow-xl">
+          <div className="w-full flex items-center justify-between ">
+            <button onClick={toggleSidebar}>
+              <FaBars className="text-white text-xl md:hidden inline-block" />
             </button>
+            <div className="md:hidden inline-block">
+              <FaUserCircle className="text-white text-2xl lg:mr-2 md:absolute md:left-72 md:top-6" />
+            </div>
+            <div className="relative inline-block">
+              <button
+                onClick={() => {
+                  // setsuperadmin("");
+                  localStorage.removeItem("superadminToken");
+                  localStorage.removeItem("superadmin");
+                  // console.log(localStorage.getItem("superadminToken"), "ji");
+                  navigate("/adminlogin");
+                }}
+                className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded flex w-fit items-center"
+              >
+                <FaSignOutAlt className="mr-2" />
+                Logout
+              </button>
+            </div>
           </div>
         </nav>
-        <nav className="md:flex justify-between items-center bg-gray-700 p-4 shadow-xl">
-  <div>
-    <FaUserCircle className="text-white text-2xl lg:mr-2" />
-  </div>
-  <div>
-    <button
-      onClick={() => {
-        localStorage.removeItem("superadminToken");
-        localStorage.removeItem('superadmin')
-        navigate("/adminlogin");
-      }}
-      className="bg-gray-800 mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
-    >
-      <FaSignOutAlt className="mr-2" />
-      Logout
-    </button>
-  </div>
-</nav>
 
-<nav className="md:hidden flex justify-between items-center bg-gray-700 p-4 shadow-xl">
+        {/* <nav className="md:hidden flex justify-between items-center bg-gray-700 p-4 shadow-xl">
   <button onClick={toggleSidebar}>
     <FaBars className="text-white text-xl" />
   </button>
-</nav>
-
+</nav> */}
 
         {/* Desktop Navbar */}
-        <nav className="hidden lg:flex justify-between items-center bg-gray-700 p-4 shadow-xl">
+        <nav className="md:flex hidden w-full justify-between items-center bg-gray-700 p-4 shadow-xl">
           <div className="flex">
             <FaUserCircle className="text-white text-2xl mr-2" />
             <p className="text-lg font-semibold text-white">

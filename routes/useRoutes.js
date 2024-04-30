@@ -242,11 +242,62 @@ router.post('/report-to-psych',verifyToken, async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 });
+
+
+router.post('/upload-summary' , async (req, res) => {
+  try {
+   
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const id = req.body.userID;
+    const sum = req.body.summary;
+    console.log(sum);
+  
+    if (!id) {
+      return res.status(400).json({ error: "User ID is required" });
+    }
+    const summ = JSON.parse(sum)
+
+    const update = await supAdminModel.findOneAndUpdate(
+      { user: id },
+      { actionSummary:summ},
+      { new: true }
+    );
+
+    if (!update) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res.status(200).json(update);
+  } catch (err) {
+    console.error("Error:", err);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+})
+
+
+router.get('/get-summary/:id', async (req,res) => {
+  try{
+    const { id }= req.params;
+    const summary = await supAdminModel.find({user:id});
+    if(!summary){
+      return res.send('user not found').status(404);
+    }
+
+    return res.send(summary).status(201);
+    
+
+  }catch(err){
+    return res.send('error').status(500);  }
+})
 router.post("/create-admin", verifyToken, createAdmin);
 router.delete("/delete-admin/:id", verifyToken, deleteAdmin);
 // router.get('/getQuestions' , getQuestions);
 router.post("/submit-report", verifyToken, submitReport);
-router.get("/get-reported-users", verifyToken, getReportedUsers);
+router.get("/get-reported-users",  getReportedUsers);
 router.get("/get-user-info/:id",verifyToken ,getuserInfo);
 router.post("/getAdminwisedata", getAdminWiseData);
 router.get("/getAllAdmins", verifyToken, getalladmins);
