@@ -14,6 +14,10 @@ const supAdminModelSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  reported_psych:{
+    type:Boolean,
+    default:false,
+  }
 });
 
 const supAdminModel = mongoose.model("superadmin", supAdminModelSchema);
