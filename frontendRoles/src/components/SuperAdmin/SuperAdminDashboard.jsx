@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { useState, useEffect } from "react";
 import {
   FaChartBar,
@@ -12,6 +12,7 @@ import {
   FaBars,
 } from "react-icons/fa";
 import axios from "axios";
+import "../User/scrollbar.css";
 // import { Link } from "eact-router-dom";
 import UserDataSuper from "./UserDataSuper";
 import UserReportSuper from "./UserReportSuper";
@@ -30,6 +31,7 @@ const SuperAdminDashboard = () => {
   const { superadmin, setsuperadmin } = useContext(superadminContext);
   const navigate = useNavigate();
   const [showSidebar, setShowSidebar] = useState(true);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -43,11 +45,28 @@ const SuperAdminDashboard = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      // Close dropdown if clicked outside
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
   const getAllAdmins = () => {
     const token = localStorage.getItem("superadminToken");
     axios
-      .get("https://manthanr.onrender.com/v1/getAllAdmins",{  headers: {
-        Authorization: `Bearer ${token}`}
+      .get("https://manthanr.onrender.com/v1/getAllAdmins", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then((res) => {
         setAdmins(res.data);
@@ -66,15 +85,13 @@ const SuperAdminDashboard = () => {
       // console.log("no token here");
       navigate("/adminlogin");
     }
-   const username = localStorage.getItem('superadmin');
-   setsuperadmin(username);
-
-   
+    const username = localStorage.getItem("superadmin");
+    setsuperadmin(username);
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     getAllAdmins();
-  },[superadmin])
+  }, [superadmin]);
   const handleChartOptionClick = (admin) => {
     setActiveTab("charts");
     setSelectedAdmin(admin);
@@ -145,7 +162,10 @@ const SuperAdminDashboard = () => {
             <FaChartBar className="mr-2" />
             Admin Charts
             {isDropdownOpen && (
-              <div className="absolute mt-40 w-48 bg-gray-800 rounded-md shadow-lg">
+              <div
+                ref={dropdownRef}
+                className="admins absolute mt-60 max-w-44 max-h-48 overflow-auto bg-gray-800 rounded-md shadow-lg"
+              >
                 {admins.map((admin) => {
                   return (
                     <button
@@ -153,7 +173,7 @@ const SuperAdminDashboard = () => {
                         handleChartOptionClick(admin.email);
                         toggleSidebar();
                       }}
-                      className="block px-4 py-2 text-sm text-white w-full hover:bg-gray-600"
+                      className="block px-4 py-2 text-xs text-white w-full hover:bg-gray-600"
                     >
                       {admin.username}
                     </button>
@@ -223,6 +243,29 @@ const SuperAdminDashboard = () => {
       {/* Main Content */}
       <div className="w-full md:ml-64">
         {/* Mobile Navbar */}
+        <nav className="lg:hidden flex justify-between items-center bg-gray-700 p-4 shadow-xl">
+          <button onClick={toggleSidebar}>
+            <FaBars className="text-white text-xl md:hidden" />
+          </button>
+          <div className="hidden md:flex">
+            <FaUserCircle className="text-white text-2xl lg:mr-2 md:absolute md:left-72 md:top-6" />
+          </div>
+          <div className="relative">
+            <button
+              onClick={() => {
+                // setsuperadmin("");
+                localStorage.removeItem("superadminToken");
+                localStorage.removeItem("superadmin");
+                // console.log(localStorage.getItem("superadminToken"), "ji");
+                navigate("/adminlogin");
+              }}
+              className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
+            >
+              <FaSignOutAlt className="mr-2" />
+              Logout
+            </button>
+          </div>
+        </nav>
         <nav className="md:flex justify-between items-center bg-gray-700 p-4 shadow-xl">
   <div>
     <FaUserCircle className="text-white text-2xl lg:mr-2" />
@@ -262,7 +305,7 @@ const SuperAdminDashboard = () => {
               onClick={() => {
                 // setsuperadmin("");
                 localStorage.removeItem("superadminToken");
-                localStorage.removeItem('superadmin')
+                localStorage.removeItem("superadmin");
                 // console.log(localStorage.getItem("superadminToken"), "ji");
                 navigate("/adminlogin");
               }}

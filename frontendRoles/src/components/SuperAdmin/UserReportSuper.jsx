@@ -80,7 +80,7 @@ const UserReport = () => {
 
   const reportToPsych = (user)=>{
     const token = localStorage.getItem('superadminToken');
-    axios.post('/report-to-psych',{
+    axios.post('https://manthanr.onrender.com/v1/report-to-psych',{
       userID:user._id,
     },{headers:{
       Authorization:`Bearer ${token}`,
@@ -178,23 +178,23 @@ const UserReport = () => {
               >
                 {/* Your report content */}
                 <p className="text-base md:text-lg">
-                  <span className="font-semibold">Name:</span> {report.username}
+                  <span className="font-semibold">User Name:</span> {report.username}
                 </p>
-                <p className="text-lg">
-                  <span className="font-semibold">Email:</span> {report.email}
+                <p className="text-base md:text-lg">
+                  <span className="font-semibold">User Email:</span> {report.email}
                 </p>
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">Contact Number:</span> {report.profile.contactNumber}
                 </p>
                 <p className="text-base md:text-lg">
-                  <span className="font-semibold">Admin:</span>{report.assigned_admin}
+                  <span className="font-semibold">Assigned Admin:</span>{report.assigned_admin}
                   {/*under this admin*/}
                 </p>
                 <p className="text-base md:text-lg">
-                  <span className="font-semibold">Score:</span> {report.score}
+                  <span className="font-semibold">User Score:</span> {report.score}
                 </p>
                 <p className="text-base md:text-lg">
-                  <span className="font-semibold">Comments:</span>{" "}
+                  <span className="font-semibold">Admin Comments:</span>{" "}
                   {report.message}
                 </p>
                 <div className="mt-2 text-base md:text-lg">
@@ -205,7 +205,7 @@ const UserReport = () => {
                       handleReportUser(report);
                     }}
                   >
-                    Report to psy
+                    Report to Psychiatrist
                   </button>
                 </div>
               </div>

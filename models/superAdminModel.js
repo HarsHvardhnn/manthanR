@@ -17,6 +17,11 @@ const supAdminModelSchema = new mongoose.Schema({
   reported_psych:{
     type:Boolean,
     default:false,
+  },
+  actionSummary:{
+    type:[String],
+    default:[]
+
   }
 });
 

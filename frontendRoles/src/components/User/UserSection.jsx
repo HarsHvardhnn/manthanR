@@ -2,9 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiUser, FiMessageCircle, FiAlertCircle } from "react-icons/fi";
 import { BsInfoCircle } from "react-icons/bs";
-import { ShimmerCircularImage, ShimmerButton } from 'react-shimmer-effects'; // Import shimmer components
+import { ShimmerCircularImage, ShimmerButton } from "react-shimmer-effects"; 
 import Header from "../Home/Header";
-import "./user.css";
+import "./scrollbar.css";
 import Bg from "./bg1.png";
 import Bg2 from "./bg2.png";
 import Bg3 from "./bg3.png";
@@ -47,13 +47,30 @@ const UserSection = () => {
   const [loading, setLoading] = useState();
   const [pfp, setPfp] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-
+  const [shimmerSize, setShimmerSize] = useState(120);
 
   useEffect(() => {
     if (pfp) {
-      setIsLoading(false); 
+      setIsLoading(false);
     }
   }, [pfp]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const screenWidth = window.innerWidth;
+      if (screenWidth < 640) {
+        setShimmerSize(70);
+      }
+      else if (screenWidth < 640) {
+        setShimmerSize(90);
+      } else {
+        setShimmerSize(120);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleReportClick = () => {
     setShowReportModal(true);
@@ -237,7 +254,7 @@ const UserSection = () => {
           backgroundSize: "cover",
         }}
       >
-        <div className="w-full sm:w-7/12 lg:w-1/2 mr-auto">
+        <div className="w-full sm:w-7/12 md:w-10/12 lg:w-1/2 mr-auto">
           <div className="">
             {/* <div className="flex flex-col flex-wrap justify-between mt-20 sm:mt-36 items-center h-2/5 w-full mx-auto ">
             <div>
@@ -261,29 +278,29 @@ const UserSection = () => {
               </div>
             </div> */}
 
-            <div className="sm:mt-36 grid grid-cols-3 grid-rows-2 gap-0 mx-20">
+            <div className="mt-20 sm:mt-36 mb-4 sm:sb-0 grid grid-cols-3 grid-rows-2 gap-0">
               <div className="row-span-2">
-                <div className="flex justify-center">
-                {isLoading ? ( 
+                <div className="flex justify-center sm:ml-20 profile">
+                  {isLoading ? (
                     <ShimmerCircularImage
-                      size={120}
+                      size={shimmerSize}
                       borderRadius="50%"
                     />
                   ) : (
                     <img
                       src={pfp}
                       alt="Profile"
-                      className="ml-2 rounded-full h-32 w-32"
-                      onLoad={() => setIsLoading(false)} 
+                      className="ml-2 rounded-full h-[87px] w-[87px] sm:h-32 sm:w-32 shadow-xl"
+                      onLoad={() => setIsLoading(false)}
                     />
                   )}
                 </div>
               </div>
-              <div className="col-span-2 row-span-2">
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white sm:text-user-btns-dark font-bold">
-                  Hello, {user.username}!
+              <div className="col-span-2 row-span-2 txt">
+                <h1 className="name text-xl sm:text-4xl lg:text-4xl mt-2 text-white sm:text-user-btns-dark font-bold">
+                  Hello, {user.username}
                 </h1>
-                <div>
+                <div className="mr-2 sm:mr-32">
                   <Quotes quotes={quotes} />
                 </div>
               </div>
@@ -296,7 +313,7 @@ const UserSection = () => {
                 className="w-full sm:h-96 animate-custom-bounce image-small"
               />
             </div>
-            <div className="h-3/5 flex flex-wrap justify-around w-11/12 sm:w-10/12 mx-auto rounded-xl mt-6 sm:mt-10">
+            <div className="h-3/5 flex flex-wrap justify-around w-11/12 sm:w-10/12 md:w-1/2 lg:w-11/12 md:ml-10 mx-auto lg:mx-auto rounded-xl mt-6 sm:mt-10">
               <button
                 onClick={viewProfileClicked}
                 className="btn min-w-32 sm:min-w-60 flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"

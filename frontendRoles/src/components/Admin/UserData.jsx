@@ -6,10 +6,14 @@ import ReportMessage from "./ReportMessage";
 import { adminContext, adminEmailContext, userContext } from "../../context";
 import jsPDF from "jspdf";
 import { ThreeDots } from "react-loader-spinner";
-
 import emailjs from "emailjs-com";
 import "jspdf-autotable";
-const UserData = ({ showSOSButton = true, showSummaryColumn = false ,admin}) => {
+
+const UserData = ({
+  showSOSButton = true,
+  showSummaryColumn = false,
+  admin,
+}) => {
   // const {user} = useContext(userContext);
   // const [users, setUsers] = useState([]);
   const [reportedUsers, setReportedUsers] = useState([]);
@@ -34,15 +38,17 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false ,admin}) => 
   //   if (token) {
   //     return 'Bearer ' + token;
   //   } else {
-  //     return {}; 
+  //     return {};
   //   }
   // };
-  
+
   const getAllQuestions = async () => {
-    const token = localStorage.getItem('adminToken');
+    const token = localStorage.getItem("adminToken");
     axios
-      .get("https://manthanr.onrender.com/v1/getAllData",{  headers: {
-        Authorization:`Bearer ${token}`}
+      .get("https://manthanr.onrender.com/v1/getAllData", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then((res) => {
         // console.log(res.data);
@@ -54,14 +60,17 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false ,admin}) => 
       });
   };
   const fetchUsers = async () => {
-    const token = localStorage.getItem('adminToken');
+    const token = localStorage.getItem("adminToken");
     try {
       setLoading(true);
       const response = await axios.get(
-        "https://manthanr.onrender.com/v1/getAllUsers"
-      ,{  headers: {
-        Authorization:`Bearer ${token}`}
-      });
+        "https://manthanr.onrender.com/v1/getAllUsers",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setUsers(response.data);
       // console.log('users ', users);
     } catch (error) {
@@ -76,15 +85,21 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false ,admin}) => 
   }, []);
 
   const submitReport = async (selectedUserId, message, admin) => {
-    const token = localStorage.getItem('adminToken');
+    const token = localStorage.getItem("adminToken");
     axios
-      .post("https://manthanr.onrender.com/v1/submit-report", {
-        admin: adminEmail,
-        user: selectedUserId,
-        message: message,
-      },{  headers: {
-        Authorization:`Bearer ${token}`}
-      })
+      .post(
+        "https://manthanr.onrender.com/v1/submit-report",
+        {
+          admin: adminEmail,
+          user: selectedUserId,
+          message: message,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         if (res.status === 200) {
           toast.success("user reported");
@@ -106,14 +121,15 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false ,admin}) => 
   //   getReportedUsers();
   //  })
   const promoteToAdmin = async (id) => {
-    const token = localStorage.getItem('adminToken');
+    const token = localStorage.getItem("adminToken");
     try {
       const res = await axios.post(
         "https://manthanr.onrender.com/v1/promote-to-admin",
-        { user: id }
-        ,
-        {  headers: {
-          Authorization:`Bearer ${token}`}
+        { user: id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       if (res.status === 200) {
@@ -216,12 +232,11 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false ,admin}) => 
           return userDate.getMonth() + 1 === parseInt(selectedMonth, 10);
         });
 
-  // Function to filter users based on selected year
   const filteredByYear =
     selectedYear === "All"
       ? filteredByMonth
       : filteredByMonth.filter((user) => {
-          const userYear = user.createdAt.substring(0, 4); // Extracting year from the date string
+          const userYear = user.createdAt.substring(0, 4); 
           // console.log("User Year:", userYear);
           // console.log("Selected Year:", selectedYear);
           return userYear === selectedYear;
@@ -229,23 +244,19 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false ,admin}) => 
 
   const exportToPDF = (users) => {
     const doc = new jsPDF();
-    // console.log(doc);
-    // const headers = [['Username', 'Email', 'Phone Number', 'Score', 'Date', 'Category']];
-    console.log(filteredUsers);
     const data = filteredUsers.map((user) => [
       user.username,
-      user?.email,
-      // user.phoneNumber,
+      user.email,
+      user.contactNumber || "",
       user.score?.toString(),
       convertISOToDate(user.createdAt),
       categorizeUser(user.score),
     ]);
-    // console.log(data);
     const rows = data.map(Object.values);
 
-    // Add table to PDF
+    // Adjust table headers to match data structure
     doc.autoTable({
-      head: [["Username", "Email", "Score", "Date", "Category"]],
+      head: [["Username", "Email", "Phone", "Score", "Date", "Category"]],
       body: rows,
     });
 
@@ -258,7 +269,7 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false ,admin}) => 
       filteredByYear.map((user) => ({
         Username: user.username,
         Email: user.email,
-        "Phone Number": user.phoneNumber,
+        "Phone Number": user.contactNumber,
         Score: user.score,
         Date: convertISOToDateTime(user.createdAt),
         Category: categorizeUser(user.score),
@@ -272,6 +283,8 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false ,admin}) => 
     const date = new Date(isoDate);
     return date.toLocaleString("en-US");
   }
+  const totalCount = filteredByYear.length;
+
   return (
     <div className="mx-auto p-2 md:p-4 pb-10 bg-gray-100 font-montserrat text-xs md:text-sm overflow-y-auto h-[90%]">
       {loading ? (
@@ -398,6 +411,14 @@ const UserData = ({ showSOSButton = true, showSummaryColumn = false ,admin}) => 
             <div className="overflow-y-auto mt-4 h-[90%]">
               <table className="w-full max-w-6xl mx-auto bg-white border rounded-md">
                 <thead>
+                <tr className="">
+                    <td
+                      colSpan={8}
+                      className="text-lg text-center uppercase mt-2 font-bold"
+                    >
+                      Total Users: {totalCount}
+                    </td>
+                  </tr>
                   <tr className="">
                     <th className="px-1 md:px-4 py-1 md:py-2 border">Index</th>
                     <th className="px-1 md:px-4 py-1 md:py-2 border">
