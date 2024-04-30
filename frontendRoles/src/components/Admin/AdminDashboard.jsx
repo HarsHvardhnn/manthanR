@@ -47,14 +47,14 @@ const AdminDashboard = () => {
   //   if (token) {
   //     return 'Bearer ' + token;
   //   } else {
-  //     return {}; 
+  //     return {};
   //   }
   // };
-  
+
   // const getAllQuestions = async () => {
   //   try {
   //     const token = localStorage.getItem("adminToken");
-      
+
   //     const res = await axios.get(
   //       "https://manthanr.onrender.com/v1/getAllData",
   //       {
@@ -84,10 +84,10 @@ const AdminDashboard = () => {
     if (!token) {
       navigate("/adminLogin");
     }
-    const object = localStorage.getItem('admin');
+    const object = localStorage.getItem("admin");
     const obj = JSON.parse(object);
     setAdmin(obj);
-  },[]);
+  }, []);
   const getPadding = () => {
     const screenWidth = window.innerWidth;
     return screenWidth >= 768 ? "1.365rem" : undefined;
@@ -111,9 +111,11 @@ const AdminDashboard = () => {
           </h1>
           <button
             onClick={toggleSidebar}
-            className="bg-white p-0.5 mr-4 rounded-md flex md:hidden"
+            className="bg-white p-0.5 mr-4 rounded-md md:hidden"
           >
-            <FaArrowLeft className="md:hidden flex text-xs" />
+            <div className="flex">
+            <FaArrowLeft className="text-xs" />
+            </div>
           </button>
         </div>
         <ul className="p-4 text-base">
@@ -180,26 +182,28 @@ const AdminDashboard = () => {
       {/* Content */}
       <div className="w-full md:ml-64">
         {/* Mobile Navbar */}
-        <nav className="lg:hidden flex justify-between items-center bg-gray-700 p-4 shadow-xl">
-          <button onClick={toggleSidebar}>
-            <FaBars className="text-white text-xl md:hidden" />
-          </button>
-          <div className="hidden md:flex">
-            <FaUserCircle className="text-white text-2xl lg:mr-2 md:absolute md:left-72 md:top-6" />
-          </div>
-          <div className="relative">
-            <button
-              onClick={() => {
-                setAdmin("");
-                localStorage.removeItem("adminToken");
-                localStorage.removeItem("admin");
-                navigate("/adminlogin");
-              }}
-              className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
-            >
-              <FaSignOutAlt className="mr-2" />
-              Logout
+        <nav className="lg:hidden bg-gray-700 p-4 shadow-xl">
+          <div className="flex justify-between items-center">
+            <button onClick={toggleSidebar}>
+              <FaBars className="text-white text-xl md:hidden" />
             </button>
+            <div className="hidden md:flex">
+              <FaUserCircle className="text-white text-2xl lg:mr-2 md:absolute md:left-72 md:top-6" />
+            </div>
+            <div className="relative">
+              <button
+                onClick={() => {
+                  setAdmin("");
+                  localStorage.removeItem("adminToken");
+                  localStorage.removeItem("admin");
+                  navigate("/adminlogin");
+                }}
+                className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
+              >
+                <FaSignOutAlt className="mr-2" />
+                Logout
+              </button>
+            </div>
           </div>
         </nav>
 
@@ -207,7 +211,9 @@ const AdminDashboard = () => {
         <nav className="hidden lg:flex justify-between items-center bg-gray-700 p-4 shadow-xl">
           <div className="flex">
             <FaUserCircle className="text-white text-2xl mr-2" />
-            <p className="text-lg font-semibold text-white">Welcome {admin.username}</p>
+            <p className="text-lg font-semibold text-white">
+              Welcome {admin.username}
+            </p>
           </div>
           <div className="relative">
             <button
@@ -227,9 +233,9 @@ const AdminDashboard = () => {
 
         {/* Content based on activeTab */}
         {activeTab === "charts" && <ScoreRangeChart />}
-        {activeTab === "allUsers" && <UserData admin={admin}/>}
+        {activeTab === "allUsers" && <UserData admin={admin} />}
         {activeTab === "userreport" && <UserReport />}
-        {activeTab === "sosnotification" && <SOSNotifications  admin={admin}/>}
+        {activeTab === "sosnotification" && <SOSNotifications admin={admin} />}
       </div>
     </div>
   );
