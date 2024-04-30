@@ -1,4 +1,4 @@
-.chat-container::-webkit-scrollbar{
+.chat-container::-webkit-scrollbar, .summary::-webkit-scrollbar{
     width: 7px; 
   }
   
@@ -6,7 +6,7 @@
     width: 4px; 
   }
 
-  .chat-container::-webkit-scrollbar-track, .admins::-webkit-scrollbar {
+  .chat-container::-webkit-scrollbar-track, .admins::-webkit-scrollbar, .summary::-webkit-scrollbar {
     background: #f1f1f1; 
     margin: 9px 0;
     border-radius: 10px;
@@ -17,7 +17,7 @@
     border-radius: 10px;
   }
   
-  .chat-container::-webkit-scrollbar-thumb:hover, .admins::-webkit-scrollbar {
+  .chat-container::-webkit-scrollbar-thumb:hover, .admins::-webkit-scrollbar, .summary::-webkit-scrollbar {
     background: #bababa; 
   }
   @media (max-width: 767px) and (min-width: 640px) {
