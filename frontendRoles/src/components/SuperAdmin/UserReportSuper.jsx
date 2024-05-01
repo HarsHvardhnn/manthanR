@@ -8,19 +8,18 @@ import CommentsComponent from "../Summary";
 // import { toast } from "react-toastify";
 
 const UserReport = () => {
-  const [showSummary,setShowSummary] = useState(false);
+  const [showSummary, setShowSummary] = useState(false);
   const [userWithInfo, setUserWithInfo] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
   const [reportedUser, setReportedUser] = useState(null);
-  const [filterByPsy, setFilterByPsy] = useState(false); // Add state for filtering by psy report
+  const [filterByPsy, setFilterByPsy] = useState(false);
   const [comments, setComments] = useState();
-  const [sumID,setSumId] = useState('');
-
-
+  const [sumID, setSumId] = useState("");
 
   const getUsers = () => {
     const token = localStorage.getItem("superadminToken");
+    setLoading(true);
     axios
       .get("https://manthanr.onrender.com/v1/get-reported-users", {
         headers: {
@@ -33,14 +32,15 @@ const UserReport = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
-  function savee(){
+  function savee() {
     console.log(comments);
   }
- 
-
 
   const reportToPsych = (user) => {
     const token = localStorage.getItem("superadminToken");
@@ -102,23 +102,32 @@ const UserReport = () => {
       });
   };
 
-  const uploadSummary =  () => {
+  const uploadSummary = () => {
     const sum = JSON.stringify(comments);
 
-    const token = localStorage.getItem('superadminToken');
-    axios.post('https://manthanr.onrender.com/v1/upload-summary',{
-      userID:sumID,
-      summary :sum
-    },{headers:{
-      Authorization:`Bearer ${token}`
-    }}).then((res)=>{
-      if(res.status ===200){
-        toast.success('Uploaded summary')
-      }
-    }).catch((err)=>{
-      console.log(err);
-    })
-  }
+    const token = localStorage.getItem("superadminToken");
+    axios
+      .post(
+        "https://manthanr.onrender.com/v1/upload-summary",
+        {
+          userID: sumID,
+          summary: sum,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success("Uploaded summary");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleReportUser = (user) => {
     setReportedUser(user);
@@ -127,9 +136,15 @@ const UserReport = () => {
 
   return (
     <div className="p-4 overflow-y-auto h-[80%]">
-      {
-        showSummary && <CommentsComponent comments={comments} setComments={setComments} savee={uploadSummary} sumID={sumID}/>
-      }
+      {showSummary && (
+        <CommentsComponent
+          comments={comments}
+          setComments={setComments}
+          savee={uploadSummary}
+          sumID={sumID}
+          onClose={() => setShowSummary(false)}
+        />
+      )}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg md:text-xl font-semibold">User Reports</h2>
         <div className="flex items-center space-x-4">
@@ -193,12 +208,12 @@ const UserReport = () => {
                   <span className="font-semibold">Admin Comments:</span>{" "}
                   {report.message}
                 </p>
-                <div className="mt-2 text-base md:text-lg flex items-center justify-between">
+                <div className="mt-2 text-base md:text-lg flex items-center ">
                   <button
                     className={`mr-2 px-3 py-1 rounded ${
                       report.reported_psych
                         ? "bg-gray-400 text-gray-700 cursor-not-allowed"
-                        : "bg-blue-500 text-white"
+                        : "bg-blue-500 hover:bg-blue-600 text-white"
                     }`}
                     onClick={() => {
                       handleReportUser(report);
@@ -209,11 +224,14 @@ const UserReport = () => {
                       ? "Already Reported"
                       : "Report to Psychiatrist"}
                   </button>
-                  <button  onClick={()=>{
-                    setSumId(report?.user)
-                    setShowSummary(true)
-                  }} className={`mr-2 px-3 py-1 rounded bg-blue-500 text-white`}>
-                     Summary
+                  <button
+                    onClick={() => {
+                      setSumId(report?.user);
+                      setShowSummary(true);
+                    }}
+                    className={`mr-2 px-3 py-1 rounded bg-blue-500 hover:bg-blue-600 text-white`}
+                  >
+                    Summary
                   </button>
                 </div>
               </div>
