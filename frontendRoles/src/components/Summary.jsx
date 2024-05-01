@@ -22,6 +22,7 @@ const CommentsComponent = ({
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
+        console.log(res);
         // Find the actionSummary array within res.data
         const actionSummary =
           res.data.find((item) => Array.isArray(item.actionSummary))

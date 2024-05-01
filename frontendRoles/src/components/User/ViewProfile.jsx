@@ -94,7 +94,7 @@ const ViewProfile = ({ onClose ,loading ,getUser,data }) => {
       </div>)
      }
         <div>
-          <button onClick={() => {navigate("/ProfileUpdatePage" ,{ state: { from: "/usersection" } })}} className="bg-blue-500 text-white rounded-lg px-4 py-1 mt-2 w-full">
+          <button onClick={() => {navigate("/edit-profile" ,{ state: { from: "/usersection" } })}} className="bg-blue-500 text-white rounded-lg px-4 py-1 mt-2 w-full">
             Edit Details
           </button>
         </div>

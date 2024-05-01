@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect,useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { userContext } from "../../context";
@@ -10,7 +10,8 @@ const EditProfileForm = () => {
   const navigate = useNavigate();
   const [image, setImage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { user } = useContext(userContext);
+  const { user ,setUser} = useContext(userContext);
+  
   const initialValues = {
     phoneNumber: "",
     hostelName: "",
@@ -18,6 +19,34 @@ const EditProfileForm = () => {
     relationshipStatus: "",
     semester: "",
   };
+
+
+ const getUserProfile = () => {
+  const token = localStorage.getItem('token');
+  axios.get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}` ,{headers:{
+    Authorization:`Bearer ${token}`
+  }}).then((res)=>{
+    console.log(res);
+  }).catch((Err)=>{
+    console.log(Err)
+  })
+ }
+
+ useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/login");
+  }
+
+  const storedUserData = localStorage.getItem("user");
+  if (storedUserData) {
+    const parsedUserData = JSON.parse(storedUserData);
+    setUser(parsedUserData);
+  }
+
+getUserProfile();
+
+}, []);
 
   const validationSchema = Yup.object().shape({
     phoneNumber: Yup.string()

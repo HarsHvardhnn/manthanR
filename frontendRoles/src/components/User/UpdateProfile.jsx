@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext,useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -13,10 +13,7 @@ import { BsPlusLg } from "react-icons/bs";
 import EditProfileForm from "./edit_profile";
 
 const ProfileUpdatePage = () => {
-  const location = useLocation();
-  // console.log(location)
-  const prevRoute = location.state?.from === "/usersection";
-  console.log(prevRoute);
+
   // console.log('prevpath' , previousRoute);
   const { user, setUser } = useContext(userContext);
   const [formValues, setFormvalues] = useState(null);
@@ -167,13 +164,27 @@ const ProfileUpdatePage = () => {
     }
   };
 
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+  
+    const storedUserData = localStorage.getItem("user");
+    if (storedUserData) {
+      const parsedUserData = JSON.parse(storedUserData);
+      setUser(parsedUserData);
+    }
+  
+  // getUserProfile();
+  
+  }, []);
+  
   return (
     <>
       <Header />
 
-      {prevRoute ? (
-        <EditProfileForm />
-      ) : (
         <div className="min-h-screen flex justify-center items-center font-montserrat pt-20 bg-blue-200">
           <div className="flex bg-white justify-center items-center w-11/12 md:w-3/4 lg:w-10/12 xl:w-3/5 shadow-xl rounded-xl">
             <div className="flex-1 bg-white py-4 px-6 rounded-xl w-full sm:w-96">
@@ -520,7 +531,7 @@ const ProfileUpdatePage = () => {
             </div>
           </div>
         </div>
-      )}
+
     </>
   );
 };

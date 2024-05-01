@@ -23,6 +23,7 @@ import ProfileUpdatePage from "./components/User/UpdateProfile";
 import Summary from "./components/Summary";
 import { loadingContext } from "./context";
 import { adminEmailContext } from "./context";
+import EditProfileForm from "./components/User/edit_profile";
 
 
 function App() {
@@ -52,6 +53,10 @@ function App() {
     {
       path: "/Chatbot",
       element: <Chatbot />,
+    },
+    {
+      path: "/edit-profile",
+      element:     <EditProfileForm/>,
     },
     {
       path: "/",
