@@ -88,7 +88,7 @@ const UserData = ({
     const token = localStorage.getItem("adminToken");
     axios
       .post(
-        "http://localhost:3030/v1/submit-report",
+        "https://manthanr.onrender.com/v1/submit-report",
         {
           admin: admin.email,
           user: selectedUserId,

@@ -7,7 +7,7 @@ import { adminContext, userContext } from "../../context";
 import jsPDF from "jspdf";
 import { ThreeDots } from "react-loader-spinner";
 import "jspdf-autotable";
-
+import emailjs from "emailjs-com";
 const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   // const {user} = useContext(userContext);
   // const [users, setUsers] = useState([]);
@@ -19,11 +19,12 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   const [showReportModal, setShowReportModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [message, setMessage] = useState("");
+  // const [email,setEmail]= useState("");
   const [loading, setLoading] = useState(false);
-  const [fetchedReportedUsers, setFetchedReportedUsers] = useState();
+  // const [fetchedReportedUsers, setFetchedReportedUsers] = useState();
   const { admin } = useContext(adminContext);
 
-  const [selectUser, setSelectUser] = useState(null);
+  // const [selectUser, setSelectUser] = useState(null);
   const [users, setUsers] = useState([]);
   const [questions, setQuestions] = useState([]);
 
@@ -80,10 +81,10 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
 
   const reportToPsych = (user) => {
     const token = localStorage.getItem("superadminToken");
-    console.log(user)
+    
     axios
       .post(
-        "http://localhost:3030/v1/report-to-psych",
+        "https://manthanr.onrender.com/v1/report-to-psych",
         {
           userID: user._id,
         },
@@ -95,14 +96,51 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       )
       .then((res) => {
         console.log(res);
+        if(res.status===200){
+          toast.success('reported')
+          const username = users.filter(
+            (user1) => user1._id === user._id
+          );
 
-        // const username = userWithInfo.filter(
-        //   (user) => user.email === user._id
-        // );
-        //   console.log(username);
+          
+          sendEmail(username[0])
+        }
+
+       
       })
       .catch((err) => {
         console.log(err);
+      });
+  };
+
+  const sendEmail = (report) => {
+    const serviceId = "service_0jzntyg";
+    const templateId = "template_dbu0gpy";
+    const userId = "4n-EC2hBnJ4wZnL_F";
+
+    const { email,contactNumber, score, username } = report;
+
+    const templateParams = {
+      to_name: "PSYCH",
+      from_name: "super admin",
+      to_email: "abhisektiwari2014@gmail.com",
+      username: username,
+      contact:contactNumber,
+      email:email,
+      score:score,
+      subject: "User Reported",
+      message: `The user ${username} has been reported.`,
+    };
+
+    emailjs
+      .send(serviceId, templateId, templateParams, userId)
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success("reported user to super admin");
+        }
+      })
+      .catch((error) => {
+        console.error("Email error:", error);
       });
   };
 

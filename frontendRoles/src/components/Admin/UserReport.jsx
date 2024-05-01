@@ -15,7 +15,7 @@ const UserReport = ({admin}) => {
   const getUsers = () => {
     const token = localStorage.getItem('adminToken');
 
-    axios.get(`http://localhost:3030/v1/get-admin-reported-users/${admin.email}` ,{
+    axios.get(`https://manthanr.onrender.com/v1/get-admin-reported-users/${admin.email}` ,{
       headers:{
         Authorization:`Bearer ${token}`
       }
