@@ -5,6 +5,7 @@ import { userContext } from "../../context";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Header from "../Home/Header";
 
 const EditProfileForm = () => {
   const navigate = useNavigate();
@@ -145,6 +146,7 @@ getUserProfile();
 
   return (
     <div className="w-full bg-blue-200 min-h-screen">
+      <Header/>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
