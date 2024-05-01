@@ -31,6 +31,7 @@ const AddAdmin = () => {
       ...values,
       password: password,
     };
+    console.log("Generated Password:", password);
     const token = localStorage.getItem('superadminToken');
     // console.log(formData);
 
