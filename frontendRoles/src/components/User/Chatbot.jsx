@@ -422,7 +422,7 @@ const Chatbot = () => {
                           <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
                             😞
                           </p>
-                          <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">Strongly Diagree</p>
+                          <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">Strongly Disagree</p>
                         </div>
                       </button>
                     </div>

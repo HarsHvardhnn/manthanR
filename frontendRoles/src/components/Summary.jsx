@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import axios from "axios";
+import "../components/User/scrollbar.css"
 const CommentsComponent = ({comments,setComments,savee,sumID}) => {
   const [newComment, setNewComment] = useState("");
 
@@ -65,11 +66,11 @@ const CommentsComponent = ({comments,setComments,savee,sumID}) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full flex flex-col bg-gray-200 bg-opacity-60 p-24">
         
-      <div className="flex-1 overflow-y-auto bg-white p-10 w-[70%] mx-auto rounded-lg">
+      <div className="flex-1 overflow-y-auto bg-white p-6 w-[70%] mx-auto rounded-lg summary">
         {comments?.map((comment) => (
           <div key={comment.id} className="mb-4">
-            <div className="bg-gray-200 p-4 rounded-lg shadow">
-              <p className="text-gray-700">{comment.text}</p>
+            <div className="bg-yellow-100 p-4 rounded-lg shadow">
+              <p className=""><span className="font-medium underline">Comments:</span> {comment.text}</p>
               <p className="text-sm text-gray-500">{comment.time}</p>
               <div className="mt-2 flex space-x-2">
                 <button
