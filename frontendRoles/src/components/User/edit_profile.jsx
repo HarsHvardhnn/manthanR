@@ -1,6 +1,5 @@
-import React, { useContext, useEffect,useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { userContext } from "../../context";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -11,8 +10,8 @@ const EditProfileForm = () => {
   const navigate = useNavigate();
   const [image, setImage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { user ,setUser} = useContext(userContext);
-  
+  const { user, setUser } = useContext(userContext);
+  const [obj, setObj] = useState({});
   const initialValues = {
     phoneNumber: "",
     hostelName: "",
@@ -21,45 +20,35 @@ const EditProfileForm = () => {
     semester: "",
   };
 
+  const getUserProfile = () => {
+    const token = localStorage.getItem('token');
+    axios.get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then((res) => {
+      console.log(res);
+      setObj(res.data);
+    }).catch((Err) => {
+      console.log(Err);
+    });
+  };
 
- const getUserProfile = () => {
-  const token = localStorage.getItem('token');
-  axios.get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}` ,{headers:{
-    Authorization:`Bearer ${token}`
-  }}).then((res)=>{
-    console.log(res);
-  }).catch((Err)=>{
-    console.log(Err)
-  })
- }
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
 
- useEffect(() => {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    navigate("/login");
-  }
+    const storedUserData = localStorage.getItem("user");
+    if (storedUserData) {
+      const parsedUserData = JSON.parse(storedUserData);
+      setUser(parsedUserData);
+    }
 
-  const storedUserData = localStorage.getItem("user");
-  if (storedUserData) {
-    const parsedUserData = JSON.parse(storedUserData);
-    setUser(parsedUserData);
-  }
+    getUserProfile();
 
-getUserProfile();
-
-}, []);
-
-  const validationSchema = Yup.object().shape({
-    phoneNumber: Yup.string()
-    .matches(/^[0-9]{10}$/, "Must be only digits and exactly 10 digits")
-    .required("Phone Number is required"),
-    hostelName: Yup.string().required("Hostel Name is required"),
-    hostelRoomNumber: Yup.string().required("Hostel Room Number is required"),
-    relationshipStatus: Yup.string().required(
-      "Relationship Status is required"
-    ),
-    semester: Yup.string().required("Semester is required"),
-  });
+  }, []);
 
   const uploadImage = (e) => {
     const file = e.target.files[0];
@@ -123,8 +112,8 @@ getUserProfile();
     const token = localStorage.getItem("token");
     axios
       .post(
-        // "http://localhost:3030/v1/edit-profile",
-        "https://manthanr.onrender.com/v1/edit-profile",
+        "http://localhost:3030/v1/edit-profile",
+        // "https://manthanr.onrender.com/v1/edit-profile",
         formData,
         {
           headers: {
@@ -149,7 +138,6 @@ getUserProfile();
       <Header/>
       <Formik
         initialValues={initialValues}
-        validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
         {({ errors, touched, isValid }) => (
@@ -166,6 +154,7 @@ getUserProfile();
                 name="phoneNumber"
                 placeholder="Phone Number"
                 className="w-full px-3 py-2 border rounded-md"
+                
               />
               <ErrorMessage
                 name="phoneNumber"
@@ -227,6 +216,7 @@ getUserProfile();
                 as="select"
                 name="semester"
                 className="w-full px-3 py-2 border rounded-md text-xs sm:text-sm xl:text-base"
+                
               >
                 {semesterOptions.map((option) => (
                   <option key={option.value} value={option.value}>

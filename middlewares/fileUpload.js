@@ -11,7 +11,7 @@ const upload = multer({ dest: 'uploads/' });
 function uploadImage(req, res, next) {
     // console.log(req.body);
         if (!req.body.image) {
-      return res.status(400).json({ error: 'No image file provided' });
+      next();
     }
   
     cloudinary.uploader.upload(req.body.image, function(error, result) {
