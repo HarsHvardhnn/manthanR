@@ -12,6 +12,7 @@ const CommentsComponent = ({comments,setComments,savee,sumID}) => {
     const token = localStorage.getItem('superadminToken');
     axios.get(`https://manthanr.onrender.com/v1/get-summary/${sumID}`, { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => {
+        console.log(res);
         // Find the actionSummary array within res.data
         const actionSummary = res.data.find(item => Array.isArray(item.actionSummary))?.actionSummary || [];
         setComments(actionSummary);
