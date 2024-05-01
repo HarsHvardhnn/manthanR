@@ -21,7 +21,6 @@ const supAdminModelSchema = new mongoose.Schema({
   actionSummary:{
     type:[],
     default:[]
-
   }
 });
 

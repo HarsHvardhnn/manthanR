@@ -5,73 +5,17 @@ import emailjs from 'emailjs-com';
 import {ThreeDots } from 'react-loader-spinner'
 
 
-const UserReport = () => {
+const UserReport = ({admin}) => {
   const [reports, setReports] = useState([]);
-  const [reportedUsers, setReportedUsers] = useState([]);
   const [userWithInfo, setUserWithInfo] = useState([]);
   const [loading,setLoading] = useState(false);
-
-  // const getHeader = () => {
-  //   const token = localStorage.getItem('adminToken');
-  //   if (token) {
-  //     return 'Bearer ' + token;
-  //   } else {
-  //     return {}; 
-  //   }
-  // };
-
-  // async function fetchUserInformation(userIds) {
-  //   const userInformation = [];
-  //   const token = localStorage.getItem('adminToken');
-  //   for (const userObj of userIds) {
-  //     try {
-  //       const userId = userObj.user;
-
-  //       const response = await axios.get(
-  //         `https://manthanr.onrender.com/v1/get-user-info/${userId}`, {  headers: {
-  //           Authorization:`Bearer ${token}`}
-  //         }
-  //       );
-  //       const userData = {
-  //         ...response.data,
-  //         message: userObj.message,
-  //       };
-  //       userInformation.push(userData);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-
-  //   return userInformation;
-  // }
-
-  // const getReportedUsers = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const token = localStorage.getItem('adminToken');
-  //     const response = await axios.get(
-  //       "https://manthanr.onrender.com/v1/get-reported-users", {  headers: {
-  //         Authorization:`Bearer ${token}`}
-  //       }
-  //     );
-  //     // console.log(response.data);
-  //     setReportedUsers(response.data);
-
-  //     const userInformation = await fetchUserInformation(response.data);
-
-  //     // console.log(userInformation);
-  //     setUserWithInfo(userInformation);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  //   finally{
-  //     setLoading(false);
-  //   }
-  // };
+ 
+  console.log(admin);
 
   const getUsers = () => {
-    const token = localStorage.getItem('adminToken')
-    axios.get('https://manthanr.onrender.com/v1/get-user-with-info' ,{
+    const token = localStorage.getItem('adminToken');
+
+    axios.get(`http://localhost:3030/v1/get-admin-reported-users/${admin.email}` ,{
       headers:{
         Authorization:`Bearer ${token}`
       }
@@ -96,6 +40,7 @@ const UserReport = () => {
     );
   };
 
+  
   // const reportUser = (report) => {
 
   //         toast.success('User reported');
@@ -138,6 +83,7 @@ const UserReport = () => {
   //       console.error('Email error:', error);
   //     });
   // };
+  
 
   const markAsUnread = (reportId) => {
     setReports((prevReports) =>
@@ -163,7 +109,7 @@ const UserReport = () => {
           />
           <p>Loading...</p>
         </div>) : (
-      userWithInfo.reverse().map((report) => (
+      userWithInfo.map((report) => (
         <div
           key={report.id}
           className={`${
@@ -177,7 +123,7 @@ const UserReport = () => {
             <span className="font-semibold">Email:</span> {report.email}
           </p>
           <p className="text-base md:text-lg">
-            <span className="font-semibold">Phone:</span> {report.profile.contactNumber}
+            <span className="font-semibold">Phone:</span> {report?.contactNumber}
           </p>
           <p className="text-base md:text-lg">
             <span className="font-semibold">Score:</span> {report.score}

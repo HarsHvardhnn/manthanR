@@ -44,7 +44,8 @@ const AdminLogin = () => {
               setAdminEmail(res.data.user.email);
               navigate("/AdminDashboard");
               const object = {username:res.data.user.username,
-                adminID:res.data.user._id}
+                adminID:res.data.user._id
+              , email:values.email}
                 console.log(object)
                 const storeObject = JSON.stringify(object);
               localStorage.setItem('admin' , storeObject)

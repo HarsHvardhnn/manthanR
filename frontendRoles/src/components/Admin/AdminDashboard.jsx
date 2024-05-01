@@ -95,7 +95,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="flex font-montserrat h-screen">
-      {/* Sidebar */}
+      
       <div
         className={`absolute top-0 left-0 bottom-0 w-48 md:w-64 bg-gray-700 transition-transform duration-300 z-50 ${
           showSidebar ? "translate-x-0" : "-translate-x-full"
@@ -161,7 +161,7 @@ const AdminDashboard = () => {
             <FaFilePdf className="mr-2" />
             Reported Users
           </li>
-          {/* Add SosNotification tab */}
+          
           <li
             className={
               activeTab === "sosnotification"
@@ -179,9 +179,9 @@ const AdminDashboard = () => {
         </ul>
       </div>
 
-      {/* Content */}
+      
       <div className="w-full md:ml-64">
-        {/* Mobile Navbar */}
+        
         <nav className="lg:hidden bg-gray-700 p-4 shadow-xl">
           <div className="flex justify-between items-center">
             <button onClick={toggleSidebar}>
@@ -207,7 +207,7 @@ const AdminDashboard = () => {
           </div>
         </nav>
 
-        {/* Desktop Navbar */}
+        
         <nav className="hidden lg:flex justify-between items-center bg-gray-700 p-4 shadow-xl">
           <div className="flex">
             <FaUserCircle className="text-white text-2xl mr-2" />
@@ -231,10 +231,10 @@ const AdminDashboard = () => {
           </div>
         </nav>
 
-        {/* Content based on activeTab */}
+        
         {activeTab === "charts" && <ScoreRangeChart />}
         {activeTab === "allUsers" && <UserData admin={admin} />}
-        {activeTab === "userreport" && <UserReport />}
+        {activeTab === "userreport" && <UserReport admin={admin} />}
         {activeTab === "sosnotification" && <SOSNotifications admin={admin} />}
       </div>
     </div>

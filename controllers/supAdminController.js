@@ -7,7 +7,7 @@ const submitReport = async (req, res) => {
     try {
         const { user, message ,admin } = req.body;
         // console.log(usermessage);
-        console.log(admin);
+        // console.log(admin);
         if (!user || !message) {
             return res.status(400).json({ error: "User and message are required fields." });
         }
@@ -60,21 +60,45 @@ const notifyAdmin = async (req,res) => {
 const getReportedUsers = async (req, res) => {
     try {
         const supAdminUsers = await supAdminModel.find({}).lean();
-            // console.log(supAdminUsers)
-        // Array to store merged data
+     
         const mergedUsers = [];
 
-        // Fetching and merging data for each user
         for (const supAdminUser of supAdminUsers) {
-            // Find user from userModel
+        
             const userModelData = await userModel.findById(supAdminUser.user, 'username email score contactNumber').lean(); // Ensure contactNumber is included in the projection
-            // Merge data from both models
+
             const mergedUser = { ...supAdminUser, ...userModelData };
             mergedUsers.push(mergedUser);
         }
 
         return res.send(mergedUsers).status(200);
     } catch(err) {
+        console.log(err);
+        return res.status(500).send('Error');
+    }
+}
+
+
+const getAdminReportedUsers = async (req, res) => {
+    try {
+        const email = req.params.id;
+      
+        const reports = await supAdminModel.find({ admin: email }).lean();
+
+      
+        const mergedUsers = [];
+
+      
+        for (const report of reports) {
+  
+            const userModelData = await userModel.findById(report.user, 'username email score contactNumber').lean(); 
+     
+            const mergedUser = { ...report, ...userModelData };
+            mergedUsers.push(mergedUser);
+        }
+
+        return res.status(200).send(mergedUsers);
+    } catch (err) {
         console.log(err);
         return res.status(500).send('Error');
     }
@@ -104,4 +128,4 @@ const authorityLogin = async (req, res) => {
 
 
 
-module.exports ={submitReport ,authorityLogin, getReportedUsers ,getAdminWiseData ,notifyAdmin };
+module.exports ={submitReport ,authorityLogin, getReportedUsers ,getAdminWiseData ,notifyAdmin  ,getAdminReportedUsers};

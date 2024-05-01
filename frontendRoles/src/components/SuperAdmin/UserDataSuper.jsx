@@ -78,15 +78,14 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
     getAllQuestions();
   }, []);
 
-  const submitReport = async (selectedUserId, message, admin) => {
+  const reportToPsych = (user) => {
     const token = localStorage.getItem("superadminToken");
+    console.log(user)
     axios
       .post(
-        "https://manthanr.onrender.com/v1/submit-report",
+        "http://localhost:3030/v1/report-to-psych",
         {
-          admin: admin,
-          user: selectedUserId,
-          message: message,
+          userID: user._id,
         },
         {
           headers: {
@@ -95,13 +94,18 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
         }
       )
       .then((res) => {
-        // console.log(res);
+        console.log(res);
+
+        // const username = userWithInfo.filter(
+        //   (user) => user.email === user._id
+        // );
+        //   console.log(username);
       })
       .catch((err) => {
         console.log(err);
       });
-    // console.log(fetchedReportedUsers);
   };
+
 
   //  useEffect(() => {
   //   getReportedUsers();
@@ -137,8 +141,9 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   };
 
   const handleReportSubmit = (comment) => {
+    console.log(comment)
     // console.log("Reported user with id:", selectedUserId, "Comment:", comment);
-    submitReport(selectUser, comment, admin);
+    reportToPsych(comment);
     setShowReportModal(false);
   };
 
@@ -415,7 +420,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                       </td>
                       <td className="px-4 py-2 border">
                         <button
-                          onClick={() => handleReportUser(user._id)}
+                          onClick={() => handleReportSubmit(user)}
                           className="font-medium text-blue-600 mr-2 underline"
                         >
                           Report to Psychiatrist

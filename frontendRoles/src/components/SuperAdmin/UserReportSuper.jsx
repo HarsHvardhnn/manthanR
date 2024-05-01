@@ -57,7 +57,12 @@ const UserReport = () => {
         }
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
+
+        const username = userWithInfo.filter(
+          (user) => user.email === user._id
+        );
+          console.log(username);
       })
       .catch((err) => {
         console.log(err);

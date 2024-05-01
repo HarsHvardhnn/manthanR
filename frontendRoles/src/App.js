@@ -34,7 +34,8 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [admin, setAdmin] = useState({
     username:'',
-    adminID:''
+    adminID:'',
+    email:''
   });
 
   const router = createBrowserRouter([

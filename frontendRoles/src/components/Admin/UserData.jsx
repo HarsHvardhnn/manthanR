@@ -88,9 +88,9 @@ const UserData = ({
     const token = localStorage.getItem("adminToken");
     axios
       .post(
-        "https://manthanr.onrender.com/v1/submit-report",
+        "http://localhost:3030/v1/submit-report",
         {
-          admin: adminEmail,
+          admin: admin.email,
           user: selectedUserId,
           message: message,
         },
@@ -101,13 +101,14 @@ const UserData = ({
         }
       )
       .then((res) => {
+        // console.log(res);
         if (res.status === 200) {
           toast.success("user reported");
           const username = users.filter(
             (user) => user.email === selectedUserId
           );
-
-          sendEmail(username[0].username, message, username[0].email);
+          console.log(username)
+          sendEmail(username[0].username, message, username[0].email,username[0].contactNumber);
         }
       })
       .catch((err) => {
@@ -168,12 +169,13 @@ const UserData = ({
     return date.toLocaleDateString("en-US", options);
   }
 
-  const sendEmail = (username, message, email) => {
+  const sendEmail = (username, message, email,contactNumber) => {
     const serviceId = "service_0jzntyg";
     const templateId = "template_ugy8wsb";
     const userId = "4n-EC2hBnJ4wZnL_F";
 
     // console.log(username,message , 'message');
+    // console.log(contactNumber);
 
     const templateParams = {
       to_name: "PSYCH",
@@ -181,10 +183,11 @@ const UserData = ({
       message: message,
       to_email: "abhisektiwari2014@gmail.com",
       username: username,
-      admin: admin,
+      admin: admin.username,
       email: email,
+      contact:`${contactNumber}`,
       subject: "User Reported",
-      // message: `The user ${username} has been reported.`,
+      message:message,
     };
 
     emailjs
