@@ -21,6 +21,7 @@ const ProfileUpdatePage = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
+  const [adminAss ,setAdminAss] = useState("");
 
   const initialValues = {
     firstName: "",
@@ -67,6 +68,21 @@ const ProfileUpdatePage = () => {
       reader.readAsDataURL(file);
     }
   };
+
+  const getAdmin = () =>{
+    const token = localStorage.getItem('token')
+    axios.get(`https://manthanr.onrender.com/v1/assigned-admin/${user.userID}` ,{
+      headers:{
+        Authorization:`Bearer ${token}`
+      }
+    } ).then((res)=>{
+      console.log(res);
+      setAdminAss(res.data)
+      setUser({...user,assigned_admin:res.data})
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
 
   // console.log(user);
   // const onSubmit = async (values) => {
@@ -147,7 +163,7 @@ const ProfileUpdatePage = () => {
           },
         }
       );
-
+           console.log(res);
       if (res.data.message === "Profile created successfully") {
         toast.success("profile updated");
         setIsUpdating(false);
@@ -156,6 +172,8 @@ const ProfileUpdatePage = () => {
           username: values.firstName,
           assigned_admin: res.data.admintoupdate._id,
         });
+        // getAdmin();
+
         navigate("/usersection");
       }
     } catch (err) {

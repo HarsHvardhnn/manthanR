@@ -50,7 +50,7 @@ const LoginPage = () => {
     // console.log(loading);
     axios
     .post("https://manthanr.onrender.com/v1/login", {
-        email: values.email,
+        email: values.email.toLowerCase(),
         password: values.password,
       })
       .then((res) => {

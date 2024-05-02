@@ -97,12 +97,12 @@ const EditProfileForm = () => {
 
   const onSubmit = async (values) => {
     setIsSubmitting(true);
-
+  console.log(values)
     const formData = new FormData();
     formData.append("user", user.userID);
-    formData.append("phoneNumber", values.phoneNumber);
+    formData.append("contactNumber", values.phoneNumber);
     formData.append("hostelName", values.hostelName);
-    formData.append("hostelRoomNumber", values.hostelRoomNumber);
+    formData.append("room", values.hostelRoomNumber);
     formData.append("relationshipStatus", values.relationshipStatus);
     formData.append("semester", values.semester);
     if (image) {
@@ -112,8 +112,8 @@ const EditProfileForm = () => {
     const token = localStorage.getItem("token");
     axios
       .post(
-        "http://localhost:3030/v1/edit-profile",
-        // "https://manthanr.onrender.com/v1/edit-profile",
+        // "http://localhost:3030/v1/edit-profile",
+        "https://manthanr.onrender.com/v1/edit-profile",
         formData,
         {
           headers: {

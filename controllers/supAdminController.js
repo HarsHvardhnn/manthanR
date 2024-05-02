@@ -46,6 +46,24 @@ const getAdminWiseData = async (req, res) => {
         return res.status(500).json({ error: "Internal server error" });
     }
 }
+const getUserAdmin = async (req, res) => {
+    try {
+        const { admin } = req.params;
+        console.log("Received admin:", admin);
+     
+        const data = await userModel.find({ assigned_admin: admin });
+        console.log("Found data:", data);
+
+        if (!data || data.length === 0) {
+            return res.status(404).json({ error: "Data not found" });
+        }
+
+        return res.send(data);
+    } catch (error) {
+        console.error("Error in getAdminWiseData:", error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+}
 
 const notifyAdmin = async (req,res) => {
     try{
@@ -128,4 +146,4 @@ const authorityLogin = async (req, res) => {
 
 
 
-module.exports ={submitReport ,authorityLogin, getReportedUsers ,getAdminWiseData ,notifyAdmin  ,getAdminReportedUsers};
+module.exports ={submitReport ,getUserAdmin ,authorityLogin, getReportedUsers ,getAdminWiseData ,notifyAdmin  ,getAdminReportedUsers};

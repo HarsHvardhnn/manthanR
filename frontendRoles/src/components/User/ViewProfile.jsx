@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ProfileUpdatePage from "./UpdateProfile";
 
 const ViewProfile = ({ onClose ,loading ,getUser,data }) => {
-  // console.log(data);
+  console.log(data);
   
   const navigate = useNavigate();
   
@@ -75,19 +75,19 @@ const ViewProfile = ({ onClose ,loading ,getUser,data }) => {
           <span className="font-semibold">Semester:</span>{" "}
           {data?.semester}
         </p>
-        {/* <p>
-          <span className="font-semibold">Roll Number:</span>{" "}
-          {data?.rollNumber}
-        </p> */}
+        <p>
+          <span className="font-semibold">Phone Number:</span>{" "}
+          {data?.contactNumber}
+        </p>
         {/* <p>
           <span className="font-semibold">Hostel Name:</span>{" "}
           {data?.hostelName}
-        </p> */}
-        {/* <p>
+        </p>
+        <p>
           <span className="font-semibold">Hostel Room Number:</span>{" "}
           {data?.hostelRoomNumber}
-        </p> */}
-        {/* <p>
+        </p>
+        <p>
           <span className="font-semibold">Relationship Status:</span>{" "}
           {data?.relationshipStatus}
         </p> */}

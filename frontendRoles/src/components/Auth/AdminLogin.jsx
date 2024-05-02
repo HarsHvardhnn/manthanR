@@ -28,7 +28,7 @@ const AdminLogin = () => {
     setLoading(true);
     axios
       .post("https://manthanr.onrender.com/v1/single-login", {
-        email: values.email,
+        email: values.email.toLowerCase(),
         password: values.password,
       })
       .then((res) => {

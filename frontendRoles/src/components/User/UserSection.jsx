@@ -376,7 +376,7 @@ const UserSection = () => {
           loading={loading}
           getUser={getUser}
           onClose={closeProfile}
-          data={user}
+          data={User}
         />
       )}
     </>

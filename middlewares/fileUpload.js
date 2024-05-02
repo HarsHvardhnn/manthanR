@@ -9,20 +9,21 @@ cloudinary.config({
 const upload = multer({ dest: 'uploads/' });
 
 function uploadImage(req, res, next) {
-    // console.log(req.body);
-        if (!req.body.image) {
-      next();
-    }
-  
-    cloudinary.uploader.upload(req.body.image, function(error, result) {
-      if (error) {
-        console.error('Error uploading image to Cloudinary:', error);
-        return res.status(500).json({ error: 'Error uploading image' });
-      } else {
-        req.imageUrl = result.url;
-        next();
-      }
-    });
+
+  if (!req.body.image) {
+      return next(); 
   }
+
+
+  cloudinary.uploader.upload(req.body.image, function(error, result) {
+      if (error) {
+          console.error('Error uploading image to Cloudinary:', error);
+          return res.status(500).json({ error: 'Error uploading image' }); // Return error if upload fails
+      } else {
+          req.imageUrl = result.url; // Save the uploaded image URL in the request object
+          next(); // Proceed to the next middleware
+      }
+  });
+}
 
 module.exports = {uploadImage ,upload};

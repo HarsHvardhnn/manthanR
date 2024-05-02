@@ -38,7 +38,8 @@ const {
   getAdminWiseData,
   getAdminReportedUsers,
   notifyAdmin,
-  authorityLogin
+  authorityLogin,
+  getUserAdmin
 } = require("../controllers/supAdminController");
 const Profile = require("../models/profileModel");
 const { sendSos, getAllSoS } = require("../controllers/SoScontroller");
@@ -245,6 +246,32 @@ router.post('/report-to-psych',verifyToken, async (req, res) => {
 });
 
 
+router.post('/add-users', upload.none(), async (req, res) => {
+  try {
+      // Extract user data array from form data
+      const userDataArray = req.body.userDataArray;
+     console.log(JSON.parse(req.body['formData']))
+      // Parse each user object in the array
+      const parsedUserDataArray =JSON.parse(userDataArray)
+      console.log(parsedUserDataArray)
+
+      // Process each user and save to the database
+      for (const userData of parsedUserDataArray) {
+          userData.role = 'user'; // Set role to 'user'
+          await userModel.create(userData); // Create user in the database
+      }
+
+      // Respond with success message
+      res.status(201).json({ message: 'Users added successfully' });
+  } catch (error) {
+      console.error('Error adding users:', error);
+      res.status(500).json({ error: 'Error adding users' });
+  }
+});
+
+
+
+
 router.post('/upload-summary' ,verifyToken, async (req, res) => {
   try {
    
@@ -297,11 +324,23 @@ router.get('/get-summary/:id',verifyToken, async (req,res) => {
 router.post("/create-admin", verifyToken, createAdmin);
 router.delete("/delete-admin/:id", verifyToken, deleteAdmin);
 // router.get('/getQuestions' , getQuestions);
+router.get('/assigned-admin/:id' ,async (req,res)=>{
+  try {
+    const id = req.params.id;
+    const admin = await userModel.findOne({_id:id});
+    console.log(admin);
+    return res.send(admin.assigned_admin).status(200);
+  }catch(err){
+    return res.send(err).status(500)
+  }
+
+})
 router.post("/submit-report", verifyToken, submitReport);
 router.get("/get-reported-users",  getReportedUsers);
 router.get("/get-admin-reported-users/:id",  getAdminReportedUsers);
 router.get("/get-user-info/:id",verifyToken ,getuserInfo);
 router.post("/getAdminwisedata", getAdminWiseData);
+router.get('/user-admin-data/:admin',getUserAdmin)
 router.get("/getAllAdmins", verifyToken, getalladmins);
 router.post("/reportpsy", verifyToken, notifyAdmin);
 

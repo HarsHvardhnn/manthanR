@@ -59,12 +59,17 @@ const UserData = ({
         console.log(err);
       });
   };
+
+
+
+
+
   const fetchUsers = async () => {
     const token = localStorage.getItem("adminToken");
     try {
       setLoading(true);
       const response = await axios.get(
-        "https://manthanr.onrender.com/v1/getAllUsers",
+        `https://manthanr.onrender.com/v1/user-admin-data/${admin.adminID}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

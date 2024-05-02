@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const AllAdmins = () => {
   const [loading, setLoading] = useState(false);
@@ -84,7 +85,17 @@ const AllAdmins = () => {
   //   getData(admin)},[admin])
 
   const handleDeleteAdmin = (id) => {
-    // console.log(`Deleting admin with ID: ${id}`);
+    const token = localStorage.getItem('superadminToken')
+   axios.delete(`https://manthanr.onrender.com/v1/delete-admin/${id}`,{
+    headers:{
+      Authorization:`Bearer ${token}`
+    }
+   }).then((res)=>{
+   toast.success(res.data)
+   getAllAdmins()
+   }).catch((Err)=>{
+    console.log(Err);
+   })
   };
 
   return (
@@ -123,7 +134,7 @@ const AllAdmins = () => {
                   <tr key={admin._id}>
                     <td className="border px-4 py-2">{index + 1}</td>
                     <td className="border px-4 py-2">{admin.username}</td>
-                    <td className="border px-4 py-2">{admin.conatctNumber}</td>
+                    <td className="border px-4 py-2">{admin.contactNumber}</td>
                     <td className="border px-4 py-2">{admin.email}</td>
                     <td className="border px-4 py-2">
                       <button
