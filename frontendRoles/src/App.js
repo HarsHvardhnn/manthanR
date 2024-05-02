@@ -103,6 +103,10 @@ function App() {
     {
       path: '/Summary',
       element: <Summary/>
+    },
+    {
+      path: '/UserForm',
+      element: <UserForm/>
     }
   ]);
   return (

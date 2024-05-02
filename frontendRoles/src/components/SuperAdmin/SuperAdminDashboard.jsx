@@ -10,6 +10,8 @@ import {
   FaFilePdf,
   FaArrowLeft,
   FaBars,
+  FaUserShield,
+  FaUserPlus,
 } from "react-icons/fa";
 import axios from "axios";
 import "../User/scrollbar.css";
@@ -22,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 import AllUsersChart from "./AllUsersChart";
 import AddAdmin from "./AddAdmin";
 import AllAdmins from "./AllAdmins";
+import UserForm from "./addUser";
 
 const SuperAdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("AllUsersChart");
@@ -32,7 +35,6 @@ const SuperAdminDashboard = () => {
   const navigate = useNavigate();
   const [showSidebar, setShowSidebar] = useState(true);
   const dropdownRef = useRef(null);
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -201,6 +203,34 @@ const SuperAdminDashboard = () => {
           </li>
           <li
             className={
+              activeTab === "AllAdmins"
+                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-44"
+                : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
+            }
+            onClick={() => {
+              setActiveTab("AllAdmins");
+              toggleSidebar();
+            }}
+          >
+            <FaUserShield className="mr-2" />
+            Admin List{" "}
+          </li>
+          <li
+            className={
+              activeTab === "AddAdmin"
+                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-44"
+                : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
+            }
+            onClick={() => {
+              setActiveTab("AddAdmin");
+              toggleSidebar();
+            }}
+          >
+            <FaUserPlus className="mr-2" />
+            New Admin{" "}
+          </li>
+          <li
+            className={
               activeTab === "Users"
                 ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-44"
                 : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
@@ -215,31 +245,17 @@ const SuperAdminDashboard = () => {
           </li>
           <li
             className={
-              activeTab === "AddAdmin"
+              activeTab === "UserForm"
                 ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-44"
                 : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
             }
             onClick={() => {
-              setActiveTab("AddAdmin");
+              setActiveTab("UserForm");
               toggleSidebar();
             }}
           >
-            <FaUsers className="mr-2" />
-            New Admin{" "}
-          </li>
-          <li
-            className={
-              activeTab === "AllAdmins"
-                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-44"
-                : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
-            }
-            onClick={() => {
-              setActiveTab("AllAdmins");
-              toggleSidebar();
-            }}
-          >
-            <FaUsers className="mr-2" />
-            Admin List{" "}
+            <FaUserPlus className="mr-2" />
+            Add User{" "}
           </li>
         </ul>
       </div>
@@ -311,6 +327,7 @@ const SuperAdminDashboard = () => {
         )}
         {activeTab === "AddAdmin" && <AddAdmin />}
         {activeTab === "AllAdmins" && <AllAdmins />}
+        {activeTab === "UserForm" && <UserForm />}
       </div>
     </div>
   );

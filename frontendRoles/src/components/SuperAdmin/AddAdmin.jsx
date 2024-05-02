@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from 'axios';
+import axios from "axios";
 
 const AddAdmin = () => {
   const initialValues = {
@@ -32,16 +32,21 @@ const AddAdmin = () => {
       password: password,
     };
     console.log("Generated Password:", password);
-    const token = localStorage.getItem('superadminToken');
+    const token = localStorage.getItem("superadminToken");
     // console.log(formData);
 
-    axios.post('https://manthanr.onrender.com/v1/create-admin',formData,{  headers: {
-      Authorization: `Bearer ${token}`}
-    }).then((res)=>{
-      // console.log(res);
-    }).catch((err)=>{
-      console.log(err);
-    })
+    axios
+      .post("https://manthanr.onrender.com/v1/create-admin", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        // console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     // Send formData to backend
 
@@ -64,7 +69,9 @@ const AddAdmin = () => {
   return (
     <div className="w-full bg-gray-100 overflow-y-auto h-[90%]">
       <div className="sm:w-3/4 md:w-11/12 lg:w-3/4 mx-auto bg-white rounded p-8 shadow-md">
-        <h2 className="text-2xl font-semibold mb-4">Add Admin</h2>
+        <h2 className="text-2xl font-semibold mb-6 border-b-2 border-gray-200 uppercase ">
+          Add Admin
+        </h2>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -76,7 +83,7 @@ const AddAdmin = () => {
                 <div className="mb-4 mr-2 w-1/2">
                   <label
                     htmlFor="firstname"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block font-semibold text-gray-700"
                   >
                     First Name
                   </label>
@@ -95,7 +102,7 @@ const AddAdmin = () => {
                 <div className="mb-4 w-1/2 ml-2">
                   <label
                     htmlFor="lastname"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block font-semibold text-gray-700"
                   >
                     Last Name
                   </label>
@@ -115,7 +122,7 @@ const AddAdmin = () => {
               <div className="mb-4">
                 <label
                   htmlFor="phone"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block font-semibold text-gray-700"
                 >
                   Phone Number
                 </label>
@@ -134,7 +141,7 @@ const AddAdmin = () => {
               <div className="mb-4">
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block font-semibold text-gray-700"
                 >
                   Email
                 </label>
@@ -153,7 +160,7 @@ const AddAdmin = () => {
               <div className="mb-4">
                 <label
                   htmlFor="degree"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block font-semibold text-gray-700"
                 >
                   Degree Type
                 </label>
@@ -177,9 +184,9 @@ const AddAdmin = () => {
               <div className="mb-4">
                 <label
                   htmlFor="dept"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block font-semibold text-gray-700"
                 >
-                  dept
+                  Department
                 </label>
                 <Field
                   as="select"
@@ -187,7 +194,7 @@ const AddAdmin = () => {
                   name="dept"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option value="">Select dept</option>
+                  <option value="">Select Dept</option>
                   <option value="cse">CSE</option>
                   <option value="me">ME</option>
                   <option value="ee">EE</option>
@@ -206,9 +213,9 @@ const AddAdmin = () => {
               <div className="mb-4">
                 <label
                   htmlFor="semester"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block font-semibold text-gray-700"
                 >
-                  Year of Course
+                  Semester of Course
                 </label>
                 <Field
                   as="select"
@@ -216,7 +223,7 @@ const AddAdmin = () => {
                   name="semester"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option value="">Select Year of Course</option>
+                  <option value="">Select Semester</option>
                   {[...Array(10)].map((_, index) => (
                     <option key={index + 1} value={index + 1}>
                       {index + 1}
@@ -231,8 +238,8 @@ const AddAdmin = () => {
               </div>
               <button
                 type="submit"
-                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600"
-                disabled={!isValid || isSubmitting} 
+                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 cursor-pointer"
+                disabled={!isValid || isSubmitting}
               >
                 Add Admin
               </button>

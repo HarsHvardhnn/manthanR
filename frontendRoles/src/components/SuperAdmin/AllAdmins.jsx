@@ -31,20 +31,22 @@ const AllAdmins = () => {
   // }
 
   const getHeader = () => {
-    const token = localStorage.getItem('superadminToken');
+    const token = localStorage.getItem("superadminToken");
     if (token) {
-      return 'Bearer ' + token;
+      return "Bearer " + token;
     } else {
-      return {}; 
+      return {};
     }
   };
-  
+
   const getAllAdmins = () => {
     setLoading(true);
-    const token = localStorage.getItem('superadminToken');
+    const token = localStorage.getItem("superadminToken");
     axios
-      .get("https://manthanr.onrender.com/v1/getAllAdmins",{  headers: {
-        Authorization: `Bearer ${token}`}
+      .get("https://manthanr.onrender.com/v1/getAllAdmins", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then((res) => {
         setUserData(res.data);
@@ -85,17 +87,20 @@ const AllAdmins = () => {
   //   getData(admin)},[admin])
 
   const handleDeleteAdmin = (id) => {
-    const token = localStorage.getItem('superadminToken')
-   axios.delete(`https://manthanr.onrender.com/v1/delete-admin/${id}`,{
-    headers:{
-      Authorization:`Bearer ${token}`
-    }
-   }).then((res)=>{
-   toast.success(res.data)
-   getAllAdmins()
-   }).catch((Err)=>{
-    console.log(Err);
-   })
+    const token = localStorage.getItem("superadminToken");
+    axios
+      .delete(`https://manthanr.onrender.com/v1/delete-admin/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        toast.success(res.data);
+        getAllAdmins();
+      })
+      .catch((Err) => {
+        console.log(Err);
+      });
   };
 
   return (
@@ -115,11 +120,14 @@ const AllAdmins = () => {
           <p>Loading...</p>
         </div>
       ) : (
-        <div className="max-w-6xl mx-auto bg-white px-4 py-10 overflow-y-auto h-[90%] ">
+        <div className="max-w-6xl mx-auto bg-white px-6 py-10 overflow-y-auto h-[90%] shadow-md">
+          <h2 className="text-2xl font-semibold mb-6 border-b-2 border-gray-200 uppercase ">
+            All Admins
+          </h2>
           {userData.length === 0 ? (
             <p className="text-center text-gray-600">No data found.</p>
           ) : (
-            <table className="mt-2 table-auto w-full">
+            <table className="mt-2 table-auto w-full text-gray-700">
               <thead>
                 <tr>
                   <th className="px-4 py-2">#</th>
