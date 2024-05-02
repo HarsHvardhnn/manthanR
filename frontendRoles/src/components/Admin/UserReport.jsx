@@ -55,24 +55,24 @@ const UserReport = ({admin}) => {
   //   const templateId = 'template_dbu0gpy';
   //   const userId = '4n-EC2hBnJ4wZnL_F';
    
-  //   const { email, message, score, username } = report;
+  //   const { email, message, score, firstname } = report;
 
 
   // const newObject = {
   //   email: email,
   //   message: message,
   //   score: score,
-  //   username: username,
+  //   firstname: firstname,
   // };
 
   //   const templateParams = {
   //     to_name:'PSYCH',
   //     from_name:'super admin',
   //     to_email: 'harshvchawla997@gmail.com', 
-  //     username: username,
+  //     firstname: firstname,
   //     details:JSON.stringify(newObject),
   //     subject: 'User Reported',
-  //     message: `The user ${username} has been reported.`, 
+  //     message: `The user ${firstname} has been reported.`, 
   //   };
 
   //   emailjs.send(serviceId, templateId, templateParams, userId)
@@ -117,7 +117,7 @@ const UserReport = ({admin}) => {
           } p-4 rounded-lg shadow mb-4`}
         >
           <p className="text-base md:text-lg">
-            <span className="font-semibold">Name:</span> {report.username}
+            <span className="font-semibold">Name:</span> {report.firstname}
           </p>
           <p className="text-lg">
             <span className="font-semibold">Email:</span> {report.email}

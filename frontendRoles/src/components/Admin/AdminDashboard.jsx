@@ -212,7 +212,7 @@ const AdminDashboard = () => {
           <div className="flex">
             <FaUserCircle className="text-white text-2xl mr-2" />
             <p className="text-lg font-semibold text-white">
-              Welcome {admin.username}
+              Welcome {admin.firstname}
             </p>
           </div>
           <div className="relative">

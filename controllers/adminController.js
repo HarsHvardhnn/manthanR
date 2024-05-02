@@ -73,7 +73,7 @@ const promoteToAdmin = async (req, res) => {
       const {firstname,lastname,phone,email,degree,dept,semester,password} =  req.body;
       console.log(firstname,lastname,phone,email,degree,dept,semester)
       const admin =await  userModel.create({
-        username:firstname,
+        firstname:firstname,
         lastname:lastname,
         contactNumber:phone,
         email:email,

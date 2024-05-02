@@ -72,7 +72,7 @@ const SOSNotifications = ({ admin }) => {
             <div>
               <p className="text-base md:text-lg">
                 <span className="font-semibold">Name: </span>
-                {notification.userName}
+                {notification.firstname}
               </p>
               {/* <p className="text-base md:text-lg">
                 <span className="font-semibold">Email: </span>

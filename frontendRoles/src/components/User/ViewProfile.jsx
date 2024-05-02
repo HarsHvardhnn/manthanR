@@ -50,7 +50,7 @@ const ViewProfile = ({ onClose ,loading ,getUser,data }) => {
      {
       loading ? ('...loading'):(   <div>
         <p>
-          <span className="font-semibold">Name:</span> {data?.username}
+          <span className="font-semibold">Name:</span> {data?.firstname}
         </p>
         {/* <p>
           <span className="font-semibold">Gender:</span> {data?.gender}

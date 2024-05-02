@@ -117,8 +117,8 @@ const ProfileUpdatePage = () => {
   //       setIsUpdating(false);
   //       setUser({
   //         ...user,
-  //         username: values.firstName,
-  //         assigned_admin: res.data.admintoupdate.username,
+  //         firstname: values.firstName,
+  //         assigned_admin: res.data.admintoupdate.firstname,
   //       });
   //       navigate('/usersection')
   //     }
@@ -169,7 +169,7 @@ const ProfileUpdatePage = () => {
         setIsUpdating(false);
         setUser({
           ...user,
-          username: values.firstName,
+          firstname: values.firstName,
           assigned_admin: res.data.admintoupdate._id,
         });
         // getAdmin();
@@ -632,7 +632,7 @@ export default ProfileUpdatePage;
 //         setIsUpdating(false); // Reset loading state
 //         setUser({
 //           ...user,
-//           username: values.firstName,
+//           firstname: values.firstName,
 //         });
 
 //       }

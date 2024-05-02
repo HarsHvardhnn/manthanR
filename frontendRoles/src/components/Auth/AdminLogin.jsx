@@ -39,11 +39,11 @@ const AdminLogin = () => {
           if(res.data.user.role === 'admin'){
             localStorage.setItem('adminToken' , token);
             toast.success('welcome admin');
-            setAdmin({username:res.data.user.username,
+            setAdmin({firstname:res.data.user.firstname,
               adminID:res.data.user._id});
               setAdminEmail(res.data.user.email);
               navigate("/AdminDashboard");
-              const object = {username:res.data.user.username,
+              const object = {firstname:res.data.user.firstname,
                 adminID:res.data.user._id
               , email:values.email}
                 console.log(object)
@@ -54,12 +54,12 @@ const AdminLogin = () => {
            
           else if (res.data.user.role=== 'super admin'){
 
-            setsuperadmin(res.data.user.username);
+            setsuperadmin(res.data.user.firstname);
             localStorage.setItem('superadminToken', token);
 
             toast.success('SuperAdmin login successful');
             // setsuperadmin(values.email);
-            const superadmin = res.data.user.username;
+            const superadmin = res.data.user.firstname;
          
             localStorage.setItem('superadmin' ,superadmin)
 

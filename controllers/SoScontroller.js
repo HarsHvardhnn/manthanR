@@ -1,14 +1,14 @@
 const {NotificationModel} = require("../models/notificationModel");
 
 const sendSos = async (req, res) => {
-  const { userId, admin, message, username } = req.body;
-  // console.log(userId, admin, message, username )
+  const { userId, admin, message, firstname } = req.body;
+  // console.log(userId, admin, message, firstname )
   try {
     const notification = await NotificationModel.create({
       user: userId,
       admin:admin,
       message:message,
-      userName: username,
+      firstname: firstname,
     });
 
     return res

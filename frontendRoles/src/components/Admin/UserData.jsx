@@ -109,11 +109,11 @@ const UserData = ({
         // console.log(res);
         if (res.status === 200) {
           toast.success("user reported");
-          const username = users.filter(
+          const firstname = users.filter(
             (user) => user.email === selectedUserId
           );
-          console.log(username)
-          sendEmail(username[0].username, message, username[0].email,username[0].contactNumber);
+          console.log(firstname)
+          sendEmail(firstname[0].firstname, message, firstname[0].email,firstname[0].contactNumber);
         }
       })
       .catch((err) => {
@@ -174,12 +174,12 @@ const UserData = ({
     return date.toLocaleDateString("en-US", options);
   }
 
-  const sendEmail = (username, message, email,contactNumber) => {
+  const sendEmail = (firstname, message, email,contactNumber) => {
     const serviceId = "service_0jzntyg";
     const templateId = "template_ugy8wsb";
     const userId = "4n-EC2hBnJ4wZnL_F";
 
-    // console.log(username,message , 'message');
+    // console.log(firstname,message , 'message');
     // console.log(contactNumber);
 
     const templateParams = {
@@ -187,8 +187,8 @@ const UserData = ({
       from_name: "super admin",
       message: message,
       to_email: "abhisektiwari2014@gmail.com",
-      username: username,
-      admin: admin.username,
+      firstname: firstname,
+      admin: admin.firstname,
       email: email,
       contact:`${contactNumber}`,
       subject: "User Reported",
@@ -253,7 +253,7 @@ const UserData = ({
   const exportToPDF = (users) => {
     const doc = new jsPDF();
     const data = filteredUsers.map((user) => [
-      user.username,
+      user.firstname,
       user.email,
       user.contactNumber || "",
       user.score?.toString(),
@@ -264,7 +264,7 @@ const UserData = ({
 
     // Adjust table headers to match data structure
     doc.autoTable({
-      head: [["Username", "Email", "Phone", "Score", "Date", "Category"]],
+      head: [["firstname", "Email", "Phone", "Score", "Date", "Category"]],
       body: rows,
     });
 
@@ -275,7 +275,7 @@ const UserData = ({
     const fileName = "User_Data.xlsx";
     const worksheet = XLSX.utils.json_to_sheet(
       filteredByYear.map((user) => ({
-        Username: user.username,
+        firstname: user.firstname,
         Email: user.email,
         "Phone Number": user.contactNumber,
         Score: user.score,
@@ -453,7 +453,7 @@ const UserData = ({
                   {filteredByYear.map((user, index) => (
                     <tr key={user._id}>
                       <td className="px-4 py-2 border">{index + 1}</td>
-                      <td className="px-4 py-2 border">{user.username}</td>
+                      <td className="px-4 py-2 border">{user.firstname}</td>
                       <td className="px-4 py-2 border">{user.email}</td>
                       <td className="px-4 py-2 border">{user.contactNumber}</td>
                       <td className="px-4 py-2 border">{user.score}</td>

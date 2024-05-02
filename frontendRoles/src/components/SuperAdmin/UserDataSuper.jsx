@@ -98,12 +98,12 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
         console.log(res);
         if(res.status===200){
           toast.success('reported')
-          const username = users.filter(
+          const firstname = users.filter(
             (user1) => user1._id === user._id
           );
 
           
-          sendEmail(username[0])
+          sendEmail(firstname[0])
         }
 
        
@@ -118,18 +118,18 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
     const templateId = "template_dbu0gpy";
     const userId = "4n-EC2hBnJ4wZnL_F";
 
-    const { email,contactNumber, score, username } = report;
+    const { email,contactNumber, score, firstname } = report;
 
     const templateParams = {
       to_name: "PSYCH",
       from_name: "super admin",
       to_email: "abhisektiwari2014@gmail.com",
-      username: username,
+      firstname: firstname,
       contact:contactNumber,
       email:email,
       score:score,
       subject: "User Reported",
-      message: `The user ${username} has been reported.`,
+      message: `The user ${firstname} has been reported.`,
     };
 
     emailjs
@@ -245,10 +245,10 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   const exportToPDF = (users) => {
     const doc = new jsPDF();
     // console.log(doc);
-    // const headers = [['Username', 'Email', 'Phone Number', 'Score', 'Date', 'Category']];
+    // const headers = [['firstname', 'Email', 'Phone Number', 'Score', 'Date', 'Category']];
 
     const data = filteredUsers.map((user) => [
-      user.username,
+      user.firstname,
       user.email,
       user.contactNumber || "",
       user.score?.toString(),
@@ -260,7 +260,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
 
     // Add table to PDF
     doc.autoTable({
-      head: [["Username", "Email", "Phone", "Score", "Date", "Category"]],
+      head: [["Firstname", "Email", "Phone", "Score", "Date", "Category"]],
       body: rows,
     });
 
@@ -271,7 +271,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
     const fileName = "User_Data.xlsx";
     const worksheet = XLSX.utils.json_to_sheet(
       filteredByYear.map((user) => ({
-        Username: user.username,
+        Firstname: user.firstname,
         Email: user.email,
         "Phone Number": user.contactNumber,
         Score: user.score,
@@ -446,7 +446,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                   {filteredByYear.map((user, index) => (
                     <tr key={user._id}>
                       <td className="px-4 py-2 border">{index + 1}</td>
-                      <td className="px-4 py-2 border">{user.username}</td>
+                      <td className="px-4 py-2 border">{user.firstname}</td>
                       <td className="px-4 py-2 border">{user.email}</td>
                       <td className="px-4 py-2 border">{user.contactNumber}</td>
                       <td className="px-4 py-2 border">{user.score}</td>

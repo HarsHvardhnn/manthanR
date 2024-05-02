@@ -15,7 +15,7 @@ const generateRandomPassword = () => {
 const UserForm = () => {
   const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({
-    username: "",
+    firstname: "",
     lastname: "",
     email: "",
     password: generateRandomPassword(),
@@ -32,7 +32,7 @@ const UserForm = () => {
     e.preventDefault();
     setUsers([...users, formData]);
     setFormData({
-      username: "",
+      firstname: "",
       lastname: "",
       email: "",
       password: generateRandomPassword(),
@@ -42,7 +42,7 @@ const UserForm = () => {
     try {
       const formData = new FormData();
       users.forEach((user, index) => {
-        formData.append(`users[${index}][username]`, user.username);
+        formData.append(`users[${index}][firstname]`, user.firstname);
         formData.append(`users[${index}][lastname]`, user.lastname);
         formData.append(`users[${index}][email]`, user.email);
         formData.append(`users[${index}][password]`, user.password);
@@ -71,7 +71,7 @@ const UserForm = () => {
   const handleEditUser = (index) => {
     const editedUser = users[index];
     setFormData({
-      username: editedUser.username,
+      firstname: editedUser.firstname,
       lastname: editedUser.lastname,
       email: editedUser.email,
       password: editedUser.password,
@@ -95,15 +95,15 @@ const UserForm = () => {
           <div className="mb-4">
             <label
               className="block text-gray-700 text-base font-semibold "
-              htmlFor="username"
+              htmlFor="firstname"
             >
-              Username
+              Firstname
             </label>
             <input
               type="text"
-              id="username"
-              name="username"
-              value={formData.username}
+              id="firstname"
+              name="firstname"
+              value={formData.firstname}
               onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               required
@@ -168,7 +168,7 @@ const UserForm = () => {
               <thead>
                 <tr>
                   <th className="px-4 py-2 font-semibold">#</th>
-                  <th className="px-4 py-2 font-semibold">Username</th>
+                  <th className="px-4 py-2 font-semibold">firstname</th>
                   <th className="px-4 py-2 font-semibold">Lastname</th>
                   <th className="px-4 py-2 font-semibold">Email</th>
                   <th className="px-4 py-2 font-semibold">Password</th>
@@ -182,7 +182,7 @@ const UserForm = () => {
                       {index + 1}
                     </td>
                     <td className="border px-4 py-2 text-center">
-                      {user.username}
+                      {user.firstname}
                     </td>
                     <td className="border px-4 py-2 text-center">
                       {user.lastname}

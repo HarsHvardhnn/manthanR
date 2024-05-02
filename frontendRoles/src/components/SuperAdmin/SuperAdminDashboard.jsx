@@ -88,8 +88,8 @@ const SuperAdminDashboard = () => {
       // console.log("no token here");
       navigate("/adminlogin");
     }
-    const username = localStorage.getItem("superadmin");
-    setsuperadmin(username);
+    const firstname = localStorage.getItem("superadmin");
+    setsuperadmin(firstname);
   }, []);
 
   useEffect(() => {
@@ -180,7 +180,7 @@ const SuperAdminDashboard = () => {
                       }}
                       className="block px-4 py-2 text-xs text-white w-full hover:bg-gray-600"
                     >
-                      {admin.username}
+                      {admin.firstname}
                     </button>
                   );
                 })}

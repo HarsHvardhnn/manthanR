@@ -25,7 +25,7 @@ function ScoreRangeChart() {
         }
       );
       const simplifiedUsers = response.data.map((user) => ({
-        username: user.username,
+        firstname: user.firstname,
         score: user.score,
       }));
       setUsers(simplifiedUsers);
