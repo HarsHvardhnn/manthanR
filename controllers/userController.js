@@ -240,7 +240,7 @@ const updateProfile = async (req, res) => {
     
     console.log("user is ", user);
     const user1 = await userModel.findOne({ _id: user });
-    // console.log(user1);
+    console.log(user1);
 
     if (!user1) {
       return res.status(404).send("user not found");
