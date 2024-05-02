@@ -70,14 +70,14 @@ const LoginPage = () => {
           console.log(res.data.token);
           
           setUser({
-            username: res.data.user.username,
+            firstname: res.data.user.firstname,
             userID: res.data.user._id,
             email:values.email,
             assigned_admin:res.data.user.assigned_admin
           });
           // console.log(user);
           const object ={
-            username: res.data.user.username,
+            firstname: res.data.user.firstname,
             userID: res.data.user._id,
             email:values.email,
             assigned_admin:res.data.user.assigned_admin

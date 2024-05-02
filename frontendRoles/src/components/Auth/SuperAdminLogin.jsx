@@ -30,9 +30,9 @@ const SuperAdminLogin = () => {
     }).then((res) => {
       if (res.status === 200) {
         const { token } = res.data;
-        const {username}=  res.data.user;
-        // console.log(username)
-        setsuperadmin(username);
+        const {firstname}=  res.data.user;
+        // console.log(firstname)
+        setsuperadmin(firstname);
         localStorage.setItem('superadminToken', token);
         toast.success('SuperAdmin login successful');
         // setsuperadmin(values.email);

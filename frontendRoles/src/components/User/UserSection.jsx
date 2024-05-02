@@ -220,7 +220,7 @@ const UserSection = () => {
         {
           userId: user.userID,
           admin: user.assigned_admin,
-          username: user.username,
+          firstname: user.firstname,
           message: comment,
         },
         {
@@ -270,7 +270,7 @@ const UserSection = () => {
                   console.log(user);
                   console.log(User)
                 }} className="text-3xl sm:text-4xl lg:text-6xl text-white sm:text-user-btns-dark font-bold">
-                  Hello,{user.username}!
+                  Hello,{user.firstname}!
                 </h1>
               </div>
               <div className="h-1/6 mb-6 w-5/6 sm:w-4/6 mx-auto">
@@ -298,7 +298,7 @@ const UserSection = () => {
               </div>
               <div className="col-span-2 row-span-2 txt">
                 <h1 className="name text-xl sm:text-4xl lg:text-4xl mt-2 text-white sm:text-user-btns-dark font-bold">
-                  Hello, {user.username}
+                  Hello, {user.firstname}
                 </h1>
                 <div className="mr-2 sm:mr-32">
                   <Quotes quotes={quotes} />

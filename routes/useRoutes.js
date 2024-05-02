@@ -176,7 +176,7 @@ router.get('/get-user-with-info', verifyToken, async (req, res) => {
       const profile = profileData.find(profile => String(profile.user) === String(user._id));
       return {
         _id: user._id,
-        username: user.username,
+        firstname: user.firstname,
         email: user.email,
         assigned_admin:user.assigned_admin,
         profile: profile || {} 

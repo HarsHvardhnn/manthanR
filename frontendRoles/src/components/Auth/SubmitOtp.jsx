@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-dom'
 const SubmitOTP = ({ values ,setUser}) => {
   const navigate = useNavigate();
   // console.log("values in ", values);
-  const { username, email, password } = values;
+  const { firstname, email, password } = values;
   const initialValues = {
     otp: "",
   };
@@ -28,7 +28,7 @@ const SubmitOTP = ({ values ,setUser}) => {
     axios
       .post("https://manthanr.onrender.com/v1/signup", {
         otpBody: values.otp,
-        username: username,
+        firstname: firstname,
         email: email,
         password: password,
       })

@@ -4,7 +4,7 @@
 
 // const AdminPanel = () => {
 
-//   const [selectedFilter, setSelectedFilter] = useState("score"); 
+//   const [selectedFilter, setSelectedFilter] = useState("score");
 //   const promoteToAdmin = async (id) => {
 //     axios
 //     .post("https://manthanr.onrender.com/v1/promote-to-admin", { user: id })
@@ -19,11 +19,9 @@
 //       });
 //   };
 
-
 //   const reportUser = (id) => {
 //     console.log("reported user with", id);
 //   };
-
 
 //   const matchedData = users.map((user) => {
 //     const userAnswers = questions.filter((item) => item.user === user._id);
@@ -33,15 +31,14 @@
 //     };
 //   });
 //   // const searchedUsers = matchedData.filter((user) =>
-//   //   user.username.toLowerCase().includes(searchTerm.toLowerCase())
+//   //   user.firstname.toLowerCase().includes(searchTerm.toLowerCase())
 //   // );
-
 
 //   const filteredUsers = matchedData.sort((a, b) => {
 //     if (selectedFilter === "score_highest") {
-//       return b.score - a.score; 
+//       return b.score - a.score;
 //     } else if (selectedFilter === "score_lowest") {
-//       return a.score - b.score; 
+//       return a.score - b.score;
 //     } else {
 //       return b.score - a.score;
 //     }
@@ -79,7 +76,7 @@
 //             className="border border-gray-400 p-4 rounded-md shadow-md w-3/12 mt-4 mx-4 bg-blue-200"
 //           >
 //             <div className="text-center">
-//               <p className="font-bold">{user.username}</p>
+//               <p className="font-bold">{user.firstname}</p>
 //               <div className="flex justify-between font-medium mt-4">
 //                 <p>Score: {user.score}</p>
 //                 <p>Answered: {user.userAnswers.length}</p> {/* Corrected */}

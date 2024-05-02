@@ -47,24 +47,24 @@ const Chatbot = () => {
   const [questions, setQuestions] = useState([]);
   const [isFetchingData, setIsFetchingData] = useState(false); // New state for loader
   // console.log('user in chatbot' ,user);
-  // const sendEmail = (username,message,email) => {
+  // const sendEmail = (firstname,message,email) => {
 
   //   const serviceId = 'service_0jzntyg';
   //   const templateId = 'template_ugy8wsb';
   //   const userId = '4n-EC2hBnJ4wZnL_F';
 
-  //   // console.log(username,message , 'message');
+  //   // console.log(firstname,message , 'message');
 
   //   const templateParams = {
   //     to_name:'PSYCH',
   //     from_name:'super admin',
   //     message:message,
   //     to_email: 'abhisektiwari2014@gmail.com',
-  //     username: username,
+  //     firstname: firstname,
   //     admin:admin,
   //     email:email,
   //     subject: 'User Reported',
-  //     // message: `The user ${username} has been reported.`,
+  //     // message: `The user ${firstname} has been reported.`,
   //   };
 
   //   emailjs.send(serviceId, templateId, templateParams, userId)
@@ -250,7 +250,7 @@ const Chatbot = () => {
             </div>
             <div className="hidden md:flex">
               <p className="py-2 px-6 bg-white rounded-xl font-bold text-base ml-2">
-                Hello {user.username} ✨
+                Hello {user.firstname} ✨
               </p>
             </div>
           </div>

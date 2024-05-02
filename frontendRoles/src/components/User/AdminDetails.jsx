@@ -45,7 +45,7 @@ const AdminDetails = ({ onClose ,loading,getAdmin ,assigned_admin }) => {
     {
       loading? ('...loading details'):(    <div>
         <p className="text-gray-700">
-          <span className="font-semibold">Name:</span> {assigned_admin.username}
+          <span className="font-semibold">Name:</span> {assigned_admin.firstname}
         </p>
         <p className="text-gray-700">
           <span className="font-semibold">Email:</span> {assigned_admin.email}

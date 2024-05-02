@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const notificationSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, required: true },
-  userName:{type:String,required:true},
+  firstname:{type:String,required:true},
   admin: { type: mongoose.Schema.Types.ObjectId, required: true },
   message: { type: String, required: true },
 });

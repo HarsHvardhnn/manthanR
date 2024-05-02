@@ -83,7 +83,7 @@ const getReportedUsers = async (req, res) => {
 
         for (const supAdminUser of supAdminUsers) {
         
-            const userModelData = await userModel.findById(supAdminUser.user, 'username email score contactNumber').lean(); // Ensure contactNumber is included in the projection
+            const userModelData = await userModel.findById(supAdminUser.user, 'firstname email score contactNumber').lean(); // Ensure contactNumber is included in the projection
 
             const mergedUser = { ...supAdminUser, ...userModelData };
             mergedUsers.push(mergedUser);
@@ -109,7 +109,7 @@ const getAdminReportedUsers = async (req, res) => {
       
         for (const report of reports) {
   
-            const userModelData = await userModel.findById(report.user, 'username email score contactNumber').lean(); 
+            const userModelData = await userModel.findById(report.user, 'firstname email score contactNumber').lean(); 
      
             const mergedUser = { ...report, ...userModelData };
             mergedUsers.push(mergedUser);
@@ -137,7 +137,7 @@ const authorityLogin = async (req, res) => {
         return res.status(401).send('Invalid password.');
     }
 
-    const token = jwt.sign({ userId: user.id, username: user.username, role: user.role }, 'H@rsh123', { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user.id, firstname: user.firstname, role: user.role }, 'H@rsh123', { expiresIn: '1h' });
     res.json({ user, token });
 }
 

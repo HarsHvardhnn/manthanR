@@ -59,10 +59,10 @@ const UserReport = () => {
       .then((res) => {
         // console.log(res);
 
-        const username = userWithInfo.filter(
+        const firstname = userWithInfo.filter(
           (user) => user.email === user._id
         );
-          console.log(username);
+          console.log(firstname);
       })
       .catch((err) => {
         console.log(err);
@@ -84,15 +84,15 @@ const UserReport = () => {
     const templateId = "template_dbu0gpy";
     const userId = "4n-EC2hBnJ4wZnL_F";
 
-    const { email, message, score, username } = report;
+    const { email, message, score, firstname } = report;
 
     const templateParams = {
       to_name: "PSYCH",
       from_name: "super admin",
       to_email: "abhisektiwari2014@gmail.com",
-      username: username,
+      firstname: firstname,
       subject: "User Reported",
-      message: `The user ${username} has been reported.`,
+      message: `The user ${firstname} has been reported.`,
     };
 
     emailjs
@@ -190,7 +190,7 @@ const UserReport = () => {
                 {/* Your report content */}
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">User Name:</span>{" "}
-                  {report.username}
+                  {report.firstname}
                 </p>
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">User Email:</span>{" "}

@@ -61,7 +61,7 @@ const resetPassword = async (req, res) => {
 
 const signup = async (req, res) => {
   const { otpBody } = req.body;
-  const { username, email, password } = req.body;
+  const { firstname, email, password } = req.body;
   // const gotOtp = req.cookies.otp;
   console.log(email);
   try {
@@ -75,7 +75,7 @@ const signup = async (req, res) => {
     console.log(err);
   }
 
-  if (!username || !email || !password) {
+  if (!firstname || !email || !password) {
     return res.status(400).send("Missing fields");
   }
 
@@ -83,7 +83,7 @@ const signup = async (req, res) => {
 
   try {
     const user = await userModel.create({
-      username: username,
+      firstname: firstname,
       email: email,
       password: password,
     });
@@ -295,7 +295,7 @@ const updateProfile = async (req, res) => {
     const update = await userModel.findOneAndUpdate(
       { _id: user },
       {
-        username: firstname,
+        firstname: firstname,
         lastname: lastname,
         is_profile_complete: true,
         degree: degree,
