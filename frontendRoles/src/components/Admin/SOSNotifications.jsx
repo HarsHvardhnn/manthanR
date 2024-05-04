@@ -17,7 +17,7 @@ const SOSNotifications = ({ admin }) => {
   // console.log(admin);
   const getsos = () => {
     const token = localStorage.getItem('adminToken');
-    console.log(admin);
+    // console.log(admin);
     axios
       .get(`https://manthanr.onrender.com/v1/get-all-sos/${admin.adminID}`,{  headers: {
         Authorization:`Bearer ${token}`}
@@ -30,7 +30,43 @@ const SOSNotifications = ({ admin }) => {
       .catch((Err) => {
         console.log(Err);
       });
-  };
+   };
+
+  //    const submitReport = async (selectedUserId, message, admin) => {
+  //   const token = localStorage.getItem("adminToken");
+  //   axios
+  //     .post(
+  //       "https://manthanr.onrender.com/v1/submit-report",
+  //       {
+  //         admin: admin.email,
+  //         user: selectedUserId,
+  //         message: message,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       // console.log(res);
+  //       if (res.status === 200) {
+  //         toast.success("user reported");
+  //         const username = users.filter(
+  //           (user) => user.email === selectedUserId
+  //         );
+  //         console.log(username)
+  //         sendEmail(username[0].username, message, username[0].email,username[0].contactNumber);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       toast.error("some error occures");
+  //     });
+  //   // console.log(fetchedReportedUsers);
+  // };
+
+  
 
   useEffect(() => {
     getsos();

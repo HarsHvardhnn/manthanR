@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 const generateRandomPassword = () => {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -30,6 +30,22 @@ const UserForm = () => {
 
   const handleAddUser = (e) => {
     e.preventDefault();
+  
+    // Check if the new user's username or email already exists
+    // const existingUsername = users.find(user => user.username === formData.username);
+    const existingEmail = users.find(user => user.email === formData.email);
+  
+    // if (existingUsername) {
+    //   alert("Username already exists. Please choose a different username.");
+    //   return;
+    // }
+  
+    if (existingEmail) {
+      alert("Email already exists. Please use a different email address.");
+      return;
+    }
+  
+    // If the username and email are unique, add the new user
     setUsers([...users, formData]);
     setFormData({
       username: "",
@@ -38,36 +54,38 @@ const UserForm = () => {
       password: generateRandomPassword(),
     });
   };
+  
   const handleUploadToDatabase = async () => {
     try {
-      const formData = new FormData();
-      users.forEach((user, index) => {
-        formData.append(`users[${index}][username]`, user.username);
-        formData.append(`users[${index}][lastname]`, user.lastname);
-        formData.append(`users[${index}][email]`, user.email);
-        formData.append(`users[${index}][password]`, user.password);
-      });
-
+      const usersData = users.map(user => ({
+        username: user.username,
+        lastname: user.lastname,
+        email: user.email,
+        password: user.password
+      }));
+      console.log(usersData)
+  
       const response = await axios.post(
-        "http://localhost:3030/v1/add-users",
-        { formData },
+        "https://manthanr.onrender.com/v1/add-users",
+        usersData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
           },
         }
       );
-
+  
       if (response.status !== 201) {
         throw new Error("Failed to upload users to database");
       }
-
-      console.log("Users uploaded to database successfully");
+      // console.log(response)
+      toast.success("Users uploaded to database successfully");
       setUsers([]); // Clear the users array after uploading to database
     } catch (error) {
       console.error("Error uploading users to database:", error);
     }
   };
+  
   const handleEditUser = (index) => {
     const editedUser = users[index];
     setFormData({

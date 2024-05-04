@@ -18,7 +18,7 @@ import { userContext } from "../../context";
 import axios from "axios";
 import { toast } from "react-toastify";
 import useLocalStorage from "../../use-persist-hook";
-import { useRef } from "react";
+
 const quotes = [
   "Just as you prioritize your physical health, remember to nurture your mental well-being daily.",
   "Your mental health is not a luxury; it's a necessity. Take time to care for your mind.",
@@ -48,7 +48,8 @@ const UserSection = () => {
   const [pfp, setPfp] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [shimmerSize, setShimmerSize] = useState(120);
-
+  
+  console.log(user);
   useEffect(() => {
     if (pfp) {
       setIsLoading(false);
