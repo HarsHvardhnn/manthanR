@@ -192,6 +192,7 @@ const Chatbot = () => {
         setIsFetchingData(false); // Stop loader on successful response
         if (res.status === 201) {
           toast.success("Submitted data successfully");
+          navigate('/usersection')
         }
       })
       .catch((err) => {

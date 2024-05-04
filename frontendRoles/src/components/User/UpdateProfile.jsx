@@ -132,7 +132,8 @@ const ProfileUpdatePage = () => {
     const token = localStorage.getItem("token");
     try {
       setIsUpdating(true);
-
+      const idOfUser = user.userID; // Ensure that user.userID is defined and correct
+    
       const formData = new FormData();
       formData.append("user", user.userID);
       formData.append("firstname", values.firstName);
@@ -150,31 +151,32 @@ const ProfileUpdatePage = () => {
       if (image) {
         formData.append("image", image);
       }
-
-      // console.log(formData);
-
+  
       const res = await axios.post(
-        // "http://localhost:3030/v1/update-profile",
         "https://manthanr.onrender.com/v1/update-profile",
         formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data", // Ensure correct content type
           },
         }
       );
-           console.log(res);
+  
+      console.log(res);
       if (res.data.message === "Profile created successfully") {
         toast.success("profile updated");
         setIsUpdating(false);
+        console.log(res.data.admintoupdate._id);
+        // Ensure user state update is correct and complete
         setUser({
           ...user,
-          username: values.firstName,
+          username: values.username, // Update only necessary fields
+          email: values.email,
           assigned_admin: res.data.admintoupdate._id,
         });
-        // getAdmin();
-
-        navigate("/usersection");
+        console.log("hi");
+        // Redirect or perform other actions if needed
       }
     } catch (err) {
       console.log(err);

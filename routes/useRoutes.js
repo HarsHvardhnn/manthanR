@@ -246,14 +246,15 @@ router.post('/report-to-psych',verifyToken, async (req, res) => {
 });
 
 
-router.post('/add-users', upload.none(), async (req, res) => {
+router.post('/add-users',  async (req, res) => {
   try {
       // Extract user data array from form data
-      const userDataArray = req.body.userDataArray;
-     console.log(JSON.parse(req.body['formData']))
+      // console.log(req.body)
+      const parsedUserDataArray = req.body;
+    //  console.log(JSON.parse(req.body['formData']))
       // Parse each user object in the array
-      const parsedUserDataArray =JSON.parse(userDataArray)
-      console.log(parsedUserDataArray)
+    
+      // console.log(usersData)
 
       // Process each user and save to the database
       for (const userData of parsedUserDataArray) {
