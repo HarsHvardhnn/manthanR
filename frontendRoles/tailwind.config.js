@@ -21,7 +21,8 @@ module.exports = {
         'home-pink': '#FA5A96',
         'user-btns': '#2E3E55',
         'user-btns-dark': '#1F3147',
-        'user-bg-small': '#FFF5DA'
+        'user-bg-small': '#FFF5DA',
+        'survey-bg': '#f2f3ff',
     },},
   },
   plugins: [],

@@ -8,25 +8,29 @@ function AllUsersChart() {
   const [loading, setLoading] = useState(true);
 
   const getHeader = () => {
-    const token = localStorage.getItem('superadminToken');
+    const token = localStorage.getItem("superadminToken");
     if (token) {
-      return 'Bearer ' + token;
+      return "Bearer " + token;
     } else {
-      return {}; 
+      return {};
     }
   };
-  
+
   const fetchUsers = async () => {
     try {
-      const token = localStorage.getItem('superadminToken');
+      const token = localStorage.getItem("superadminToken");
       const response = await axios.get(
-        "https://manthanr.onrender.com/v1/getAllUsers",{  headers: {
-          Authorization: `Bearer ${token}`}
+        "https://manthanr.onrender.com/v1/getAllUsers",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       const simplifiedUsers = response.data.map((user) => ({
         username: user.username,
-        score: user.score,
+        score: user.score
+        // score: user.score !== undefined ? parseInt(user.score) : undefined, 
       }));
       setUsers(simplifiedUsers);
     } catch (error) {
@@ -41,13 +45,10 @@ function AllUsersChart() {
   }, []);
 
   const categorizeScores = (score) => {
-    if (score >= 175) {
-      return "High";
-    } else if (score >= 127) {
-      return "Moderate";
-    } else {
-      return "Low";
-    }
+    if (score === undefined) return "Undefined";
+    else if (score >= 175) return "High";
+    else if (score >= 127 && score < 175) return "Moderate";
+    else if (score < 127) return "Low";
   };
 
   const chartData = userData.reduce((acc, user) => {
@@ -56,9 +57,12 @@ function AllUsersChart() {
     return acc;
   }, {});
 
-  const labelOrder = ["High", "Moderate", "Low"];
+  const labelOrder = ["High", "Moderate", "Low", "Undefined"];
   const labels = labelOrder.filter((label) => chartData[label] !== undefined);
-  const values = Object.values(chartData);
+
+  const filteredLabels = labels.filter((label) => chartData[label] !== 0);
+  const filteredValues = filteredLabels.map((label) => chartData[label]);
+
   if (loading) {
     return (
       <div className="w-full flex flex-col items-center justify-center mt-10 text-lg">
@@ -101,6 +105,7 @@ function AllUsersChart() {
     if (label === "High") return "#4CAF50";
     else if (label === "Moderate") return "#FFD700";
     else if (label === "Low") return "#FF5733";
+    else if (label === "Undefined") return "#7094ff";
     else return "#000000";
   });
 
@@ -193,7 +198,7 @@ function AllUsersChart() {
   const series = [
     {
       name: "Users",
-      data: values,
+      data: filteredValues,
     },
   ];
 

@@ -41,13 +41,10 @@ function ScoreRangeChart() {
   }, []);
 
   const categorizeScores = (score) => {
-    if (score >= 175) {
-      return "High";
-    } else if (score >= 127) {
-      return "Moderate";
-    } else {
-      return "Low";
-    }
+    if (score === undefined) return "Undefined";
+    else if (score >= 175) return "High";
+    else if (score >= 127 && score < 175) return "Moderate";
+    else if (score < 127) return "Low";
   };
 
   const chartData = userData.reduce((acc, user) => {
@@ -56,9 +53,12 @@ function ScoreRangeChart() {
     return acc;
   }, {});
 
-  const labelOrder = ["High", "Moderate", "Low"];
+  const labelOrder = ["High", "Moderate", "Low", "Undefined"];
   const labels = labelOrder.filter((label) => chartData[label] !== undefined);
-  const values = Object.values(chartData);
+
+  const filteredLabels = labels.filter((label) => chartData[label] !== 0);
+  const filteredValues = filteredLabels.map((label) => chartData[label]);
+
   if (loading) {
     return (
       <div className="w-full flex flex-col items-center justify-center mt-10 text-lg">
@@ -193,7 +193,7 @@ function ScoreRangeChart() {
   const series = [
     {
       name: "Users",
-      data: values,
+      data: filteredValues,
     },
   ];
 
