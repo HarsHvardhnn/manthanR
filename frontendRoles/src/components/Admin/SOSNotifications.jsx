@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BallTriangle, InfinitySpin } from "react-loader-spinner";
 import axios from "axios";
+
 const SOSNotifications = ({ admin }) => {
   const [loading, setLoading] = useState(false);
   // console.log(admin)
@@ -110,17 +111,17 @@ const SOSNotifications = ({ admin }) => {
                 <span className="font-semibold">Name: </span>
                 {notification.userName}
               </p>
-              {/* <p className="text-base md:text-lg">
+              <p className="text-base md:text-lg">
                 <span className="font-semibold">Email: </span>
                 {notification.email}
               </p>
               <p className="text-base md:text-lg">
                 <span className="font-semibold">Phone: </span>
                 {notification.phoneNumber}
-              </p> */}
+              </p>
             </div>
           </div>
-          <p className="mt-2 text-base md:text-lg">
+          <p className="text-base md:text-lg">
             <span className="font-semibold">Message: </span>
             {notification.message}
           </p>

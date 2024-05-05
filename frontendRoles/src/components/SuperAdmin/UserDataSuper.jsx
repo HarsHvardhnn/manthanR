@@ -191,14 +191,12 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
     };
     return date.toLocaleDateString("en-US", options);
   }
-  // Function to categorize users based on their score
   const categorizeUser = (score) => {
-    if (score === undefined) return "Undefined";
+    if (score === undefined) return "NA";
     else if (score >= 175) return "High";
     else if (score >= 127 && score < 175) return "Moderate";
     else if (score < 127) return "Low";
   };
-  // Sorting users based on selected sort
   const sortedUsers = users.sort((a, b) => {
     if (selectedSort === "none") {
       return 0;
@@ -209,7 +207,6 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
     }
   });
 
-  // Function to filter users based on selected filter
   const filteredUsers =
     selectedFilter === "All"
       ? sortedUsers
@@ -217,7 +214,6 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
           (user) => categorizeUser(user.score) === selectedFilter
         );
 
-  // Function to filter users based on selected month
   const filteredByMonth =
     selectedMonth === "All"
       ? filteredUsers
@@ -253,7 +249,6 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
     // console.log(data);
     const rows = data.map(Object.values);
 
-    // Add table to PDF
     doc.autoTable({
       head: [["Username", "Email", "Phone", "Score", "Date", "Category"]],
       body: rows,
@@ -280,7 +275,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   };
   function convertISOToDateTime(isoDate) {
     const date = new Date(isoDate);
-    return date.toLocaleString("en-US"); // Formats date-time string in default locale
+    return date.toLocaleString("en-US"); 
   }
   const totalCount = filteredByYear.length;
   return (
@@ -444,7 +439,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                       <td className="px-4 py-2 border">{user.username}</td>
                       <td className="px-4 py-2 border">{user.email}</td>
                       <td className="px-4 py-2 border">{user.contactNumber}</td>
-                      <td className="px-4 py-2 border">{user.score}</td>
+                      <td className="px-4 py-2 border">{user.score ?? "NA"}</td>
                       <td className="px-4 py-2 border">
                         {convertISOToDate(user.createdAt)}
                       </td>

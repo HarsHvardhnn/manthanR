@@ -205,13 +205,13 @@ const UserData = ({
       });
   };
 
-  // Function to categorize users based on their score
   const categorizeUser = (score) => {
-    if (score >= 175) return "High";
+    if (score === undefined) return "NA";
+    else if (score >= 175) return "High";
     else if (score >= 127 && score < 175) return "Moderate";
-    else return "Low";
+    else if (score < 127) return "Low";
   };
-  // Sorting users based on selected sort
+
   const sortedUsers = users.sort((a, b) => {
     if (selectedSort === "none") {
       return 0;
@@ -222,7 +222,6 @@ const UserData = ({
     }
   });
 
-  // Function to filter users based on selected filter
   const filteredUsers =
     selectedFilter === "All"
       ? sortedUsers
@@ -230,7 +229,6 @@ const UserData = ({
           (user) => categorizeUser(user.score) === selectedFilter
         );
 
-  // Function to filter users based on selected month
   const filteredByMonth =
     selectedMonth === "All"
       ? filteredUsers
@@ -262,7 +260,6 @@ const UserData = ({
     ]);
     const rows = data.map(Object.values);
 
-    // Adjust table headers to match data structure
     doc.autoTable({
       head: [["Username", "Email", "Phone", "Score", "Date", "Category"]],
       body: rows,
@@ -456,7 +453,7 @@ const UserData = ({
                       <td className="px-4 py-2 border">{user.username}</td>
                       <td className="px-4 py-2 border">{user.email}</td>
                       <td className="px-4 py-2 border">{user.contactNumber}</td>
-                      <td className="px-4 py-2 border">{user.score}</td>
+                      <td className="px-4 py-2 border">{user.scoren ?? "NA"}</td>
                       <td className="px-4 py-2 border">
                         {convertISOToDate(user.createdAt)}
                       </td>

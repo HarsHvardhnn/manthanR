@@ -36,13 +36,13 @@ const UserReport = ({ admin }) => {
     getUsers();
   }, []);
 
-  const markAsRead = (reportId) => {
-    setReports((prevReports) =>
-      prevReports.map((report) =>
-        report.id === reportId ? { ...report, read: true } : report
-      )
-    );
-  };
+  // const markAsRead = (reportId) => {
+  //   setReports((prevReports) =>
+  //     prevReports.map((report) =>
+  //       report.id === reportId ? { ...report, read: true } : report
+  //     )
+  //   );
+  // };
 
   // const reportUser = (report) => {
 
@@ -86,13 +86,13 @@ const UserReport = ({ admin }) => {
   //     });
   // };
 
-  const markAsUnread = (reportId) => {
-    setReports((prevReports) =>
-      prevReports.map((report) =>
-        report.id === reportId ? { ...report, read: false } : report
-      )
-    );
-  };
+  // const markAsUnread = (reportId) => {
+  //   setReports((prevReports) =>
+  //     prevReports.map((report) =>
+  //       report.id === reportId ? { ...report, read: false } : report
+  //     )
+  //   );
+  // };
 
   return (
     <div className="p-4 overflow-y-auto h-[80%]">
@@ -117,9 +117,7 @@ const UserReport = ({ admin }) => {
         userWithInfo.map((report) => (
           <div
             key={report.id}
-            className={`${
-              report.read ? "bg-gray-200" : "bg-yellow-100"
-            } p-4 rounded-lg shadow mb-4`}
+            className="bg-yellow-100 p-4 rounded-lg shadow mb-4"
           >
             <p className="text-base md:text-lg">
               <span className="font-semibold">Name:</span> {report.username}

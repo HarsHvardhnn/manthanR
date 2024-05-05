@@ -93,7 +93,7 @@ function AdminWiseChart({ admin }) {
   };
 
   const categorizeScores = (score) => {
-    if (score === undefined) return "Undefined";
+    if (score === undefined) return "NA";
     else if (score >= 175) return "High";
     else if (score >= 127 && score < 175) return "Moderate";
     else if (score < 127) return "Low";
@@ -105,7 +105,7 @@ function AdminWiseChart({ admin }) {
     return acc;
   }, {});
 
-  const labelOrder = ["High", "Moderate", "Low", "Undefined"];
+  const labelOrder = ["High", "Moderate", "Low", "NA"];
   const labels = labelOrder.filter((label) => chartData[label] !== undefined);
 
   const filteredLabels = labels.filter((label) => chartData[label] !== 0);
@@ -137,7 +137,7 @@ function AdminWiseChart({ admin }) {
     if (label === "High") return "#4CAF50";
     else if (label === "Moderate") return "#FFD700";
     else if (label === "Low") return "#FF5733";
-    else if (label === "Undefined") return "#7094ff";
+    else if (label === "NA") return "#7094ff";
     else return "#000000";
   });
 
