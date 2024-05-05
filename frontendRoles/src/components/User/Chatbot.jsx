@@ -153,7 +153,7 @@ const Chatbot = () => {
   const getScore = () => {
     const token = localStorage.getItem("token");
     axios
-      .get(`http://localhost:3030/v1/user/get-score/${user.userID}`)
+      .get(`https://manthanr.onrender.com/v1/user/get-score/${user.userID}`)
       .then((res) => {
         // console.log('res',res);
         setScore(res.data.score);
@@ -201,7 +201,7 @@ const Chatbot = () => {
     setIsFetchingData(true); // Start loader
     axios
       .post(
-        "http://localhost:3030/v1/Doit",
+        "https://manthanr.onrender.com/v1/Doit",
         {
           email: user.email,
           answers: answers,
