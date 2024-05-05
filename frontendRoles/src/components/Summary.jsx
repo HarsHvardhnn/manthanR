@@ -3,6 +3,8 @@ import { format } from "date-fns";
 import axios from "axios";
 import "../components/User/scrollbar.css";
 import { ThreeDots } from "react-loader-spinner";
+import { FaPlus, FaUpload, FaTimes, FaEdit, FaTrash } from 'react-icons/fa';
+
 
 const CommentsComponent = ({
   comments,
@@ -77,10 +79,10 @@ const CommentsComponent = ({
   }, [editingCommentId]);
 
   return (
-    <div className="fixed inset-0 flex flex-col p-24 font-montserrat bg-gray-800 bg-opacity-75 z-50">
-      <div className="flex-1 overflow-y-auto bg-white p-6 w-[70%] mx-auto rounded-lg summary">
-        <div className="flex justify-between mb-2 mx-2">
-          <h2 className="text-xl font-semibold uppercase">Add Comments</h2>
+    <div className="fixed inset-0 flex flex-col py-40 md:py-28 font-montserrat bg-gray-800 bg-opacity-75 z-50">
+      <div className="flex-1 overflow-y-auto bg-white p-6 w-[95%] sm:w-[90%] md:w-[80%] lg:w-[60%] mx-auto rounded-lg summary">
+        <div className="flex justify-between items-center mb-2 sm:mx-2 border-b-2 border-gray-200 pb-1">
+          <h2 className="text-lg sm:text-xl font-semibold uppercase">Add Comments</h2>
           <button
             onClick={onClose}
             className="px-4 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
@@ -104,13 +106,13 @@ const CommentsComponent = ({
                   onClick={() => handleDeleteComment(comment.id)}
                   className="px-2 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600"
                 >
-                  Delete
+                  <FaTrash/>
                 </button>
                 <button
                   onClick={() => setEditingCommentId(comment.id)}
                   className="px-2 py-1 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
                 >
-                  Edit
+                  <FaEdit/>
                 </button>
               </div>
               {editingCommentId === comment.id && (
@@ -124,9 +126,9 @@ const CommentsComponent = ({
                   />
                   <button
                     onClick={() => handleEditComment(comment.id, newComment)}
-                    className="px-4 py-1 mt-2 bg-blue-500 text-white rounded-lg ml-2 hover:bg-blue-600"
+                    className="px-2 py-1 sm:px-4 sm:py-2 mt-2 bg-blue-500 text-white rounded-lg ml-2 hover:bg-blue-600"
                   >
-                    Add
+                    <FaPlus/>
                   </button>
                 </div>
               )}
@@ -134,7 +136,7 @@ const CommentsComponent = ({
           </div>
         ))}
       </div>
-      <div className="h-20 flex items-center bg-white p-10 w-[70%] mx-auto mt-1 rounded-lg">
+      <div className="h-16 sm:h-20 flex items-center bg-white py-2 px-2 md:p-10 w-[95%] sm:w-[90%] md:w-[80%] lg:w-[60%] mx-auto mt-1 rounded-lg">
         <input
           type="text"
           value={newLowerComment}
@@ -147,15 +149,15 @@ const CommentsComponent = ({
           // onClick={()=>{
           //   console.log(comments)
           // }}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg ml-2 hover:bg-blue-600"
+          className="px-2 py-1 sm:px-4 sm:py-2 bg-blue-500 text-white rounded-lg ml-1 sm:ml-2 hover:bg-blue-600"
         >
-          Add
+          <FaPlus/>
         </button>
         <button
           onClick={savee}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg ml-2 hover:bg-blue-600"
+          className="px-2 py-1 sm:px-4 sm:py-2 bg-blue-500 text-white rounded-lg ml-1 sm:ml-2 hover:bg-blue-600"
         >
-          Upload
+          <FaUpload/>
         </button>
       </div>
     </div>

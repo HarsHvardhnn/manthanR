@@ -132,10 +132,12 @@ function AdminWiseChart({ admin }) {
   if (labels.length === 0) {
     return <div className="text-red-500 p-2">No data available</div>;
   }
+
   const colors = labels.map((label) => {
     if (label === "High") return "#4CAF50";
     else if (label === "Moderate") return "#FFD700";
     else if (label === "Low") return "#FF5733";
+    else if (label === "Undefined") return "#7094ff";
     else return "#000000";
   });
 

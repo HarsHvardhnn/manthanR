@@ -169,7 +169,7 @@ const SuperAdminDashboard = () => {
             {isDropdownOpen && (
               <div
                 ref={dropdownRef}
-                className="admins absolute mt-60 max-w-44 max-h-48 overflow-auto bg-gray-800 rounded-md shadow-lg"
+                className="admins absolute mt-24 ml-10 max-w-44 max-h-48 overflow-auto bg-gray-800 rounded-md shadow-lg"
               >
                 {admins.map((admin) => {
                   return (
@@ -262,14 +262,12 @@ const SuperAdminDashboard = () => {
       {/* Main Content */}
       <div className="w-full md:ml-64">
         {/* Mobile Navbar */}
-        <nav className="md:hidden  justify-between w-full items-center bg-gray-700 p-4 shadow-xl">
+        <nav className="md:hidden justify-between w-full items-center bg-gray-700 p-4 shadow-xl">
           <div className="w-full flex items-center justify-between ">
             <button onClick={toggleSidebar}>
               <FaBars className="text-white text-xl md:hidden inline-block" />
             </button>
-            <div className="md:hidden inline-block">
-              <FaUserCircle className="text-white text-2xl lg:mr-2 md:absolute md:left-72 md:top-6" />
-            </div>
+            
             <div className="relative inline-block">
               <button
                 onClick={() => {

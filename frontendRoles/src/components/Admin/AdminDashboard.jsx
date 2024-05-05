@@ -10,6 +10,7 @@ import {
   FaArrowLeft,
   FaFilePdf,
   FaBell,
+  FaExclamationCircle,
 } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -158,7 +159,7 @@ const AdminDashboard = () => {
               toggleSidebar();
             }}
           >
-            <FaFilePdf className="mr-2" />
+            <FaExclamationCircle className="mr-2" />
             Reported Users
           </li>
           
@@ -187,9 +188,7 @@ const AdminDashboard = () => {
             <button onClick={toggleSidebar}>
               <FaBars className="text-white text-xl md:hidden" />
             </button>
-            <div className="hidden md:flex">
-              <FaUserCircle className="text-white text-2xl lg:mr-2 md:absolute md:left-72 md:top-6" />
-            </div>
+            
             <div className="relative">
               <button
                 onClick={() => {

@@ -140,7 +140,7 @@ const UserReport = () => {
   };
 
   return (
-    <div className="p-4 overflow-y-auto h-[80%] mx-4">
+    <div className="p-2 sm:p-4 overflow-y-auto h-[80%] sm:mx-4">
       {showSummary && (
         <CommentsComponent
           comments={comments}
@@ -151,9 +151,9 @@ const UserReport = () => {
         />
       )}
       <div className="flex justify-between items-center mb-4 border-b-2 border-gray-200">
-        <h2 className="text-lg md:text-2xl font-semibold uppercase">User Reports</h2>
-        <div className="flex items-center space-x-4">
-          <label className="text-sm font-semibold">Filter by Psy Report:</label>
+        <h2 className="text-base sm:text-xl md:text-2xl font-semibold uppercase">User Reports</h2>
+        <div className="flex items-center space-x-2">
+          <label className="text-xs sm:text-sm font-semibold">Reported Users:</label>
           <input
             type="checkbox"
             checked={filterByPsy}
@@ -213,7 +213,7 @@ const UserReport = () => {
                   <span className="font-semibold">Admin Comments:</span>{" "}
                   {report.message}
                 </p>
-                <div className="mt-2 text-base md:text-lg flex items-center ">
+                <div className="mt-2 text-sm sm:text-base md:text-lg flex items-center ">
                   <button
                     className={`mr-2 px-3 py-1 rounded ${
                       report.reported_psych

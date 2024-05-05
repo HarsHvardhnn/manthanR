@@ -60,5 +60,9 @@
       margin-left: 90px;
       width: 400px;
     }
-    
+  }
+  @media (min-width: 1280px) {
+    .txt{
+      margin-left: 5px;
+    }
   }

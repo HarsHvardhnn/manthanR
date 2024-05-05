@@ -11,16 +11,18 @@ const SOSNotifications = ({ admin }) => {
   //   if (token) {
   //     return 'Bearer ' + token;
   //   } else {
-  //     return {}; 
+  //     return {};
   //   }
   // };
   // console.log(admin);
   const getsos = () => {
-    const token = localStorage.getItem('adminToken');
+    const token = localStorage.getItem("adminToken");
     // console.log(admin);
     axios
-      .get(`https://manthanr.onrender.com/v1/get-all-sos/${admin.adminID}`,{  headers: {
-        Authorization:`Bearer ${token}`}
+      .get(`https://manthanr.onrender.com/v1/get-all-sos/${admin.adminID}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then((res) => {
         console.log(res);
@@ -30,7 +32,7 @@ const SOSNotifications = ({ admin }) => {
       .catch((Err) => {
         console.log(Err);
       });
-   };
+  };
 
   //    const submitReport = async (selectedUserId, message, admin) => {
   //   const token = localStorage.getItem("adminToken");
@@ -66,8 +68,6 @@ const SOSNotifications = ({ admin }) => {
   //   // console.log(fetchedReportedUsers);
   // };
 
-  
-
   useEffect(() => {
     getsos();
   }, []);
@@ -94,7 +94,7 @@ const SOSNotifications = ({ admin }) => {
 
   return (
     <div className="p-4 overflow-y-auto h-[80%]">
-      <h2 className="text-lg md:text-xl font-semibold mb-4">
+      <h2 className="text-2xl font-semibold mb-6 border-b-2 border-gray-200 uppercase ">
         SOS Notifications
       </h2>
       {notifications?.map((notification) => (

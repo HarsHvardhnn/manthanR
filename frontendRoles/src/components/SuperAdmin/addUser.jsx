@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { FaTrash, FaEdit } from "react-icons/fa";
+
 const generateRandomPassword = () => {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -105,7 +107,7 @@ const UserForm = () => {
 
   return (
     <div className="container mx-auto bg-gray-100 h-[90%]">
-      <div className="sm:w-3/4 md:w-11/12 lg:w-3/4 mx-auto bg-white rounded p-8 shadow-md">
+      <div className="w-11/12 xl:w-3/4 mx-auto bg-white rounded p-8 shadow-md">
         <h2 className="text-2xl font-semibold mb-6 border-b-2 border-gray-200 uppercase ">
           Enter User Details
         </h2>
@@ -182,11 +184,12 @@ const UserForm = () => {
           {users.length === 0 ? (
             <p>No recent additions</p>
           ) : (
+            <div className="overflow-x-auto">
+
             <table className="table-auto w-full">
               <thead>
                 <tr>
-                  <th className="px-4 py-2 font-semibold">#</th>
-                  <th className="px-4 py-2 font-semibold">Username</th>
+                  <th className="px-4 py-2 font-semibold">Firstname</th>
                   <th className="px-4 py-2 font-semibold">Lastname</th>
                   <th className="px-4 py-2 font-semibold">Email</th>
                   <th className="px-4 py-2 font-semibold">Password</th>
@@ -196,9 +199,6 @@ const UserForm = () => {
               <tbody>
                 {users.map((user, index) => (
                   <tr key={index}>
-                    <td className="border px-4 py-2 text-center">
-                      {index + 1}
-                    </td>
                     <td className="border px-4 py-2 text-center">
                       {user.username}
                     </td>
@@ -213,22 +213,23 @@ const UserForm = () => {
                     </td>
                     <td className="border px-4 py-2 text-center">
                       <button
-                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2"
+                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline md:mr-2"
                         onClick={() => handleEditUser(index)}
                       >
-                        Edit
+                        <FaEdit/>
                       </button>
                       <button
                         className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
                         onClick={() => handleDeleteUser(index)}
                       >
-                        Delete
+                        <FaTrash/>
                       </button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+            </div>
           )}
         </div>
 

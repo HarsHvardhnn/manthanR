@@ -81,7 +81,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
 
   const reportToPsych = (user) => {
     const token = localStorage.getItem("superadminToken");
-    
+
     axios
       .post(
         "https://manthanr.onrender.com/v1/report-to-psych",
@@ -96,17 +96,12 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       )
       .then((res) => {
         console.log(res);
-        if(res.status===200){
-          toast.success('reported')
-          const username = users.filter(
-            (user1) => user1._id === user._id
-          );
+        if (res.status === 200) {
+          toast.success("reported");
+          const username = users.filter((user1) => user1._id === user._id);
 
-          
-          sendEmail(username[0])
+          sendEmail(username[0]);
         }
-
-       
       })
       .catch((err) => {
         console.log(err);
@@ -118,16 +113,16 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
     const templateId = "template_dbu0gpy";
     const userId = "4n-EC2hBnJ4wZnL_F";
 
-    const { email,contactNumber, score, username } = report;
+    const { email, contactNumber, score, username } = report;
 
     const templateParams = {
       to_name: "PSYCH",
       from_name: "super admin",
       to_email: "abhisektiwari2014@gmail.com",
       username: username,
-      contact:contactNumber,
-      email:email,
-      score:score,
+      contact: contactNumber,
+      email: email,
+      score: score,
       subject: "User Reported",
       message: `The user ${username} has been reported.`,
     };
@@ -143,7 +138,6 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
         console.error("Email error:", error);
       });
   };
-
 
   //  useEffect(() => {
   //   getReportedUsers();
@@ -179,7 +173,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   };
 
   const handleReportSubmit = (comment) => {
-    console.log(comment)
+    console.log(comment);
     // console.log("Reported user with id:", selectedUserId, "Comment:", comment);
     reportToPsych(comment);
     setShowReportModal(false);
@@ -199,9 +193,10 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   }
   // Function to categorize users based on their score
   const categorizeUser = (score) => {
-    if (score >= 175) return "High";
+    if (score === undefined) return "Undefined";
+    else if (score >= 175) return "High";
     else if (score >= 127 && score < 175) return "Moderate";
-    else return "Low";
+    else if (score < 127) return "Low";
   };
   // Sorting users based on selected sort
   const sortedUsers = users.sort((a, b) => {
@@ -210,7 +205,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
     } else if (selectedSort === "score_highest") {
       return b.score - a.score;
     } else {
-      return a.score - b.score;
+      return a.score -  b.score;
     }
   });
 

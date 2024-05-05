@@ -21,17 +21,20 @@ const EditProfileForm = () => {
   };
 
   const getUserProfile = () => {
-    const token = localStorage.getItem('token');
-    axios.get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).then((res) => {
-      console.log(res);
-      setObj(res.data);
-    }).catch((Err) => {
-      console.log(Err);
-    });
+    const token = localStorage.getItem("token");
+    axios
+      .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setObj(res.data);
+      })
+      .catch((Err) => {
+        console.log(Err);
+      });
   };
 
   useEffect(() => {
@@ -47,7 +50,6 @@ const EditProfileForm = () => {
     }
 
     getUserProfile();
-
   }, []);
 
   const uploadImage = (e) => {
@@ -97,7 +99,7 @@ const EditProfileForm = () => {
 
   const onSubmit = async (values) => {
     setIsSubmitting(true);
-  console.log(values)
+    console.log(values);
     const formData = new FormData();
     formData.append("user", user.userID);
     formData.append("contactNumber", values.phoneNumber);
@@ -135,11 +137,8 @@ const EditProfileForm = () => {
 
   return (
     <div className="w-full bg-blue-200 min-h-screen">
-      <Header/>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-      >
+      <Header />
+      <Formik initialValues={initialValues} onSubmit={onSubmit}>
         {({ errors, touched, isValid }) => (
           <Form className="w-[90%] sm:w-[70%] md:w-[60%] lg:w-[40%] mx-auto relative top-20 sm:top-28 font-montserrat shadow-xl p-6 rounded-xl bg-white">
             <div>
@@ -147,14 +146,13 @@ const EditProfileForm = () => {
                 Edit Profile
               </h1>
             </div>
-            
+
             <div className="mb-4">
               <Field
                 type="tel"
                 name="phoneNumber"
                 placeholder="Phone Number"
                 className="w-full px-3 py-2 border rounded-md"
-                
               />
               <ErrorMessage
                 name="phoneNumber"
@@ -162,36 +160,38 @@ const EditProfileForm = () => {
                 className="text-red-500 text-sm"
               />
             </div>
-            <div className="mb-4">
-              <Field
-                as="select"
-                name="hostelName"
-                className="w-full px-3 py-2 border rounded-md text-xs sm:text-sm xl:text-base"
-              >
-                {hostelOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </Field>
-              <ErrorMessage
-                name="hostelName"
-                component="div"
-                className="text-red-500 text-sm"
-              />
-            </div>
-            <div className="mb-4">
-              <Field
-                type="text"
-                name="hostelRoomNumber"
-                placeholder="Hostel Room Number"
-                className="w-full px-3 py-2 border rounded-md"
-              />
-              <ErrorMessage
-                name="hostelRoomNumber"
-                component="div"
-                className="text-red-500 text-sm"
-              />
+            <div className="flex justify-between">
+              <div className="flex-1 min-w-28 mb-4">
+                <Field
+                  as="select"
+                  name="hostelName"
+                  className="w-full px-3 py-2 border rounded-md text-xs sm:text-sm xl:text-base"
+                >
+                  {hostelOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </Field>
+                <ErrorMessage
+                  name="hostelName"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+              <div className="ml-2 mb-4">
+                <Field
+                  type="text"
+                  name="hostelRoomNumber"
+                  placeholder="Room No."
+                  className="w-full px-3 pt-2 pb-1 border rounded-md"
+                />
+                <ErrorMessage
+                  name="hostelRoomNumber"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
             </div>
             <div className="mb-4">
               <Field
@@ -216,7 +216,6 @@ const EditProfileForm = () => {
                 as="select"
                 name="semester"
                 className="w-full px-3 py-2 border rounded-md text-xs sm:text-sm xl:text-base"
-                
               >
                 {semesterOptions.map((option) => (
                   <option key={option.value} value={option.value}>

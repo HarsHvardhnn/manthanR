@@ -294,6 +294,7 @@ const UserSection = () => {
                       className="ml-2 rounded-full h-[87px] w-[87px] sm:h-32 sm:w-32 shadow-xl"
                       onLoad={() => setIsLoading(false)}
                     />
+                    
                   )}
                 </div>
               </div>

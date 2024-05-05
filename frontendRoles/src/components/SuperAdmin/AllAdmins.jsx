@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import axios from "axios";
 import { toast } from "react-toastify";
+import {  FaTrash } from "react-icons/fa";
 
 const AllAdmins = () => {
   const [loading, setLoading] = useState(false);
@@ -120,7 +121,7 @@ const AllAdmins = () => {
           <p>Loading...</p>
         </div>
       ) : (
-        <div className="max-w-6xl mx-auto bg-white px-6 py-10 overflow-y-auto h-[90%] shadow-md">
+        <div className="max-w-6xl mx-auto bg-white px-6 py-10 overflow-y-auto h-full lg:h-[90%] shadow-md">
           <h2 className="text-2xl font-semibold mb-6 border-b-2 border-gray-200 uppercase ">
             All Admins
           </h2>
@@ -146,10 +147,11 @@ const AllAdmins = () => {
                     <td className="border px-4 py-2">{admin.email}</td>
                     <td className="border px-4 py-2">
                       <button
+                      title="Delete Admin"
                         className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded"
                         onClick={() => handleDeleteAdmin(admin._id)}
                       >
-                        Remove Admin
+                        <FaTrash/>
                       </button>
                     </td>
                   </tr>
