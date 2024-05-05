@@ -12,7 +12,6 @@ import emailjs from "emailjs-com";
 import Header from "../Home/Header";
 import ProgressBar from "@ramonak/react-progress-bar"; // Import ProgressBar from the library
 
-
 const TypingLoader = () => (
   <div className="text-center mt-4 ml-8 mb-4">
     <div className="flex">
@@ -44,8 +43,8 @@ const Chatbot = () => {
   const [showThankYou, setShowThankYou] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [pfp, setPfp] = useState("");
-  const [score,setScore]= useState("");
-  const [thisMonthAnswered ,setThisMonthAnswered] = useState(false);
+  const [score, setScore] = useState("");
+  const [thisMonthAnswered, setThisMonthAnswered] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [isFetchingData, setIsFetchingData] = useState(false); // New state for loader
   // console.log('user in chatbot' ,user);
@@ -151,34 +150,32 @@ const Chatbot = () => {
     setShowThankYou(false);
     setProgress(0);
   };
- const getScore = ()=>{
-  const token = localStorage.getItem('token');
-  axios.get(`http://localhost:3030/v1/user/get-score/${user.userID}`).then((res)=>{
-    // console.log('res',res);
-    setScore(res.data.score)
-    const dateString = res.data.date;
-    // console.log(dateString)
-const date = new Date(dateString);
+  const getScore = () => {
+    const token = localStorage.getItem("token");
+    axios
+      .get(`http://localhost:3030/v1/user/get-score/${user.userID}`)
+      .then((res) => {
+        // console.log('res',res);
+        setScore(res.data.score);
+        const dateString = res.data.date;
+        // console.log(dateString)
+        const date = new Date(dateString);
 
-const year = date.getFullYear();
-const month = date.getMonth() + 1; 
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
 
-
-
-    const today = new Date();
-    const todayYear =  today.getFullYear();
-    const todayMonth = today.getMonth() +1 ;
-    // console.log('month year' ,year,month,todayMonth,todayYear)
-    if(todayMonth === month && todayYear===year){
-      setThisMonthAnswered(true);
-
-
-    }
-
-  }).catch((Err)=>{
-    console.log(Err)
-  })
- }
+        const today = new Date();
+        const todayYear = today.getFullYear();
+        const todayMonth = today.getMonth() + 1;
+        // console.log('month year' ,year,month,todayMonth,todayYear)
+        if (todayMonth === month && todayYear === year) {
+          setThisMonthAnswered(true);
+        }
+      })
+      .catch((Err) => {
+        console.log(Err);
+      });
+  };
   const getpfp = () => {
     const token = localStorage.getItem("token");
     axios
@@ -221,7 +218,7 @@ const month = date.getMonth() + 1;
         setIsFetchingData(false); // Stop loader on successful response
         if (res.status === 201) {
           toast.success("Submitted data successfully");
-          navigate('/usersection')
+          navigate("/usersection");
         }
       })
       .catch((err) => {
@@ -256,7 +253,7 @@ const month = date.getMonth() + 1;
   useEffect(() => {
     getpfp();
     getScore();
-    console.log('score',thisMonthAnswered)
+    console.log("score", thisMonthAnswered);
   }, [user]);
 
   useEffect(() => {
@@ -274,11 +271,7 @@ const month = date.getMonth() + 1;
         <div className="max-w-6xl mx-auto flex justify-between px-4 py-2 bg-blue-500 rounded-tr-xl rounded-tl-xl">
           <div className="flex justify-start">
             <div>
-              <img
-                src={pfp}
-                alt="logo"
-                className="ml-2 rounded-full h-9 w-9"
-              />
+              <img src={pfp} alt="logo" className="ml-2 rounded-full h-9 w-9" />
             </div>
             <div className="hidden md:flex">
               <p className="py-2 px-6 bg-white rounded-xl font-bold text-base ml-2">
@@ -311,177 +304,184 @@ const month = date.getMonth() + 1;
           className="chat-container max-w-6xl mx-auto text-lg bg-white lg:px-4 py-2 rounded-br-xl rounded-bl-xl shadow-lg mb-4 min-h-96"
           style={{ maxHeight: "calc(100vh - 200px)", overflowY: "scroll" }}
         >
-{  thisMonthAnswered ? (<p>ALready answered this month</p> ): (
+          {thisMonthAnswered ? (
+            <p>ALready answered this month</p>
+          ) : (
             <div className="chat">
-            {currentQuestionIndex === questions.length ? (
-              questions.length === 0 ? (
-                <p>Loading...</p>
-              ) : (
-                <p className="text-center font-bold text-xl uppercase mt-8 mb-2">
-                  Survey completed
-                </p>
-              )
-            ) : (
-              <>
-                {answers.map((answer, index) => (
-                  <div
-                    key={index}
-                    className="chat-message mb-8 px-1 py-2 sm:p-4"
-                  >
-                    <div className="flex">
-                      <img
-                        src={bot}
-                        alt="logo"
-                        className="max-h-9 max-w-9 ml-2 rounded-full border border-gray-800"
-                      />
-                      <p className="py-1 px-4 ml-1.5 mb-1 w-fit text-sm sm:text-base max-w-3xl border border-gray-600 font-medium rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
-                        {answer.question}
-                      </p>
-                    </div>
-                    <div className="flex float-right m-1 items-center ">
-                      <p
-                        className={`py-1 px-4 w-fit text-sm sm:text-xl rounded-tr-full rounded-tl-full rounded-bl-full font-medium text-white bg-blue-500 shadow-md`}
-                      >
-                        {emojiMapping[answer.answer]}  <span className="text-sm sm:text-base">{answer.answer}</span>
-                      </p>
-                      <img
-                        src={pfp}
-                        alt="logo"
-                        className="max-h-9 max-w-9 ml-2 my-auto rounded-full border border-gray-800"
-                      />
-                    </div>
-                  </div>
-                ))}
-                {currentQuestionIndex < questions.length && isTyping ? (
-                  <TypingLoader />
+              {currentQuestionIndex === questions.length ? (
+                questions.length === 0 ? (
+                  <p>Loading...</p>
                 ) : (
-                  <div
-                    id={`question-${currentQuestionIndex}`}
-                    className="chat-message px-1 py-2 sm:p-4 rounded-xl "
-                  >
-                    <div className="flex">
-                      <img
-                        src={bot}
-                        alt="logo"
-                        className="max-h-9 max-w-9 ml-2 rounded-full border border-gray-800"
-                      />
-                      <div className="flex justify-between w-full">
-                        <p className="py-1 px-4 ml-1.5 mb-1 w-fit max-w-3xl border border-gray-600 font-medium text-sm sm:text-base rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
-                          {questions[currentQuestionIndex]}
+                  <p className="text-center font-bold text-xl uppercase mt-8 mb-2">
+                    Survey completed
+                  </p>
+                )
+              ) : (
+                <>
+                  {answers.map((answer, index) => (
+                    <div
+                      key={index}
+                      className="chat-message mb-8 px-1 py-2 sm:p-4"
+                    >
+                      <div className="flex">
+                        <img
+                          src={bot}
+                          alt="logo"
+                          className="max-h-9 max-w-9 ml-2 rounded-full border border-gray-800"
+                        />
+                        <p className="py-1 px-4 ml-1.5 mb-1 w-fit text-sm sm:text-base max-w-3xl border border-gray-600 font-medium rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
+                          {answer.question}
                         </p>
-                        {answers.length > 0 && (
-                          <button
-                            onClick={undoLastQuestion}
-                            className="bg-gray-700 ml-1 sm:mr-4 text-xs text-white font-semibold my-auto py-2 px-3 rounded-xl transition duration-300 ease-in-out shadow-xl transform hover:bg-black hover:scale-105"
-                            title="Undo"
-                          >
-                            {" "}
-                            <FaUndo />
-                          </button>
-                        )}
+                      </div>
+                      <div className="flex float-right m-1 items-center ">
+                        <p
+                          className={`py-1 px-4 w-fit text-sm sm:text-xl rounded-tr-full rounded-tl-full rounded-bl-full font-medium text-white bg-blue-500 shadow-md`}
+                        >
+                          {emojiMapping[answer.answer]}{" "}
+                          <span className="text-sm sm:text-base">
+                            {answer.answer}
+                          </span>
+                        </p>
+                        <img
+                          src={pfp}
+                          alt="logo"
+                          className="max-h-9 max-w-9 ml-2 my-auto rounded-full border border-gray-800"
+                        />
                       </div>
                     </div>
-                    <div className="options pl-10 sm:pl-12 pt-1 text-xs sm:text-sm">
-                      <button
-                        className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                        onClick={() => {
-                          handleAnswer({
-                            answer: "Strongly Agree",
-                          });
-                          setUserScore(userScore + 5);
-                        }}
-                      >
-                        <div className="flex flex-col">
-                          <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                            😄
+                  ))}
+                  {currentQuestionIndex < questions.length && isTyping ? (
+                    <TypingLoader />
+                  ) : (
+                    <div
+                      id={`question-${currentQuestionIndex}`}
+                      className="chat-message px-1 py-2 sm:p-4 rounded-xl "
+                    >
+                      <div className="flex">
+                        <img
+                          src={bot}
+                          alt="logo"
+                          className="max-h-9 max-w-9 ml-2 rounded-full border border-gray-800"
+                        />
+                        <div className="flex justify-between w-full">
+                          <p className="py-1 px-4 ml-1.5 mb-1 w-fit max-w-3xl border border-gray-600 font-medium text-sm sm:text-base rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
+                            {questions[currentQuestionIndex]}
                           </p>
-                          <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal text-center">
-                            Strongly Agree
-                          </p>
+                          {answers.length > 0 && (
+                            <button
+                              onClick={undoLastQuestion}
+                              className="bg-gray-700 ml-1 sm:mr-4 text-xs text-white font-semibold my-auto py-2 px-3 rounded-xl transition duration-300 ease-in-out shadow-xl transform hover:bg-black hover:scale-105"
+                              title="Undo"
+                            >
+                              {" "}
+                              <FaUndo />
+                            </button>
+                          )}
                         </div>
-                      </button>
-                      <button
-                        className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                        onClick={() => {
-                          handleAnswer({ answer: "Agree" });
-                          setUserScore(userScore + 2);
-                        }}
-                      >
-                        <div className="flex flex-col">
-                          <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                            😊
-                          </p>
-                          <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">Agree</p>
-                        </div>
-                      </button>
-                      <button
-                        className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                        onClick={() => {
-                          handleAnswer({ answer: "Undecided" });
-                          setUserScore(userScore + 3);
-                        }}
-                      >
-                        <div className="flex flex-col">
-                          <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                            😑
-                          </p>
-                          <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">Undecided</p>
-                        </div>
-                      </button>
-                      <button
-                        className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                        onClick={() => {
-                          handleAnswer({ answer: "Disagree" });
-                          setUserScore(userScore + 2);
-                        }}
-                      >
-                        <div className="flex flex-col">
-                          <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                            😔
-                          </p>
-                          <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">Disagree</p>
-                        </div>
-                      </button>
-                      <button
-                        className="inline-block sm:m-1 px-2 py-1  font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                        onClick={() => {
-                          handleAnswer({
-                            answer: "Strongly Disagree",
-                          });
-                          setUserScore(userScore + 1);
-                        }}
-                      >
-                        <div className="flex flex-col">
-                          <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                            😞
-                          </p>
-                          <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">Strongly Disagree</p>
-                        </div>
-                      </button>
+                      </div>
+                      <div className="options pl-10 sm:pl-12 pt-1 text-xs sm:text-sm">
+                        <button
+                          className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                          onClick={() => {
+                            handleAnswer({
+                              answer: "Strongly Agree",
+                            });
+                            setUserScore(userScore + 5);
+                          }}
+                        >
+                          <div className="flex flex-col">
+                            <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                              😄
+                            </p>
+                            <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal text-center">
+                              Strongly Agree
+                            </p>
+                          </div>
+                        </button>
+                        <button
+                          className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                          onClick={() => {
+                            handleAnswer({ answer: "Agree" });
+                            setUserScore(userScore + 2);
+                          }}
+                        >
+                          <div className="flex flex-col">
+                            <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                              😊
+                            </p>
+                            <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
+                              Agree
+                            </p>
+                          </div>
+                        </button>
+                        <button
+                          className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                          onClick={() => {
+                            handleAnswer({ answer: "Undecided" });
+                            setUserScore(userScore + 3);
+                          }}
+                        >
+                          <div className="flex flex-col">
+                            <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                              😑
+                            </p>
+                            <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
+                              Undecided
+                            </p>
+                          </div>
+                        </button>
+                        <button
+                          className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                          onClick={() => {
+                            handleAnswer({ answer: "Disagree" });
+                            setUserScore(userScore + 2);
+                          }}
+                        >
+                          <div className="flex flex-col">
+                            <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                              😔
+                            </p>
+                            <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
+                              Disagree
+                            </p>
+                          </div>
+                        </button>
+                        <button
+                          className="inline-block sm:m-1 px-2 py-1  font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                          onClick={() => {
+                            handleAnswer({
+                              answer: "Strongly Disagree",
+                            });
+                            setUserScore(userScore + 1);
+                          }}
+                        >
+                          <div className="flex flex-col">
+                            <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                              😞
+                            </p>
+                            <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
+                              Strongly Disagree
+                            </p>
+                          </div>
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-)
-  
-
-}
-          {!showThankYou && (
-    
-      !thisMonthAnswered && 
-    (  <div className="w-11/12 mx-auto mt-2">
-      <ProgressBar
-        completed={progress} 
-        bgColor="#FFB02E" 
-        baseBgColor="#e0e0e0" 
-        height="20px" 
-        labelSize="10px"
-        borderRadius="10px" 
-      />
-    </div>)
-    
+                  )}
+                </>
+              )}
+            </div>
+          )}
+          {!showThankYou && !thisMonthAnswered && (
+            <div className="w-11/12 mx-auto mt-2">
+              <ProgressBar
+                completed={progress}
+                bgColor="#FFB02E"
+                baseBgColor="#e0e0e0"
+                height="20px"
+                labelSize="10px"
+                borderRadius="10px"
+              />
+            </div>
           )}
           {showThankYou && (
             <div className="text-center mt-2">
