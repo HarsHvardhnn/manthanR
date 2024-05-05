@@ -44,6 +44,8 @@ const Chatbot = () => {
   const [showThankYou, setShowThankYou] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [pfp, setPfp] = useState("");
+  const [score,setScore]= useState("");
+  const [thisMonthAnswered ,setThisMonthAnswered] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [isFetchingData, setIsFetchingData] = useState(false); // New state for loader
   // console.log('user in chatbot' ,user);
@@ -149,7 +151,34 @@ const Chatbot = () => {
     setShowThankYou(false);
     setProgress(0);
   };
+ const getScore = ()=>{
+  const token = localStorage.getItem('token');
+  axios.get(`http://localhost:3030/v1/user/get-score/${user.userID}`).then((res)=>{
+    // console.log('res',res);
+    setScore(res.data.score)
+    const dateString = res.data.date;
+    // console.log(dateString)
+const date = new Date(dateString);
 
+const year = date.getFullYear();
+const month = date.getMonth() + 1; 
+
+
+
+    const today = new Date();
+    const todayYear =  today.getFullYear();
+    const todayMonth = today.getMonth() +1 ;
+    // console.log('month year' ,year,month,todayMonth,todayYear)
+    if(todayMonth === month && todayYear===year){
+      setThisMonthAnswered(true);
+
+
+    }
+
+  }).catch((Err)=>{
+    console.log(Err)
+  })
+ }
   const getpfp = () => {
     const token = localStorage.getItem("token");
     axios
@@ -175,7 +204,7 @@ const Chatbot = () => {
     setIsFetchingData(true); // Start loader
     axios
       .post(
-        "https://manthanr.onrender.com/v1/Doit",
+        "http://localhost:3030/v1/Doit",
         {
           email: user.email,
           answers: answers,
@@ -226,6 +255,8 @@ const Chatbot = () => {
 
   useEffect(() => {
     getpfp();
+    getScore();
+    console.log('score',thisMonthAnswered)
   }, [user]);
 
   useEffect(() => {
@@ -280,7 +311,8 @@ const Chatbot = () => {
           className="chat-container max-w-6xl mx-auto text-lg bg-white lg:px-4 py-2 rounded-br-xl rounded-bl-xl shadow-lg mb-4 min-h-96"
           style={{ maxHeight: "calc(100vh - 200px)", overflowY: "scroll" }}
         >
-          <div className="chat">
+{  thisMonthAnswered ? (<p>ALready answered this month</p> ): (
+            <div className="chat">
             {currentQuestionIndex === questions.length ? (
               questions.length === 0 ? (
                 <p>Loading...</p>
@@ -432,17 +464,24 @@ const Chatbot = () => {
               </>
             )}
           </div>
+)
+  
+
+}
           {!showThankYou && (
-            <div className="w-11/12 mx-auto mt-2">
-              <ProgressBar
-                completed={progress} 
-                bgColor="#FFB02E" 
-                baseBgColor="#e0e0e0" 
-                height="20px" 
-                labelSize="10px"
-                borderRadius="10px" 
-              />
-            </div>
+    
+      !thisMonthAnswered && 
+    (  <div className="w-11/12 mx-auto mt-2">
+      <ProgressBar
+        completed={progress} 
+        bgColor="#FFB02E" 
+        baseBgColor="#e0e0e0" 
+        height="20px" 
+        labelSize="10px"
+        borderRadius="10px" 
+      />
+    </div>)
+    
           )}
           {showThankYou && (
             <div className="text-center mt-2">

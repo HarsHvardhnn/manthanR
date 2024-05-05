@@ -27,6 +27,9 @@ const userSchema = new mongoose.Schema({
   score:{
     type:String,
   },
+  score_date:{
+    type:Date,
+  },
   role: {
     type: String,
     enum: ['user', 'admin', 'super admin'], 

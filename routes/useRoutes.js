@@ -146,7 +146,7 @@ router.post("/check-email",  async (req, res) => {
 });
 
 router.delete("/clear", verifyToken, clearAll);
-router.post("/Doit",  insertQuestions);
+router.post("/Doit",verifyToken,  insertQuestions);
 router.get("/getAllUsers", verifyToken, getUsers);
 router.post("/setAnswer", verifyToken, setAnswers);
 router.post("/sendOtp", verifyToken, sendOtp);
@@ -335,6 +335,22 @@ router.get('/assigned-admin/:id' ,async (req,res)=>{
     return res.send(err).status(500)
   }
 
+})
+
+router.get('/user/get-score/:id' , async (req,res)=>{
+  try {
+    const {id} = req.params;
+    const user = await userModel.findOne({_id:id});
+    // console.log(user)
+    const score = {
+      score:user.score,
+      date:user.score_date,
+    }
+    // console.log(score)
+    return res.send(score).status(201);
+  }catch(err){
+    return res.send(err).status(500);
+  }
 })
 router.post("/submit-report", verifyToken, submitReport);
 router.get("/get-reported-users",  getReportedUsers);
