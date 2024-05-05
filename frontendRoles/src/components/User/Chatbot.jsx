@@ -153,7 +153,7 @@ const Chatbot = () => {
   };
  const getScore = ()=>{
   const token = localStorage.getItem('token');
-  axios.get(`http://localhost:3030/v1/user/get-score/${user.userID}`).then((res)=>{
+  axios.get(`https://manthanr.onrender.com/v1/user/get-score/${user.userID}`).then((res)=>{
     // console.log('res',res);
     setScore(res.data.score)
     const dateString = res.data.date;
@@ -204,7 +204,7 @@ const month = date.getMonth() + 1;
     setIsFetchingData(true); // Start loader
     axios
       .post(
-        "http://localhost:3030/v1/Doit",
+        "https://manthanr.onrender.com/v1/Doit",
         {
           email: user.email,
           answers: answers,
