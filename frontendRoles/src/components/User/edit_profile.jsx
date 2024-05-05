@@ -153,6 +153,8 @@ const EditProfileForm = () => {
                 name="phoneNumber"
                 placeholder="Phone Number"
                 className="w-full px-3 py-2 border rounded-md"
+                maxLength={10}
+                minLength={10}
               />
               <ErrorMessage
                 name="phoneNumber"

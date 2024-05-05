@@ -10,7 +10,9 @@ import "./scrollbar.css";
 import { FaRedo, FaSignOutAlt, FaUndo } from "react-icons/fa";
 import emailjs from "emailjs-com";
 import Header from "../Home/Header";
+import Popup from "./Popup";
 import ProgressBar from "@ramonak/react-progress-bar"; // Import ProgressBar from the library
+import { differenceInDays } from "date-fns";
 
 const TypingLoader = () => (
   <div className="text-center mt-4 ml-8 mb-4">
@@ -46,6 +48,8 @@ const Chatbot = () => {
   const [score, setScore] = useState("");
   const [thisMonthAnswered, setThisMonthAnswered] = useState(false);
   const [questions, setQuestions] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+  const [daysLeft, setDaysLeft] = useState(0);
   const [isFetchingData, setIsFetchingData] = useState(false); // New state for loader
   // console.log('user in chatbot' ,user);
   // const sendEmail = (username,message,email) => {
@@ -150,42 +154,39 @@ const Chatbot = () => {
     setShowThankYou(false);
     setProgress(0);
   };
- const getScore = ()=>{
-  const token = localStorage.getItem('token');
-  axios.get(`https://manthanr.onrender.com/v1/user/get-score/${user.userID}`).then((res)=>{
-    // console.log('res',res);
-    setScore(res.data.score)
-    if(res.data.score){
-      const dateString = res.data.date;
-  
-  
-      const date = new Date(dateString);
-      const today = new Date();
-      
-  
-      const differenceInMs = today - date;
-      
-      
-      const millisecondsInDay = 1000 * 60 * 60 * 24;
-      const differenceInDays = Math.floor(differenceInMs / millisecondsInDay);
-      
-  
-      const isAtLeast30Days = differenceInDays >= 30;
-      
-      // console.log("Is the difference at least 30 days?", );
-      
-   
-      if(!isAtLeast30Days){
-        setThisMonthAnswered(true);
-  
-  
-      }
-    }
+  const getScore = () => {
+    const token = localStorage.getItem("token");
+    axios
+      .get(`https://manthanr.onrender.com/v1/user/get-score/${user.userID}`)
+      .then((res) => {
+        // console.log('res',res);
+        setScore(res.data.score);
+        if (res.data.score) {
+          const dateString = res.data.date;
 
-  }).catch((Err)=>{
-    console.log(Err)
-  })
- }
+          const date = new Date(dateString);
+          const today = new Date();
+
+          const differenceInMs = today - date;
+
+          const millisecondsInDay = 1000 * 60 * 60 * 24;
+          const differenceInDays = Math.floor(
+            differenceInMs / millisecondsInDay
+          );
+          setDaysLeft(30 - differenceInDays);
+          const isAtLeast30Days = differenceInDays >= 30;
+
+          // console.log("Is the difference at least 30 days?", );
+
+          if (!isAtLeast30Days) {
+            setThisMonthAnswered(true);
+          }
+        }
+      })
+      .catch((Err) => {
+        console.log(Err);
+      });
+  };
   const getpfp = () => {
     const token = localStorage.getItem("token");
     axios
@@ -225,7 +226,7 @@ const Chatbot = () => {
       )
       .then((res) => {
         // console.log(res);
-        setIsFetchingData(false); // Stop loader on successful response
+        setIsFetchingData(false); 
         if (res.status === 201) {
           toast.success("Submitted data successfully");
           navigate("/usersection");
@@ -234,7 +235,7 @@ const Chatbot = () => {
       .catch((err) => {
         // console.log(err);
         toast.error(err.response.message);
-        setIsFetchingData(false); // Stop loader on error response
+        setIsFetchingData(false); 
       });
   };
 
@@ -273,6 +274,16 @@ const Chatbot = () => {
         : 0;
     setProgress(newProgress);
   }, [currentQuestionIndex, questions]);
+
+  useEffect(() => {
+    if (thisMonthAnswered) {
+      setShowPopup(true);
+    }
+  }, [thisMonthAnswered]);
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
 
   return (
     <>
@@ -314,9 +325,8 @@ const Chatbot = () => {
           className="chat-container max-w-6xl mx-auto text-lg bg-white lg:px-4 py-2 rounded-br-xl rounded-bl-xl shadow-lg mb-4 min-h-96"
           style={{ maxHeight: "calc(100vh - 200px)", overflowY: "scroll" }}
         >
-          {thisMonthAnswered ? (
-            <p>ALready answered this month</p>
-          ) : (
+            {showPopup && <Popup onClose={closePopup} navigate={navigate} daysLeft={daysLeft}/>}
+           
             <div className="chat">
               {currentQuestionIndex === questions.length ? (
                 questions.length === 0 ? (
@@ -480,7 +490,7 @@ const Chatbot = () => {
                 </>
               )}
             </div>
-          )}
+          
           {!showThankYou && !thisMonthAnswered && (
             <div className="w-11/12 mx-auto mt-2">
               <ProgressBar

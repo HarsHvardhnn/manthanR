@@ -65,11 +65,11 @@ const ViewProfile = ({ onClose ,loading ,getUser,data }) => {
         </p>
         <p>
           <span className="font-semibold">Degree Type:</span>{" "}
-          {data?.degree}
+          {data?.degree ? data.degree.toUpperCase() : 'N/A'}
         </p>
         <p>
           <span className="font-semibold">Department:</span>{" "}
-          {data?.dept}
+          {data?.dept ? data.dept.toUpperCase() : 'N/A'}
         </p>
         <p>
           <span className="font-semibold">Semester:</span>{" "}
