@@ -156,23 +156,31 @@ const Chatbot = () => {
   axios.get(`https://manthanr.onrender.com/v1/user/get-score/${user.userID}`).then((res)=>{
     // console.log('res',res);
     setScore(res.data.score)
-    const dateString = res.data.date;
-    // console.log(dateString)
-const date = new Date(dateString);
-
-const year = date.getFullYear();
-const month = date.getMonth() + 1; 
-
-
-
-    const today = new Date();
-    const todayYear =  today.getFullYear();
-    const todayMonth = today.getMonth() +1 ;
-    // console.log('month year' ,year,month,todayMonth,todayYear)
-    if(todayMonth === month && todayYear===year){
-      setThisMonthAnswered(true);
-
-
+    if(res.data.score){
+      const dateString = res.data.date;
+  
+  
+      const date = new Date(dateString);
+      const today = new Date();
+      
+  
+      const differenceInMs = today - date;
+      
+      
+      const millisecondsInDay = 1000 * 60 * 60 * 24;
+      const differenceInDays = Math.floor(differenceInMs / millisecondsInDay);
+      
+  
+      const isAtLeast30Days = differenceInDays >= 30;
+      
+      // console.log("Is the difference at least 30 days?", );
+      
+   
+      if(!isAtLeast30Days){
+        setThisMonthAnswered(true);
+  
+  
+      }
     }
 
   }).catch((Err)=>{
