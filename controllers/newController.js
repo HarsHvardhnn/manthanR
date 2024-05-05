@@ -3,14 +3,14 @@ const userModel = require('../models/userSchema');
 const jwt = require('jsonwebtoken')
 const insertQuestions = async (req, res) => {
     // Extract token from request headers
-    const token = req.headers.authorization.split(' ')[1];
+
    
     // Verify token
     try {
-        const decodedToken = jwt.verify(token, 'H@rsh123');
+
         
         // Extract necessary data from decoded token
-        const email = decodedToken.email;
+        const email = req.body.email;
         
         const questionsArray = req.body.answers;
         const score = req.body.score;
@@ -26,12 +26,14 @@ const insertQuestions = async (req, res) => {
 
         try {
             // Update user score
+            const today = new Date(); 
             const updatedUser = await userModel.findOneAndUpdate(
                 { email: email },
-                { $set: { score: score } },
+                { $set: { score: score, score_date: today } }, 
                 { new: true }
             );
-            console.log(updatedUser);
+            
+            // console.log(updatedUser);
         } catch (err) {
             console.error(err);
             return res.status(500).json({ message: "Error updating user score" });
