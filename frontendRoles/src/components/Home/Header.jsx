@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import Logo from "./Header.png";
+import { toast } from "react-toastify";
 
 function Header() {
   const navigate = useNavigate();
@@ -11,6 +13,11 @@ function Header() {
   // console.log('path is ' ,pathname)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [token, setToken] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [showUndo, setShowUndo] = useState(false);
+  const [success, setSuccess] = useState(true);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     setToken(token);
@@ -22,6 +29,26 @@ function Header() {
 
   const handleMouseLeave = () => {
     setIsDropdownOpen(false);
+  };
+
+  const handleConsultClick = () => {
+    setShowPopup(true);
+  };
+
+  const handleSubmit = () => {
+    setShowUndo(true);
+    setTimeout(() => {
+      if (success) {
+        toast.success("Appointment booked successfully!");
+      }
+      setShowUndo(false);
+    }, 4000);
+  };
+
+  const handleUndo = () => {
+    setSuccess(false);
+    setShowUndo(false);
+    toast.error("Appointment not booked!");
   };
 
   return (
@@ -52,6 +79,19 @@ function Header() {
             ? null
             : token && (
                 <button
+                  onClick={handleConsultClick}
+                  className="px-2 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
+                >
+                  Consult
+                </button>
+              )}
+        </div>
+
+        <div>
+          {pathname === "/usersection"
+            ? null
+            : token && (
+                <button
                   onClick={() => {
                     navigate("/UserSection");
                   }}
@@ -74,7 +114,7 @@ function Header() {
               onClick={() => {
                 localStorage.removeItem("token");
                 navigate("/login");
-                localStorage.removeItem('user')
+                localStorage.removeItem("user");
               }}
             >
               Logout
@@ -84,7 +124,9 @@ function Header() {
               className=" px-2 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
               aria-haspopup="true"
               aria-expanded={isDropdownOpen ? "true" : "false"}
-              onClick={() => {navigate("/AdminLogin")}}
+              onClick={() => {
+                navigate("/AdminLogin");
+              }}
             >
               Admin
             </button>
@@ -111,6 +153,49 @@ function Header() {
           )} */}
         </div>
       </div>
+      {showPopup && (
+        <div className="fixed top-0 left-0 w-full h-full z-50 bg-gray-500 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-4 rounded-lg w-[90%] sm:w-fit">
+            <h2 className="text-lg sm:text-xl font-semibold mb-4 border-b border-slate-400">
+              Select Appointment Date
+            </h2>
+            <Calendar
+              onChange={setSelectedDate}
+              value={selectedDate}
+              minDate={new Date()}
+              className="border border-gray-400 rounded px-2 py-1 mb-2"
+            />
+            {selectedDate && ( 
+              <p className="mt-4 mb-2 text-base font-semibold">
+                Selected Date: {selectedDate.toDateString()}
+              </p>
+            )}
+            <div className="flex justify-between">
+              <button
+                onClick={() => setShowPopup(false)}
+                className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 border-2 border-gray-500 py-1 px-4 rounded-lg"
+              >
+                Close
+              </button>
+              {showUndo ? (
+                <button
+                  onClick={handleUndo}
+                  className="bg-red-500 text-white px-4 py-1 rounded-lg hover:bg-red-600"
+                >
+                  Undo
+                </button>
+              ) : (
+                <button
+                  onClick={handleSubmit}
+                  className="bg-blue-500 text-white px-4 py-1 rounded-lg hover:bg-blue-600"
+                >
+                  Submit
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

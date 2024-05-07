@@ -22,7 +22,9 @@ module.exports = {
         'user-btns': '#2E3E55',
         'user-btns-dark': '#1F3147',
         'user-bg-small': '#FFF5DA',
-        'survey-bg': '#f2f3ff',
+        'survey-bg': '#D8F3FD',
+        'survey-bg2': '#f2fbff',
+        'survey-bg-dark': '#00b6ff'
     },},
   },
   plugins: [],
