@@ -9,6 +9,7 @@ import TypeWriterEffect from "react-typewriter-effect";
 import "./home.css";
 import Header from "./Header";
 
+
 function MainPage() {
   const navigate = useNavigate();
   const [bgImageUrl, setBgImageUrl] = useState("");
@@ -95,7 +96,7 @@ function MainPage() {
                 }}
               />
             </div>
-            <div className="mb-4 py-2 max-w-xl para">
+            <div className=" sm:mb-4 py-2 max-w-xl para">
               <p className="text-base font-medium paragraph ">
                 Enter{" "}
                 <span className="font-bold  text-blue-600">
@@ -105,7 +106,7 @@ function MainPage() {
                 and Strength.
               </p>
             </div>
-            <div>
+            <div className="login">
               <button
                 onClick={() => {
                   navigate("/login")
@@ -115,7 +116,7 @@ function MainPage() {
                   //   navigate("/login");
                   // }
                 }}
-                className="login-btn bg-blue-600 text-white w-fit py-2 px-7 text-xl sm:text-base md:text-lg font-semibold sm:font-bold uppercase rounded-full cursor-pointer shadow-lg z-50 transition duration-300 ease-in-out transform hover:scale-105"
+                className="login-btn bg-blue-600 text-white w-fit text-base sm:text-base md:text-lg font-semibold sm:font-bold uppercase rounded-full cursor-pointer shadow-lg z-50 transition duration-300 ease-in-out transform hover:scale-105"
               >
                 Login
                 {/* {loggedin ? "Profile" : "Login"} */}

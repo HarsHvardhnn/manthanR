@@ -41,7 +41,6 @@ function Header() {
       if (success) {
         toast.success("Appointment booked successfully!");
       }
-      setShowUndo(false);
     }, 4000);
   };
 
@@ -67,7 +66,7 @@ function Header() {
               onClick={() => {
                 navigate("/");
               }}
-              className=" px-2 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
+              className=" px-3 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
             >
               Home
             </button>
@@ -80,7 +79,7 @@ function Header() {
             : token && (
                 <button
                   onClick={handleConsultClick}
-                  className="px-2 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
+                  className="px-3 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
                 >
                   Consult
                 </button>
@@ -95,7 +94,7 @@ function Header() {
                   onClick={() => {
                     navigate("/UserSection");
                   }}
-                  className="px-2 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
+                  className="px-3 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
                 >
                   Profile
                 </button>
@@ -108,7 +107,7 @@ function Header() {
         >
           {token ? (
             <button
-              className=" px-2 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
+              className=" px-3 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
               aria-haspopup="true"
               aria-expanded={isDropdownOpen ? "true" : "false"}
               onClick={() => {
@@ -121,7 +120,7 @@ function Header() {
             </button>
           ) : (
             <button
-              className=" px-2 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
+              className=" px-3 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
               aria-haspopup="true"
               aria-expanded={isDropdownOpen ? "true" : "false"}
               onClick={() => {
