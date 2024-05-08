@@ -105,7 +105,7 @@ const LoginPage = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error(err.response.status);
+        toast.error('Wrong email or password');
       }).finally(()=>{
         setLoading(false);
       })
