@@ -62,7 +62,7 @@ function App() {
     },
     {
       path: "/edit-profile",
-      element:     <EditProfileForm/>,
+      element:<EditProfileForm/>,
     },
     {
       path: "/",
