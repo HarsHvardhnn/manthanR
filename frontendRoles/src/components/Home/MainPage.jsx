@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import BgImage from "./main.jpg";
 import Bg from "./bg.png";
-import Bg2 from "./bg-small.png"
-import Bg3 from "./bg-mid.png"
-import Bg4 from "./bg-lg.png"
+import Bg2 from "./bg-small.png";
+import Bg3 from "./bg-mid.png";
+import Bg4 from "./bg-lg.png";
 import { useNavigate } from "react-router-dom";
 import TypeWriterEffect from "react-typewriter-effect";
 import "./home.css";
 import Header from "./Header";
-
 
 function MainPage() {
   const navigate = useNavigate();
@@ -31,8 +30,7 @@ function MainPage() {
       setBgImageUrl(Bg2);
     } else if (screenWidth > 640 && screenWidth < 1023) {
       setBgImageUrl(Bg3);
-    } 
-    else if (screenWidth > 1023 && screenWidth < 1280) {
+    } else if (screenWidth > 1023 && screenWidth < 1280) {
       setBgImageUrl(Bg4);
     } else {
       setBgImageUrl(Bg);
@@ -99,29 +97,28 @@ function MainPage() {
             <div className=" sm:mb-4 py-2 max-w-xl para">
               <p className="text-base font-medium paragraph ">
                 Enter{" "}
-                <span className="font-bold  text-blue-600">
-                  ManoWealth
-                </span>{" "}
-                - A Place Where Your Mental Well-being Finds Support, Comfort,
-                and Strength.
+                <span className="font-bold  text-blue-600">ManoWealth</span> - A
+                Place Where Your Mental Well-being Finds Support, Comfort, and
+                Strength.
               </p>
             </div>
-            <div className="login">
-              <button
-                onClick={() => {
-                  navigate("/login")
-                  // if (loggedin) {
-                  //   navigate("/usersection");
-                  // } else {
-                  //   navigate("/login");
-                  // }
-                }}
-                className="login-btn bg-blue-600 text-white w-fit text-base sm:text-base md:text-lg font-semibold sm:font-bold uppercase rounded-full cursor-pointer shadow-lg z-50 transition duration-300 ease-in-out transform hover:scale-105"
-              >
-                Login
-                {/* {loggedin ? "Profile" : "Login"} */}
-              </button>
-            </div>
+            {loggedin ? null : (
+              <div className="login">
+                <button
+                  onClick={() => {
+                    navigate("/login");
+                    // if (loggedin) {
+                    //   navigate("/usersection");
+                    // } else {
+                    //   navigate("/login");
+                    // }
+                  }}
+                  className="login-btn bg-blue-600 text-white w-fit text-base sm:text-base md:text-lg font-semibold sm:font-bold uppercase rounded-full cursor-pointer shadow-lg z-50 transition duration-300 ease-in-out transform hover:scale-105"
+                >
+                  Login
+                </button>
+              </div>
+            )}
           </div>
           {/* image md */}
           <div className="hidden lg:flex">

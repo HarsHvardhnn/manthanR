@@ -25,7 +25,7 @@ import Summary from "./components/Summary";
 import { loadingContext } from "./context";
 import { adminEmailContext } from "./context";
 import EditProfileForm from "./components/User/edit_profile";
-
+import Form from "./components/User/Form"
 
 function App() {
   const [user, setUser] = useState({ username: '', userID: '',email:'',assigned_admin:'',assigned_admin_id:''});
@@ -108,6 +108,11 @@ function App() {
       path: '/UserForm',
       element: <UserForm/>
     },
+    {
+      path: '/Form',
+      element: <Form/>
+    },
+
 
   ]);
   return (

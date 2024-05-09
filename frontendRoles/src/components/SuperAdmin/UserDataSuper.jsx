@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
+import ReactPaginate from "react-paginate";
 import axios from "axios";
 import * as XLSX from "xlsx";
 import ReportMessage from "../Admin/ReportMessage";
@@ -8,9 +9,11 @@ import jsPDF from "jspdf";
 import { ThreeDots } from "react-loader-spinner";
 import "jspdf-autotable";
 import emailjs from "emailjs-com";
+import "./table.css"
 const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   // const {user} = useContext(userContext);
   // const [users, setUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
   const [reportedUsers, setReportedUsers] = useState([]);
   const [selectedSort, setSelectedSort] = useState("none");
   const [selectedFilter, setSelectedFilter] = useState("All");
@@ -203,7 +206,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
     } else if (selectedSort === "score_highest") {
       return b.score - a.score;
     } else {
-      return a.score -  b.score;
+      return a.score - b.score;
     }
   });
 
@@ -275,9 +278,19 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   };
   function convertISOToDateTime(isoDate) {
     const date = new Date(isoDate);
-    return date.toLocaleString("en-US"); 
+    return date.toLocaleString("en-US");
   }
   const totalCount = filteredByYear.length;
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+  const usersPerPage = 2;
+  const offset = currentPage * usersPerPage;
+  const pageCount = Math.ceil(filteredByYear.length / usersPerPage);
+  const currentUsers = filteredByYear.slice(offset, offset + usersPerPage);
+  
+
   return (
     <div className="mx-auto p-2 md:p-4 pb-10 bg-gray-100 font-montserrat text-xs md:text-sm overflow-y-auto h-[90%]">
       {loading ? (
@@ -433,7 +446,8 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {filteredByYear.map((user, index) => (
+                  {currentUsers.map((user, index) => (
+                    
                     <tr key={user._id}>
                       <td className="px-4 py-2 border">{index + 1}</td>
                       <td className="px-4 py-2 border">{user.username}</td>
@@ -474,6 +488,19 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
               </table>
             </div>
           )}
+          <div className="flex justify-center mt-4">
+          <ReactPaginate
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination"}
+            previousLinkClassName={"pagination__link"}
+            nextLinkClassName={"pagination__link"}
+            disabledClassName={"pagination__link--disabled"}
+            activeClassName={"pagination__link--active"}
+          />
+        </div>
         </>
       )}
     </div>
