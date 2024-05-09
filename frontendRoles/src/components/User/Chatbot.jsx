@@ -15,7 +15,7 @@ import ProgressBar from "@ramonak/react-progress-bar"; // Import ProgressBar fro
 import { differenceInDays } from "date-fns";
 
 const TypingLoader = () => (
-  <div className="text-center mt-4 ml-8 mb-4">
+  <div className="text-center mt-20 ml-8 mb-4">
     <div className="flex">
       <div className="animate-pulse w-3 h-3 bg-gray-400 rounded-full mr-1"></div>
       <div className="animate-pulse w-3 h-3 bg-gray-400 rounded-full mr-1"></div>
@@ -226,7 +226,7 @@ const Chatbot = () => {
       )
       .then((res) => {
         // console.log(res);
-        setIsFetchingData(false); 
+        setIsFetchingData(false);
         if (res.status === 201) {
           toast.success("Submitted data successfully");
           navigate("/usersection");
@@ -235,7 +235,7 @@ const Chatbot = () => {
       .catch((err) => {
         // console.log(err);
         toast.error(err.response.message);
-        setIsFetchingData(false); 
+        setIsFetchingData(false);
       });
   };
 
@@ -289,243 +289,251 @@ const Chatbot = () => {
     <>
       <Header />
       <div className="max-w-full px-4 pb-24 font-montserrat h-screen bg-blue-200 pt-16 md:pt-24">
-        <div className="max-w-6xl mx-auto flex justify-between px-4 py-2 bg-blue-500 rounded-tr-xl rounded-tl-xl">
-          <div className="flex justify-start">
-            <div>
-              <img src={pfp} alt="logo" className="ml-2 rounded-full h-9 w-9" />
-            </div>
-            <div className="hidden md:flex">
-              <p className="py-2 px-6 bg-white rounded-xl font-bold text-base ml-2">
-                Hello {user.username} ✨
-              </p>
-            </div>
-          </div>
-          <div className="hidden sm:flex ">
-            <button
-              onClick={handleRestart}
-              className="bg-white font-bold mx-2 py-2 px-6 rounded-xl text-sm transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              Restart Survey
-            </button>
-          </div>
-
-          <div className="sm:hidden font-bold rounded-lg bg-white my-auto py-1.5">
-            <button
-              onClick={handleRestart}
-              className="my-1 mx-auto px-4 rounded-l-xl text-xs transition duration-300 ease-in-out transform hover:scale-105"
-              title="Restart"
-            >
-              <FaRedo />
-            </button>
-          </div>
-        </div>
-
-        <div
-          ref={chatContainerRef}
-          className="chat-container max-w-6xl mx-auto text-lg bg-white lg:px-4 py-2 rounded-br-xl rounded-bl-xl shadow-lg mb-4 min-h-96"
-          style={{ maxHeight: "calc(100vh - 200px)", overflowY: "scroll" }}
-        >
-            {showPopup && <Popup onClose={closePopup} navigate={navigate} daysLeft={daysLeft}/>}
-           
-            <div className="chat">
-              {currentQuestionIndex === questions.length ? (
-                questions.length === 0 ? (
-                  <p>Loading...</p>
-                ) : (
-                  <p className="text-center font-bold text-xl uppercase mt-8 mb-2">
-                    Survey completed
+        {showPopup ? (
+          <Popup onClose={closePopup} navigate={navigate} daysLeft={daysLeft} />
+        ) : (
+          <>
+            <div className="max-w-6xl mx-auto flex justify-between px-4 py-2 bg-blue-500 rounded-tr-xl rounded-tl-xl">
+              <div className="flex justify-start">
+                <div>
+                  <img
+                    src={pfp}
+                    alt="logo"
+                    className="ml-2 rounded-full h-9 w-9"
+                  />
+                </div>
+                <div className="hidden md:flex">
+                  <p className="py-2 px-6 bg-white rounded-xl font-bold text-base ml-2">
+                    Hello {user.username} ✨
                   </p>
-                )
-              ) : (
-                <>
-                  {answers.map((answer, index) => (
-                    <div
-                      key={index}
-                      className="chat-message mb-8 px-1 py-2 sm:p-4"
-                    >
-                      <div className="flex">
-                        <img
-                          src={bot}
-                          alt="logo"
-                          className="max-h-9 max-w-9 ml-2 rounded-full border border-gray-800"
-                        />
-                        <p className="py-1 px-4 ml-1.5 mb-1 w-fit text-sm sm:text-base max-w-3xl border border-gray-600 font-medium rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
-                          {answer.question}
-                        </p>
-                      </div>
-                      <div className="flex float-right m-1 items-center ">
-                        <p
-                          className={`py-1 px-4 w-fit text-sm sm:text-xl rounded-tr-full rounded-tl-full rounded-bl-full font-medium text-white bg-blue-500 shadow-md`}
-                        >
-                          {emojiMapping[answer.answer]}{" "}
-                          <span className="text-sm sm:text-base">
-                            {answer.answer}
-                          </span>
-                        </p>
-                        <img
-                          src={pfp}
-                          alt="logo"
-                          className="max-h-9 max-w-9 ml-2 my-auto rounded-full border border-gray-800"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                  {currentQuestionIndex < questions.length && isTyping ? (
-                    <TypingLoader />
+                </div>
+              </div>
+              <div className="hidden sm:flex ">
+                <button
+                  onClick={handleRestart}
+                  className="bg-white font-bold mx-2 py-2 px-6 rounded-xl text-sm transition duration-300 ease-in-out transform hover:scale-105"
+                >
+                  Restart Survey
+                </button>
+              </div>
+
+              <div className="sm:hidden font-bold rounded-lg bg-white my-auto py-1.5">
+                <button
+                  onClick={handleRestart}
+                  className="my-1 mx-auto px-4 rounded-l-xl text-xs transition duration-300 ease-in-out transform hover:scale-105"
+                  title="Restart"
+                >
+                  <FaRedo />
+                </button>
+              </div>
+            </div>
+
+            <div
+              ref={chatContainerRef}
+              className="chat-container max-w-6xl mx-auto text-lg bg-white lg:px-4 py-2 rounded-br-xl rounded-bl-xl shadow-lg mb-4 min-h-96"
+              style={{ maxHeight: "calc(100vh - 200px)", overflowY: "scroll" }}
+            >
+              <div className="chat">
+                {currentQuestionIndex === questions.length ? (
+                  questions.length === 0 ? (
+                    <p>Loading...</p>
                   ) : (
-                    <div
-                      id={`question-${currentQuestionIndex}`}
-                      className="chat-message px-1 py-2 sm:p-4 rounded-xl "
-                    >
-                      <div className="flex">
-                        <img
-                          src={bot}
-                          alt="logo"
-                          className="max-h-9 max-w-9 ml-2 rounded-full border border-gray-800"
-                        />
-                        <div className="flex justify-between w-full">
-                          <p className="py-1 px-4 ml-1.5 mb-1 w-fit max-w-3xl border border-gray-600 font-medium text-sm sm:text-base rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
-                            {questions[currentQuestionIndex]}
+                    <p className="text-center font-bold text-xl uppercase mt-8 mb-2">
+                      Survey completed
+                    </p>
+                  )
+                ) : (
+                  <>
+                    {answers.map((answer, index) => (
+                      <div
+                        key={index}
+                        className="chat-message mb-8 px-1 py-2 sm:p-4"
+                      >
+                        <div className="flex">
+                          <img
+                            src={bot}
+                            alt="logo"
+                            className="max-h-9 max-w-9 ml-2 rounded-full border border-gray-800"
+                          />
+                          <p className="py-1 px-4 ml-1.5 mb-1 w-fit text-sm sm:text-base max-w-3xl border border-gray-600 font-medium rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
+                            {answer.question}
                           </p>
-                          {answers.length > 0 && (
-                            <button
-                              onClick={undoLastQuestion}
-                              className="bg-gray-700 ml-1 sm:mr-4 text-xs text-white font-semibold my-auto py-2 px-3 rounded-xl transition duration-300 ease-in-out shadow-xl transform hover:bg-black hover:scale-105"
-                              title="Undo"
-                            >
-                              {" "}
-                              <FaUndo />
-                            </button>
-                          )}
+                        </div>
+                        <div className="flex float-right m-1 items-center ">
+                          <p
+                            className={`py-1 px-4 w-fit text-sm sm:text-xl rounded-tr-full rounded-tl-full rounded-bl-full font-medium text-white bg-blue-500 shadow-md`}
+                          >
+                            {emojiMapping[answer.answer]}{" "}
+                            <span className="text-sm sm:text-base">
+                              {answer.answer}
+                            </span>
+                          </p>
+                          <img
+                            src={pfp}
+                            alt="logo"
+                            className="h-9 w-9 ml-2 my-auto rounded-full border border-gray-800"
+                          />
                         </div>
                       </div>
-                      <div className="options pl-10 sm:pl-12 pt-1 text-xs sm:text-sm">
-                        <button
-                          className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                          onClick={() => {
-                            handleAnswer({
-                              answer: "Strongly Agree",
-                            });
-                            setUserScore(userScore + 5);
-                          }}
-                        >
-                          <div className="flex flex-col">
-                            <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                              😄
+                    ))}
+                    {currentQuestionIndex < questions.length && isTyping ? (
+                      <TypingLoader />
+                    ) : (
+                      <div
+                        id={`question-${currentQuestionIndex}`}
+                        className="chat-message px-1 py-2 sm:p-4 rounded-xl "
+                      >
+                        <div className="flex">
+                          <img
+                            src={bot}
+                            alt="logo"
+                            className="max-h-9 max-w-9 ml-2 rounded-full border border-gray-800"
+                          />
+                          <div className="flex justify-between w-full">
+                            <p className="py-1 px-4 ml-1.5 mb-1 w-fit max-w-3xl border border-gray-600 font-medium text-sm sm:text-base rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
+                              {questions[currentQuestionIndex]}
                             </p>
-                            <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal text-center">
-                              Strongly Agree
-                            </p>
+                            {answers.length > 0 && (
+                              <button
+                                onClick={undoLastQuestion}
+                                className="bg-gray-700 ml-1 sm:mr-4 text-xs text-white font-semibold my-auto py-2 px-3 rounded-xl transition duration-300 ease-in-out shadow-xl transform hover:bg-black hover:scale-105"
+                                title="Undo"
+                              >
+                                {" "}
+                                <FaUndo />
+                              </button>
+                            )}
                           </div>
-                        </button>
-                        <button
-                          className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                          onClick={() => {
-                            handleAnswer({ answer: "Agree" });
-                            setUserScore(userScore + 2);
-                          }}
-                        >
-                          <div className="flex flex-col">
-                            <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                              😊
-                            </p>
-                            <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
-                              Agree
-                            </p>
-                          </div>
-                        </button>
-                        <button
-                          className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                          onClick={() => {
-                            handleAnswer({ answer: "Undecided" });
-                            setUserScore(userScore + 3);
-                          }}
-                        >
-                          <div className="flex flex-col">
-                            <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                              😑
-                            </p>
-                            <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
-                              Undecided
-                            </p>
-                          </div>
-                        </button>
-                        <button
-                          className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                          onClick={() => {
-                            handleAnswer({ answer: "Disagree" });
-                            setUserScore(userScore + 2);
-                          }}
-                        >
-                          <div className="flex flex-col">
-                            <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                              😔
-                            </p>
-                            <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
-                              Disagree
-                            </p>
-                          </div>
-                        </button>
-                        <button
-                          className="inline-block sm:m-1 px-2 py-1  font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                          onClick={() => {
-                            handleAnswer({
-                              answer: "Strongly Disagree",
-                            });
-                            setUserScore(userScore + 1);
-                          }}
-                        >
-                          <div className="flex flex-col">
-                            <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                              😞
-                            </p>
-                            <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
-                              Strongly Disagree
-                            </p>
-                          </div>
-                        </button>
+                        </div>
+                        <div className="options pl-10 sm:pl-12 pt-1 text-xs sm:text-sm">
+                          <button
+                            className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                            onClick={() => {
+                              handleAnswer({
+                                answer: "Strongly Agree",
+                              });
+                              setUserScore(userScore + 5);
+                            }}
+                          >
+                            <div className="flex flex-col">
+                              <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                                😄
+                              </p>
+                              <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal text-center">
+                                Strongly Agree
+                              </p>
+                            </div>
+                          </button>
+                          <button
+                            className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                            onClick={() => {
+                              handleAnswer({ answer: "Agree" });
+                              setUserScore(userScore + 2);
+                            }}
+                          >
+                            <div className="flex flex-col">
+                              <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                                😊
+                              </p>
+                              <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
+                                Agree
+                              </p>
+                            </div>
+                          </button>
+                          <button
+                            className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                            onClick={() => {
+                              handleAnswer({ answer: "Undecided" });
+                              setUserScore(userScore + 3);
+                            }}
+                          >
+                            <div className="flex flex-col">
+                              <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                                😑
+                              </p>
+                              <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
+                                Undecided
+                              </p>
+                            </div>
+                          </button>
+                          <button
+                            className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                            onClick={() => {
+                              handleAnswer({ answer: "Disagree" });
+                              setUserScore(userScore + 2);
+                            }}
+                          >
+                            <div className="flex flex-col">
+                              <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                                😔
+                              </p>
+                              <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
+                                Disagree
+                              </p>
+                            </div>
+                          </button>
+                          <button
+                            className="inline-block sm:m-1 px-2 py-1  font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                            onClick={() => {
+                              handleAnswer({
+                                answer: "Strongly Disagree",
+                              });
+                              setUserScore(userScore + 1);
+                            }}
+                          >
+                            <div className="flex flex-col">
+                              <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                                😞
+                              </p>
+                              <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
+                                Strongly Disagree
+                              </p>
+                            </div>
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </>
+                    )}
+                  </>
+                )}
+              </div>
+
+              {!showThankYou && !thisMonthAnswered && (
+                <div className="w-11/12 mx-auto mt-2">
+                  <ProgressBar
+                    completed={progress}
+                    bgColor="#FFB02E"
+                    baseBgColor="#e0e0e0"
+                    height="20px"
+                    labelSize="10px"
+                    borderRadius="10px"
+                  />
+                </div>
+              )}
+              {showThankYou && (
+                <div className="text-center mt-2">
+                  <p className="text-base sm:text-2xl uppercase font-bold">
+                    Thank You for Your Responses!
+                  </p>
+                </div>
+              )}
+              {currentQuestionIndex === questions.length && (
+                <div className="text-center mt-2">
+                  <button
+                    onClick={() => {
+                      // console.log(userScore);
+                      // console.log("submitted");
+                      submitAns();
+                      // console.log(answers)
+                    }}
+                    className="bg-white font-bold py-1 px-4 text-sm sm:text-base rounded-xl border border-gray-700 transition duration-300 ease-in-out transform hover:bg-blue-600 hover:text-white hover:scale-105"
+                  >
+                    Submit
+                  </button>
+                </div>
               )}
             </div>
-          
-          {!showThankYou && !thisMonthAnswered && (
-            <div className="w-11/12 mx-auto mt-2">
-              <ProgressBar
-                completed={progress}
-                bgColor="#FFB02E"
-                baseBgColor="#e0e0e0"
-                height="20px"
-                labelSize="10px"
-                borderRadius="10px"
-              />
-            </div>
-          )}
-          {showThankYou && (
-            <div className="text-center mt-2">
-              <p className="text-base sm:text-2xl uppercase font-bold">
-                Thank You for Your Responses!
-              </p>
-            </div>
-          )}
-          {currentQuestionIndex === questions.length && (
-            <div className="text-center mt-2">
-              <button
-                onClick={() => {
-                  // console.log(userScore);
-                  // console.log("submitted");
-                  submitAns();
-                  // console.log(answers)
-                }}
-                className="bg-white font-bold py-1 px-4 text-sm sm:text-base rounded-xl border border-gray-700 transition duration-300 ease-in-out transform hover:bg-blue-600 hover:text-white hover:scale-105"
-              >
-                Submit
-              </button>
-            </div>
-          )}
-        </div>
+          </>
+        )}
       </div>
     </>
   );
