@@ -15,8 +15,6 @@ function Header() {
   const [token, setToken] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [showUndo, setShowUndo] = useState(false);
-  const [success, setSuccess] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -36,18 +34,7 @@ function Header() {
   };
 
   const handleSubmit = () => {
-    setShowUndo(true);
-    setTimeout(() => {
-      if (success) {
-        toast.success("Appointment booked successfully!");
-      }
-    }, 4000);
-  };
-
-  const handleUndo = () => {
-    setSuccess(false);
-    setShowUndo(false);
-    toast.error("Appointment not booked!");
+    toast.success("Appointment booked successfully!");  
   };
 
   return (
@@ -74,31 +61,25 @@ function Header() {
         )}
 
         <div>
-          {pathname === "/usersection"
-            ? null
-            : token && (
-                <button
-                  onClick={handleConsultClick}
-                  className="px-3 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
-                >
-                  Consult
-                </button>
-              )}
-        </div>
-
-        <div>
-          {pathname === "/usersection"
-            ? null
-            : token && (
-                <button
-                  onClick={() => {
-                    navigate("/UserSection");
-                  }}
-                  className="px-3 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
-                >
-                  Profile
-                </button>
-              )}
+          {pathname === "/UserSection" ? (
+            <button
+              onClick={handleConsultClick}
+              className="px-3 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
+            >
+              Consult
+            </button>
+          ) : (
+            token && (
+              <button
+                onClick={() => {
+                  navigate("/UserSection");
+                }}
+                className="px-3 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
+              >
+                Profile
+              </button>
+            )
+          )}
         </div>
         <div
           className="relative mr-1 sm:mr-2 lg:mr-12 xl:mr-32"
@@ -164,7 +145,7 @@ function Header() {
               minDate={new Date()}
               className="border border-gray-400 rounded px-2 py-1 mb-2"
             />
-            {selectedDate && ( 
+            {selectedDate && (
               <p className="mt-4 mb-2 text-base font-semibold">
                 Selected Date: {selectedDate.toDateString()}
               </p>
@@ -176,21 +157,12 @@ function Header() {
               >
                 Close
               </button>
-              {showUndo ? (
-                <button
-                  onClick={handleUndo}
-                  className="bg-red-500 text-white px-4 py-1 rounded-lg hover:bg-red-600"
-                >
-                  Undo
-                </button>
-              ) : (
-                <button
-                  onClick={handleSubmit}
-                  className="bg-blue-500 text-white px-4 py-1 rounded-lg hover:bg-blue-600"
-                >
-                  Submit
-                </button>
-              )}
+              <button
+                onClick={handleSubmit}
+                className="bg-blue-500 text-white px-4 py-1 rounded-lg hover:bg-blue-600"
+              >
+                Submit
+              </button>
             </div>
           </div>
         </div>
