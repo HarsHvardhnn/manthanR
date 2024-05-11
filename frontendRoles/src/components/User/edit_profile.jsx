@@ -34,7 +34,7 @@ const EditProfileForm = () => {
         const needed_data = {
           profile_pic,
           contactNumber,
-          semester
+          semester,
         };
 
         setObj(needed_data);
@@ -163,8 +163,8 @@ const EditProfileForm = () => {
             </div>
 
             <div className="mb-4">
-              <label>current profile</label>
-            <img src={obj.profile_pic} className="h-24 w-24"/>
+              <label>Current Profile</label>
+              <img src={obj.profile_pic} className="h-24 w-24 mb-4" />
               <Field
                 type="tel"
                 name="phoneNumber"
