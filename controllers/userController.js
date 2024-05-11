@@ -338,7 +338,7 @@ async function getuserInfo(req, res) {
       return res.status(400).json({ error: "User ID is required." });
     }
 
-    const userInfo = await userModel.findOne({ _id: userId });
+    const userInfo = await userModel.findOne({ _id: userId }, { password: 0 });
     if (!userInfo) {
       return res.status(404).json({ error: "User not found." });
     }
@@ -360,6 +360,7 @@ async function getuserInfo(req, res) {
     res.status(500).json({ error: "An error occurred while processing your request." });
   }
 }
+
 
 module.exports = {
 
