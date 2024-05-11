@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import ReactPaginate from "react-paginate";
 import * as XLSX from "xlsx";
 import ReportMessage from "./ReportMessage";
 import { adminContext, adminEmailContext, userContext } from "../../context";
@@ -8,6 +9,7 @@ import jsPDF from "jspdf";
 import { ThreeDots } from "react-loader-spinner";
 import emailjs from "emailjs-com";
 import "jspdf-autotable";
+import { FaFilePdf, FaFileExcel } from "react-icons/fa";
 
 const UserData = ({
   showSOSButton = true,
@@ -16,7 +18,9 @@ const UserData = ({
 }) => {
   // const {user} = useContext(userContext);
   // const [users, setUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
   const [reportedUsers, setReportedUsers] = useState([]);
+  const [usersPerPage, setUsersPerPage] = useState(10);
   const [selectedSort, setSelectedSort] = useState("none");
   const [selectedFilter, setSelectedFilter] = useState("All");
   const [selectedMonth, setSelectedMonth] = useState("All");
@@ -59,10 +63,6 @@ const UserData = ({
         console.log(err);
       });
   };
-
-
-
-
 
   const fetchUsers = async () => {
     const token = localStorage.getItem("adminToken");
@@ -112,8 +112,13 @@ const UserData = ({
           const username = users.filter(
             (user) => user.email === selectedUserId
           );
-          console.log(username)
-          sendEmail(username[0].username, message, username[0].email,username[0].contactNumber);
+          console.log(username);
+          sendEmail(
+            username[0].username,
+            message,
+            username[0].email,
+            username[0].contactNumber
+          );
         }
       })
       .catch((err) => {
@@ -174,7 +179,7 @@ const UserData = ({
     return date.toLocaleDateString("en-US", options);
   }
 
-  const sendEmail = (username, message, email,contactNumber) => {
+  const sendEmail = (username, message, email, contactNumber) => {
     const serviceId = "service_0jzntyg";
     const templateId = "template_ugy8wsb";
     const userId = "4n-EC2hBnJ4wZnL_F";
@@ -190,9 +195,9 @@ const UserData = ({
       username: username,
       admin: admin.username,
       email: email,
-      contact:`${contactNumber}`,
+      contact: `${contactNumber}`,
       subject: "User Reported",
-      message:message,
+      message: message,
     };
 
     emailjs
@@ -242,7 +247,7 @@ const UserData = ({
     selectedYear === "All"
       ? filteredByMonth
       : filteredByMonth.filter((user) => {
-          const userYear = user.createdAt.substring(0, 4); 
+          const userYear = user.createdAt.substring(0, 4);
           // console.log("User Year:", userYear);
           // console.log("Selected Year:", selectedYear);
           return userYear === selectedYear;
@@ -290,6 +295,19 @@ const UserData = ({
   }
   const totalCount = filteredByYear.length;
 
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+  const offset = currentPage * usersPerPage;
+  const pageCount =
+    usersPerPage === "all"
+      ? 1
+      : Math.ceil(filteredByYear.length / usersPerPage);
+  const currentUsers =
+    usersPerPage === "all"
+      ? filteredByYear
+      : filteredByYear.slice(offset, offset + parseInt(usersPerPage));
+
   return (
     <div className="mx-auto p-2 md:p-4 pb-10 bg-gray-100 font-montserrat text-xs md:text-sm overflow-y-auto h-[90%]">
       {loading ? (
@@ -315,9 +333,25 @@ const UserData = ({
             />
           )}
 
-          <div className="flex justify-center mt-4 flex-wrap">
-            <div className="flex flex-col md:flex-row">
-              <label htmlFor="sort" className="mr-2">
+          <div className="flex justify-center mt-4 flex-wrap mx-4 sm:mx-0">
+            <div className="flex flex-col md:flex-row mx-1">
+              <label htmlFor="count" className="mr-2 ">
+                Users per page:
+              </label>
+              <select
+                id="count"
+                value={usersPerPage}
+                onChange={(e) => setUsersPerPage(e.target.value)}
+                className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-black text-xs md:text-sm"
+              >
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="all">All</option>
+              </select>
+            </div>
+            <div className="flex flex-col md:flex-row mx-1">
+              <label htmlFor="sort" className="mr-2  ml-4">
                 Sort by:
               </label>
               <select
@@ -332,7 +366,7 @@ const UserData = ({
               </select>
             </div>
 
-            <div className="flex flex-col md:flex-row">
+            <div className="flex flex-col md:flex-row mx-1">
               <label htmlFor="filter" className="ml-4 mr-2">
                 Filter by:
               </label>
@@ -350,7 +384,7 @@ const UserData = ({
             </div>
 
             <div className="flex">
-              <div className="flex flex-col md:flex-row md:mt-1">
+              <div className="flex flex-col md:flex-row md:mt-1 mx-1">
                 <label htmlFor="month" className="ml-4 mr-2">
                   Month:
                 </label>
@@ -387,23 +421,23 @@ const UserData = ({
                   className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-black text-xs md:text-sm"
                 >
                   <option value="All">All</option>
-                  <option value="2023">2023</option>
-                  <option value="2022">2022</option>
+                  <option value="2023">2024</option>
+                  <option value="2022">2023</option>
                 </select>
               </div>
             </div>
             <div className="mt-2">
               <button
                 onClick={exportToExcel}
-                className="ml-4 bg-blue-600 text-white font-semibold md:font-bold py-2 px-4 rounded-md"
+                className="ml-4 bg-blue-600 text-white font-semibold md:font-bold py-2 px-2 rounded-md"
               >
-                Export to Excel
+                <FaFileExcel />
               </button>
               <button
                 onClick={exportToPDF}
-                className="ml-4 bg-blue-600 text-white font-semibold md:font-bold py-2 px-4 rounded-md"
+                className="ml-4 bg-blue-600 text-white font-semibold md:font-bold py-2 px-2 rounded-md"
               >
-                Export to pdf
+                <FaFilePdf />
               </button>
             </div>
           </div>
@@ -416,7 +450,7 @@ const UserData = ({
             <div className="overflow-y-auto mt-4 h-[90%]">
               <table className="w-full max-w-6xl mx-auto bg-white border rounded-md">
                 <thead>
-                <tr className="">
+                  <tr className="">
                     <td
                       colSpan={8}
                       className="text-lg text-center uppercase mt-2 font-bold"
@@ -447,13 +481,15 @@ const UserData = ({
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {filteredByYear.map((user, index) => (
+                  {currentUsers.map((user, index) => (
                     <tr key={user._id}>
                       <td className="px-4 py-2 border">{index + 1}</td>
                       <td className="px-4 py-2 border">{user.username}</td>
                       <td className="px-4 py-2 border">{user.email}</td>
                       <td className="px-4 py-2 border">{user.contactNumber}</td>
-                      <td className="px-4 py-2 border">{user.scoren ?? "NA"}</td>
+                      <td className="px-4 py-2 border">
+                        {user.score ?? "NA"}
+                      </td>
                       <td className="px-4 py-2 border">
                         {convertISOToDate(user.createdAt)}
                       </td>
@@ -488,6 +524,29 @@ const UserData = ({
                   ))}
                 </tbody>
               </table>
+              <div className="flex justify-center mt-2">
+                <ReactPaginate
+                  pageCount={pageCount}
+                  onPageChange={handlePageClick}
+                  nextLabel="Next >"
+                  pageRangeDisplayed={3}
+                  marginPagesDisplayed={2}
+                  previousLabel="< Previous"
+                  pageClassName="page-item"
+                  pageLinkClassName="page-link"
+                  previousClassName="page-item"
+                  previousLinkClassName="page-link"
+                  nextClassName="page-item"
+                  nextLinkClassName="page-link"
+                  breakLabel="..."
+                  breakClassName="page-item"
+                  breakLinkClassName="page-link"
+                  containerClassName="pagination"
+                  activeClassName="active"
+                  renderOnZeroPageCount={null}
+                  disabledClassName={"pagination__link--disabled"}
+                />
+              </div>
             </div>
           )}
         </>

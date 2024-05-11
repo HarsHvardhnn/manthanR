@@ -29,8 +29,19 @@ const EditProfileForm = () => {
         },
       })
       .then((res) => {
-        console.log(res);
-        setObj(res.data);
+        const { profile_pic, contactNumber, semester, ...rest } = res.data;
+
+        const needed_data = {
+          profile_pic,
+          contactNumber,
+          semester
+        };
+
+        setObj(needed_data);
+
+        // Set initial values for Formik form
+        initialValues.phoneNumber = contactNumber; // Show contactNumber as phoneNumber
+        initialValues.semester = semester; // Keep semester visible
       })
       .catch((Err) => {
         console.log(Err);
@@ -148,6 +159,8 @@ const EditProfileForm = () => {
             </div>
 
             <div className="mb-4">
+              <label>current profile</label>
+            <img src={obj.profile_pic} className="h-24 w-24"/>
               <Field
                 type="tel"
                 name="phoneNumber"

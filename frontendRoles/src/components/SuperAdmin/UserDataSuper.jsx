@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
+import ReactPaginate from "react-paginate";
 import axios from "axios";
 import * as XLSX from "xlsx";
 import ReportMessage from "../Admin/ReportMessage";
@@ -8,10 +9,15 @@ import jsPDF from "jspdf";
 import { ThreeDots } from "react-loader-spinner";
 import "jspdf-autotable";
 import emailjs from "emailjs-com";
+import "./table.css";
+import { FaFilePdf, FaFileExcel } from "react-icons/fa";
+
 const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   // const {user} = useContext(userContext);
   // const [users, setUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
   const [reportedUsers, setReportedUsers] = useState([]);
+  const [usersPerPage, setUsersPerPage] = useState(10);
   const [selectedSort, setSelectedSort] = useState("none");
   const [selectedFilter, setSelectedFilter] = useState("All");
   const [selectedMonth, setSelectedMonth] = useState("All");
@@ -203,7 +209,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
     } else if (selectedSort === "score_highest") {
       return b.score - a.score;
     } else {
-      return a.score -  b.score;
+      return a.score - b.score;
     }
   });
 
@@ -275,9 +281,22 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   };
   function convertISOToDateTime(isoDate) {
     const date = new Date(isoDate);
-    return date.toLocaleString("en-US"); 
+    return date.toLocaleString("en-US");
   }
   const totalCount = filteredByYear.length;
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+  const offset = currentPage * usersPerPage;
+  const pageCount =
+    usersPerPage === "all" ? 1 : Math.ceil(filteredByYear.length / usersPerPage);
+  const currentUsers =
+    usersPerPage === "all"
+      ? filteredByYear
+      : filteredByYear.slice(offset, offset + parseInt(usersPerPage));
+  
+
   return (
     <div className="mx-auto p-2 md:p-4 pb-10 bg-gray-100 font-montserrat text-xs md:text-sm overflow-y-auto h-[90%]">
       {loading ? (
@@ -303,9 +322,25 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
             />
           )}
 
-          <div className="flex justify-center mt-4 flex-wrap">
-            <div className="flex flex-col md:flex-row">
-              <label htmlFor="sort" className="mr-2">
+          <div className="flex justify-center mt-4 flex-wrap mx-4 sm:mx-0">
+            <div className="flex flex-col md:flex-row mx-1">
+              <label htmlFor="count" className="mr-2">
+                Users per page:
+              </label>
+              <select
+                id="count"
+                value={usersPerPage}
+                onChange={(e) => setUsersPerPage(e.target.value)}
+                className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-black text-xs md:text-sm"
+              >
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="all">All</option>
+              </select>
+            </div>
+            <div className="flex flex-col md:flex-row mx-1">
+              <label htmlFor="sort" className="mr-2 ml-4">
                 Sort by:
               </label>
               <select
@@ -320,7 +355,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
               </select>
             </div>
 
-            <div className="flex flex-col md:flex-row">
+            <div className="flex flex-col md:flex-row mx-1">
               <label htmlFor="filter" className="ml-4 mr-2">
                 Filter by:
               </label>
@@ -338,7 +373,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
             </div>
 
             <div className="flex">
-              <div className="flex flex-col md:flex-row md:mt-1">
+              <div className="flex flex-col md:flex-row md:mt-1 mx-1">
                 <label htmlFor="month" className="ml-4 mr-2">
                   Month:
                 </label>
@@ -375,23 +410,23 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                   className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-black text-xs md:text-sm"
                 >
                   <option value="All">All</option>
-                  <option value="2023">2023</option>
-                  <option value="2022">2022</option>
+                  <option value="2023">2024</option>
+                  <option value="2022">2023</option>
                 </select>
               </div>
             </div>
             <div className="mt-2">
               <button
                 onClick={exportToExcel}
-                className="ml-4 bg-blue-600 text-white font-semibold md:font-bold py-2 px-4 rounded-md"
+                className="ml-4 bg-blue-600 text-white font-semibold md:font-bold py-2 px-2 rounded-md"
               >
-                Export to Excel
+                <FaFileExcel/>
               </button>
               <button
                 onClick={exportToPDF}
-                className="ml-4 bg-blue-600 text-white font-semibold md:font-bold py-2 px-4 rounded-md"
+                className="ml-4 bg-blue-600 text-white font-semibold md:font-bold py-2 px-2 rounded-md"
               >
-                Export to pdf
+                <FaFilePdf/>
               </button>
             </div>
           </div>
@@ -401,7 +436,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
               No data available for the selected filter.
             </p>
           ) : (
-            <div className="overflow-y-auto mt-4 h-[80%]">
+            <div className="overflow-y-auto mt-2 h-[90%]">
               <table className="w-full max-w-6xl mx-auto bg-white border rounded-md">
                 <thead>
                   <tr className="">
@@ -433,7 +468,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {filteredByYear.map((user, index) => (
+                  {currentUsers.map((user, index) => (
                     <tr key={user._id}>
                       <td className="px-4 py-2 border">{index + 1}</td>
                       <td className="px-4 py-2 border">{user.username}</td>
@@ -472,6 +507,29 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                   ))}
                 </tbody>
               </table>
+              <div className="flex justify-center mt-2">
+                <ReactPaginate
+                  pageCount={pageCount}
+                  onPageChange={handlePageClick}
+                  nextLabel="Next >"
+                  pageRangeDisplayed={3}
+                  marginPagesDisplayed={2}
+                  previousLabel="< Previous"
+                  pageClassName="page-item"
+                  pageLinkClassName="page-link"
+                  previousClassName="page-item"
+                  previousLinkClassName="page-link"
+                  nextClassName="page-item"
+                  nextLinkClassName="page-link"
+                  breakLabel="..."
+                  breakClassName="page-item"
+                  breakLinkClassName="page-link"
+                  containerClassName="pagination"
+                  activeClassName="active"
+                  renderOnZeroPageCount={null}
+                  disabledClassName={"pagination__link--disabled"}
+                />
+              </div>
             </div>
           )}
         </>
