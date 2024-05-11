@@ -99,7 +99,7 @@ app.use(cors(
 // }));
 const PORT = process.env.PORT || 3030;
 app.use('/v1', router);
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT,'0.0.0.0', () => {
   console.log('Server connected');
 });
 
