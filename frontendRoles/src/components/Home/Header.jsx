@@ -68,7 +68,7 @@ function Header() {
             >
               Consult
             </button>
-          ) : (
+          ) : ( 
             token && (
               <button
                 onClick={() => {

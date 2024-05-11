@@ -92,7 +92,7 @@ const LoginPage = () => {
           if (res.data.user.is_profile_complete) {
             if (res.data.user.has_accepted_tnc) {
               // navigate("/updateprofile");
-              navigate("/usersection");
+              navigate("/UserSection");
               // console.log(user);
             } else {
               navigate("/disclaimer");

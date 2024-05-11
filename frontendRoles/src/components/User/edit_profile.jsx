@@ -98,6 +98,10 @@ const EditProfileForm = () => {
   ];
 
   const onSubmit = async (values) => {
+    if (!values.phoneNumber.match(/^\d{10}$/)) {
+      toast.error("Please enter a valid 10-digit phone number.");
+      return;
+    }
     setIsSubmitting(true);
     console.log(values);
     const formData = new FormData();
@@ -153,8 +157,6 @@ const EditProfileForm = () => {
                 name="phoneNumber"
                 placeholder="Phone Number"
                 className="w-full px-3 py-2 border rounded-md"
-                maxLength={10}
-                minLength={10}
               />
               <ErrorMessage
                 name="phoneNumber"
@@ -246,15 +248,28 @@ const EditProfileForm = () => {
                 />
               )}
             </div>
-            <button
-              type="submit"
-              className={`bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 ${
-                isSubmitting || !isValid ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              disabled={isSubmitting || !isValid}
-            >
-              {isSubmitting ? "Submitting..." : "Submit"}
-            </button>
+            <div className="flex justify-between items-end">
+              <button
+                type="button"
+                onClick={(values) => {
+                  navigate("/forgot-password");
+                }}
+                className="underline px-2.5 py-1 hover:text-blue-600 rounded-md text-base"
+              >
+                Change Password
+              </button>{" "}
+              <button
+                type="submit"
+                className={`bg-blue-500 text-white py-2 px-4 font-medium rounded-md hover:bg-blue-600 ${
+                  isSubmitting || !isValid
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
+                disabled={isSubmitting || !isValid}
+              >
+                {isSubmitting ? "Submitting..." : "Submit"}
+              </button>
+            </div>
           </Form>
         )}
       </Formik>

@@ -122,11 +122,11 @@ const ForgotPassword = () => {
   return (
     <div className="w-full bg-blue-200 h-screen flex items-center">
       <div className="w-11/12 sm:w-8/12 md:w-1/2 lg:w-1/3 xl:w-1/4 mx-auto p-6 bg-white rounded-lg shadow-md font-montserrat">
-        <div className="flex justify-between mx-1 mb-6">
-          <h2 className="text-xl sm:text-2xl font-semibold ">Forgot Password</h2>
-          <div className="text-white rounded-lg my-auto bg-blue-500 hover:bg-blue-600">
+        <div className="flex justify-between mx-1 mb-6 border-b-2">
+          <h2 className="text-base sm:text-lg md:text-xl font-semibold uppercase">Change Password</h2>
+          <div className="text-white rounded-lg my-auto bg-blue-500 hover:bg-blue-600 mb-1">
             <button
-              className="p-2"
+              className="py-1 px-2"
               onClick={() => {
                 navigate("/");
               }}

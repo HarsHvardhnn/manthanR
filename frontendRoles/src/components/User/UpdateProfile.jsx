@@ -538,12 +538,12 @@ const ProfileUpdatePage = () => {
                       >
                         {isUpdating ? "Updating..." : "Update Profile"}
                       </Link>
-                      <Link
+                      {/* <Link
                         to="/update-password"
                         className="block mt-2 text-blue-500 w-fit mx-auto hover:underline"
                       >
                         Update Password
-                      </Link>
+                      </Link> */}
                     </Form>
                   )}
                 </Formik>
