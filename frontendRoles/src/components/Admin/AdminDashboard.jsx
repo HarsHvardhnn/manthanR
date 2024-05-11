@@ -6,15 +6,10 @@ import {
   FaSignOutAlt,
   FaHouseUser,
   FaBars,
-  FaBackward,
   FaArrowLeft,
-  FaFilePdf,
   FaBell,
   FaExclamationCircle,
 } from "react-icons/fa";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
 import ScoreRangeChart from "./ScoreRangeChart";
 import UserData from "./UserData";
 import UserReport from "./UserReport";
@@ -25,7 +20,6 @@ import { useNavigate } from "react-router-dom";
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("charts");
   const [users, setUsers] = useState([]);
-  // const [questions, setQuestions] = useState([]);
   const { admin, setAdmin } = useContext(adminContext);
   const [selectedFilter, setSelectedFilter] = useState("score");
   const navigate = useNavigate();
@@ -35,11 +29,8 @@ const AdminDashboard = () => {
     const handleResize = () => {
       setShowSidebar(window.innerWidth >= 768);
     };
-
     handleResize();
-
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -178,17 +169,13 @@ const AdminDashboard = () => {
             SOS Notifications
           </li>
         </ul>
-      </div>
-
-      
-      <div className="w-full md:ml-64">
-        
+      </div>      
+      <div className="w-full md:ml-64">        
         <nav className="lg:hidden bg-gray-700 p-4 shadow-xl">
           <div className="flex justify-between items-center">
             <button onClick={toggleSidebar}>
               <FaBars className="text-white text-xl md:hidden" />
-            </button>
-            
+            </button>            
             <div className="relative">
               <button
                 onClick={() => {
@@ -198,15 +185,12 @@ const AdminDashboard = () => {
                   navigate("/adminlogin");
                 }}
                 className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
-              >
-                <FaSignOutAlt className="mr-2" />
+              >                <FaSignOutAlt className="mr-2" />
                 Logout
               </button>
             </div>
           </div>
-        </nav>
-
-        
+        </nav>     
         <nav className="hidden lg:flex justify-between items-center bg-gray-700 p-4 shadow-xl">
           <div className="flex">
             <FaUserCircle className="text-white text-2xl mr-2" />
@@ -228,9 +212,7 @@ const AdminDashboard = () => {
               Logout
             </button>
           </div>
-        </nav>
-
-        
+        </nav>     
         {activeTab === "charts" && <ScoreRangeChart />}
         {activeTab === "allUsers" && <UserData admin={admin} />}
         {activeTab === "userreport" && <UserReport admin={admin} />}

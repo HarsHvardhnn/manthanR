@@ -82,8 +82,7 @@ const getReportedUsers = async (req, res) => {
         const mergedUsers = [];
 
         for (const supAdminUser of supAdminUsers) {
-        
-            const userModelData = await userModel.findById(supAdminUser.user, 'username email score contactNumber').lean(); // Ensure contactNumber is included in the projection
+            const userModelData = await userModel.findById(supAdminUser.user, 'username email score contactNumber -password').lean(); 
 
             const mergedUser = { ...supAdminUser, ...userModelData };
             mergedUsers.push(mergedUser);
@@ -95,6 +94,7 @@ const getReportedUsers = async (req, res) => {
         return res.status(500).send('Error');
     }
 }
+
 
 
 const getAdminReportedUsers = async (req, res) => {

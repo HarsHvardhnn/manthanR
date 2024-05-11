@@ -28,11 +28,11 @@ const resetPassword = async (req, res) => {
     console.log(otpRecord);
 
     if (!otpRecord) {
-      return res.status(401).send("OTP not found"); // OTP not found for the provided email
+      return res.status(401).send("OTP not found"); 
     }
 
     if (otpBody !== otpRecord.otp) {
-      return res.status(401).send("Incorrect OTP"); // Incorrect OTP
+      return res.status(401).send("Incorrect OTP");
     }
   } catch (err) {
     console.error("Error checking OTP:", err);
@@ -92,7 +92,7 @@ const signup = async (req, res) => {
       expiresIn: "2h",
     });
     user.token = token;
-    console.log(user.token);
+    // console.log(user.token);
     res.send("User created successfully with details").status(200);
     // await otpModel.findOneAndDelete({email:email});
   } catch (err) {
@@ -338,7 +338,7 @@ async function getuserInfo(req, res) {
       return res.status(400).json({ error: "User ID is required." });
     }
 
-    const userInfo = await userModel.findOne({ _id: userId });
+    const userInfo = await userModel.findOne({ _id: userId }, { password: 0 });
     if (!userInfo) {
       return res.status(404).json({ error: "User not found." });
     }
@@ -360,6 +360,7 @@ async function getuserInfo(req, res) {
     res.status(500).json({ error: "An error occurred while processing your request." });
   }
 }
+
 
 module.exports = {
 
