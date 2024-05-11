@@ -14,7 +14,7 @@ const options = {
 }
 const dbConnect  = async () =>{
     mongoose.connect('mongodb+srv://harshvchawla996:ZeKEWIzV0BgDxxJz@cluster0.ehvlcx1.mongodb.net/manthan',options).then(()=>{
-        console.log('database connected');
+        //console.log('database connected');
 
     }).catch((err) => {
         console.log(err);

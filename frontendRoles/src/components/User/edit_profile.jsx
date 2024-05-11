@@ -114,7 +114,7 @@ const EditProfileForm = () => {
       return;
     }
     setIsSubmitting(true);
-    console.log(values);
+   // console.log(values);
     const formData = new FormData();
     formData.append("user", user.userID);
     formData.append("contactNumber", values.phoneNumber);
@@ -139,7 +139,7 @@ const EditProfileForm = () => {
         }
       )
       .then((res) => {
-        console.log(res);
+       // console.log(res);
         if (res.data.message === "Profile updated successfully") {
           toast.success("profile updated");
           navigate("/usersection");

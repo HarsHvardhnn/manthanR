@@ -65,7 +65,7 @@ const UserForm = () => {
         email: user.email,
         password: user.password
       }));
-      console.log(usersData)
+     // console.log(usersData)
   
       const response = await axios.post(
         "https://manthanr.onrender.com/v1/add-users",

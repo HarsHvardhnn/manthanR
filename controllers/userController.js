@@ -6,10 +6,10 @@ const { sendOTP } = require("../otpService");
 const Profile = require("../models/profileModel");
 const sendOtp = async (req, res) => {
   const userEmail = req.body.email;
-  console.log(userEmail);
+  //console.log(userEmail);
   try {
     const otp = await sendOTP(userEmail);
-    console.log(otp);
+    //console.log(otp);
     await otpModel.create({ email: userEmail, otp: otp });
     const timestamp = new Date().getTime();
     res.status(200).json({ message: `OTP sent successfully to ${userEmail}` });
@@ -25,7 +25,7 @@ const resetPassword = async (req, res) => {
   try {
     // Check if OTP matches
     const otpRecord = await otpModel.findOne({ email: email });
-    console.log(otpRecord);
+    //console.log(otpRecord);
 
     if (!otpRecord) {
       return res.status(401).send("OTP not found"); 
@@ -63,11 +63,11 @@ const signup = async (req, res) => {
   const { otpBody } = req.body;
   const { username, email, password } = req.body;
   // const gotOtp = req.cookies.otp;
-  console.log(email);
+  //console.log(email);
   try {
     const user = await otpModel.find({ email: email });
-    console.log(user);
-    console.log(gotOtp);
+   // console.log(user);
+   // console.log(gotOtp);
     if (otpBody !== gotOtp) {
       return res.send("OTP wrong").status(401);
     }
@@ -107,7 +107,7 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const hashedPassword = password;
-    console.log(email, hashedPassword);
+    //console.log(email, hashedPassword);
     const user = await userModel.findOne({ email: email });
 
     if (!user) {
@@ -186,18 +186,18 @@ const editProfile = async (req, res) => {
       room,
     } = req.body;
     const { imageUrl } = req;
-    console.log(      contactNumber,
-      hostelName,
-      relationshipStatus,
-      semester,
-      room,)
+    // console.log(      contactNumber,
+    //   hostelName,
+    //   relationshipStatus,
+    //   semester,
+    //   room,)
 
     const updateFields = {
       ...(contactNumber && { contactNumber }),
       ...(imageUrl && { profile_pic: imageUrl }),
       ...(semester && { semester }),
     };
-  console.log(updateFields)
+  // console.log(updateFields);
     const update = await userModel.findOneAndUpdate(
       { _id: user },
       { $set: updateFields },
@@ -238,7 +238,7 @@ const updateProfile = async (req, res) => {
   try {
     const { user } = req.body;
     
-    console.log("user is ", user);
+    //console.log("user is ", user);
     const user1 = await userModel.findOne({ _id: user });
     // console.log(user1);
 
@@ -277,19 +277,19 @@ const updateProfile = async (req, res) => {
 
     //console
 
-    console.log(      rollNumber,
-      contactNumber,
-      hostelName,
-      dateOfBirth,
-      relationshipStatus,
-      degree,
-      dept,
-      firstname,
-      lastname,
-      semester);
+    // console.log(      rollNumber,
+    //   contactNumber,
+    //   hostelName,
+    //   dateOfBirth,
+    //   relationshipStatus,
+    //   degree,
+    //   dept,
+    //   firstname,
+    //   lastname,
+    //   semester);
 
 
-      console.log(imageUrl);
+      //console.log(imageUrl);
     const admintoupdate = admins[0];
 
     const update = await userModel.findOneAndUpdate(

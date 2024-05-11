@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ProfileUpdatePage from "./UpdateProfile";
 
 const ViewProfile = ({ onClose ,loading ,getUser,data }) => {
-  console.log(data);
+ // console.log(data);
   
   const navigate = useNavigate();
   

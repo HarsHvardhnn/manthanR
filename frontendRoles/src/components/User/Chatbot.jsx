@@ -264,7 +264,7 @@ const Chatbot = () => {
   useEffect(() => {
     getpfp();
     getScore();
-    console.log("score", thisMonthAnswered);
+   // console.log("score", thisMonthAnswered);
   }, [user]);
 
   useEffect(() => {

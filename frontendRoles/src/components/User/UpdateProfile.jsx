@@ -76,7 +76,7 @@ const ProfileUpdatePage = () => {
         Authorization:`Bearer ${token}`
       }
     } ).then((res)=>{
-      console.log(res);
+    //  console.log(res);
       setAdminAss(res.data)
       setUser({...user,assigned_admin:res.data})
     }).catch((err)=>{
@@ -163,11 +163,11 @@ const ProfileUpdatePage = () => {
         }
       );
   
-      console.log(res);
+      //console.log(res);
       if (res.data.message === "Profile created successfully") {
         toast.success("profile updated");
         setIsUpdating(false);
-        console.log(res.data.admintoupdate._id);
+       // console.log(res.data.admintoupdate._id);
         // Ensure user state update is correct and complete
         setUser({
           ...user,
@@ -175,7 +175,7 @@ const ProfileUpdatePage = () => {
           email: values.email,
           assigned_admin: res.data.admintoupdate._id,
         });
-        console.log("hi");
+       // console.log("hi");
         // Redirect or perform other actions if needed
       }
     } catch (err) {

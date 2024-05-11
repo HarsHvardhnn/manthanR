@@ -49,7 +49,7 @@ const UserSection = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [shimmerSize, setShimmerSize] = useState(120);
   
-  console.log(user);
+ // console.log(user);
   useEffect(() => {
     if (pfp) {
       setIsLoading(false);
@@ -164,7 +164,7 @@ const UserSection = () => {
   const getAdmin = async () => {
     const token = localStorage.getItem("token");
     // console.log(token);
-    console.log(user);
+   // console.log(user);
     setLoading(true);
 
     axios
@@ -268,8 +268,8 @@ const UserSection = () => {
               <div className="flex items-center justify-center ">
                 <h1 onClick={()=>{
                   // console.log(state)
-                  console.log(user);
-                  console.log(User)
+                 // console.log(user);
+                  //console.log(User)
                 }} className="text-3xl sm:text-4xl lg:text-6xl text-white sm:text-user-btns-dark font-bold">
                   Hello,{user.username}!
                 </h1>
@@ -299,7 +299,7 @@ const UserSection = () => {
                 </div>
               </div>
               <div className="col-span-2 row-span-2 txt">
-                <h1 className="name text-xl sm:text-4xl lg:text-4xl mt-2 text-white sm:text-user-btns-dark font-bold">
+                <h1 className="name text-xl sm:text-4xl lg:text-4xl w-[140%] mt-2 text-white sm:text-user-btns-dark font-bold">
                   Hello, {user.username}
                 </h1>
                 <div className="mr-2 sm:mr-32">
