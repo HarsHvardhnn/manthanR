@@ -382,7 +382,7 @@ router.get('/user/get-score/:id' , async (req,res)=>{
   }
 })
 router.post("/submit-report", verifyToken, submitReport);
-router.get("/get-reported-users",  getReportedUsers);
+router.get("/get-reported-users",verifyToken,  getReportedUsers);
 router.get("/get-admin-reported-users/:id",  getAdminReportedUsers);
 router.get("/get-user-info/:id",verifyToken ,getuserInfo);
 router.post("/getAdminwisedata", getAdminWiseData);
