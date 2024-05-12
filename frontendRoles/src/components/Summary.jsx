@@ -112,7 +112,7 @@ const CommentsComponent = ({
             Close
           </button>
         </div>
-        {loading?(<LoadingAnimation/>):(comments.length===0?(<p>No summary for this user</p>):(comments?.map((comment) => (
+        {loading?(<LoadingAnimation/>):(comments?.length===0?(<p>No summary for this user</p>):(comments?.map((comment) => (
           <div key={comment.id} className="mb-4">
             <div className="bg-yellow-100 p-4 rounded-lg shadow">
               <p className="">
