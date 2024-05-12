@@ -113,7 +113,7 @@ function MainPage() {
                     //   navigate("/login");
                     // }
                   }}
-                  className="login-btn bg-blue-600 text-white w-fit text-base sm:text-base md:text-lg font-semibold sm:font-bold uppercase rounded-full cursor-pointer shadow-lg z-50 transition duration-300 ease-in-out transform hover:scale-105"
+                  className="login-btn bg-blue-600 text-white w-fit text-base sm:text-base md:text-lg mb-6 font-semibold sm:font-bold uppercase rounded-full cursor-pointer shadow-lg z-50 transition duration-300 ease-in-out transform hover:scale-105"
                 >
                   Login
                 </button>
@@ -121,7 +121,7 @@ function MainPage() {
             )}
           </div>
           {/* image md */}
-          <div className="hidden lg:flex">
+          <div className="hidden lg:flex md-img">
             <img
               src={BgImage}
               alt="Description"

@@ -31,8 +31,7 @@
 
   @media (max-width: 1023px) and (min-width: 640px) {
     .typewriter-text {
-      padding: 20x;
-      font-size: 3rem;
+      font-size: 3.2rem;
       margin-top: 20%;
       margin-left: 50px;
       margin-bottom: 20px;
@@ -67,7 +66,7 @@
   }
   @media (max-width: 450px) and (min-width: 361px) {
     .typewriter-text{
-        font-size: 2.1rem;
+        font-size: 2rem;
     }
   }
   @media (max-width: 400px) and (min-width: 370px) {
@@ -78,7 +77,6 @@
   @media (max-width: 412px) and (min-width: 400px) {
     .typewriter-text {
         min-height: 160px;
-        margin-top: 20%;
       }
     .paragraph{
         padding-right: 15px;
@@ -90,7 +88,6 @@
   }
   @media (max-width: 375px) and (min-width: 360px) {
     .typewriter-text {
-        margin-top: 25%;
         min-height: 146px;
       }
     .para{
