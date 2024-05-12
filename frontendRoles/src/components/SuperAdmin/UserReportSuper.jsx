@@ -207,7 +207,7 @@ const UserReport = () => {
                 </p>
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">User Score:</span>{" "}
-                  {report.score}
+                  {report?.score.trim()===""? ('survey not submitted'):(report?.score)}
                 </p>
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">Admin Comments:</span>{" "}

@@ -73,7 +73,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
         }
       );
       setUsers(response.data);
-      // console.log('users ', users);
+      console.log('users ', users);
     } catch (error) {
       console.error("Error fetching users:", error);
     } finally {
@@ -105,8 +105,9 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
         if (res.status === 200) {
           toast.success("reported");
           const username = users.filter((user1) => user1._id === user._id);
-
-          sendEmail(username[0]);
+           console.log(res.data);
+      
+          sendEmail(username[0],res.data.message);
         }
       })
       .catch((err) => {
@@ -114,12 +115,18 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       });
   };
 
-  const sendEmail = (report) => {
+  const getMessage =()=>{
+
+  }
+
+
+  const sendEmail = (report,message) => {
     const serviceId = "service_0jzntyg";
     const templateId = "template_dbu0gpy";
     const userId = "4n-EC2hBnJ4wZnL_F";
 
     const { email, contactNumber, score, username } = report;
+  //  console.log( email, contactNumber, score, username ,'empyuty')
 
     const templateParams = {
       to_name: "PSYCH",
@@ -130,13 +137,14 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       email: email,
       score: score,
       subject: "User Reported",
-      message: `The user ${username} has been reported.`,
+      message:message,
     };
 
     emailjs
       .send(serviceId, templateId, templateParams, userId)
       .then((response) => {
         if (response.status === 200) {
+          console.log('hi')
           toast.success("reported user to super admin");
         }
       })
