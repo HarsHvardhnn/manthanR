@@ -76,7 +76,7 @@ const ProfileUpdatePage = () => {
         Authorization:`Bearer ${token}`
       }
     } ).then((res)=>{
-      console.log(res);
+    //  console.log(res);
       setAdminAss(res.data)
       setUser({...user,assigned_admin:res.data})
     }).catch((err)=>{
@@ -163,11 +163,11 @@ const ProfileUpdatePage = () => {
         }
       );
   
-      console.log(res);
+      //console.log(res);
       if (res.data.message === "Profile created successfully") {
         toast.success("profile updated");
         setIsUpdating(false);
-        console.log(res.data.admintoupdate._id);
+       // console.log(res.data.admintoupdate._id);
         // Ensure user state update is correct and complete
         setUser({
           ...user,
@@ -175,7 +175,7 @@ const ProfileUpdatePage = () => {
           email: values.email,
           assigned_admin: res.data.admintoupdate._id,
         });
-        console.log("hi");
+       // console.log("hi");
         // Redirect or perform other actions if needed
       }
     } catch (err) {
@@ -524,7 +524,7 @@ const ProfileUpdatePage = () => {
                       </div>
 
                       <Link
-                        // to="/usersection"
+                        to="/usersection"
                         className={`w-full text-center bg-blue-500 text-white py-2 px-4 rounded-md mt-2 hover:bg-blue-500 transition duration-300 ease-in-out transform hover:scale-105 ${
                           !isValid || isUpdating
                             ? "pointer-events-none opacity-50"
@@ -538,12 +538,12 @@ const ProfileUpdatePage = () => {
                       >
                         {isUpdating ? "Updating..." : "Update Profile"}
                       </Link>
-                      <Link
+                      {/* <Link
                         to="/update-password"
                         className="block mt-2 text-blue-500 w-fit mx-auto hover:underline"
                       >
                         Update Password
-                      </Link>
+                      </Link> */}
                     </Form>
                   )}
                 </Formik>

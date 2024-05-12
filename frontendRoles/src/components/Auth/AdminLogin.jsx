@@ -46,7 +46,7 @@ const AdminLogin = () => {
               const object = {username:res.data.user.username,
                 adminID:res.data.user._id
               , email:values.email}
-                console.log(object)
+               // console.log(object)
                 const storeObject = JSON.stringify(object);
               localStorage.setItem('admin' , storeObject)
 

@@ -92,7 +92,7 @@ function App() {
       element:(<ForgotPassword/>)
     },
     {
-      path: '/UserSection',
+      path: '/usersection',
       element: <UserSection/>
     },
     {
@@ -103,13 +103,7 @@ function App() {
       path: '/Summary',
       element: <Summary/>
     },
-    {
-      path: '/UserForm',
-      element: <UserForm/>
-    },
-    
-
-
+   
   ]);
   return (
     <>

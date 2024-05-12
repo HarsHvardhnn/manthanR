@@ -34,7 +34,7 @@ const EditProfileForm = () => {
         const needed_data = {
           profile_pic,
           contactNumber,
-          semester
+          semester,
         };
 
         setObj(needed_data);
@@ -109,8 +109,12 @@ const EditProfileForm = () => {
   ];
 
   const onSubmit = async (values) => {
+    if (!values.phoneNumber.match(/^\d{10}$/)) {
+      toast.error("Please enter a valid 10-digit phone number.");
+      return;
+    }
     setIsSubmitting(true);
-    console.log(values);
+   // console.log(values);
     const formData = new FormData();
     formData.append("user", user.userID);
     formData.append("contactNumber", values.phoneNumber);
@@ -135,7 +139,7 @@ const EditProfileForm = () => {
         }
       )
       .then((res) => {
-        console.log(res);
+       // console.log(res);
         if (res.data.message === "Profile updated successfully") {
           toast.success("profile updated");
           navigate("/usersection");
@@ -159,15 +163,13 @@ const EditProfileForm = () => {
             </div>
 
             <div className="mb-4">
-              <label>current profile</label>
-            <img src={obj.profile_pic} className="h-24 w-24"/>
+              <label>Current Profile</label>
+              <img src={obj.profile_pic} className="h-24 w-24 mb-4" />
               <Field
                 type="tel"
                 name="phoneNumber"
                 placeholder="Phone Number"
                 className="w-full px-3 py-2 border rounded-md"
-                maxLength={10}
-                minLength={10}
               />
               <ErrorMessage
                 name="phoneNumber"
@@ -259,15 +261,28 @@ const EditProfileForm = () => {
                 />
               )}
             </div>
-            <button
-              type="submit"
-              className={`bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 ${
-                isSubmitting || !isValid ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              disabled={isSubmitting || !isValid}
-            >
-              {isSubmitting ? "Submitting..." : "Submit"}
-            </button>
+            <div className="flex justify-between items-end">
+              <button
+                type="button"
+                onClick={(values) => {
+                  navigate("/forgot-password");
+                }}
+                className="underline px-2.5 py-1 hover:text-blue-600 rounded-md text-base"
+              >
+                Change Password
+              </button>{" "}
+              <button
+                type="submit"
+                className={`bg-blue-500 text-white py-2 px-4 font-medium rounded-md hover:bg-blue-600 ${
+                  isSubmitting || !isValid
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
+                disabled={isSubmitting || !isValid}
+              >
+                {isSubmitting ? "Submitting..." : "Submit"}
+              </button>
+            </div>
           </Form>
         )}
       </Formik>

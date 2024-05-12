@@ -32,7 +32,7 @@ const adminLogin = async (req, res) => {
 const promoteToAdmin = async (req, res) => {
     try {
       const { user} = req.body;
-      console.log(user);
+      //console.log(user);
       const userToPromote = await userModel.findById(user);
       if (!userToPromote) {
         return res.status(404).json({ error: 'User not found.' });
@@ -71,7 +71,7 @@ const promoteToAdmin = async (req, res) => {
   const createAdmin = async (req,res)=>{
     try{
       const {firstname,lastname,phone,email,degree,dept,semester,password} =  req.body;
-      console.log(firstname,lastname,phone,email,degree,dept,semester)
+     // console.log(firstname,lastname,phone,email,degree,dept,semester)
       const admin =await  userModel.create({
         username:firstname,
         lastname:lastname,
@@ -85,7 +85,7 @@ const promoteToAdmin = async (req, res) => {
 
 
       })
- console.log(admin);
+ //console.log(admin);
       return res.send('admin created').status(201);
     }
     catch(err){

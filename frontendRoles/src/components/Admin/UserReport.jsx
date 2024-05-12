@@ -9,7 +9,7 @@ const UserReport = ({ admin }) => {
   const [userWithInfo, setUserWithInfo] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  console.log(admin);
+  //console.log(admin);
 
   const getUsers = () => {
     const token = localStorage.getItem("adminToken");
@@ -24,7 +24,7 @@ const UserReport = ({ admin }) => {
         }
       )
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         setUserWithInfo(res.data);
       })
       .catch((err) => {

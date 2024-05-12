@@ -39,7 +39,7 @@ const UserReport = () => {
   };
 
   function savee() {
-    console.log(comments);
+   // console.log(comments);
   }
 
   const reportToPsych = (user) => {
@@ -62,7 +62,7 @@ const UserReport = () => {
         const username = userWithInfo.filter(
           (user) => user.email === user._id
         );
-          console.log(username);
+          //console.log(username);
       })
       .catch((err) => {
         console.log(err);

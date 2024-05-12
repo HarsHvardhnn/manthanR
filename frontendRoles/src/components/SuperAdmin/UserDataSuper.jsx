@@ -101,7 +101,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
         }
       )
       .then((res) => {
-        console.log(res);
+       // console.log(res);
         if (res.status === 200) {
           toast.success("reported");
           const username = users.filter((user1) => user1._id === user._id);
@@ -179,7 +179,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   };
 
   const handleReportSubmit = (comment) => {
-    console.log(comment);
+   // console.log(comment);
     // console.log("Reported user with id:", selectedUserId, "Comment:", comment);
     reportToPsych(comment);
     setShowReportModal(false);

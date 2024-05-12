@@ -24,8 +24,8 @@ async function sendOTP(email) {
     text: `Your OTP is: ${otp}`,
   });
 
-  console.log("Message sent: %s", info.messageId);
-  console.log(`OTP sent to ${email}: ${otp}`);
+  //console.log("Message sent: %s", info.messageId);
+  //console.log(`OTP sent to ${email}: ${otp}`);
 
   return otp;
 }
