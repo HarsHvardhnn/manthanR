@@ -15,6 +15,7 @@ const AddAdmin = () => {
     password: "",
   };
 
+
   const validationSchema = Yup.object().shape({
     firstname: Yup.string().required("First Name is required"),
     lastname: Yup.string().required("Last Name is required"),
@@ -91,7 +92,7 @@ const AddAdmin = () => {
                     type="text"
                     id="firstname"
                     name="firstname"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    className="mt-1 p-2 shadow block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   />
                   <ErrorMessage
                     name="firstname"
@@ -110,7 +111,7 @@ const AddAdmin = () => {
                     type="text"
                     id="lastname"
                     name="lastname"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    className="mt-1 p-2 shadow block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   />
                   <ErrorMessage
                     name="lastname"
@@ -130,7 +131,7 @@ const AddAdmin = () => {
                   type="text"
                   id="phone"
                   name="phone"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 p-2 shadow block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 />
                 <ErrorMessage
                   name="phone"
@@ -149,7 +150,7 @@ const AddAdmin = () => {
                   type="email"
                   id="email"
                   name="email"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 p-2 shadow block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 />
                 <ErrorMessage
                   name="email"
@@ -168,7 +169,7 @@ const AddAdmin = () => {
                   as="select"
                   id="degree"
                   name="degree"
-                  className="mt-1 p-2 text-xs sm:text-sm xl:text-base block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 p-2 shadow text-xs sm:text-sm xl:text-base block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="">Select Degree Type</option>
                   <option value="postgrad">PG</option>
@@ -192,7 +193,7 @@ const AddAdmin = () => {
                   as="select"
                   id="dept"
                   name="dept"
-                  className="mt-1 p-2 text-xs sm:text-sm xl:text-base block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 p-2 shadow text-xs sm:text-sm xl:text-base block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="">Select Dept</option>
                   <option value="cse">CSE</option>
@@ -221,7 +222,7 @@ const AddAdmin = () => {
                   as="select"
                   id="semester"
                   name="semester"
-                  className="mt-1 p-2 text-xs sm:text-sm xl:text-base block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 p-2 shadow text-xs sm:text-sm xl:text-base block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="">Select Semester</option>
                   {[...Array(10)].map((_, index) => (
