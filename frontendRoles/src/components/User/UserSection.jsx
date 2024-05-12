@@ -299,7 +299,7 @@ const UserSection = () => {
                 </div>
               </div>
               <div className="col-span-2 row-span-2 txt">
-                <h1 className="name text-xl sm:text-4xl lg:text-4xl w-[140%] mt-2 text-white sm:text-user-btns-dark font-bold">
+                <h1 className="name text-xl sm:text-4xl lg:text-4xl lg:w-[140%] mt-2 text-white sm:text-user-btns-dark font-bold">
                   Hello, {user.username}
                 </h1>
                 <div className="mr-2 sm:mr-32">
