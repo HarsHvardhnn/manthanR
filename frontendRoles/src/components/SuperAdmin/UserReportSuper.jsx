@@ -38,8 +38,17 @@ const UserReport = () => {
       });
   };
 
-  function savee() {
-   // console.log(comments);
+  const getUserInfo = (id)=>{
+    const token = localStorage.getItem('superadminToken');
+    axios.get(`https://manthanr.onrender.com/v1/get-user-info/${id}`,      {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res)=>{
+    setReportedUser(res?.data)
+    }).catch((err)=>{
+      console.log(err)
+    })
   }
 
   const reportToPsych = (user) => {
@@ -59,10 +68,6 @@ const UserReport = () => {
       .then((res) => {
         // console.log(res);
 
-        const username = userWithInfo.filter(
-          (user) => user.email === user._id
-        );
-          //console.log(username);
       })
       .catch((err) => {
         console.log(err);
@@ -73,17 +78,17 @@ const UserReport = () => {
     getUsers();
   }, []);
 
-  const reportUser = (report) => {
+  const reportUser = (report,comment) => {
     toast.success("User reported");
-    sendEmail(report);
+    sendEmail(report,comment);
     reportToPsych(report);
   };
 
-  const sendEmail = (report) => {
+  const sendEmail = (report,comment) => {
     const serviceId = "service_0jzntyg";
     const templateId = "template_dbu0gpy";
     const userId = "4n-EC2hBnJ4wZnL_F";
-
+  console.log(report)
     const { email, message, score, username } = report;
 
     const templateParams = {
@@ -91,8 +96,11 @@ const UserReport = () => {
       from_name: "super admin",
       to_email: "abhisektiwari2014@gmail.com",
       username: username,
+      email:email,
+      score:score,
+      contact:'555',
       subject: "User Reported",
-      message: `The user ${username} has been reported.`,
+      message: comment,
     };
 
     emailjs
@@ -100,6 +108,7 @@ const UserReport = () => {
       .then((response) => {
         if (response.status === 200) {
           toast.success("reported user to super admin");
+
         }
       })
       .catch((error) => {
@@ -135,7 +144,9 @@ const UserReport = () => {
   };
 
   const handleReportUser = (user) => {
-    setReportedUser(user);
+    getUserInfo(user.user)
+    // setReportedUser(user);
+    // console.log(user);
     setShowReportModal(true);
   };
 
@@ -207,7 +218,7 @@ const UserReport = () => {
                 </p>
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">User Score:</span>{" "}
-                  {report.score}
+                  {report?.score===undefined? ('survey not submitted'):(report?.score)}
                 </p>
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">Admin Comments:</span>{" "}

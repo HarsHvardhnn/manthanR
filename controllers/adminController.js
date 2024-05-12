@@ -94,21 +94,20 @@ const promoteToAdmin = async (req, res) => {
     }
   }
 
-  
   const getalladmins = async (req, res) => {
     try {
-      const data = await userModel.find({ role: "admin" });
+        const data = await userModel.find({ role: "admin" }).select('-password -is_profile_complete -has_accepted_tnc -role' );
       
-      if (!data || data.length === 0) {
-        return res.status(404).json({ error: "No admins found" });
-      }
+        if (!data || data.length === 0) {
+            return res.status(404).json({ error: "No admins found" });
+        }
   
-      return res.json(data);
+        return res.json(data);
     } catch (error) {
-      console.error("Error in getalladmins:", error);
-      return res.status(500).json({ error: "Internal server error" });
+        console.error("Error in getalladmins:", error);
+        return res.status(500).json({ error: "Internal server error" });
     }
-  }
-  
+}
+
 
   module.exports = {promoteToAdmin ,adminLogin ,getalladmins,createAdmin,deleteAdmin};

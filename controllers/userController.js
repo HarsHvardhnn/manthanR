@@ -333,7 +333,7 @@ const updateProfile = async (req, res) => {
 async function getuserInfo(req, res) {
   try {
     const userId = req.params.id;
-
+    console.log(userId)
     if (!userId) {
       return res.status(400).json({ error: "User ID is required." });
     }

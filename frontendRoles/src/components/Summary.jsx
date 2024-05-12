@@ -6,6 +6,24 @@ import { ThreeDots } from "react-loader-spinner";
 import { FaPlus, FaUpload, FaTimes, FaEdit, FaTrash } from 'react-icons/fa';
 
 
+function LoadingAnimation() {
+  const [dots, setDots] = useState(1);
+
+  useEffect(() => {
+      const interval = setInterval(() => {
+          setDots((prevDots) => (prevDots % 3) + 1); 
+      }, 500); 
+
+      return () => clearInterval(interval);
+  }, []);
+
+  return (
+      <div className="h-full w-full flex items-center justify-center font-bold">
+          <p>Loading{Array(dots).fill('.').join('')}</p>
+      </div>
+  );
+}
+
 const CommentsComponent = ({
   comments,
   setComments,
@@ -16,9 +34,11 @@ const CommentsComponent = ({
   const [newComment, setNewComment] = useState("");
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [newLowerComment, setNewLowerComment] = useState("");
+  const [loading,setLoading]= useState(false);
 
   const getSummary = () => {
     const token = localStorage.getItem("superadminToken");
+    setLoading(true);
     axios
       .get(`https://manthanr.onrender.com/v1/get-summary/${sumID}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -33,6 +53,8 @@ const CommentsComponent = ({
       })
       .catch((err) => {
         console.log(err);
+      }).finally(()=>{
+        setLoading(false)
       });
   };
 
@@ -90,7 +112,7 @@ const CommentsComponent = ({
             Close
           </button>
         </div>
-        {comments?.map((comment) => (
+        {loading?(<LoadingAnimation/>):(comments.length===0?(<p>No summary for this user</p>):(comments?.map((comment) => (
           <div key={comment.id} className="mb-4">
             <div className="bg-yellow-100 p-4 rounded-lg shadow">
               <p className="">
@@ -134,7 +156,7 @@ const CommentsComponent = ({
               )}
             </div>
           </div>
-        ))}
+        ))))}
       </div>
       <div className="h-16 sm:h-20 flex items-center bg-white py-2 px-2 md:p-10 w-[95%] sm:w-[90%] md:w-[80%] lg:w-[60%] mx-auto mt-1 rounded-lg">
         <input

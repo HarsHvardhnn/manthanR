@@ -62,7 +62,7 @@ const insertQuestions = async (req, res) => {
 
 const getUsers = async (req, res) => {
     try {
-        const users = await userModel.find({role:'user'});
+        const users = await userModel.find({role:'user'}).select('-password');
         return res.status(200).send(users);
     } catch (err) {
         console.error(err);

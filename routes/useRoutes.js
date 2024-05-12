@@ -202,7 +202,7 @@ router.get("/get-profile/:id", verifyToken, async (req, res) => {
 
 
     const { id } = req.params;
-    console.log(id);
+    // console.log(id);
     const userProfile = await Profile.findById(id);
     if (!userProfile) {
       return res.status(403).send("Profile not updated");
@@ -221,29 +221,58 @@ router.post('/report-to-psych',verifyToken, async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
+    
     const id = req.body.userID;
-  
+    
     if (!id) {
       return res.status(400).json({ error: "User ID is required" });
     }
+    // console.log(id)
+   const super_admin = await userModel.find({role:'super admin'});
+  //  console.log(super_admin)
+   const supadminId= super_admin[0]?._id || '6633b695e302c9a413f4a578';
+
+    let userExists = await supAdminModel.exists({ user: id });
+
+    if (!userExists) {
+
+        await supAdminModel.create({ user: id,admin:supadminId,message:'reported by super admin directly', reported_psych: true });
+    }
+    
 
     const update = await supAdminModel.findOneAndUpdate(
       { user: id },
       { reported_psych: true },
       { new: true }
-    );
+  );
 
-    if (!update) {
+  const userMess = await supAdminModel.findOne({user:id});
+  const userMessage = userMess.message;
+
+  
+
+  if (!update) {
       return res.status(404).json({ error: "User not found" });
-    }
+  }
+  
 
-    return res.status(200).json(update);
+  if (update.password) {
+      delete update.password;
+  }
+  
+
+  update.message= userMessage;
+  return res.status(200).json(update);
+  
+  
   } catch (err) {
     console.error("Error:", err);
     return res.status(500).json({ error: "Internal server error" });
   }
 });
+
+
+
 
 
 router.post('/add-users',  async (req, res) => {
@@ -353,7 +382,7 @@ router.get('/user/get-score/:id' , async (req,res)=>{
   }
 })
 router.post("/submit-report", verifyToken, submitReport);
-router.get("/get-reported-users",  getReportedUsers);
+router.get("/get-reported-users",verifyToken,  getReportedUsers);
 router.get("/get-admin-reported-users/:id",  getAdminReportedUsers);
 router.get("/get-user-info/:id",verifyToken ,getuserInfo);
 router.post("/getAdminwisedata", getAdminWiseData);
