@@ -85,6 +85,7 @@ const UserForm = () => {
       setUsers([]); // Clear the users array after uploading to database
     } catch (error) {
       console.error("Error uploading users to database:", error);
+      toast.error('some error occured please check username or email')
     }
   };
   

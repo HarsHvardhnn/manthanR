@@ -72,12 +72,10 @@ const AdminLogin = () => {
       })
       .catch((err) => {
         console.log(err)
-        // if (err.response.status === 401) {
-        //   toast.error("wrong password");
-        // }
-        // if (err.response.status === 404) {
-        //   toast.error("please check email");
-        // }
+
+        if (err.response.status === 401) {
+          toast.error("please check email or password");
+        }
       }).finally(()=>{
         setLoading(false);
       })

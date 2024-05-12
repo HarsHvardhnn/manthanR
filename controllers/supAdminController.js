@@ -82,7 +82,7 @@ const getReportedUsers = async (req, res) => {
         const mergedUsers = [];
 
         for (const supAdminUser of supAdminUsers) {
-            const userModelData = await userModel.findById(supAdminUser.user, 'username email score contactNumber -password').lean(); 
+            const userModelData = await userModel.findById(supAdminUser.user, 'username email score contactNumber ').lean(); 
 
             const mergedUser = { ...supAdminUser, ...userModelData };
             mergedUsers.push(mergedUser);

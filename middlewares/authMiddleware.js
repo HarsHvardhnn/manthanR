@@ -4,7 +4,7 @@ const auth = (roles) => {
         if (roles.includes(role)) {
             next();
         } else {
-            res.status(403).send('Unauthorized');
+            res.status(401).send('Unauthorized');
         }
     };
 };
