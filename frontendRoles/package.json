@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "homepage":"https://www.iitp.ac.in/manowealth",
   "dependencies": {
     "@emailjs/browser": "^4.3.3",
     "@ramonak/react-progress-bar": "^5.2.0",
