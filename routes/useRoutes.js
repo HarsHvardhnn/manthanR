@@ -1,4 +1,6 @@
 const express = require("express");
+const csv = require('csv-parser');
+const fs = require('fs');
 const userModel = require("../models/userSchema");
 const {
   login,
@@ -92,6 +94,30 @@ router.post('/upload', upload.single('image'), uploadImage, function(req, res) {
   res.json({ imageUrl: req.imageUrl });
 });
 
+
+router.post('/upload-student-data' ,upload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send('No file uploaded.');
+  }
+
+  const users = [];
+
+  fs.createReadStream(req.file.path)
+    .pipe(csv())
+    .on('data', (data) => users.push({ username: data.username, email: data.email, password: data.password }))
+    .on('end', async () => {
+      try {
+        console.log(users)
+        await userModel.insertMany(users, { ordered: false }); 
+        fs.unlinkSync(req.file.path);
+        res.send('File processed successfully.');
+      } catch (error) { 
+        console.log(users)
+        console.error('Error inserting users: ', error);
+        res.status(500).send('Error processing file.');
+      }
+    });
+})
 
 router.post("/super-login", async (req, res) => {
   try {
