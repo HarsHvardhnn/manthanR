@@ -109,10 +109,7 @@ function App() {
       element: <Summary/>
     },
    
-  ],
-  {
-    basename: "/manowealth",
-  });
+  ]);
   return (
     <>
       <loadingContext.Provider value={{ loading, setLoading }}>
