@@ -1,4 +1,7 @@
 frontendRoles/node_modules/
 
 
-/node_modules/
+node_modules/
+
+
+frontendRoles/build/

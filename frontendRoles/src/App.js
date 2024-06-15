@@ -25,6 +25,7 @@ import Summary from "./components/Summary";
 import { loadingContext } from "./context";
 import { adminEmailContext } from "./context";
 import EditProfileForm from "./components/User/edit_profile";
+import FileUpload from "./components/User/FileUpload";
 
 function App() {
   const [user, setUser] = useState({ username: '', userID: '',email:'',assigned_admin:'',assigned_admin_id:''});
@@ -82,6 +83,10 @@ function App() {
     {
       path: "/AdminDashboard",
       element: <AdminDashboard />,
+    },
+    {
+      path: "/upload-student-data",
+      element: <FileUpload />,
     },
     {
       path: "/SuperAdminDashboard",
