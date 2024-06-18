@@ -20,7 +20,7 @@ const FileUpload = () => {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('https://manthanr.onrender.com/v1/upload-student-data', formData, {
+      const response = await axios.post('http://localhost:3030/v1/upload-student-data', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

@@ -13,7 +13,7 @@ const options = {
     family: 4 // Use IPv4, skip trying IPv6
 }
 const dbConnect  = async () =>{
-    mongoose.connect('mongodb+srv://harshvchawla996:ZeKEWIzV0BgDxxJz@cluster0.ehvlcx1.mongodb.net/manthan',options).then(()=>{
+    mongoose.connect('mongodb+srv://manowealth:jJ54ydOeqaKZXa0Y@cluster0.hydf0at.mongodb.net/manowealth',options).then(()=>{
         //console.log('database connected');
 
     }).catch((err) => {
