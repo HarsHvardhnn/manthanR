@@ -6,6 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
+<<<<<<< HEAD
+    
+    
+=======
+>>>>>>> 5e673cc4b2bc9daf6b5be24e18a85930deeae7bb
   },
   "keywords": [],
   "author": "",

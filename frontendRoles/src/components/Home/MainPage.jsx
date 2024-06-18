@@ -55,7 +55,7 @@ function MainPage() {
 
   return (
     <div
-      className="h-screen bg-center bg-no-repeat flex flex-col lg:justify-center items-center font-montserrat main-background"
+      className="h-full min-h-screen bg-center bg-no-repeat flex flex-col lg:justify-center items-center font-montserrat main-background"
       style={{
         backgroundImage: `url(${bgImageUrl})`,
         backgroundSize: "cover",
