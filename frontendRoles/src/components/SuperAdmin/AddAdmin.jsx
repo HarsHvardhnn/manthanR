@@ -195,15 +195,18 @@ const AddAdmin = () => {
                   name="dept"
                   className="mt-1 p-2 shadow text-xs sm:text-sm xl:text-base block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option value="">Select Dept</option>
+                  <option value="">Select Dept.</option>
+                  <option value="cbe">CBE</option>
+                  <option value="cee">CEE</option>
+                  <option value="chem">CHEM</option>
                   <option value="cse">CSE</option>
-                  <option value="me">ME</option>
                   <option value="ee">EE</option>
-                  <option value="mee">MEE</option>
                   <option value="hss">HSS</option>
                   <option value="math">MATH</option>
+                  <option value="me">ME</option>
+                  <option value="mee">MEE</option>
                   <option value="phy">PHY</option>
-                  <option value="chem">CHEM</option>
+                  
                 </Field>
                 <ErrorMessage
                   name="dept"
