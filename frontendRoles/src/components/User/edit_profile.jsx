@@ -151,7 +151,7 @@ const EditProfileForm = () => {
   };
 
   return (
-    <div className="w-full bg-blue-200 min-h-screen">
+    <div className="w-full bg-blue-200 min-h-[120vh]">
       <Header />
       <Formik initialValues={initialValues} onSubmit={onSubmit}>
         {({ errors, touched, isValid }) => (
@@ -258,6 +258,7 @@ const EditProfileForm = () => {
                   src={image}
                   alt="Selected"
                   className="max-h-60 max-w-40 rounded-md"
+                  style={{ maxWidth: "100%", maxHeight: "150px", objectFit: "contain" }}
                 />
               )}
             </div>
