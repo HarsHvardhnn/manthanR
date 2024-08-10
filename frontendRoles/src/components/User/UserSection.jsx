@@ -106,11 +106,12 @@ const UserSection = () => {
     };
 
     fetchData();
+    getpfp();
+
   }, []);
 
-  useEffect(() => {
-    getpfp();
-  }, [user]);
+  // useEffect(() => {
+  // }, [user]);
 
   const handleCloseReportModal = () => {
     setShowReportModal(false);
@@ -118,6 +119,7 @@ const UserSection = () => {
 
   const getpfp = () => {
     const token = localStorage.getItem("token");
+    console.log(user);
     axios
       .get(`https://manthanr.onrender.com/v1/pfp/${user.userID}`, {
         headers: {

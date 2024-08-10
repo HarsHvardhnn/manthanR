@@ -58,7 +58,7 @@ const LoginPage = () => {
           toast.error('Sorry admins arent allowed to login');
           return;
          }
-          
+          console.log(res)
         //  setUser({
         //   ...user,
         //   assigned_admin_id:res.data.user.assigned_admin
