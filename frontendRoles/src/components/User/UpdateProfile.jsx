@@ -154,6 +154,7 @@ const ProfileUpdatePage = () => {
   
       const res = await axios.post(
         "https://manthanr.onrender.com/v1/update-profile",
+        // 'http://localhost:3030/v1/update-profile',
         formData,
         {
           headers: {

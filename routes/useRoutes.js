@@ -181,12 +181,16 @@ router.get("/getQ",verifyToken, getAllQuestions);
 router.get("/getAllData", verifyToken, getAllAnswers);
 router.post("/adminLogin", adminLogin);
 
-router.get('/pfp/:id' , verifyToken , async (req,res)=>{
+router.get('/pfp/:id' ,  async (req,res)=>{
   try {
-    const user =  await  userModel.findOne({_id:req.params.id});
+    const {id}= req.params;
+        const user =  await  userModel.findById(id);
+        console.log(id)
+    console.log(user)
     return res.send(user?.profile_pic).status(200);
   }
   catch(err){
+    console.log(err)
     return res.send('error').status(500);
   }
 } )
