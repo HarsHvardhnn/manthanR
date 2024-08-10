@@ -1,8 +1,8 @@
 from pymongo import MongoClient
 
 
-mongo_uri = "mmongodb+srv://harshvchawla996:ZeKEWIzV0BgDxxJz@cluster0.ehvlcx1.mongodb.net/"
-db_name = "manthan"
+mongo_uri = "mongodb+srv://manowealth:jJ54ydOeqaKZXa0Y@cluster0.hydf0at.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+db_name = "manowealth"
 
 collection_name = "questions"
 

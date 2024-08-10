@@ -304,7 +304,7 @@ const Chatbot = () => {
                 </div>
                 <div className="hidden md:flex">
                   <p className="py-2 px-6 bg-white rounded-xl font-bold text-base ml-2">
-                    Hello {user.username} ✨
+                    Hello {user.username} ✨ 🍑
                   </p>
                 </div>
               </div>
