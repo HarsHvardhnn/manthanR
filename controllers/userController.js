@@ -302,7 +302,7 @@ const updateProfile = async (req, res) => {
         contactNumber:contactNumber,
         semester: semester,
         dept: dept,
-        assigned_admin:admintoupdate._id,
+        // assigned_admin:admintoupdate._id,
         profile_pic:imageUrl
       },
       { new: true }
