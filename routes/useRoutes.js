@@ -207,9 +207,6 @@ router.post('/assign-admin' , verifyToken , async(req,res) => {
    if(user.assigned_admin){
     return res.send('admin already assigned');
    }
-
-  
-
     const admins = await userModel.find({
       role: 'admin',
       semester:user.semester,
@@ -217,28 +214,12 @@ router.post('/assign-admin' , verifyToken , async(req,res) => {
       dept: user.dept
     });
     if(!admins){
-      return res.send('admin not found for this user').status(404)
+      return res.send('Admin not found for this user').status(404)
     }
-
-
- 
-    console.log(admins)
-
     const updatedUser = await userModel.findByIdAndUpdate({_id:user._id} , {
       assigned_admin:admins[0],
 
     })
-    console.log(updatedUser);
-
-
-
-  
-
-
-
-
-
-
 
   }
   catch(err){
