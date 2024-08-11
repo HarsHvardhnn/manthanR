@@ -41,7 +41,9 @@ const UserSection = () => {
   const [loading, setLoading] = useState();
   const [pfp, setPfp] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [token,setToken] = useState()
   const [shimmerSize, setShimmerSize] = useState(120);
+  const [user_ko_assigned_admin ,setUserKOassignedadmin] = useState()
 
   // console.log(user);
   useEffect(() => {
@@ -74,12 +76,24 @@ const UserSection = () => {
     }
   };
 
+  const getUserAssignedAdmin  = ()=>{
+        axios.get('http://localhost:3030/v1/get-assigned-admin',{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      }).then((res)=>{
+        console.log(res)
+       setAssigned_admin(res.data)
+      }).catch((err)=>{
+        console.log(err)
+      })
+
+  }
+
   const adminData = () => {
-    if (assigned_admin) {
-      setShowAdminData(true);
-    } else {
-      toast.error("No admin assigned for your account.");
-    }
+getUserAssignedAdmin();
+    console.log(User)
+ setShowAdminData(true)
   };
   const closeAdminData = () => {
     setShowAdminData(false);
@@ -97,6 +111,7 @@ const UserSection = () => {
       if (!token) {
         return navigate("/login");
       }
+      setToken(token)
 
       // Update user state from localStorage
       const storedUserData = localStorage.getItem("user");
@@ -108,6 +123,7 @@ const UserSection = () => {
 
     fetchData();
     getpfp();
+    
   }, []);
 
   const handleCloseReportModal = () => {
@@ -338,6 +354,25 @@ const UserSection = () => {
                 <FiMessageCircle className="text-4xl sm:text-6xl mb-2 mx-auto" />
                 <div className="text-sm sm:text-xl font-medium">
                   Start Chat
+                </div>
+              </button>
+              <button
+                onClick={() => {
+                  axios.post('http://localhost:3030/v1/assign-admin' , {details:'hi'},   {
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
+                  }).then((Res)=>{
+                    console.log(Res)
+                  }).catch((err)=>{
+                    console.log((err))
+                  })
+                }}
+                className="btn min-w-32 sm:min-w-60 flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
+              >
+                <FiMessageCircle className="text-4xl sm:text-6xl mb-2 mx-auto" />
+                <div className="text-sm sm:text-xl font-medium">
+                 assign admin
                 </div>
               </button>
               <button
