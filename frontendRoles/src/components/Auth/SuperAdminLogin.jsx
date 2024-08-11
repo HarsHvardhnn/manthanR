@@ -40,15 +40,15 @@ const SuperAdminLogin = () => {
       }
     }).catch((err) => {
       if(err.response.status === 401){
-        toast.error('wrong password');
+        toast.error('Wrong password');
 
       }
       if(err.response.status===404){
-        toast.error('please check email');
+        toast.error('Please check email');
       }
 
       if(err.response.status ===403){
-        toast.error('only super admins can login')
+        toast.error('Only super admins can login')
       }
     }).finally(()=>{
       setLoading(false);

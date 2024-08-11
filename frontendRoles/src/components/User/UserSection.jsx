@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiUser, FiMessageCircle, FiAlertCircle } from "react-icons/fi";
 import { BsInfoCircle } from "react-icons/bs";
-import { ShimmerCircularImage, ShimmerButton } from "react-shimmer-effects"; 
+import { ShimmerCircularImage, ShimmerButton } from "react-shimmer-effects";
 import Header from "../Home/Header";
 import "./scrollbar.css";
 import Bg from "./bg1.png";
@@ -19,13 +19,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import useLocalStorage from "../../use-persist-hook";
 
-const quotes = [
-  "Just as you prioritize your physical health, remember to nurture your mental well-being daily.",
-  "Your mental health is not a luxury; it's a necessity. Take time to care for your mind.",
-  "In a world that values productivity, remember that mental well-being is essential for true success.",
-  "Your mental health influences every aspect of your life. Make self-care a non-negotiable priority.",
-  "Mental wellness isn't just about avoiding illness; it's about thriving. Prioritize your mental health.",
-];
+
 
 const axiosConfig = axios.create({
   baseURL: "http://localhost:3030/v1", // Base URL for API requests
@@ -48,8 +42,8 @@ const UserSection = () => {
   const [pfp, setPfp] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [shimmerSize, setShimmerSize] = useState(120);
-  
- // console.log(user);
+
+  // console.log(user);
   useEffect(() => {
     if (pfp) {
       setIsLoading(false);
@@ -61,8 +55,7 @@ const UserSection = () => {
       const screenWidth = window.innerWidth;
       if (screenWidth < 640) {
         setShimmerSize(70);
-      }
-      else if (screenWidth < 640) {
+      } else if (screenWidth < 640) {
         setShimmerSize(90);
       } else {
         setShimmerSize(120);
@@ -74,11 +67,19 @@ const UserSection = () => {
   }, []);
 
   const handleReportClick = () => {
-    setShowReportModal(true);
+    if (assigned_admin) {
+      setShowReportModal(true);
+    } else {
+      toast.error("SOS cannot be sent: You do not have an assigned admin.");
+    }
   };
 
   const adminData = () => {
-    setShowAdminData(true);
+    if (assigned_admin) {
+      setShowAdminData(true);
+    } else {
+      toast.error("No admin assigned for your account.");
+    }
   };
   const closeAdminData = () => {
     setShowAdminData(false);
@@ -109,14 +110,13 @@ const UserSection = () => {
     getpfp();
   }, []);
 
-
   const handleCloseReportModal = () => {
     setShowReportModal(false);
   };
 
   const getpfp = () => {
     const token = localStorage.getItem("token");
-   console.log(user)
+    //console.log(user);
     axios
       .get(`https://manthanr.onrender.com/v1/pfp/${user.userID}`, {
         headers: {
@@ -124,7 +124,7 @@ const UserSection = () => {
         },
       })
       .then((res) => {
-        console.log(res)
+        //console.log(res);
         setPfp(res.data);
       })
       .catch((err) => {
@@ -164,7 +164,7 @@ const UserSection = () => {
   const getAdmin = async () => {
     const token = localStorage.getItem("token");
     // console.log(token);
-   // console.log(user);
+    // console.log(user);
     setLoading(true);
 
     axios
@@ -245,6 +245,11 @@ const UserSection = () => {
     setShowReportModal(false);
   };
 
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+  
   return (
     <>
       <Header />
@@ -294,16 +299,15 @@ const UserSection = () => {
                       className="ml-2 rounded-full h-[87px] w-[87px] sm:h-32 sm:w-32 shadow-xl"
                       onLoad={() => setIsLoading(false)}
                     />
-                    
                   )}
                 </div>
               </div>
               <div className="col-span-2 row-span-2 txt">
                 <h1 className="name text-xl sm:text-4xl lg:text-4xl lg:w-[140%] mt-2 text-white sm:text-user-btns-dark font-bold">
-                  Hello, {user.username}
+                  Hello, {capitalizeFirstLetter(user.username)}
                 </h1>
                 <div className="mr-2 sm:mr-32">
-                  <Quotes quotes={quotes} />
+                  <Quotes />
                 </div>
               </div>
             </div>
@@ -333,7 +337,7 @@ const UserSection = () => {
               >
                 <FiMessageCircle className="text-4xl sm:text-6xl mb-2 mx-auto" />
                 <div className="text-sm sm:text-xl font-medium">
-                  Start Survey
+                  Start Chat
                 </div>
               </button>
               <button

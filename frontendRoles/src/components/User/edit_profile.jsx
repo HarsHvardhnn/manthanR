@@ -141,12 +141,12 @@ const EditProfileForm = () => {
       .then((res) => {
        // console.log(res);
         if (res.data.message === "Profile updated successfully") {
-          toast.success("profile updated");
+          toast.success("Profile updated");
           navigate("/usersection");
         }
       })
       .catch((err) => {
-        toast.error("some error occured");
+        toast.error("Some error occured");
       });
   };
 

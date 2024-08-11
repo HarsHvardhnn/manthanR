@@ -23,6 +23,11 @@ const ViewProfile = ({ onClose ,loading ,getUser,data }) => {
   useEffect(()=>{
     getUser()
   },[])
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+  
   return (
     <div className="fixed inset-0 flex items-center justify-center font-montserrat bg-gray-800 bg-opacity-75 z-50">
       <div className="bg-white w-[90%] sm:w-96 p-6 rounded-lg">
@@ -50,7 +55,7 @@ const ViewProfile = ({ onClose ,loading ,getUser,data }) => {
      {
       loading ? ('...loading'):(   <div>
         <p>
-          <span className="font-semibold">Name:</span> {data?.username}
+          <span className="font-semibold">Name:</span> {capitalizeFirstLetter(data?.username)}
         </p>
         {/* <p>
           <span className="font-semibold">Gender:</span> {data?.gender}

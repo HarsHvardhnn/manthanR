@@ -103,7 +103,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       .then((res) => {
        // console.log(res);
         if (res.status === 200) {
-          toast.success("reported");
+          toast.success("Reported");
           const username = users.filter((user1) => user1._id === user._id);
            console.log(res.data);
       
@@ -144,8 +144,8 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       .send(serviceId, templateId, templateParams, userId)
       .then((response) => {
         if (response.status === 200) {
-          console.log('hi')
-          toast.success("reported user to super admin");
+          // console.log('hi')
+          toast.success("Reported user to super admin");
         }
       })
       .catch((error) => {

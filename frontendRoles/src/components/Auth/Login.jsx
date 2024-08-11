@@ -55,7 +55,7 @@ const LoginPage = () => {
       })
       .then((res) => {
          if(res.data==='admins and super admins cant login'){
-          toast.error('Sorry admins arent allowed to login');
+          toast.error('Sorry admins aren\'t allowed to login');
           return;
          }
           
@@ -105,7 +105,7 @@ const LoginPage = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error('Wrong email or password');
+        toast.error('Wrong Email or Password');
       }).finally(()=>{
         setLoading(false);
       })

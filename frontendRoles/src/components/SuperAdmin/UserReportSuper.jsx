@@ -107,7 +107,7 @@ const UserReport = () => {
       .send(serviceId, templateId, templateParams, userId)
       .then((response) => {
         if (response.status === 200) {
-          toast.success("reported user to super admin");
+          toast.success("Reported user to super admin");
 
         }
       })

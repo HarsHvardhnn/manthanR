@@ -108,7 +108,7 @@ const UserData = ({
       .then((res) => {
         // console.log(res);
         if (res.status === 200) {
-          toast.success("user reported");
+          toast.success("User reported");
           const username = users.filter(
             (user) => user.email === selectedUserId
           );
@@ -123,7 +123,7 @@ const UserData = ({
       })
       .catch((err) => {
         console.log(err);
-        toast.error("some error occures");
+        toast.error("Some error occured");
       });
     // console.log(fetchedReportedUsers);
   };

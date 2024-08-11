@@ -166,7 +166,7 @@ const ProfileUpdatePage = () => {
   
       //console.log(res);
       if (res.data.message === "Profile created successfully") {
-        toast.success("profile updated");
+        toast.success("Profile updated");
         setIsUpdating(false);
        // console.log(res.data.admintoupdate._id);
         // Ensure user state update is correct and complete

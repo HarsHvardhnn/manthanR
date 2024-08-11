@@ -38,7 +38,7 @@ const AdminLogin = () => {
                
           if(res.data.user.role === 'admin'){
             localStorage.setItem('adminToken' , token);
-            toast.success('welcome admin');
+            toast.success('Welcome Admin');
             setAdmin({username:res.data.user.username,
               adminID:res.data.user._id});
               setAdminEmail(res.data.user.email);
@@ -74,7 +74,7 @@ const AdminLogin = () => {
         console.log(err)
 
         if (err.response.status === 401) {
-          toast.error("please check email or password");
+          toast.error("Please check Email or Password");
         }
       }).finally(()=>{
         setLoading(false);

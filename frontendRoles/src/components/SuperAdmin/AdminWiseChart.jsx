@@ -4,8 +4,6 @@ import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
 function AdminWiseChart({ admin }) {
   const [loading, setLoading] = useState(true);
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
   const [userData, setUserData] = useState([]);
   async function fetchUserInformation(userIds) {
     const userInformation = [];
@@ -66,8 +64,8 @@ function AdminWiseChart({ admin }) {
 
   useEffect(() => {
     setLoading(true);
-    getData(admin, selectedMonth, selectedYear);
-  }, [admin, selectedMonth, selectedYear]);
+    getData(admin);
+  }, [admin]);
   // useEffect(() => {
   //   const fetchData = async () => {
   //     // Simulated fetching delay for demonstration
@@ -83,14 +81,6 @@ function AdminWiseChart({ admin }) {
 
   //   fetchData();
   // }, [admin]);
-
-  const handleMonthChange = (e) => {
-    setSelectedMonth(e.target.value);
-  };
-
-  const handleYearChange = (e) => {
-    setSelectedYear(e.target.value);
-  };
 
   const categorizeScores = (score) => {
     if (score === undefined) return "NA";
@@ -255,42 +245,6 @@ function AdminWiseChart({ admin }) {
         className="w-full sm:w-5/6 mx-auto border border-gray-300 p-1 lg:p-6 rounded-lg"
         style={{ borderRadius: "10px" }}
       >
-        <div className="flex justify-center mb-4">
-          <div className="mr-4">
-            <select
-              value={selectedMonth}
-              onChange={handleMonthChange}
-              className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-black text-xs md:text-sm"
-            >
-              <option value="">Select Month</option>
-              <option value="All">All</option>
-              <option value="01">January</option>
-              <option value="02">February</option>
-              <option value="03">March</option>
-              <option value="04">April</option>
-              <option value="05">May</option>
-              <option value="06">June</option>
-              <option value="07">July</option>
-              <option value="08">August</option>
-              <option value="09">September</option>
-              <option value="10">October</option>
-              <option value="11">November</option>
-              <option value="12">December</option>
-            </select>
-          </div>
-          <div>
-            <select
-              value={selectedYear}
-              onChange={handleYearChange}
-              className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-black text-xs md:text-sm"
-            >
-              <option value="">Select Year</option>
-              <option value="All">All</option>
-              <option value="2024">2024</option>
-              <option value="2023">2023</option>
-            </select>
-          </div>
-        </div>
         <Chart options={options} series={series} type="bar" height={400} />
       </div>
     </div>

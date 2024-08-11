@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { MagnifyingGlass } from "react-loader-spinner";
 import { FaArrowLeft, FaHome } from "react-icons/fa";
+import Header from "../Home/Header";
 const ForgotPassword = () => {
   const [showOTPFields, setShowOTPFields] = useState(false);
   const [wrongOtp, setWrongOtp] = useState(false);
@@ -43,7 +44,7 @@ const ForgotPassword = () => {
       })
       .then((res) => {
         if (res.data === "user doesnt exist") {
-          toast.error("user not found");
+          toast.error("User not found");
         } else if (res.data === "user found please send otp") {
           sendOtp(values);
           setShowOTPFields(true);
@@ -120,6 +121,8 @@ const ForgotPassword = () => {
   };
 
   return (
+    <>
+    <Header/>
     <div className="w-full bg-blue-200 h-screen flex items-center">
       <div className="w-11/12 sm:w-8/12 md:w-1/2 lg:w-1/3 xl:w-1/4 mx-auto p-6 bg-white rounded-lg shadow-md font-montserrat">
         <div className="flex justify-between mx-1 mb-6 border-b-2">
@@ -275,6 +278,7 @@ const ForgotPassword = () => {
         </Formik>
       </div>
     </div>
+    </>
   );
 };
 
