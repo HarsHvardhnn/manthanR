@@ -25,6 +25,7 @@ const verifyToken = (req, res, next) => {
 
    
     req.decoded = decoded;
+    console.log('decoded' , decoded);
     next();
   });
 };
