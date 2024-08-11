@@ -291,6 +291,9 @@ const updateProfile = async (req, res) => {
 
       //console.log(imageUrl);
     const admintoupdate = admins[0];
+    if(!admintoupdate || !admintoupdate?.assigned_admin){
+      return res.send('admin not available for this semester field , please add admin first then update your profile').status(403)
+    }
 
     const update = await userModel.findOneAndUpdate(
       { _id: user },
@@ -302,7 +305,7 @@ const updateProfile = async (req, res) => {
         contactNumber:contactNumber,
         semester: semester,
         dept: dept,
-        // assigned_admin:admintoupdate._id,
+        assigned_admin:admintoupdate?._id,
         profile_pic:imageUrl
       },
       { new: true }
