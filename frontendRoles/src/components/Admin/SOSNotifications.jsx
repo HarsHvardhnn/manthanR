@@ -22,7 +22,7 @@ const SOSNotifications = ({ admin }) => {
     const url = `https://manthanr.onrender.com/v1/get-all-sos/${admin.adminID}`
     const local_url = `http://localhost:3030/v1/get-all-sos/${admin.adminID}`
     axios
-      .get(local_url, {
+      .get(url, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
