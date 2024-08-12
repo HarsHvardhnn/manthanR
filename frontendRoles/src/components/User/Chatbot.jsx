@@ -230,6 +230,7 @@ const Chatbot = () => {
           email: user.email,
           answers: answers,
           score: userScore,
+          user_response:initialResponse
         },
         {
           headers: {

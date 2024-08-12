@@ -181,6 +181,15 @@ router.get("/getQ",verifyToken, getAllQuestions);
 router.get("/getAllData", verifyToken, getAllAnswers);
 router.post("/adminLogin", adminLogin);
 
+router.get('/get-user-j' , async(req,res)=>{
+  try{
+    const user = await userModel.find({email:'user23@example.com'});
+    return res.send(user);
+
+  }catch(err){
+    console.log(err)
+  }
+})
 router.get('/pfp/:id' ,  async (req,res)=>{
   try {
     const {id}= req.params;

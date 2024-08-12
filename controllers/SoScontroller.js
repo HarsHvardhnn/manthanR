@@ -1,3 +1,4 @@
+const path = require("path");
 const {NotificationModel} = require("../models/notificationModel");
 
 const sendSos = async (req, res) => {
@@ -24,8 +25,8 @@ const getAllSoS = async (req,res)=> {
   try{
     const {id}= req.params;
     // console.log(id);
-    const notifications = await NotificationModel.find({admin:id});
-    // console.log(notifications)
+    const notifications = await NotificationModel.find({admin:id}).populate({select :'email contactNumber' ,path:'user'});
+    console.log(notifications)
     if(!notifications){
       return  res.send('no messages').status(404);
     }

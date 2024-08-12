@@ -19,14 +19,16 @@ const SOSNotifications = ({ admin }) => {
   const getsos = () => {
     const token = localStorage.getItem("adminToken");
     // console.log(admin);
+    const url = `https://manthanr.onrender.com/v1/get-all-sos/${admin.adminID}`
+    const local_url = `http://localhost:3030/v1/get-all-sos/${admin.adminID}`
     axios
-      .get(`https://manthanr.onrender.com/v1/get-all-sos/${admin.adminID}`, {
+      .get(url, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-       // console.log(res);
+       console.log(res);
         setNotifications(res.data);
         // console.log(res)
       })
@@ -97,7 +99,7 @@ const SOSNotifications = ({ admin }) => {
     if (!string) return "";
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
-console.log(notifications)
+// console.log(notifications)
   return (
     <div className="p-4 overflow-y-auto h-[80%]">
       <h2 className="text-2xl font-semibold mb-6 border-b-2 border-gray-200 uppercase ">
@@ -114,21 +116,21 @@ console.log(notifications)
             <div>
               <p className="text-base md:text-lg">
                 <span className="font-semibold">Name: </span>
-                {capitalizeFirstLetter(notification.userName)}
+                {capitalizeFirstLetter(notification?.userName)}
               </p>
               <p className="text-base md:text-lg">
                 <span className="font-semibold">Email: </span>
-                {notification.email}
+                {notification?.user?.email}
               </p>
               <p className="text-base md:text-lg">
                 <span className="font-semibold">Phone: </span>
-                {notification.phoneNumber}
+                {notification?.user?.contactNumber}
               </p>
             </div>
           </div>
           <p className="text-base md:text-lg">
             <span className="font-semibold">Message: </span>
-            {notification.message}
+            {notification?.message}
           </p>
           <button
             onClick={

@@ -24,6 +24,10 @@ const FiftyQuestionsSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
+    },
+    user_response:{
+        type:String,
+        required:false,
     }
 });
 
