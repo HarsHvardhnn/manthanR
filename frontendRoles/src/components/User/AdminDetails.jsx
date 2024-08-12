@@ -20,6 +20,10 @@ const AdminDetails = ({ onClose, loading, getAdmin, assigned_admin }) => {
     // axios.post('')
     setShowReportModal(false);
   };
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
   return (
     <div className="fixed inset-0 flex items-center justify-center font-montserrat bg-gray-800 bg-opacity-75 z-40">
       <div className="bg-white w-[90%] sm:w-96 p-6 rounded-lg">
@@ -50,7 +54,7 @@ const AdminDetails = ({ onClose, loading, getAdmin, assigned_admin }) => {
           <div>
             <p className="text-gray-700">
               <span className="font-semibold">Name:</span>{" "}
-              {assigned_admin.username}
+              {capitalizeFirstLetter(assigned_admin.username)}
             </p>
             <p className="text-gray-700">
               <span className="font-semibold">Email:</span>{" "}

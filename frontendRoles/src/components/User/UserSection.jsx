@@ -158,7 +158,7 @@ const UserSection = () => {
 
     fetchData();
     getpfp();
-  }, []);
+  }, [user.userID]);
 
   const handleCloseReportModal = () => {
     setShowReportModal(false);
@@ -174,7 +174,7 @@ const UserSection = () => {
         },
       })
       .then((res) => {
-        //console.log(res);
+        console.log(res);
         setPfp(res.data);
       })
       .catch((err) => {
