@@ -64,6 +64,7 @@ function AdminWiseChart({ admin }) {
 
   useEffect(() => {
     setLoading(true);
+    setUserData([]);
     getData(admin);
   }, [admin]);
   // useEffect(() => {
@@ -163,7 +164,8 @@ function AdminWiseChart({ admin }) {
     dataLabels: {
       enabled: true,
       style: {
-        fontSize: 18,
+        fontSize: "18px", 
+        colors: ["#000000"], 
         fontFamily: "Montserrat, sans-serif",
       },
     },

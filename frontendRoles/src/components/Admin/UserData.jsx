@@ -307,7 +307,10 @@ const UserData = ({
     usersPerPage === "all"
       ? filteredByYear
       : filteredByYear.slice(offset, offset + parseInt(usersPerPage));
-
+      const capitalizeFirstLetter = (string) => {
+        if (!string) return "";
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      };
   return (
     <div className="mx-auto p-2 md:p-4 pb-10 bg-gray-100 font-montserrat text-xs md:text-sm overflow-y-auto h-[90%]">
       {loading ? (
@@ -484,7 +487,7 @@ const UserData = ({
                   {currentUsers.map((user, index) => (
                     <tr key={user._id}>
                       <td className="px-4 py-2 border">{index + 1}</td>
-                      <td className="px-4 py-2 border">{user.username}</td>
+                      <td className="px-4 py-2 border">{capitalizeFirstLetter(user.username)}</td>
                       <td className="px-4 py-2 border">{user.email}</td>
                       <td className="px-4 py-2 border">{user.contactNumber}</td>
                       <td className="px-4 py-2 border">

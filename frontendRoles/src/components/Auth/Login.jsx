@@ -94,8 +94,9 @@ const LoginPage = () => {
               // navigate("/updateprofile");
               navigate("/usersection");
               // console.log(user);
-            } else {
-              navigate("/disclaimer");
+            } 
+            else {
+              navigate("/usersection");
             }
           } else {
             navigate("/updateprofile");

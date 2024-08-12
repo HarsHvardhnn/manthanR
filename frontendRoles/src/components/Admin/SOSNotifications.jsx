@@ -93,6 +93,11 @@ const SOSNotifications = ({ admin }) => {
     );
   };
 
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+console.log(notifications)
   return (
     <div className="p-4 overflow-y-auto h-[80%]">
       <h2 className="text-2xl font-semibold mb-6 border-b-2 border-gray-200 uppercase ">
@@ -109,7 +114,7 @@ const SOSNotifications = ({ admin }) => {
             <div>
               <p className="text-base md:text-lg">
                 <span className="font-semibold">Name: </span>
-                {notification.userName}
+                {capitalizeFirstLetter(notification.userName)}
               </p>
               <p className="text-base md:text-lg">
                 <span className="font-semibold">Email: </span>

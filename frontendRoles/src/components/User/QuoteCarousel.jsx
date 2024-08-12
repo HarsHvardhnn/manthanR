@@ -1,9 +1,13 @@
-import React from "react";
+
+import React, { useEffect, useRef } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./scrollbar.css"
+import "./scrollbar.css";
+
 const QuoteCarousel = () => {
+  const sliderRef = useRef(null);
+
   const settings = {
     dots: false,
     infinite: true,
@@ -14,7 +18,7 @@ const QuoteCarousel = () => {
     autoplaySpeed: 7000,
     prevArrow: <></>, 
     nextArrow: <></>,
-    cssEase: "ease-out"
+    cssEase: "ease-out",
   };
 
   const quotes = [
@@ -73,9 +77,26 @@ const QuoteCarousel = () => {
   };
 
   const shuffledQuotes = shuffleArray([...quotes]);
+  // console.log(shuffledQuotes)
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        sliderRef.current.slickPause(); 
+      } else {
+        sliderRef.current.slickPlay(); 
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
 
   return (
-    <Slider {...settings}>
+    <Slider ref={sliderRef} {...settings}>
       {shuffledQuotes.map((quote, index) => (
         <div key={index}>
           <h2 className="quote text-xs md:text-base lg:text-sm text-white md:w-full sm:text-user-btns text-left font-medium rounded-2xl max-w-4xl mx-auto sm:mt-2">

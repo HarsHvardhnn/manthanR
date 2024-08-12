@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FiUser, FiMessageCircle, FiAlertCircle } from "react-icons/fi";
 import { BsInfoCircle } from "react-icons/bs";
 import { ShimmerCircularImage, ShimmerButton } from "react-shimmer-effects";
+import { CgProfile } from "react-icons/cg";
 import Header from "../Home/Header";
 import "./scrollbar.css";
 import Bg from "./bg1.png";
@@ -18,8 +19,6 @@ import { userContext } from "../../context";
 import axios from "axios";
 import { toast } from "react-toastify";
 import useLocalStorage from "../../use-persist-hook";
-
-
 
 const axiosConfig = axios.create({
   baseURL: "http://localhost:3030/v1", // Base URL for API requests
@@ -41,9 +40,9 @@ const UserSection = () => {
   const [loading, setLoading] = useState();
   const [pfp, setPfp] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [token,setToken] = useState()
+  const [token, setToken] = useState();
   const [shimmerSize, setShimmerSize] = useState(120);
-  const [user_ko_assigned_admin ,setUserKOassignedadmin] = useState()
+  const [user_ko_assigned_admin, setUserKOassignedadmin] = useState();
 
   // console.log(user);
   useEffect(() => {
@@ -69,31 +68,66 @@ const UserSection = () => {
   }, []);
 
   const handleReportClick = () => {
-    if (assigned_admin) {
-      setShowReportModal(true);
-    } else {
-      toast.error("SOS cannot be sent: You do not have an assigned admin.");
-    }
-  };
-
-  const getUserAssignedAdmin  = ()=>{
-        axios.get('http://localhost:3030/v1/get-assigned-admin',{
+    const token = localStorage.getItem("token");
+    setLoading(true);
+    axios
+      .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`, {
         headers: {
           Authorization: `Bearer ${token}`,
-        }
-      }).then((res)=>{
-        console.log(res)
-       setAssigned_admin(res.data)
-      }).catch((err)=>{
-        console.log(err)
+        },
       })
+      .then((res) => {
+        if (res.data.assigned_admin) {
+          setShowReportModal(true);
+        } else {
+          toast.error("SOS cannot be sent: You do not have an assigned admin.");
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  };
 
-  }
+  const getUserAssignedAdmin = () => {
+    axios
+      .get("https://manthanr.onrender.com/v1/get-assigned-admin", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setAssigned_admin(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const assignAdmin = () => {
+    axios
+      .post(
+        "https://manthanr.onrender.com/v1/assign-admin",
+        { details: "hi" },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((Res) => {
+        console.log(Res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const adminData = () => {
-getUserAssignedAdmin();
-    console.log(User)
- setShowAdminData(true)
+    assignAdmin();
+    getUserAssignedAdmin();
+    console.log(User);
+    setShowAdminData(true);
   };
   const closeAdminData = () => {
     setShowAdminData(false);
@@ -105,13 +139,14 @@ getUserAssignedAdmin();
   const closeProfile = () => {
     setShowProfile(false);
   };
+
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
         return navigate("/login");
       }
-      setToken(token)
+      setToken(token);
 
       // Update user state from localStorage
       const storedUserData = localStorage.getItem("user");
@@ -123,7 +158,6 @@ getUserAssignedAdmin();
 
     fetchData();
     getpfp();
-    
   }, []);
 
   const handleCloseReportModal = () => {
@@ -179,8 +213,7 @@ getUserAssignedAdmin();
 
   const getAdmin = async () => {
     const token = localStorage.getItem("token");
-    // console.log(token);
-    // console.log(user);
+
     setLoading(true);
 
     axios
@@ -214,7 +247,6 @@ getUserAssignedAdmin();
         },
       })
       .then((res) => {
-        // console.log(res);
         setuser(res.data);
       })
       .catch((err) => {
@@ -265,7 +297,7 @@ getUserAssignedAdmin();
     if (!string) return "";
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
-  
+
   return (
     <>
       <Header />
@@ -303,24 +335,29 @@ getUserAssignedAdmin();
             <div className="mt-20 sm:mt-36 mb-4 sm:sb-0 grid grid-cols-3 grid-rows-2 gap-0">
               <div className="row-span-2">
                 <div className="flex justify-center sm:ml-20 profile">
-                  {isLoading ? (
-                    <ShimmerCircularImage
-                      size={shimmerSize}
-                      borderRadius="50%"
-                    />
-                  ) : (
+                  {pfp ? (
                     <img
                       src={pfp}
                       alt="Profile"
                       className="ml-2 rounded-full h-[87px] w-[87px] sm:h-32 sm:w-32 shadow-xl"
                       onLoad={() => setIsLoading(false)}
                     />
+                  ) : (
+                    <div className="ml-2 rounded-full h-[77px] w-[77px] sm:size-28 flex items-center justify-center bg-user-bg-small sm:bg-user-btns sm:text-white text-3xl sm:text-5xl font-bold sm:font-semibold">
+                      {user.username ? (
+                        user.username.charAt(0).toUpperCase()
+                      ) : (
+                        <CgProfile />
+                      )}
+                    </div>
                   )}
                 </div>
               </div>
               <div className="col-span-2 row-span-2 txt">
                 <h1 className="name text-xl sm:text-4xl lg:text-4xl lg:w-[140%] mt-2 text-white sm:text-user-btns-dark font-bold">
-                  Hello, {capitalizeFirstLetter(user.username)}
+                  {user.username
+                    ? `Hello, ${capitalizeFirstLetter(user.username)}`
+                    : "Hello, welcome!"}
                 </h1>
                 <div className="mr-2 sm:mr-32">
                   <Quotes />
@@ -352,28 +389,7 @@ getUserAssignedAdmin();
                 className="btn min-w-32 sm:min-w-60 flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
               >
                 <FiMessageCircle className="text-4xl sm:text-6xl mb-2 mx-auto" />
-                <div className="text-sm sm:text-xl font-medium">
-                  Start Chat
-                </div>
-              </button>
-              <button
-                onClick={() => {
-                  axios.post('http://localhost:3030/v1/assign-admin' , {details:'hi'},   {
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                    },
-                  }).then((Res)=>{
-                    console.log(Res)
-                  }).catch((err)=>{
-                    console.log((err))
-                  })
-                }}
-                className="btn min-w-32 sm:min-w-60 flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
-              >
-                <FiMessageCircle className="text-4xl sm:text-6xl mb-2 mx-auto" />
-                <div className="text-sm sm:text-xl font-medium">
-                 assign admin
-                </div>
+                <div className="text-sm sm:text-xl font-medium">Start Chat</div>
               </button>
               <button
                 onClick={handleReportClick}

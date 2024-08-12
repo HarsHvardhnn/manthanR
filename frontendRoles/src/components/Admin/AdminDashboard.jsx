@@ -84,10 +84,12 @@ const AdminDashboard = () => {
     const screenWidth = window.innerWidth;
     return screenWidth >= 768 ? "1.365rem" : undefined;
   };
-
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
   return (
     <div className="flex font-montserrat h-screen">
-      
       <div
         className={`absolute top-0 left-0 bottom-0 w-48 md:w-64 bg-gray-700 transition-transform duration-300 z-50 ${
           showSidebar ? "translate-x-0" : "-translate-x-full"
@@ -106,7 +108,7 @@ const AdminDashboard = () => {
             className="bg-white p-0.5 mr-4 rounded-md md:hidden"
           >
             <div className="flex">
-            <FaArrowLeft className="text-xs" />
+              <FaArrowLeft className="text-xs" />
             </div>
           </button>
         </div>
@@ -153,7 +155,7 @@ const AdminDashboard = () => {
             <FaExclamationCircle className="mr-2" />
             Reported Users
           </li>
-          
+
           <li
             className={
               activeTab === "sosnotification"
@@ -169,13 +171,13 @@ const AdminDashboard = () => {
             SOS Notifications
           </li>
         </ul>
-      </div>      
-      <div className="w-full md:ml-64">        
+      </div>
+      <div className="w-full md:ml-64">
         <nav className="lg:hidden bg-gray-700 p-4 shadow-xl">
           <div className="flex justify-between items-center">
             <button onClick={toggleSidebar}>
               <FaBars className="text-white text-xl md:hidden" />
-            </button>            
+            </button>
             <div className="relative">
               <button
                 onClick={() => {
@@ -185,17 +187,19 @@ const AdminDashboard = () => {
                   navigate("/adminlogin");
                 }}
                 className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
-              >                <FaSignOutAlt className="mr-2" />
+              >
+                {" "}
+                <FaSignOutAlt className="mr-2" />
                 Logout
               </button>
             </div>
           </div>
-        </nav>     
+        </nav>
         <nav className="hidden lg:flex justify-between items-center bg-gray-700 p-4 shadow-xl">
           <div className="flex">
             <FaUserCircle className="text-white text-2xl mr-2" />
             <p className="text-lg font-semibold text-white">
-              Welcome {admin.username}
+              Welcome {capitalizeFirstLetter(admin.username)}
             </p>
           </div>
           <div className="relative">
@@ -212,7 +216,7 @@ const AdminDashboard = () => {
               Logout
             </button>
           </div>
-        </nav>     
+        </nav>
         {activeTab === "charts" && <ScoreRangeChart />}
         {activeTab === "allUsers" && <UserData admin={admin} />}
         {activeTab === "userreport" && <UserReport admin={admin} />}
