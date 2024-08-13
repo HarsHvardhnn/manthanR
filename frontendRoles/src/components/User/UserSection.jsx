@@ -42,14 +42,14 @@ const UserSection = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState();
   const [shimmerSize, setShimmerSize] = useState(120);
-  const [user_ko_assigned_admin, setUserKOassignedadmin] = useState();
+  const [adminStatus, setAdminStatus] = useState(false);
 
   // console.log(user);
-  useEffect(() => {
-    if (pfp) {
-      setIsLoading(false);
-    }
-  }, [pfp]);
+  // useEffect(() => {
+  //   if (pfp) {
+  //     setIsLoading(false);
+  //   }
+  // }, [pfp]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -70,6 +70,7 @@ const UserSection = () => {
   const handleReportClick = () => {
     const token = localStorage.getItem("token");
     setLoading(true);
+    setAdminStatus(true);
     axios
       .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`, {
         headers: {
@@ -82,6 +83,7 @@ const UserSection = () => {
         } else {
           toast.error("SOS cannot be sent: You do not have an assigned admin.");
         }
+        setAdminStatus(false);
       })
       .catch((err) => {
         toast.error(err.message);
@@ -158,6 +160,10 @@ const UserSection = () => {
 
     fetchData();
     getpfp();
+    setTimeout(() => {
+      setIsLoading(false)
+
+    }, 2000);
   }, [user.userID]);
 
   const handleCloseReportModal = () => {
@@ -335,7 +341,12 @@ const UserSection = () => {
             <div className="mt-20 sm:mt-36 mb-4 sm:sb-0 grid grid-cols-3 grid-rows-2 gap-0">
               <div className="row-span-2">
                 <div className="flex justify-center sm:ml-20 profile">
-                  {pfp ? (
+                  {isLoading ? (
+                    <ShimmerCircularImage
+                      size={shimmerSize}
+                      className="ml-2 rounded-full"
+                    />
+                  ) : pfp ? (
                     <img
                       src={pfp}
                       alt="Profile"
@@ -396,7 +407,20 @@ const UserSection = () => {
                 className="btn min-w-32 sm:min-w-60 flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
               >
                 <FiAlertCircle className="text-4xl sm:text-6xl mb-2 mx-auto" />
-                <div className="text-sm sm:text-xl font-medium">Send SOS</div>
+                <div className="text-sm sm:text-xl font-medium">
+                  Send SOS
+                  {adminStatus && (
+                    <span className="ml-1">
+                      <span className="inline-block animate-pulse">.</span>
+                      <span className="inline-block animate-pulse animation-delay-200">
+                        .
+                      </span>
+                      <span className="inline-block animate-pulse animation-delay-400">
+                        .
+                      </span>
+                    </span>
+                  )}
+                </div>
               </button>
               <button
                 onClick={adminData}

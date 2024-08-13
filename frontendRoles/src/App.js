@@ -25,6 +25,9 @@ import { adminEmailContext } from "./context";
 import EditProfileForm from "./components/User/edit_profile";
 import FileUpload from "./components/User/FileUpload";
 import SessionManager from "./SessionManager";
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './store/store'; 
 
 function App() {
   const [user, setUser] = useState({ username: '', userID: '',email:'',assigned_admin:'',assigned_admin_id:''});
@@ -111,6 +114,8 @@ function App() {
   ]);
   return (
     <>
+    <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
     <SessionManager/>
       <loadingContext.Provider value={{ loading, setLoading }}>
         <userContext.Provider value={{ user, setUser }}>
@@ -127,6 +132,8 @@ function App() {
           </superadminContext.Provider>
         </userContext.Provider>
       </loadingContext.Provider>
+      </PersistGate>
+      </Provider>
     </>
   );
 }

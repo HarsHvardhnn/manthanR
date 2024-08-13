@@ -13,6 +13,7 @@ const UserReport = ({ admin }) => {
 
   const getUsers = () => {
     const token = localStorage.getItem("adminToken");
+    setLoading(true);
 
     axios
       .get(
@@ -29,7 +30,8 @@ const UserReport = ({ admin }) => {
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {
@@ -123,7 +125,8 @@ const UserReport = ({ admin }) => {
             className="bg-yellow-100 p-4 rounded-lg shadow mb-4"
           >
             <p className="text-base md:text-lg">
-              <span className="font-semibold">Name:</span> {capitalizeFirstLetter(report.username)}
+              <span className="font-semibold">Name:</span>{" "}
+              {capitalizeFirstLetter(report.username)}
             </p>
             <p className="text-lg">
               <span className="font-semibold">Email:</span> {report.email}
@@ -133,7 +136,8 @@ const UserReport = ({ admin }) => {
               {report?.contactNumber}
             </p>
             <p className="text-base md:text-lg">
-              <span className="font-semibold">Score:</span> {report.score || "NA"}
+              <span className="font-semibold">Score:</span>{" "}
+              {report.score || "NA"}
             </p>
             <p className="text-base md:text-lg">
               <span className="font-semibold">Comments:</span> {report.message}

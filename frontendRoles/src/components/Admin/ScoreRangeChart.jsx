@@ -3,7 +3,7 @@ import Chart from "react-apexcharts";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
 
-function ScoreRangeChart() {
+function ScoreRangeChart({ admin }) {
   const [userData, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -12,16 +12,19 @@ function ScoreRangeChart() {
   //   if (token) {
   //     return 'Bearer ' + token;
   //   } else {
-  //     return {}; 
+  //     return {};
   //   }
   // };
 
   const fetchUsers = async () => {
     try {
-      const token = localStorage.getItem('adminToken');
+      const token = localStorage.getItem("adminToken");
       const response = await axios.get(
-        "https://manthanr.onrender.com/v1/getAllUsers",{  headers: {
-          Authorization:`Bearer ${token}`}
+        `https://manthanr.onrender.com/v1/user-admin-data/${admin.adminID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       const simplifiedUsers = response.data.map((user) => ({
@@ -38,7 +41,7 @@ function ScoreRangeChart() {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [admin.adminID]);
 
   const categorizeScores = (score) => {
     if (score === undefined) return "NA";
@@ -122,8 +125,8 @@ function ScoreRangeChart() {
     dataLabels: {
       enabled: true,
       style: {
-        fontSize: "18px", 
-        colors: ["#000000"], 
+        fontSize: "18px",
+        colors: ["#000000"],
         fontFamily: "Montserrat, sans-serif",
       },
     },
