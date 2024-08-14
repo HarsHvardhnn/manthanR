@@ -90,7 +90,7 @@ const UserReport = () => {
     const serviceId = "service_0jzntyg";
     const templateId = "template_dbu0gpy";
     const userId = "4n-EC2hBnJ4wZnL_F";
-    console.log(report);
+    // console.log(report);
     const { email, message, score, username } = report;
 
     const templateParams = {
@@ -208,19 +208,19 @@ const UserReport = () => {
               >
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">User Name:</span>{" "}
-                  {capitalizeFirstLetter(report.username)}
+                  {capitalizeFirstLetter(report.username) || "NA"}
                 </p>
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">User Email:</span>{" "}
-                  {report.email}
+                  {report.email || "NA"}
                 </p>
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">Contact Number:</span>{" "}
-                  {report.contactNumber}
+                  {report.contactNumber || "NA"}
                 </p>
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">Assigned Admin:</span>
-                  {report?.assigned_admin}
+                  {report?.assigned_admin || "NA"}
                   {/*under this admin*/}
                 </p>
                 <p className="text-base md:text-lg">
@@ -231,7 +231,7 @@ const UserReport = () => {
                 </p>
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">Admin Comments:</span>{" "}
-                  {report.message}
+                  {report.message || "NA"}
                 </p>
                 <div className="mt-2 text-sm sm:text-base md:text-lg flex items-center ">
                   <button

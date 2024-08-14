@@ -22,7 +22,7 @@ const TypingLoader = () => (
         alt="logo"
         className="max-h-9 max-w-9 ml-2 rounded-full border border-gray-800"
       />
-      <h1 className="font-medium text-sm sm:text-base ml-2">Typing</h1>
+      <h1 className="font-medium text-sm sm:text-base text-slate-600 ml-2">Typing</h1>
       <div className="animate-pulse size-1.5 bg-gray-400 rounded-full mr-1"></div>
       <div className="animate-pulse size-1.5 bg-gray-400 rounded-full mr-1"></div>
       <div className="animate-pulse size-1.5 bg-gray-400 rounded-full mr-1"></div>

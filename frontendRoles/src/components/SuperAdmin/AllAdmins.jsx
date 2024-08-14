@@ -146,9 +146,9 @@ const AllAdmins = () => {
                 {userData.map((admin, index) => (
                   <tr key={admin._id}>
                     <td className="border px-4 py-2">{index + 1}</td>
-                    <td className="border px-4 py-2">{capitalizeFirstLetter(admin.username)}</td>
-                    <td className="border px-4 py-2">{admin.contactNumber}</td>
-                    <td className="border px-4 py-2">{admin.email}</td>
+                    <td className="border px-4 py-2">{capitalizeFirstLetter(admin.username) || "NA"}</td>
+                    <td className="border px-4 py-2">{admin.contactNumber || "NA"}</td>
+                    <td className="border px-4 py-2">{admin.email || "NA"}</td>
                     <td className="border px-4 py-2">
                       <button
                       title="Delete Admin"

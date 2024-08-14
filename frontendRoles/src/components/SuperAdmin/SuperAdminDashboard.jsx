@@ -183,7 +183,7 @@ const SuperAdminDashboard = () => {
                       }}
                       className="block px-4 py-2 text-xs text-white w-full hover:bg-gray-600"
                     >
-                      {admin.username}
+                      {capitalizeFirstLetter(admin.username)}
                     </button>
                   );
                 })}
@@ -270,7 +270,7 @@ const SuperAdminDashboard = () => {
             <button onClick={toggleSidebar}>
               <FaBars className="text-white text-xl md:hidden inline-block" />
             </button>
-            
+
             <div className="relative inline-block">
               <button
                 onClick={() => {

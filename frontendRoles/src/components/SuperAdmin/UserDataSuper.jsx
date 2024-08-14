@@ -73,7 +73,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
         }
       );
       setUsers(response.data);
-      console.log("users ", users);
+      //console.log("users ", users);
     } catch (error) {
       console.error("Error fetching users:", error);
     } finally {
@@ -105,7 +105,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
         if (res.status === 200) {
           toast.success("Reported");
           const username = users.filter((user1) => user1._id === user._id);
-          console.log(res.data);
+          //console.log(res.data);
 
           sendEmail(username[0], res.data.message);
         }
@@ -302,7 +302,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
     usersPerPage === "all"
       ? filteredByYear
       : filteredByYear.slice(offset, offset + parseInt(usersPerPage));
-      
+
   const capitalizeFirstLetter = (string) => {
     if (!string) return "";
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -421,8 +421,9 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                   className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-black text-xs md:text-sm"
                 >
                   <option value="All">All</option>
-                  <option value="2023">2024</option>
-                  <option value="2022">2023</option>
+                  <option value="2024">2024</option>
+                  <option value="2025">2025</option>
+                  <option value="2026">2026</option>
                 </select>
               </div>
             </div>
