@@ -55,7 +55,7 @@ const ViewProfile = ({ onClose, loading, getUser, data }) => {
         <div>
           <p>
             <span className="font-semibold">Name:</span>{" "}
-            {capitalizeFirstLetter(data?.username)}
+            {capitalizeFirstLetter(data?.username) || "NA"}
           </p>
           {/* <p>
           <span className="font-semibold">Gender:</span> {data?.gender}
@@ -65,23 +65,24 @@ const ViewProfile = ({ onClose, loading, getUser, data }) => {
           {data?.contactNumber}
         </p> */}
           <p>
-            <span className="font-semibold">Email:</span> {data?.email}
-          </p>
-          <p>
-            <span className="font-semibold">Degree Type:</span>{" "}
-            {data?.degree ? data.degree.toUpperCase() : "N/A"}
-          </p>
-          <p>
-            <span className="font-semibold">Department:</span>{" "}
-            {data?.dept ? data.dept.toUpperCase() : "N/A"}
-          </p>
-          <p>
-            <span className="font-semibold">Semester:</span> {data?.semester}
+            <span className="font-semibold">Email:</span> {data?.email || "NA"}
           </p>
           <p>
             <span className="font-semibold">Phone Number:</span>{" "}
-            {data?.contactNumber}
+            {data?.contactNumber || "NA"}
           </p>
+          <p>
+            <span className="font-semibold">Degree Type:</span>{" "}
+            {data?.degree ? data.degree.toUpperCase() : "NA"}
+          </p>
+          <p>
+            <span className="font-semibold">Department:</span>{" "}
+            {data?.dept ? data.dept.toUpperCase() : "NA"}
+          </p>
+          <p>
+            <span className="font-semibold">Semester:</span> {data?.semester || "NA"}
+          </p>
+
           {/* <p>
           <span className="font-semibold">Hostel Name:</span>{" "}
           {data?.hostelName}
