@@ -121,12 +121,14 @@ function AllUsersChart() {
         columnWidth: "50%",
         endingShape: "rounded",
         distributed: true,
+        
       },
     },
     dataLabels: {
       enabled: true,
       style: {
-        fontSize: 18,
+        fontSize: "18px", 
+        colors: ["#000000"], 
         fontFamily: "Montserrat, sans-serif",
       },
     },

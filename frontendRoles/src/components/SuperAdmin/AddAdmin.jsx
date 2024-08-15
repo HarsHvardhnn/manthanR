@@ -2,6 +2,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const AddAdmin = () => {
   const initialValues = {
@@ -44,6 +45,7 @@ const AddAdmin = () => {
       })
       .then((res) => {
         // console.log(res);
+        toast.success("New admin created successfully")
       })
       .catch((err) => {
         console.log(err);
@@ -52,6 +54,7 @@ const AddAdmin = () => {
     // Send formData to backend
 
     resetForm();
+    
   };
 
   const generateRandomPassword = () => {

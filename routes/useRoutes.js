@@ -181,6 +181,15 @@ router.get("/getQ",verifyToken, getAllQuestions);
 router.get("/getAllData", verifyToken, getAllAnswers);
 router.post("/adminLogin", adminLogin);
 
+router.get('/get-user-j' , async(req,res)=>{
+  try{
+    const user = await userModel.find({email:'user23@example.com'});
+    return res.send(user);
+
+  }catch(err){
+    console.log(err)
+  }
+})
 router.get('/pfp/:id' ,  async (req,res)=>{
   try {
     const {id}= req.params;
@@ -194,6 +203,59 @@ router.get('/pfp/:id' ,  async (req,res)=>{
     return res.send('error').status(500);
   }
 } )
+
+
+router.post('/assign-admin' , verifyToken , async(req,res) => {
+  try{
+    // const {semester , dept, degree}  = req.body;
+    const user1 = req.decoded;
+
+   const user = await userModel.findById(user1.userId);
+   console.log(user)
+
+   if(user.assigned_admin){
+    return res.send('admin already assigned');
+   }
+    const admins = await userModel.find({
+      role: 'admin',
+      semester:user.semester,
+      degree: user.degree,
+      dept: user.dept
+    });
+    if(!admins){
+      return res.send('Admin not found for this user').status(404)
+    }
+    const updatedUser = await userModel.findByIdAndUpdate({_id:user._id} , {
+      assigned_admin:admins[0],
+
+    })
+
+  }
+  catch(err){
+    console.log(err);
+    return res.send(err)
+  }
+}
+
+)
+
+
+
+router.get('/get-assigned-admin' , verifyToken,  async (req,res) => {
+  try{
+    const {userId}= req.decoded;
+    const user =  await userModel.findById(userId);
+    console.log(user);
+    const admin = await userModel.findById(user.assigned_admin);
+    console.log(admin);
+
+    return res.send(admin).status(200)
+  }
+catch(err){
+  console.log(err)
+  return res.send(err)
+}}
+)
 
 router.get('/get-user-with-info', verifyToken, async (req, res) => {
   try {

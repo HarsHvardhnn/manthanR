@@ -114,7 +114,10 @@ const SuperAdminDashboard = () => {
     const screenWidth = window.innerWidth;
     return screenWidth >= 768 ? "1.365rem" : undefined;
   };
-
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
   return (
     <div className="flex font-montserrat h-screen">
       {/* Sidebar */}
@@ -180,7 +183,7 @@ const SuperAdminDashboard = () => {
                       }}
                       className="block px-4 py-2 text-xs text-white w-full hover:bg-gray-600"
                     >
-                      {admin.username}
+                      {capitalizeFirstLetter(admin.username)}
                     </button>
                   );
                 })}
@@ -267,7 +270,7 @@ const SuperAdminDashboard = () => {
             <button onClick={toggleSidebar}>
               <FaBars className="text-white text-xl md:hidden inline-block" />
             </button>
-            
+
             <div className="relative inline-block">
               <button
                 onClick={() => {
@@ -297,7 +300,7 @@ const SuperAdminDashboard = () => {
           <div className="flex">
             <FaUserCircle className="text-white text-2xl mr-2" />
             <p className="text-lg font-semibold text-white">
-              Welcome {superadmin}
+              Welcome {capitalizeFirstLetter(superadmin)}
             </p>
           </div>
           <div className="relative">

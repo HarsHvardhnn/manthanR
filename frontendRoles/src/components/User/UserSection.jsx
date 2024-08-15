@@ -2,7 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiUser, FiMessageCircle, FiAlertCircle } from "react-icons/fi";
 import { BsInfoCircle } from "react-icons/bs";
-import { ShimmerCircularImage, ShimmerButton } from "react-shimmer-effects"; 
+import { ShimmerCircularImage, ShimmerButton } from "react-shimmer-effects";
+import { CgProfile } from "react-icons/cg";
+import { HiDotsHorizontal } from "react-icons/hi";
 import Header from "../Home/Header";
 import "./scrollbar.css";
 import Bg from "./bg1.png";
@@ -18,14 +20,6 @@ import { userContext } from "../../context";
 import axios from "axios";
 import { toast } from "react-toastify";
 import useLocalStorage from "../../use-persist-hook";
-
-const quotes = [
-  "Just as you prioritize your physical health, remember to nurture your mental well-being daily.",
-  "Your mental health is not a luxury; it's a necessity. Take time to care for your mind.",
-  "In a world that values productivity, remember that mental well-being is essential for true success.",
-  "Your mental health influences every aspect of your life. Make self-care a non-negotiable priority.",
-  "Mental wellness isn't just about avoiding illness; it's about thriving. Prioritize your mental health.",
-];
 
 const axiosConfig = axios.create({
   baseURL: "http://localhost:3030/v1", // Base URL for API requests
@@ -47,22 +41,24 @@ const UserSection = () => {
   const [loading, setLoading] = useState();
   const [pfp, setPfp] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [token, setToken] = useState();
   const [shimmerSize, setShimmerSize] = useState(120);
-  
- // console.log(user);
-  useEffect(() => {
-    if (pfp) {
-      setIsLoading(false);
-    }
-  }, [pfp]);
+  const [adminStatus, setAdminStatus] = useState(false);
+  const [adminLoading, setAdminLoading] = useState(false);
+  const [profileLoading, setProfileLoading] = useState(false);
+  // console.log(user);
+  // useEffect(() => {
+  //   if (pfp) {
+  //     setIsLoading(false);
+  //   }
+  // }, [pfp]);
 
   useEffect(() => {
     const handleResize = () => {
       const screenWidth = window.innerWidth;
       if (screenWidth < 640) {
         setShimmerSize(70);
-      }
-      else if (screenWidth < 640) {
+      } else if (screenWidth < 640) {
         setShimmerSize(90);
       } else {
         setShimmerSize(120);
@@ -74,28 +70,124 @@ const UserSection = () => {
   }, []);
 
   const handleReportClick = () => {
-    setShowReportModal(true);
+    const token = localStorage.getItem("token");
+    setLoading(true);
+    setAdminStatus(true);
+    axios
+      .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res.data.assigned_admin) {
+          setShowReportModal(true);
+        } else {
+          toast.error("SOS cannot be sent: You do not have an assigned admin.");
+        }
+        setAdminStatus(false);
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  };
+
+  const getUserAssignedAdmin = () => {
+    axios
+      .get("https://manthanr.onrender.com/v1/get-assigned-admin", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        // console.log(res);
+        setAssigned_admin(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const assignAdmin = () => {
+    axios
+      .post(
+        "https://manthanr.onrender.com/v1/assign-admin",
+        { details: "hi" },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((Res) => {
+        console.log(Res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const adminData = () => {
-    setShowAdminData(true);
+    setAdminLoading(true);
+    axios
+      .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        // console.log("res", res);
+        if (!res.data.assigned_admin) {
+          assignAdmin();
+          setTimeout(() => {
+            axios
+              .get(
+                `https://manthanr.onrender.com/v1/get-user-info/${user.userID}`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              )
+              .then((updatedRes) => {
+                if (!updatedRes.data.assigned_admin) {
+                  setAdminLoading(false);
+                  toast.error("Currently, there's no assigned admin to you.");
+                } else {
+                  getUserAssignedAdmin();
+                  setAdminLoading(false);
+                  setShowAdminData(true);
+                }
+              });
+          }, 2000);
+        } else {
+          getUserAssignedAdmin();
+          setAdminLoading(false);
+          setShowAdminData(true);
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
   };
   const closeAdminData = () => {
     setShowAdminData(false);
   };
 
   const viewProfileClicked = () => {
-    setShowProfile(true);
+    getUser();
   };
   const closeProfile = () => {
     setShowProfile(false);
   };
+
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
         return navigate("/login");
       }
+      setToken(token);
 
       // Update user state from localStorage
       const storedUserData = localStorage.getItem("user");
@@ -107,8 +199,10 @@ const UserSection = () => {
 
     fetchData();
     getpfp();
-  }, []);
-
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, [user.userID]);
 
   const handleCloseReportModal = () => {
     setShowReportModal(false);
@@ -116,7 +210,7 @@ const UserSection = () => {
 
   const getpfp = () => {
     const token = localStorage.getItem("token");
-   console.log(user)
+    //console.log(user);
     axios
       .get(`https://manthanr.onrender.com/v1/pfp/${user.userID}`, {
         headers: {
@@ -124,7 +218,7 @@ const UserSection = () => {
         },
       })
       .then((res) => {
-        console.log(res)
+        // console.log(res);
         setPfp(res.data);
       })
       .catch((err) => {
@@ -163,8 +257,7 @@ const UserSection = () => {
 
   const getAdmin = async () => {
     const token = localStorage.getItem("token");
-    // console.log(token);
-   // console.log(user);
+
     setLoading(true);
 
     axios
@@ -190,7 +283,7 @@ const UserSection = () => {
 
   const getUser = async () => {
     const token = localStorage.getItem("token");
-    setLoading(true);
+    setProfileLoading(true);
     axios
       .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`, {
         headers: {
@@ -198,18 +291,17 @@ const UserSection = () => {
         },
       })
       .then((res) => {
-        // console.log(res);
         setuser(res.data);
+        setShowProfile(true);
       })
       .catch((err) => {
         toast.error(err.message);
       })
       .finally(() => {
-        setLoading(false);
+        setProfileLoading(false);
       });
   };
 
-  useEffect(() => {}, []);
   const handleReportSubmit = (comment) => {
     //   console.log("Report submitted with comment:", comment);
     // console.log('user is', user);
@@ -243,6 +335,11 @@ const UserSection = () => {
 
     // axios.post('')
     setShowReportModal(false);
+  };
+
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
   return (
@@ -285,25 +382,34 @@ const UserSection = () => {
                   {isLoading ? (
                     <ShimmerCircularImage
                       size={shimmerSize}
-                      borderRadius="50%"
+                      className="ml-2 rounded-full"
                     />
-                  ) : (
+                  ) : pfp ? (
                     <img
                       src={pfp}
                       alt="Profile"
                       className="ml-2 rounded-full h-[87px] w-[87px] sm:h-32 sm:w-32 shadow-xl"
                       onLoad={() => setIsLoading(false)}
                     />
-                    
+                  ) : (
+                    <div className="ml-2 rounded-full h-[77px] w-[77px] sm:size-28 flex items-center justify-center bg-user-bg-small sm:bg-user-btns sm:text-white text-3xl sm:text-5xl font-bold sm:font-semibold">
+                      {user.username ? (
+                        user.username.charAt(0).toUpperCase()
+                      ) : (
+                        <CgProfile />
+                      )}
+                    </div>
                   )}
                 </div>
               </div>
               <div className="col-span-2 row-span-2 txt">
                 <h1 className="name text-xl sm:text-4xl lg:text-4xl lg:w-[140%] mt-2 text-white sm:text-user-btns-dark font-bold">
-                  Hello, {user.username}
+                  {user.username
+                    ? `Hello, ${capitalizeFirstLetter(user.username)}`
+                    : "Hello, welcome!"}
                 </h1>
                 <div className="mr-2 sm:mr-32">
-                  <Quotes quotes={quotes} />
+                  <Quotes />
                 </div>
               </div>
             </div>
@@ -322,7 +428,14 @@ const UserSection = () => {
               >
                 <FiUser className="icon text-4xl sm:text-6xl mb-2 mx-auto" />
                 <div className="txt text-sm sm:text-xl font-medium">
-                  View Profile
+                  <span className="relative">
+                    View Profile{" "}
+                    {profileLoading && (
+                      <span className="absolute -right-5 sm:-right-6 top-0.5 sm:top-2 text-xl animate-pulse">
+                        <HiDotsHorizontal />
+                      </span>
+                    )}
+                  </span>
                 </div>
               </button>
               <button
@@ -332,16 +445,23 @@ const UserSection = () => {
                 className="btn min-w-32 sm:min-w-60 flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
               >
                 <FiMessageCircle className="text-4xl sm:text-6xl mb-2 mx-auto" />
-                <div className="text-sm sm:text-xl font-medium">
-                  Start Survey
-                </div>
+                <div className="text-sm sm:text-xl font-medium">Start Chat</div>
               </button>
               <button
                 onClick={handleReportClick}
                 className="btn min-w-32 sm:min-w-60 flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
               >
                 <FiAlertCircle className="text-4xl sm:text-6xl mb-2 mx-auto" />
-                <div className="text-sm sm:text-xl font-medium">Send SOS</div>
+                <div className="text-sm sm:text-xl font-medium flex items-center justify-center">
+                  <span className="relative">
+                    Send SOS
+                    {adminStatus && (
+                      <span className="absolute -right-5 sm:-right-6 top-0.5 sm:top-2 text-xl animate-pulse">
+                        <HiDotsHorizontal />
+                      </span>
+                    )}
+                  </span>
+                </div>
               </button>
               <button
                 onClick={adminData}
@@ -349,7 +469,14 @@ const UserSection = () => {
               >
                 <BsInfoCircle className="text-4xl sm:text-6xl mb-2 mx-auto" />
                 <div className="text-sm sm:text-xl font-medium">
-                  Admin Details
+                  <span className="relative">
+                    Admin Details{" "}
+                    {adminLoading && (
+                      <span className="absolute -right-5 sm:-right-6 top-0.5 sm:top-2 text-xl animate-pulse">
+                        <HiDotsHorizontal />
+                      </span>
+                    )}
+                  </span>
                 </div>
               </button>
             </div>

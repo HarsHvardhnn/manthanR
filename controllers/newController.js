@@ -11,6 +11,7 @@ const insertQuestions = async (req, res) => {
         
         // Extract necessary data from decoded token
         const email = req.body.email;
+        const user_response= req.body.user_response;
         
         const questionsArray = req.body.answers;
         const score = req.body.score;
@@ -45,7 +46,7 @@ const insertQuestions = async (req, res) => {
                 answer: qa.answer
             }));
 
-            const newQuestionsDoc = new FiftyQuestionsModel({ user: userid, questions: mappedQuestions });
+            const newQuestionsDoc = new FiftyQuestionsModel({ user: userid, questions: mappedQuestions ,user_response:user_response });
             await newQuestionsDoc.save();
 
             return res.status(201).json({ message: "Questions inserted successfully" });

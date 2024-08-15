@@ -38,18 +38,21 @@ const UserReport = () => {
       });
   };
 
-  const getUserInfo = (id)=>{
-    const token = localStorage.getItem('superadminToken');
-    axios.get(`https://manthanr.onrender.com/v1/get-user-info/${id}`,      {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((res)=>{
-    setReportedUser(res?.data)
-    }).catch((err)=>{
-      console.log(err)
-    })
-  }
+  const getUserInfo = (id) => {
+    const token = localStorage.getItem("superadminToken");
+    axios
+      .get(`https://manthanr.onrender.com/v1/get-user-info/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setReportedUser(res?.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const reportToPsych = (user) => {
     const token = localStorage.getItem("superadminToken");
@@ -67,7 +70,6 @@ const UserReport = () => {
       )
       .then((res) => {
         // console.log(res);
-
       })
       .catch((err) => {
         console.log(err);
@@ -78,17 +80,17 @@ const UserReport = () => {
     getUsers();
   }, []);
 
-  const reportUser = (report,comment) => {
+  const reportUser = (report, comment) => {
     toast.success("User reported");
-    sendEmail(report,comment);
+    sendEmail(report, comment);
     reportToPsych(report);
   };
 
-  const sendEmail = (report,comment) => {
+  const sendEmail = (report, comment) => {
     const serviceId = "service_0jzntyg";
     const templateId = "template_dbu0gpy";
     const userId = "4n-EC2hBnJ4wZnL_F";
-  console.log(report)
+    // console.log(report);
     const { email, message, score, username } = report;
 
     const templateParams = {
@@ -96,9 +98,9 @@ const UserReport = () => {
       from_name: "super admin",
       to_email: "abhisektiwari2014@gmail.com",
       username: username,
-      email:email,
-      score:score,
-      contact:'555',
+      email: email,
+      score: score,
+      contact: "555",
       subject: "User Reported",
       message: comment,
     };
@@ -107,8 +109,7 @@ const UserReport = () => {
       .send(serviceId, templateId, templateParams, userId)
       .then((response) => {
         if (response.status === 200) {
-          toast.success("reported user to super admin");
-
+          toast.success("Reported user to super admin");
         }
       })
       .catch((error) => {
@@ -144,12 +145,16 @@ const UserReport = () => {
   };
 
   const handleReportUser = (user) => {
-    getUserInfo(user.user)
+    getUserInfo(user.user);
     // setReportedUser(user);
     // console.log(user);
     setShowReportModal(true);
   };
 
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
   return (
     <div className="p-2 sm:p-4 overflow-y-auto h-[80%] sm:mx-4">
       {showSummary && (
@@ -162,9 +167,13 @@ const UserReport = () => {
         />
       )}
       <div className="flex justify-between items-center mb-4 border-b-2 border-gray-200">
-        <h2 className="text-base sm:text-xl md:text-2xl font-semibold uppercase">User Reports</h2>
+        <h2 className="text-base sm:text-xl md:text-2xl font-semibold uppercase">
+          User Reports
+        </h2>
         <div className="flex items-center space-x-2">
-          <label className="text-xs sm:text-sm font-semibold">Reported Users:</label>
+          <label className="text-xs sm:text-sm font-semibold">
+            Reported Users:
+          </label>
           <input
             type="checkbox"
             checked={filterByPsy}
@@ -190,7 +199,6 @@ const UserReport = () => {
       ) : (
         userWithInfo.reverse().map(
           (report) =>
-            // Check if filterByPsy is true and report is psy report
             (!filterByPsy || report.reported_psych) && (
               <div
                 key={report.id}
@@ -198,31 +206,32 @@ const UserReport = () => {
                   report.read ? "bg-gray-200" : "bg-yellow-100"
                 } p-4 rounded-lg shadow mb-4`}
               >
-                {/* Your report content */}
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">User Name:</span>{" "}
-                  {report.username}
+                  {capitalizeFirstLetter(report.username) || "NA"}
                 </p>
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">User Email:</span>{" "}
-                  {report.email}
+                  {report.email || "NA"}
                 </p>
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">Contact Number:</span>{" "}
-                  {report.contactNumber}
+                  {report.contactNumber || "NA"}
                 </p>
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">Assigned Admin:</span>
-                  {report?.assigned_admin}
+                  {report?.assigned_admin || "NA"}
                   {/*under this admin*/}
                 </p>
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">User Score:</span>{" "}
-                  {report?.score===undefined? ('survey not submitted'):(report?.score)}
+                  {report?.score === undefined
+                    ? "survey not submitted"
+                    : report?.score}
                 </p>
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">Admin Comments:</span>{" "}
-                  {report.message}
+                  {report.message || "NA"}
                 </p>
                 <div className="mt-2 text-sm sm:text-base md:text-lg flex items-center ">
                   <button

@@ -73,7 +73,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
         }
       );
       setUsers(response.data);
-      console.log('users ', users);
+      //console.log("users ", users);
     } catch (error) {
       console.error("Error fetching users:", error);
     } finally {
@@ -101,13 +101,13 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
         }
       )
       .then((res) => {
-       // console.log(res);
+        // console.log(res);
         if (res.status === 200) {
-          toast.success("reported");
+          toast.success("Reported");
           const username = users.filter((user1) => user1._id === user._id);
-           console.log(res.data);
-      
-          sendEmail(username[0],res.data.message);
+          //console.log(res.data);
+
+          sendEmail(username[0], res.data.message);
         }
       })
       .catch((err) => {
@@ -115,18 +115,15 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       });
   };
 
-  const getMessage =()=>{
+  const getMessage = () => {};
 
-  }
-
-
-  const sendEmail = (report,message) => {
+  const sendEmail = (report, message) => {
     const serviceId = "service_0jzntyg";
     const templateId = "template_dbu0gpy";
     const userId = "4n-EC2hBnJ4wZnL_F";
 
     const { email, contactNumber, score, username } = report;
-  //  console.log( email, contactNumber, score, username ,'empyuty')
+    //  console.log( email, contactNumber, score, username ,'empyuty')
 
     const templateParams = {
       to_name: "PSYCH",
@@ -137,15 +134,15 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       email: email,
       score: score,
       subject: "User Reported",
-      message:message,
+      message: message,
     };
 
     emailjs
       .send(serviceId, templateId, templateParams, userId)
       .then((response) => {
         if (response.status === 200) {
-          console.log('hi')
-          toast.success("reported user to super admin");
+          // console.log('hi')
+          toast.success("Email sent to Psychiatrist");
         }
       })
       .catch((error) => {
@@ -187,7 +184,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   };
 
   const handleReportSubmit = (comment) => {
-   // console.log(comment);
+    // console.log(comment);
     // console.log("Reported user with id:", selectedUserId, "Comment:", comment);
     reportToPsych(comment);
     setShowReportModal(false);
@@ -298,12 +295,18 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   };
   const offset = currentPage * usersPerPage;
   const pageCount =
-    usersPerPage === "all" ? 1 : Math.ceil(filteredByYear.length / usersPerPage);
+    usersPerPage === "all"
+      ? 1
+      : Math.ceil(filteredByYear.length / usersPerPage);
   const currentUsers =
     usersPerPage === "all"
       ? filteredByYear
       : filteredByYear.slice(offset, offset + parseInt(usersPerPage));
-  
+
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
 
   return (
     <div className="mx-auto p-2 md:p-4 pb-10 bg-gray-100 font-montserrat text-xs md:text-sm overflow-y-auto h-[90%]">
@@ -418,8 +421,9 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                   className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-black text-xs md:text-sm"
                 >
                   <option value="All">All</option>
-                  <option value="2023">2024</option>
-                  <option value="2022">2023</option>
+                  <option value="2024">2024</option>
+                  <option value="2025">2025</option>
+                  <option value="2026">2026</option>
                 </select>
               </div>
             </div>
@@ -428,13 +432,13 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                 onClick={exportToExcel}
                 className="ml-4 bg-blue-600 text-white font-semibold md:font-bold py-2 px-2 rounded-md"
               >
-                <FaFileExcel/>
+                <FaFileExcel />
               </button>
               <button
                 onClick={exportToPDF}
                 className="ml-4 bg-blue-600 text-white font-semibold md:font-bold py-2 px-2 rounded-md"
               >
-                <FaFilePdf/>
+                <FaFilePdf />
               </button>
             </div>
           </div>
@@ -479,9 +483,13 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                   {currentUsers.map((user, index) => (
                     <tr key={user._id}>
                       <td className="px-4 py-2 border">{index + 1}</td>
-                      <td className="px-4 py-2 border">{user.username}</td>
+                      <td className="px-4 py-2 border">
+                        {capitalizeFirstLetter(user.username)}
+                      </td>
                       <td className="px-4 py-2 border">{user.email}</td>
-                      <td className="px-4 py-2 border">{user.contactNumber}</td>
+                      <td className="px-4 py-2 border">
+                        {user.contactNumber ?? "NA"}
+                      </td>
                       <td className="px-4 py-2 border">{user.score ?? "NA"}</td>
                       <td className="px-4 py-2 border">
                         {convertISOToDate(user.createdAt)}

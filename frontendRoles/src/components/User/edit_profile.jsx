@@ -114,7 +114,7 @@ const EditProfileForm = () => {
       return;
     }
     setIsSubmitting(true);
-   // console.log(values);
+    // console.log(values);
     const formData = new FormData();
     formData.append("user", user.userID);
     formData.append("contactNumber", values.phoneNumber);
@@ -139,14 +139,14 @@ const EditProfileForm = () => {
         }
       )
       .then((res) => {
-       // console.log(res);
+        // console.log(res);
         if (res.data.message === "Profile updated successfully") {
-          toast.success("profile updated");
+          toast.success("Profile updated");
           navigate("/usersection");
         }
       })
       .catch((err) => {
-        toast.error("some error occured");
+        toast.error("Some error occured");
       });
   };
 
@@ -163,8 +163,15 @@ const EditProfileForm = () => {
             </div>
 
             <div className="mb-4">
-              <label>Current Profile</label>
-              <img src={obj.profile_pic} className="h-24 w-24 mb-4" />
+              <label>Current profile picture:</label>
+              {obj.profile_pic ? (
+                <img src={obj.profile_pic} className="h-24 w-24 mb-4" />
+              ) : (
+                <div className="text-sm mb-3 text-gray-500">
+                  No profile picture available
+                </div>
+              )}
+
               <Field
                 type="tel"
                 name="phoneNumber"
@@ -258,7 +265,11 @@ const EditProfileForm = () => {
                   src={image}
                   alt="Selected"
                   className="max-h-60 max-w-40 rounded-md"
-                  style={{ maxWidth: "100%", maxHeight: "150px", objectFit: "contain" }}
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "150px",
+                    objectFit: "contain",
+                  }}
                 />
               )}
             </div>

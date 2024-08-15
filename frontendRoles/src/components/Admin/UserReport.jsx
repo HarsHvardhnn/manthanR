@@ -13,6 +13,7 @@ const UserReport = ({ admin }) => {
 
   const getUsers = () => {
     const token = localStorage.getItem("adminToken");
+    setLoading(true);
 
     axios
       .get(
@@ -29,13 +30,18 @@ const UserReport = ({ admin }) => {
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {
     getUsers();
   }, []);
 
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
   // const markAsRead = (reportId) => {
   //   setReports((prevReports) =>
   //     prevReports.map((report) =>
@@ -93,7 +99,6 @@ const UserReport = ({ admin }) => {
   //     )
   //   );
   // };
-
   return (
     <div className="p-4 overflow-y-auto h-[80%]">
       <h2 className="text-2xl font-semibold mb-6 border-b-2 border-gray-200 uppercase ">
@@ -120,7 +125,8 @@ const UserReport = ({ admin }) => {
             className="bg-yellow-100 p-4 rounded-lg shadow mb-4"
           >
             <p className="text-base md:text-lg">
-              <span className="font-semibold">Name:</span> {report.username}
+              <span className="font-semibold">Name:</span>{" "}
+              {capitalizeFirstLetter(report.username)}
             </p>
             <p className="text-lg">
               <span className="font-semibold">Email:</span> {report.email}
@@ -130,7 +136,8 @@ const UserReport = ({ admin }) => {
               {report?.contactNumber}
             </p>
             <p className="text-base md:text-lg">
-              <span className="font-semibold">Score:</span> {report.score}
+              <span className="font-semibold">Score:</span>{" "}
+              {report.score || "NA"}
             </p>
             <p className="text-base md:text-lg">
               <span className="font-semibold">Comments:</span> {report.message}

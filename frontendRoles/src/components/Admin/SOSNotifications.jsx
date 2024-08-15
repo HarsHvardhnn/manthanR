@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BallTriangle, InfinitySpin } from "react-loader-spinner";
+import { ThreeDots } from "react-loader-spinner";
 import axios from "axios";
 
 const SOSNotifications = ({ admin }) => {
@@ -19,19 +19,25 @@ const SOSNotifications = ({ admin }) => {
   const getsos = () => {
     const token = localStorage.getItem("adminToken");
     // console.log(admin);
+    setLoading(true);
+    const url = `https://manthanr.onrender.com/v1/get-all-sos/${admin.adminID}`;
+    const local_url = `http://localhost:3030/v1/get-all-sos/${admin.adminID}`;
     axios
-      .get(`https://manthanr.onrender.com/v1/get-all-sos/${admin.adminID}`, {
+      .get(url, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-       // console.log(res);
+        console.log(res);
         setNotifications(res.data);
         // console.log(res)
       })
       .catch((Err) => {
         console.log(Err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -93,39 +99,62 @@ const SOSNotifications = ({ admin }) => {
     );
   };
 
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   return (
     <div className="p-4 overflow-y-auto h-[80%]">
       <h2 className="text-2xl font-semibold mb-6 border-b-2 border-gray-200 uppercase ">
         SOS Notifications
       </h2>
-      {notifications?.map((notification) => (
-        <div
-          key={notification.id}
-          className={`${
-            notification.read ? "bg-gray-200" : "bg-yellow-100"
-          } p-4 rounded-lg shadow mb-4`}
-        >
-          <div className="flex justify-between items-center">
-            <div>
+      {loading ? (
+        <div className=" w-full flex flex-col justify-center items-center text-lg">
+          <ThreeDots
+            visible={true}
+            height="80"
+            width="80"
+            color="#4299e1"
+            radius="9"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
+          <p>Loading...</p>
+        </div>
+      ) : (
+        notifications
+          ?.slice()
+          .reverse()
+          .map((notification) => (
+            <div
+              key={notification.id}
+              className={`${
+                notification.read ? "bg-gray-200" : "bg-yellow-100"
+              } p-4 rounded-lg shadow mb-4`}
+            >
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-base md:text-lg">
+                    <span className="font-semibold">Name: </span>
+                    {capitalizeFirstLetter(notification?.userName)}
+                  </p>
+                  <p className="text-base md:text-lg">
+                    <span className="font-semibold">Email: </span>
+                    {notification?.user?.email}
+                  </p>
+                  <p className="text-base md:text-lg">
+                    <span className="font-semibold">Phone: </span>
+                    {notification?.user?.contactNumber}
+                  </p>
+                </div>
+              </div>
               <p className="text-base md:text-lg">
-                <span className="font-semibold">Name: </span>
-                {notification.userName}
+                <span className="font-semibold">Message: </span>
+                {notification?.message}
               </p>
-              <p className="text-base md:text-lg">
-                <span className="font-semibold">Email: </span>
-                {notification.email}
-              </p>
-              <p className="text-base md:text-lg">
-                <span className="font-semibold">Phone: </span>
-                {notification.phoneNumber}
-              </p>
-            </div>
-          </div>
-          <p className="text-base md:text-lg">
-            <span className="font-semibold">Message: </span>
-            {notification.message}
-          </p>
-          <button
+              {/* <button
             onClick={
               notification.read
                 ? () => markAsUnread(notification.id)
@@ -136,9 +165,10 @@ const SOSNotifications = ({ admin }) => {
             } text-white`}
           >
             {notification.read ? "Mark as Unread" : "Mark as Read"}
-          </button>
-        </div>
-      ))}
+          </button> */}
+            </div>
+          ))
+      )}
     </div>
   );
 };
