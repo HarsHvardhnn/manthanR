@@ -80,7 +80,8 @@ const ViewProfile = ({ onClose, loading, getUser, data }) => {
             {data?.dept ? data.dept.toUpperCase() : "NA"}
           </p>
           <p>
-            <span className="font-semibold">Semester:</span> {data?.semester || "NA"}
+            <span className="font-semibold">Semester:</span>{" "}
+            {data?.semester || "NA"}
           </p>
 
           {/* <p>

@@ -193,7 +193,7 @@ const ProfileUpdatePage = () => {
     }
   
     const storedUserData = localStorage.getItem("user");
-    console.log(storedUserData)
+    // console.log(storedUserData)
     if (storedUserData) {
       const parsedUserData = JSON.parse(storedUserData);
       setUser(parsedUserData);
