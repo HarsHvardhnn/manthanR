@@ -1,28 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import ProfileUpdatePage from "./UpdateProfile";
 
 const ViewProfile = ({ onClose, loading, getUser, data }) => {
-  // console.log(data);
-
   const navigate = useNavigate();
-
-  // const data = {
-  //   name: "John Doe",
-  //   gender: "Male",
-  //   contactNumber: "+1234567890",
-  //   dateOfBirth: "1990-01-01",
-  //   degreeType: "Bachelor",
-  //   department: "Computer Science",
-  //   semester: "5",
-  //   rollNumber: "CS12345",
-  //   hostelName: "ABC Hostel",
-  //   hostelRoomNumber: "101",
-  //   relationshipStatus: "Single",
-  // };
-  // useEffect(()=>{
-  //   getUser()
-  // },[])
   const capitalizeFirstLetter = (string) => {
     if (!string) return "";
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -57,13 +37,6 @@ const ViewProfile = ({ onClose, loading, getUser, data }) => {
             <span className="font-semibold">Name:</span>{" "}
             {capitalizeFirstLetter(data?.username) || "NA"}
           </p>
-          {/* <p>
-          <span className="font-semibold">Gender:</span> {data?.gender}
-        </p> */}
-          {/* <p>
-          <span className="font-semibold">Contact Number:</span>{" "}
-          {data?.contactNumber}
-        </p> */}
           <p>
             <span className="font-semibold">Email:</span> {data?.email || "NA"}
           </p>
@@ -83,19 +56,6 @@ const ViewProfile = ({ onClose, loading, getUser, data }) => {
             <span className="font-semibold">Semester:</span>{" "}
             {data?.semester || "NA"}
           </p>
-
-          {/* <p>
-          <span className="font-semibold">Hostel Name:</span>{" "}
-          {data?.hostelName}
-        </p>
-        <p>
-          <span className="font-semibold">Hostel Room Number:</span>{" "}
-          {data?.hostelRoomNumber}
-        </p>
-        <p>
-          <span className="font-semibold">Relationship Status:</span>{" "}
-          {data?.relationshipStatus}
-        </p> */}
         </div>
         <div>
           <button

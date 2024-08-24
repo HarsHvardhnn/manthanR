@@ -34,37 +34,6 @@ const AdminDashboard = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // const getHeader = () => {
-  //   const token = localStorage.getItem('token');
-  //   if (token) {
-  //     return 'Bearer ' + token;
-  //   } else {
-  //     return {};
-  //   }
-  // };
-
-  // const getAllQuestions = async () => {
-  //   try {
-  //     const token = localStorage.getItem("adminToken");
-
-  //     const res = await axios.get(
-  //       "https://manthanr.onrender.com/v1/getAllData",
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //     setQuestions(res.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getAllQuestions();
-  // }, []);
-
   const toggleSidebar = () => {
     if (window.innerWidth < 768) {
       setShowSidebar(!showSidebar);

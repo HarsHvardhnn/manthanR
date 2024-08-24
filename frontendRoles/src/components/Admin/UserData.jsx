@@ -4,7 +4,7 @@ import axios from "axios";
 import ReactPaginate from "react-paginate";
 import * as XLSX from "xlsx";
 import ReportMessage from "./ReportMessage";
-import { adminContext, adminEmailContext, userContext } from "../../context";
+import {  adminEmailContext } from "../../context";
 import jsPDF from "jspdf";
 import { ThreeDots } from "react-loader-spinner";
 import emailjs from "emailjs-com";
@@ -16,10 +16,8 @@ const UserData = ({
   showSummaryColumn = false,
   admin,
 }) => {
-  // const {user} = useContext(userContext);
-  // const [users, setUsers] = useState([]);
+
   const [currentPage, setCurrentPage] = useState(0);
-  const [reportedUsers, setReportedUsers] = useState([]);
   const [usersPerPage, setUsersPerPage] = useState(10);
   const [selectedSort, setSelectedSort] = useState("none");
   const [selectedFilter, setSelectedFilter] = useState("All");
@@ -27,9 +25,9 @@ const UserData = ({
   const [selectedYear, setSelectedYear] = useState("All");
   const [showReportModal, setShowReportModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [fetchedReportedUsers, setFetchedReportedUsers] = useState();
+  // const [fetchedReportedUsers, setFetchedReportedUsers] = useState();
   // const { admin } = useContext(adminContext);
   const { adminEmail } = useContext(adminEmailContext);
 
@@ -37,14 +35,6 @@ const UserData = ({
   const [users, setUsers] = useState([]);
   const [questions, setQuestions] = useState([]);
 
-  // const getHeader = () => {
-  //   const token = localStorage.getItem('adminToken');
-  //   if (token) {
-  //     return 'Bearer ' + token;
-  //   } else {
-  //     return {};
-  //   }
-  // };
 
   const getAllQuestions = async () => {
     const token = localStorage.getItem("adminToken");
@@ -55,9 +45,7 @@ const UserData = ({
         },
       })
       .then((res) => {
-        // console.log(res.data);
         setQuestions(res.data);
-        // console.log(users);
       })
       .catch((err) => {
         console.log(err);
@@ -77,7 +65,6 @@ const UserData = ({
         }
       );
       setUsers(response.data);
-      // console.log('users ', users);
     } catch (error) {
       console.error("Error fetching users:", error);
     } finally {
@@ -125,12 +112,8 @@ const UserData = ({
         console.log(err);
         toast.error("Some error occured");
       });
-    // console.log(fetchedReportedUsers);
   };
 
-  //  useEffect(() => {
-  //   getReportedUsers();
-  //  })
   const promoteToAdmin = async (id) => {
     const token = localStorage.getItem("adminToken");
     try {
@@ -150,10 +133,7 @@ const UserData = ({
       console.error(error);
     }
   };
-  // const promoteToAdmin = async (id) => {
-  //   toast.success("User promoted to admin");
-  //   promote
-  // };
+  
 
   const handleReportUser = (id) => {
     setSelectedUserId(id);
@@ -183,9 +163,6 @@ const UserData = ({
     const serviceId = "service_0jzntyg";
     const templateId = "template_ugy8wsb";
     const userId = "4n-EC2hBnJ4wZnL_F";
-
-    // console.log(username,message , 'message');
-    // console.log(contactNumber);
 
     const templateParams = {
       to_name: "PSYCH",
@@ -248,8 +225,7 @@ const UserData = ({
       ? filteredByMonth
       : filteredByMonth.filter((user) => {
           const userYear = user.createdAt.substring(0, 4);
-          // console.log("User Year:", userYear);
-          // console.log("Selected Year:", selectedYear);
+         
           return userYear === selectedYear;
         });
 

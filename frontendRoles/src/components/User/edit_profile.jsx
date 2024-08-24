@@ -165,7 +165,11 @@ const EditProfileForm = () => {
             <div className="mb-4">
               <label>Current profile picture:</label>
               {obj.profile_pic ? (
-                <img src={obj.profile_pic} className="h-24 w-24 mb-4" />
+                <img
+                  src={obj.profile_pic}
+                  alt="current profile"
+                  className="h-24 w-24 mb-4"
+                />
               ) : (
                 <div className="text-sm mb-3 text-gray-500">
                   No profile picture available

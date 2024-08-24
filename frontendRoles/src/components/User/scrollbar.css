@@ -66,3 +66,146 @@
       margin-left: 5px;
     }
   }
+  .header-container {
+    position: relative;
+    z-index: 20; /* Ensure this is higher than both the background and the chat container */
+  }
+  .chat-container-wrapper {
+    position: relative;
+    z-index: 10; /* Ensure this is higher than the background animation */
+  }
+  .background-animation-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Ensure this is lower than the chatbot container */
+    pointer-events: none; /* Prevent background elements from being interactive */
+  }
+  
+  ul#shape {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+ul#shape li {
+    position: absolute;
+    display: block;
+    list-style: none;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(226, 123, 123, 0.4);
+    bottom: -200px;
+    
+    animation: floating 15s infinite linear;
+
+}
+
+ul#shape li:nth-child(1) {
+    width: 80px;
+    height: 80px;
+    left: 25%;
+    animation-delay: 0.1s;
+    animation: floating 15s infinite linear;
+    background-color: rgb(255, 125, 125);
+}
+
+ul#shape li:nth-child(2) {
+    width: 30px;
+    height: 30px;
+    left: 95%;
+    animation-delay: 10s;
+    animation: floating 8s infinite linear;
+    background-color: rgb(255, 253, 117);
+}
+
+ul#shape li:nth-child(3) {
+    width: 70px;
+    height: 70px;
+    left: 75%;
+    animation-delay: 18s;
+    background-color: rgb(135, 255, 119);
+
+}
+
+ul#shape li:nth-child(4) {
+    width: 50px;
+    height: 50px;
+    left: 10%;
+    animation-delay: 5s;
+    background-color: rgb(149, 133, 255);
+
+}
+
+ul#shape li:nth-child(5) {
+    width: 40px;
+    height: 40px;
+    left: 60%;
+    animation-delay: 8s;
+    animation: floating 11s infinite linear;
+    background-color: rgb(251, 125, 255);
+
+}
+
+ul#shape li:nth-child(6) {
+    width: 90px;
+    height: 90px;
+    left: 84%;
+    animation-delay: 1s;
+    background-color: rgb(255, 203, 119);
+
+}
+
+ul#shape li:nth-child(7) {
+    width: 50px;
+    height: 50px;
+    left: 50%;
+    animation-delay: 17s;
+    background-color: rgb(120, 244, 255);
+
+}
+
+ul#shape li:nth-child(8) {
+    width: 100px;
+    height: 100px;
+    left: 40%;
+    animation-delay: 6s;
+    background-color: rgb(121, 255, 190);
+
+}
+ul#shape li:nth-child(9) {
+  width: 30px;
+  height: 30px;
+  left: 5%;
+  animation-delay: 6s;
+  animation: floating 9s infinite linear;
+  background-color: rgb(192, 255, 110);
+
+}
+ul#shape li:nth-child(10) {
+  width: 50px;
+  height:50px;
+  left: 50%;
+  animation-delay: 12s;
+  background-color: rgb(255, 106, 146);
+
+}
+
+@keyframes floating {
+    from {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+        border-radius: 0;
+    }
+
+    to {
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+        border-radius: 80%;
+    }
+}

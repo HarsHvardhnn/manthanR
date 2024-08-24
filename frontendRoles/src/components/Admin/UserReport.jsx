@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
-import emailjs from "emailjs-com";
 import { ThreeDots } from "react-loader-spinner";
 
 const UserReport = ({ admin }) => {
-  const [reports, setReports] = useState([]);
+  // const [reports, setReports] = useState([]);
   const [userWithInfo, setUserWithInfo] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -42,63 +40,6 @@ const UserReport = ({ admin }) => {
     if (!string) return "";
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
-  // const markAsRead = (reportId) => {
-  //   setReports((prevReports) =>
-  //     prevReports.map((report) =>
-  //       report.id === reportId ? { ...report, read: true } : report
-  //     )
-  //   );
-  // };
-
-  // const reportUser = (report) => {
-
-  //         toast.success('User reported');
-  //         // Send email using EmailJS when the user is reported
-  //         sendEmail(report);
-
-  // };
-
-  // const sendEmail = (report) => {
-  //   // Replace these values with your EmailJS service ID, template ID, and user ID
-  //   const serviceId = 'service_0jzntyg';
-  //   const templateId = 'template_dbu0gpy';
-  //   const userId = '4n-EC2hBnJ4wZnL_F';
-
-  //   const { email, message, score, username } = report;
-
-  // const newObject = {
-  //   email: email,
-  //   message: message,
-  //   score: score,
-  //   username: username,
-  // };
-
-  //   const templateParams = {
-  //     to_name:'PSYCH',
-  //     from_name:'super admin',
-  //     to_email: 'harshvchawla997@gmail.com',
-  //     username: username,
-  //     details:JSON.stringify(newObject),
-  //     subject: 'User Reported',
-  //     message: `The user ${username} has been reported.`,
-  //   };
-
-  //   emailjs.send(serviceId, templateId, templateParams, userId)
-  //     .then((response) => {
-  //       console.log('Email sent:', response);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Email error:', error);
-  //     });
-  // };
-
-  // const markAsUnread = (reportId) => {
-  //   setReports((prevReports) =>
-  //     prevReports.map((report) =>
-  //       report.id === reportId ? { ...report, read: false } : report
-  //     )
-  //   );
-  // };
   return (
     <div className="p-4 overflow-y-auto h-[80%]">
       <h2 className="text-2xl font-semibold mb-6 border-b-2 border-gray-200 uppercase ">

@@ -16,8 +16,6 @@ const AdminDetails = ({ onClose, loading, getAdmin, assigned_admin }) => {
   };
 
   const handleReportSubmit = (comment) => {
-    // console.log("Report submitted with comment:", comment);
-    // axios.post('')
     setShowReportModal(false);
   };
   const capitalizeFirstLetter = (string) => {
@@ -54,7 +52,8 @@ const AdminDetails = ({ onClose, loading, getAdmin, assigned_admin }) => {
           <div>
             <p className="text-gray-700">
               <span className="font-semibold">Name:</span>{" "}
-              {capitalizeFirstLetter(assigned_admin.username)}
+              {capitalizeFirstLetter(assigned_admin.username)}&nbsp;
+              {capitalizeFirstLetter(assigned_admin.lastname)}
             </p>
             <p className="text-gray-700">
               <span className="font-semibold">Email:</span>{" "}

@@ -4,21 +4,11 @@ import axios from "axios";
 
 const SOSNotifications = ({ admin }) => {
   const [loading, setLoading] = useState(false);
-  // console.log(admin)
   const [notifications, setNotifications] = useState();
 
-  // const getHeader = () => {
-  //   const token = localStorage.getItem('adminToken');
-  //   if (token) {
-  //     return 'Bearer ' + token;
-  //   } else {
-  //     return {};
-  //   }
-  // };
-  // console.log(admin);
+
   const getsos = () => {
     const token = localStorage.getItem("adminToken");
-    // console.log(admin);
     setLoading(true);
     const url = `https://manthanr.onrender.com/v1/get-all-sos/${admin.adminID}`;
     const local_url = `http://localhost:3030/v1/get-all-sos/${admin.adminID}`;
@@ -41,65 +31,12 @@ const SOSNotifications = ({ admin }) => {
       });
   };
 
-  //    const submitReport = async (selectedUserId, message, admin) => {
-  //   const token = localStorage.getItem("adminToken");
-  //   axios
-  //     .post(
-  //       "https://manthanr.onrender.com/v1/submit-report",
-  //       {
-  //         admin: admin.email,
-  //         user: selectedUserId,
-  //         message: message,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     )
-  //     .then((res) => {
-  //       // console.log(res);
-  //       if (res.status === 200) {
-  //         toast.success("user reported");
-  //         const username = users.filter(
-  //           (user) => user.email === selectedUserId
-  //         );
-  //         console.log(username)
-  //         sendEmail(username[0].username, message, username[0].email,username[0].contactNumber);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       toast.error("some error occures");
-  //     });
-  //   // console.log(fetchedReportedUsers);
-  // };
 
   useEffect(() => {
     getsos();
   }, []);
 
-  const markAsRead = (notificationId) => {
-    setNotifications((prevNotifications) =>
-      prevNotifications.map((notification) =>
-        notification.id === notificationId
-          ? { ...notification, read: true }
-          : notification
-      )
-    );
-  };
-
-  const markAsUnread = (notificationId) => {
-    setNotifications((prevNotifications) =>
-      prevNotifications.map((notification) =>
-        notification.id === notificationId
-          ? { ...notification, read: false }
-          : notification
-      )
-    );
-  };
-
-  const capitalizeFirstLetter = (string) => {
+   const capitalizeFirstLetter = (string) => {
     if (!string) return "";
     return string.charAt(0).toUpperCase() + string.slice(1);
   };

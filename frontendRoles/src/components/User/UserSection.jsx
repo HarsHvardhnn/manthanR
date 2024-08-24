@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiUser, FiMessageCircle, FiAlertCircle } from "react-icons/fi";
 import { BsInfoCircle } from "react-icons/bs";
-import { ShimmerCircularImage, ShimmerButton } from "react-shimmer-effects";
+import { ShimmerCircularImage } from "react-shimmer-effects";
 import { CgProfile } from "react-icons/cg";
 import { HiDotsHorizontal } from "react-icons/hi";
 import Header from "../Home/Header";
@@ -24,7 +24,6 @@ import useLocalStorage from "../../use-persist-hook";
 const axiosConfig = axios.create({
   baseURL: "http://localhost:3030/v1", // Base URL for API requests
 
-  // Additional configuration options can be added here
 });
 
 const UserSection = () => {
@@ -33,11 +32,11 @@ const UserSection = () => {
   const [showAdminData, setShowAdminData] = useState(false);
   const { user, setUser } = useContext(userContext);
   const [assigned_admin, setAssigned_admin] = useState("");
-  const [storedValue, setStoredValue] = useLocalStorage();
+  // const [storedValue, setStoredValue] = useLocalStorage();
   const [User, setuser] = useState({});
   const [showProfile, setShowProfile] = useState(false);
   const [bgImageUrl, setBgImageUrl] = useState("");
-  const [state, setState] = useState(null);
+  // const [state, setState] = useState(null);
   const [loading, setLoading] = useState();
   const [pfp, setPfp] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -46,12 +45,6 @@ const UserSection = () => {
   const [adminStatus, setAdminStatus] = useState(false);
   const [adminLoading, setAdminLoading] = useState(false);
   const [profileLoading, setProfileLoading] = useState(false);
-  // console.log(user);
-  // useEffect(() => {
-  //   if (pfp) {
-  //     setIsLoading(false);
-  //   }
-  // }, [pfp]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -189,7 +182,6 @@ const UserSection = () => {
       }
       setToken(token);
 
-      // Update user state from localStorage
       const storedUserData = localStorage.getItem("user");
       if (storedUserData) {
         const parsedUserData = JSON.parse(storedUserData);
@@ -337,6 +329,32 @@ const UserSection = () => {
     setShowReportModal(false);
   };
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return navigate("/login");
+      }
+
+      try {
+        const response = await axios.get(
+          `https://manthanr.onrender.com/v1/get-user-info/${user.userID}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        setUser(response.data);
+        setPfp(response.data.profilePicture); 
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
   const capitalizeFirstLetter = (string) => {
     if (!string) return "";
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -354,28 +372,6 @@ const UserSection = () => {
       >
         <div className="w-full sm:w-7/12 md:w-10/12 lg:w-1/2 mr-auto">
           <div className="">
-            {/* <div className="flex flex-col flex-wrap justify-between mt-20 sm:mt-36 items-center h-2/5 w-full mx-auto ">
-            <div>
-              <img
-                src={pfp}
-                alt="logo"
-                className=" ml-2 rounded-full h-10 w-10"
-              />
-            </div>
-              <div className="flex items-center justify-center ">
-                <h1 onClick={()=>{
-                  // console.log(state)
-                 // console.log(user);
-                  //console.log(User)
-                }} className="text-3xl sm:text-4xl lg:text-6xl text-white sm:text-user-btns-dark font-bold">
-                  Hello,{user.username}!
-                </h1>
-              </div>
-              <div className="h-1/6 mb-6 w-5/6 sm:w-4/6 mx-auto">
-                <Quotes quotes={quotes} />{" "}
-              </div>
-            </div> */}
-
             <div className="mt-20 sm:mt-36 mb-4 sm:sb-0 grid grid-cols-3 grid-rows-2 gap-0">
               <div className="row-span-2">
                 <div className="flex justify-center sm:ml-20 profile">

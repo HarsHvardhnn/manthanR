@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import axios from "axios";
 import "../components/User/scrollbar.css";
-import { ThreeDots } from "react-loader-spinner";
-import { FaPlus, FaUpload, FaTimes, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaPlus, FaUpload, FaEdit, FaTrash } from 'react-icons/fa';
 
 
 function LoadingAnimation() {

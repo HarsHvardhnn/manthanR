@@ -7,15 +7,6 @@ function ScoreRangeChart({ admin }) {
   const [userData, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // const getHeader = () => {
-  //   const token = localStorage.getItem('adminToken');
-  //   if (token) {
-  //     return 'Bearer ' + token;
-  //   } else {
-  //     return {};
-  //   }
-  // };
-
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("adminToken");

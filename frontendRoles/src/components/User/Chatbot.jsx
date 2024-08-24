@@ -7,12 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import "./scrollbar.css";
-import { FaRedo, FaSignOutAlt, FaUndo } from "react-icons/fa";
-import emailjs, { init } from "emailjs-com";
+import { FaRedo, FaUndo } from "react-icons/fa";
 import Header from "../Home/Header";
 import Popup from "./Popup";
-import ProgressBar from "@ramonak/react-progress-bar"; // Import ProgressBar from the library
-import { differenceInDays } from "date-fns";
+import ProgressBar from "@ramonak/react-progress-bar";
 
 const TypingLoader = () => (
   <div className="text-center mt-12 mb-20 ml-4">
@@ -22,7 +20,9 @@ const TypingLoader = () => (
         alt="logo"
         className="max-h-9 max-w-9 ml-2 rounded-full border border-gray-800"
       />
-      <h1 className="font-medium text-sm sm:text-base text-slate-600 ml-2">Typing</h1>
+      <h1 className="font-medium text-sm sm:text-base text-slate-600 ml-2">
+        Typing
+      </h1>
       <div className="animate-pulse size-1.5 bg-gray-400 rounded-full mr-1"></div>
       <div className="animate-pulse size-1.5 bg-gray-400 rounded-full mr-1"></div>
       <div className="animate-pulse size-1.5 bg-gray-400 rounded-full mr-1"></div>
@@ -60,40 +60,9 @@ const Chatbot = () => {
   const [initialResponse, setInitialResponse] = useState("");
   const [remarks, setRemarks] = useState("");
   const [initialQuestionAnswered, setInitialQuestionAnswered] = useState(false);
-  // console.log('user in chatbot' ,user);
-  // const sendEmail = (username,message,email) => {
-
-  //   const serviceId = 'service_0jzntyg';
-  //   const templateId = 'template_ugy8wsb';
-  //   const userId = '4n-EC2hBnJ4wZnL_F';
-
-  //   // console.log(username,message , 'message');
-
-  //   const templateParams = {
-  //     to_name:'PSYCH',
-  //     from_name:'super admin',
-  //     message:message,
-  //     to_email: 'abhisektiwari2014@gmail.com',
-  //     username: username,
-  //     admin:admin,
-  //     email:email,
-  //     subject: 'User Reported',
-  //     // message: `The user ${username} has been reported.`,
-  //   };
-
-  //   emailjs.send(serviceId, templateId, templateParams, userId)
-  //     .then((response) => {
-  //       console.log('Email sent:', response);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Email error:', error);
-  //     });
-  // };
 
   const axiosConfig = axios.create({
     baseURL: "https://manthanr.onrender.com/v1", // Base URL for API requests
-
-    // Additional configuration options can be added here
   });
 
   const emojiMapping = {
@@ -124,8 +93,6 @@ const Chatbot = () => {
       .then((res) => {
         // console.log(res.data);
         const questionsArray = res.data.map((questionObj) => questionObj.text);
-        // console.log(questionsArray); // Log the array of questions
-        // Now you can set the questions array to state or use it as needed
         const shuffledQuestions = shuffleArray(questionsArray);
         setQuestions(shuffledQuestions);
       })
@@ -188,9 +155,6 @@ const Chatbot = () => {
           );
           setDaysLeft(30 - differenceInDays);
           const isAtLeast30Days = differenceInDays >= 30;
-
-          // console.log("Is the difference at least 30 days?", );
-
           if (!isAtLeast30Days) {
             setThisMonthAnswered(true);
           }
@@ -218,11 +182,10 @@ const Chatbot = () => {
 
   const submitAns = (values) => {
     const token = localStorage.getItem("token");
-    // console.log(token, 'token')
 
     const headers = { Authorization: `Bearer ${token}` };
 
-    setIsFetchingData(true); // Start loader
+    setIsFetchingData(true);
     axios
       .post(
         "https://manthanr.onrender.com/v1/Doit",
@@ -230,7 +193,7 @@ const Chatbot = () => {
           email: user.email,
           answers: answers,
           score: userScore,
-          user_response:initialResponse
+          user_response: initialResponse,
         },
         {
           headers: {
@@ -312,371 +275,398 @@ const Chatbot = () => {
   };
   return (
     <>
-      <Header />
-      <div className="max-w-full px-4 pb-24 font-montserrat h-screen bg-blue-200 pt-16 md:pt-24">
-        {showPopup ? (
-          <Popup onClose={closePopup} navigate={navigate} daysLeft={daysLeft} />
-        ) : (
-          <>
-            <div className="max-w-6xl mx-auto flex justify-between px-4 py-2 bg-blue-500 rounded-tr-xl rounded-tl-xl">
-              <div className="flex justify-start">
-                <div>
-                  <img
-                    src={pfp}
-                    alt="logo"
-                    className="ml-2 rounded-full h-9 w-9"
-                  />
-                </div>
-                <div className="hidden md:flex">
-                  <p className="py-2 px-6 bg-white rounded-xl font-bold text-base ml-2">
-                    Hello {capitalizeFirstLetter(user.username)} ✨
-                  </p>
-                </div>
-              </div>
-              <div className="hidden sm:flex ">
-                <button
-                  onClick={handleRestart}
-                  className="bg-white font-bold mx-2 py-2 px-6 rounded-xl text-sm transition duration-300 ease-in-out transform hover:scale-105"
-                >
-                  Restart Chat
-                </button>
-              </div>
+      <div className="header-container">
+        <Header />
+      </div>
 
-              <div className="sm:hidden font-bold rounded-lg bg-white my-auto py-1.5">
-                <button
-                  onClick={handleRestart}
-                  className="my-1 mx-auto px-4 rounded-l-xl text-xs transition duration-300 ease-in-out transform hover:scale-105"
-                  title="Restart"
-                >
-                  <FaRedo />
-                </button>
-              </div>
-            </div>
-
-            <div
-              ref={chatContainerRef}
-              className="chat-container max-w-6xl mx-auto text-lg bg-white lg:px-4 py-2 rounded-br-xl rounded-bl-xl shadow-lg mb-4 min-h-96"
-              style={{ maxHeight: "calc(100vh - 200px)", overflowY: "scroll" }}
-            >
-              <div className="chat">
-                {currentQuestionIndex === questions.length ? (
-                  questions.length === 0 ? (
-                    <p className="text-2xl font-semibold text-center pt-10">
-                      Loading...
+      <div className=" max-w-full px-4 pb-24 font-montserrat h-screen bg-blue-200 pt-16 md:pt-24">
+        
+        <div className="background-animation-wrapper">
+          <ul id="shape">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+        </div>
+        <div className="chat-container-wrapper">
+          {showPopup ? (
+            <Popup
+              onClose={closePopup}
+              navigate={navigate}
+              daysLeft={daysLeft}
+            />
+          ) : (
+            <>
+              <div className="max-w-6xl mx-auto flex justify-between px-4 py-2 bg-blue-500 rounded-tr-xl rounded-tl-xl">
+                <div className="flex justify-start">
+                  <div>
+                    <img
+                      src={pfp}
+                      alt="logo"
+                      className="ml-2 rounded-full h-9 w-9"
+                    />
+                  </div>
+                  <div className="hidden md:flex">
+                    <p className="py-2 px-6 bg-white rounded-xl font-bold text-base ml-2">
+                      Hello {capitalizeFirstLetter(user.username)} ✨
                     </p>
-                  ) : null
-                ) : (
-                  // <p className="text-center font-bold text-xl uppercase mt-8 mb-2">
-                  //   Survey completed
-                  // </p>
-                  <>
-                    {answers.map((answer, index) => (
-                      <div
-                        key={index}
-                        className="chat-message mb-8 px-1 py-2 sm:p-4"
-                      >
-                        <div className="flex">
-                          {initialQuestionAnswered && (
+                  </div>
+                </div>
+                <div className="hidden sm:flex ">
+                  <button
+                    onClick={handleRestart}
+                    className="bg-white font-bold mx-2 py-2 px-6 rounded-xl text-sm transition duration-300 ease-in-out transform hover:scale-105"
+                  >
+                    Restart Chat
+                  </button>
+                </div>
+
+                <div className="sm:hidden font-bold rounded-lg bg-white my-auto py-1.5">
+                  <button
+                    onClick={handleRestart}
+                    className="my-1 mx-auto px-4 rounded-l-xl text-xs transition duration-300 ease-in-out transform hover:scale-105"
+                    title="Restart"
+                  >
+                    <FaRedo />
+                  </button>
+                </div>
+              </div>
+
+              <div
+                ref={chatContainerRef}
+                className="chat-container max-w-6xl mx-auto text-lg bg-white lg:px-4 py-2 rounded-br-xl rounded-bl-xl shadow-lg mb-4 min-h-96"
+                style={{
+                  maxHeight: "calc(100vh - 200px)",
+                  overflowY: "scroll",
+                }}
+              >
+                <div className="chat">
+                  {currentQuestionIndex === questions.length ? (
+                    questions.length === 0 ? (
+                      <p className="text-2xl font-semibold text-center pt-10">
+                        Loading...
+                      </p>
+                    ) : null
+                  ) : (
+                    // <p className="text-center font-bold text-xl uppercase mt-8 mb-2">
+                    //   Survey completed
+                    // </p>
+                    <>
+                      {answers.map((answer, index) => (
+                        <div
+                          key={index}
+                          className="chat-message mb-8 px-1 py-2 sm:p-4"
+                        >
+                          <div className="flex">
+                            {initialQuestionAnswered && (
+                              <img
+                                src={bot}
+                                alt="logo"
+                                className="max-h-9 max-w-9 ml-2 rounded-full border border-gray-800"
+                              />
+                            )}
+                            <p className="py-1 px-4 ml-1.5 mb-1 w-fit text-sm sm:text-base max-w-3xl border border-gray-600 font-medium rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
+                              {answer.question}
+                            </p>
+                          </div>
+                          <div className="flex float-right m-1 items-center ">
+                            <p
+                              className={`py-1 px-4 w-fit text-sm sm:text-xl rounded-tr-full rounded-tl-full rounded-bl-full font-medium text-white bg-blue-500 shadow-md`}
+                            >
+                              {emojiMapping[answer.answer]}{" "}
+                              <span className="text-sm sm:text-base">
+                                {answer.answer}
+                              </span>
+                            </p>
+                            <img
+                              src={pfp}
+                              alt="logo"
+                              className="h-9 w-9 ml-2 my-auto rounded-full border border-gray-800"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                      {currentQuestionIndex < questions.length && isTyping ? (
+                        <TypingLoader />
+                      ) : (
+                        <div
+                          id={`question-${currentQuestionIndex}`}
+                          className="chat-message px-1 py-2 sm:p-4 rounded-xl "
+                        >
+                          <div className="flex">
                             <img
                               src={bot}
                               alt="logo"
                               className="max-h-9 max-w-9 ml-2 rounded-full border border-gray-800"
                             />
-                          )}
-                          <p className="py-1 px-4 ml-1.5 mb-1 w-fit text-sm sm:text-base max-w-3xl border border-gray-600 font-medium rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
-                            {answer.question}
-                          </p>
-                        </div>
-                        <div className="flex float-right m-1 items-center ">
-                          <p
-                            className={`py-1 px-4 w-fit text-sm sm:text-xl rounded-tr-full rounded-tl-full rounded-bl-full font-medium text-white bg-blue-500 shadow-md`}
-                          >
-                            {emojiMapping[answer.answer]}{" "}
-                            <span className="text-sm sm:text-base">
-                              {answer.answer}
-                            </span>
-                          </p>
-                          <img
-                            src={pfp}
-                            alt="logo"
-                            className="h-9 w-9 ml-2 my-auto rounded-full border border-gray-800"
-                          />
-                        </div>
-                      </div>
-                    ))}
-                    {currentQuestionIndex < questions.length && isTyping ? (
-                      <TypingLoader />
-                    ) : (
-                      <div
-                        id={`question-${currentQuestionIndex}`}
-                        className="chat-message px-1 py-2 sm:p-4 rounded-xl "
-                      >
-                        <div className="flex">
-                          <img
-                            src={bot}
-                            alt="logo"
-                            className="max-h-9 max-w-9 ml-2 rounded-full border border-gray-800"
-                          />
 
-                          {!initialQuestionAnswered && (
-                            <div className="">
-                              <div className="flex flex-col">
-                                <p className="py-1 px-4 ml-1.5 mb-3 w-[90%] border border-gray-600 font-medium text-sm sm:text-base rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
-                                  Can you describe how you've been feeling
-                                  mentally and emotionally over the past few
-                                  weeks?
-                                </p>
+                            {!initialQuestionAnswered && (
+                              <div className="">
+                                <div className="flex flex-col">
+                                  <p className="py-1 px-4 ml-1.5 mb-3 w-[90%] border border-gray-600 font-medium text-sm sm:text-base rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
+                                    Can you describe how you've been feeling
+                                    mentally and emotionally over the past few
+                                    weeks?
+                                  </p>
 
-                                <div className="flex gap-1 sm:gap-2 flex-wrap ml-1.5 mb-3">
-                                  <button
-                                    className="py-1 px-3 bg-blue-500 text-white text-xs sm:text-sm rounded-2xl shadow-md hover:bg-blue-600"
-                                    onClick={() =>
-                                      handleExampleClick(
-                                        "I've been feeling a bit anxious and stressed due to work."
-                                      )
-                                    }
-                                  >
-                                    Ex. 1
-                                  </button>
-                                  <button
-                                    className="py-1 px-3 bg-blue-500 text-white text-xs sm:text-sm rounded-2xl shadow-md hover:bg-blue-600"
-                                    onClick={() =>
-                                      handleExampleClick(
-                                        "Overall, I've been doing well but sometimes feel a bit down."
-                                      )
-                                    }
-                                  >
-                                    Ex. 2
-                                  </button>
-                                  <button
-                                    className="py-1 px-3 bg-blue-500 text-white text-xs sm:text-sm rounded-2xl shadow-md hover:bg-blue-600"
-                                    onClick={() =>
-                                      handleExampleClick(
-                                        "I've been having trouble sleeping and it's affecting my mood."
-                                      )
-                                    }
-                                  >
-                                    Ex. 3
-                                  </button>
-                                  <button
-                                    className="py-1 px-3 bg-blue-500 text-white text-xs sm:text-sm rounded-2xl shadow-md hover:bg-blue-600"
-                                    onClick={() =>
-                                      handleExampleClick(
-                                        "I've been feeling more irritable lately and can't seem to relax."
-                                      )
-                                    }
-                                  >
-                                    Ex. 4
-                                  </button>
-                                  <button
-                                    className="py-1 px-3 bg-blue-500 text-white text-xs sm:text-sm rounded-2xl shadow-md hover:bg-blue-600"
-                                    onClick={() => handleExampleClick("NA")}
-                                  >
-                                    NA
-                                  </button>
-                                </div>
+                                  <div className="flex gap-1 sm:gap-2 flex-wrap ml-1.5 mb-3">
+                                    <button
+                                      className="py-1 px-3 bg-blue-500 text-white text-xs sm:text-sm rounded-2xl shadow-md hover:bg-blue-600"
+                                      onClick={() =>
+                                        handleExampleClick(
+                                          "I've been feeling a bit anxious and stressed due to work."
+                                        )
+                                      }
+                                    >
+                                      Ex. 1
+                                    </button>
+                                    <button
+                                      className="py-1 px-3 bg-blue-500 text-white text-xs sm:text-sm rounded-2xl shadow-md hover:bg-blue-600"
+                                      onClick={() =>
+                                        handleExampleClick(
+                                          "Overall, I've been doing well but sometimes feel a bit down."
+                                        )
+                                      }
+                                    >
+                                      Ex. 2
+                                    </button>
+                                    <button
+                                      className="py-1 px-3 bg-blue-500 text-white text-xs sm:text-sm rounded-2xl shadow-md hover:bg-blue-600"
+                                      onClick={() =>
+                                        handleExampleClick(
+                                          "I've been having trouble sleeping and it's affecting my mood."
+                                        )
+                                      }
+                                    >
+                                      Ex. 3
+                                    </button>
+                                    <button
+                                      className="py-1 px-3 bg-blue-500 text-white text-xs sm:text-sm rounded-2xl shadow-md hover:bg-blue-600"
+                                      onClick={() =>
+                                        handleExampleClick(
+                                          "I've been feeling more irritable lately and can't seem to relax."
+                                        )
+                                      }
+                                    >
+                                      Ex. 4
+                                    </button>
+                                    <button
+                                      className="py-1 px-3 bg-blue-500 text-white text-xs sm:text-sm rounded-2xl shadow-md hover:bg-blue-600"
+                                      onClick={() => handleExampleClick("NA")}
+                                    >
+                                      NA
+                                    </button>
+                                  </div>
 
-                                <textarea
-                                  className="w-[90%] py-1 sm:py-2 px-2 sm:px-4 border rounded-2xl placeholder:text-[10px] placeholder:leading-3 placeholder:sm:leading-5 placeholder:sm:text-sm font-medium text-sm sm:text-base ml-1.5 border-gray-600 outline-none shadow-md"
-                                  rows="6"
-                                  placeholder={`For example:
+                                  <textarea
+                                    className="w-[90%] py-1 sm:py-2 px-2 sm:px-4 border rounded-2xl placeholder:text-[10px] placeholder:leading-3 placeholder:sm:leading-5 placeholder:sm:text-sm font-medium text-sm sm:text-base ml-1.5 border-gray-600 outline-none shadow-md"
+                                    rows="6"
+                                    placeholder={`For example:
   - "I've been feeling a bit anxious and stressed due to work."
   - "Overall, I've been doing well but sometimes feel a bit down."
   - "I've been having trouble sleeping and it's affecting my mood."
   - "I've been feeling more irritable lately and can't seem to relax."
   If you don't have anything to share, just write 'NA'.`}
-                                  value={initialResponse}
-                                  style={{ resize: "none" }}
-                                  maxLength={500}
-                                  onChange={(e) =>
-                                    setInitialResponse(e.target.value)
-                                  }
-                                />
+                                    value={initialResponse}
+                                    style={{ resize: "none" }}
+                                    maxLength={500}
+                                    onChange={(e) =>
+                                      setInitialResponse(e.target.value)
+                                    }
+                                  />
+                                </div>
+                                <div>
+                                  <p className="text-xs text-gray-600 mt-2 ml-1.5">
+                                    After clicking "Next," you will be asked
+                                    some questions to gather information about
+                                    your mental health and provide you with
+                                    assistance.
+                                  </p>
+                                  <button
+                                    className="bg-blue-500 disabled:text-opacity-60 disabled:hover:bg-blue-500 text-white mt-4 px-4 py-2 rounded-xl text-sm sm:text-base font-semibold ml-1.5 hover:bg-blue-600"
+                                    onClick={handleInitialSubmit}
+                                    disabled={!initialResponse.trim()}
+                                  >
+                                    Next
+                                  </button>
+                                </div>
                               </div>
-                              <div>
-                                <p className="text-xs text-gray-600 mt-2 ml-1.5">
-                                  After clicking "Next," you will be asked
-                                  some questions to gather information about
-                                  your mental health and provide you with
-                                  assistance.
+                            )}
+                            {initialQuestionAnswered && (
+                              <div className="flex justify-between w-full">
+                                <p className="py-1 px-4 ml-1.5 mb-1 w-fit max-w-3xl border border-gray-600 font-medium text-sm sm:text-base rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
+                                  {questions[currentQuestionIndex]}
                                 </p>
-                                <button
-                                  className="bg-blue-500 disabled:text-opacity-60 disabled:hover:bg-blue-500 text-white mt-4 px-4 py-2 rounded-xl text-sm sm:text-base font-semibold ml-1.5 hover:bg-blue-600"
-                                  onClick={handleInitialSubmit}
-                                  disabled={!initialResponse.trim()}
-                                >
-                                  Next
-                                </button>
+                                {answers.length > 0 && (
+                                  <button
+                                    onClick={undoLastQuestion}
+                                    className="bg-gray-700 ml-1 sm:mr-4 text-xs text-white font-semibold my-auto py-2 px-3 rounded-xl transition duration-300 ease-in-out shadow-xl transform hover:bg-black hover:scale-105"
+                                    title="Undo"
+                                  >
+                                    {" "}
+                                    <FaUndo />
+                                  </button>
+                                )}
                               </div>
-                            </div>
-                          )}
+                            )}
+                          </div>
                           {initialQuestionAnswered && (
-                            <div className="flex justify-between w-full">
-                              <p className="py-1 px-4 ml-1.5 mb-1 w-fit max-w-3xl border border-gray-600 font-medium text-sm sm:text-base rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
-                                {questions[currentQuestionIndex]}
-                              </p>
-                              {answers.length > 0 && (
-                                <button
-                                  onClick={undoLastQuestion}
-                                  className="bg-gray-700 ml-1 sm:mr-4 text-xs text-white font-semibold my-auto py-2 px-3 rounded-xl transition duration-300 ease-in-out shadow-xl transform hover:bg-black hover:scale-105"
-                                  title="Undo"
-                                >
-                                  {" "}
-                                  <FaUndo />
-                                </button>
-                              )}
+                            <div className="options pl-10 sm:pl-12 pt-1 text-xs sm:text-sm">
+                              <button
+                                className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                                onClick={() => {
+                                  handleAnswer({
+                                    answer: "Strongly Agree",
+                                  });
+                                  setUserScore(userScore + 5);
+                                }}
+                              >
+                                <div className="flex flex-col">
+                                  <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                                    😄
+                                  </p>
+                                  <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal text-center">
+                                    Strongly Agree
+                                  </p>
+                                </div>
+                              </button>
+                              <button
+                                className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                                onClick={() => {
+                                  handleAnswer({ answer: "Agree" });
+                                  setUserScore(userScore + 2);
+                                }}
+                              >
+                                <div className="flex flex-col">
+                                  <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                                    😊
+                                  </p>
+                                  <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
+                                    Agree
+                                  </p>
+                                </div>
+                              </button>
+                              <button
+                                className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                                onClick={() => {
+                                  handleAnswer({ answer: "Undecided" });
+                                  setUserScore(userScore + 3);
+                                }}
+                              >
+                                <div className="flex flex-col">
+                                  <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                                    😑
+                                  </p>
+                                  <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
+                                    Undecided
+                                  </p>
+                                </div>
+                              </button>
+                              <button
+                                className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                                onClick={() => {
+                                  handleAnswer({ answer: "Disagree" });
+                                  setUserScore(userScore + 2);
+                                }}
+                              >
+                                <div className="flex flex-col">
+                                  <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                                    😔
+                                  </p>
+                                  <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
+                                    Disagree
+                                  </p>
+                                </div>
+                              </button>
+                              <button
+                                className="inline-block sm:m-1 px-2 py-1  font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                                onClick={() => {
+                                  handleAnswer({
+                                    answer: "Strongly Disagree",
+                                  });
+                                  setUserScore(userScore + 1);
+                                }}
+                              >
+                                <div className="flex flex-col">
+                                  <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                                    😞
+                                  </p>
+                                  <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
+                                    Strongly Disagree
+                                  </p>
+                                </div>
+                              </button>
                             </div>
                           )}
                         </div>
-                        {initialQuestionAnswered && (
-                          <div className="options pl-10 sm:pl-12 pt-1 text-xs sm:text-sm">
-                            <button
-                              className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                              onClick={() => {
-                                handleAnswer({
-                                  answer: "Strongly Agree",
-                                });
-                                setUserScore(userScore + 5);
-                              }}
-                            >
-                              <div className="flex flex-col">
-                                <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                                  😄
-                                </p>
-                                <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal text-center">
-                                  Strongly Agree
-                                </p>
-                              </div>
-                            </button>
-                            <button
-                              className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                              onClick={() => {
-                                handleAnswer({ answer: "Agree" });
-                                setUserScore(userScore + 2);
-                              }}
-                            >
-                              <div className="flex flex-col">
-                                <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                                  😊
-                                </p>
-                                <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
-                                  Agree
-                                </p>
-                              </div>
-                            </button>
-                            <button
-                              className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                              onClick={() => {
-                                handleAnswer({ answer: "Undecided" });
-                                setUserScore(userScore + 3);
-                              }}
-                            >
-                              <div className="flex flex-col">
-                                <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                                  😑
-                                </p>
-                                <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
-                                  Undecided
-                                </p>
-                              </div>
-                            </button>
-                            <button
-                              className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                              onClick={() => {
-                                handleAnswer({ answer: "Disagree" });
-                                setUserScore(userScore + 2);
-                              }}
-                            >
-                              <div className="flex flex-col">
-                                <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                                  😔
-                                </p>
-                                <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
-                                  Disagree
-                                </p>
-                              </div>
-                            </button>
-                            <button
-                              className="inline-block sm:m-1 px-2 py-1  font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                              onClick={() => {
-                                handleAnswer({
-                                  answer: "Strongly Disagree",
-                                });
-                                setUserScore(userScore + 1);
-                              }}
-                            >
-                              <div className="flex flex-col">
-                                <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                                  😞
-                                </p>
-                                <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
-                                  Strongly Disagree
-                                </p>
-                              </div>
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-
-              {initialQuestionAnswered &&
-                !showThankYou &&
-                !thisMonthAnswered && (
-                  <div className="w-11/12 mx-auto mt-2">
-                    <ProgressBar
-                      completed={progress}
-                      bgColor="#FFB02E"
-                      baseBgColor="#e0e0e0"
-                      height="20px"
-                      labelSize="10px"
-                      borderRadius="10px"
-                    />
-                  </div>
-                )}
-
-              {showThankYou && (
-                <div className="text-center mt-8 mx-4">
-                  <p className="text-base sm:text-2xl uppercase font-bold">
-                    Thank You for Your Responses!
-                  </p>
-                  <textarea
-                    className="mt-4 w-full p-2 max-w-3xl border border-gray-500 outline-none rounded-md placeholder:text-sm font-medium text-sm sm:text-base"
-                    rows="5"
-                    placeholder="Please share your remarks..."
-                    maxLength={300}
-                    value={remarks}
-                    onChange={(e) => setRemarks(e.target.value)}
-                    style={{ resize: "none" }}
-                  />
-                  <p className="mt-2 text-sm text-gray-600 my-6">
-                    Note: Sharing your remarks is optional. Please click the
-                    "Submit Responses" button to send your responses.
-                  </p>
+                      )}
+                    </>
+                  )}
                 </div>
-              )}
 
-              {initialQuestionAnswered &&
-                currentQuestionIndex === questions.length && (
-                  <div className="text-center mt-2">
-                    <button
-                      onClick={() => {
-                        // console.log(userScore);
-                        // console.log("submitted");
-                        submitAns();
-                        // console.log(answers)
-                      }}
-                      className="bg-white font-bold py-1 px-4 text-sm sm:text-base rounded-xl border border-gray-700 transition duration-300 ease-in-out transform hover:bg-blue-600 hover:text-white hover:scale-105"
-                    >
-                      Submit Responses
-                    </button>
+                {initialQuestionAnswered &&
+                  !showThankYou &&
+                  !thisMonthAnswered && (
+                    <div className="w-11/12 mx-auto mt-2">
+                      <ProgressBar
+                        completed={progress}
+                        bgColor="#FFB02E"
+                        baseBgColor="#e0e0e0"
+                        height="20px"
+                        labelSize="10px"
+                        borderRadius="10px"
+                      />
+                    </div>
+                  )}
+
+                {showThankYou && (
+                  <div className="text-center mt-8 mx-4">
+                    <p className="text-base sm:text-2xl uppercase font-bold">
+                      Thank You for Your Responses!
+                    </p>
+                    <textarea
+                      className="mt-4 w-full p-2 max-w-3xl border border-gray-500 outline-none rounded-md placeholder:text-sm font-medium text-sm sm:text-base"
+                      rows="5"
+                      placeholder="Please share your remarks..."
+                      maxLength={300}
+                      value={remarks}
+                      onChange={(e) => setRemarks(e.target.value)}
+                      style={{ resize: "none" }}
+                    />
+                    <p className="mt-2 text-sm text-gray-600 my-6">
+                      Note: Sharing your remarks is optional. Please click the
+                      "Submit" button to send your responses.
+                    </p>
                   </div>
                 )}
-            </div>
-          </>
-        )}
+
+                {initialQuestionAnswered &&
+                  currentQuestionIndex === questions.length && (
+                    <div className="text-center mt-2">
+                      <button
+                        onClick={() => {
+                          // console.log(userScore);
+                          // console.log("submitted");
+                          submitAns();
+                          // console.log(answers)
+                        }}
+                        className="bg-white font-bold py-1 px-4 text-sm sm:text-base rounded-xl border border-gray-700 transition duration-300 ease-in-out transform hover:bg-blue-600 hover:text-white hover:scale-105"
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  )}
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </>
   );

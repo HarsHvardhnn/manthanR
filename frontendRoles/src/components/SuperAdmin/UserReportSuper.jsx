@@ -28,7 +28,7 @@ const UserReport = () => {
       })
       .then((res) => {
         setUserWithInfo(res.data);
-        // console.log(res.data)
+        console.log(res.data)
       })
       .catch((err) => {
         console.log(err);
@@ -219,14 +219,14 @@ const UserReport = () => {
                   {report.contactNumber || "NA"}
                 </p>
                 <p className="text-base md:text-lg">
-                  <span className="font-semibold">Assigned Admin:</span>
+                  <span className="font-semibold">Assigned Admin:</span>{" "}
                   {report?.assigned_admin || "NA"}
                   {/*under this admin*/}
                 </p>
                 <p className="text-base md:text-lg">
                   <span className="font-semibold">User Score:</span>{" "}
                   {report?.score === undefined
-                    ? "survey not submitted"
+                    ? "Survey not submitted"
                     : report?.score}
                 </p>
                 <p className="text-base md:text-lg">

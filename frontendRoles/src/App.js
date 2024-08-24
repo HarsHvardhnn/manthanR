@@ -1,16 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { superadminContext, userContext, adminContext } from "./context";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {  RouterProvider, createBrowserRouter, useNavigate,} from "react-router-dom";
 import Login from "./components/Auth/Login";
 import "./App.css";
 import UpdateProfile from "./components/User/UpdateProfile";
 import Chatbot from "./components/User/Chatbot";
 import MainPage from "./components/Home/MainPage";
-import AdminLogin from "./components/Auth/AdminLogin"
+import AdminLogin from "./components/Auth/AdminLogin";
 import { authContext } from "./context";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AdminPanel from "./AdminPanel";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import SuperAdminDashboard from "./components/SuperAdmin/SuperAdminDashboard";
 import ForgotPassword from "./components/Auth/ForgotPassword";
@@ -25,20 +24,26 @@ import { adminEmailContext } from "./context";
 import EditProfileForm from "./components/User/edit_profile";
 import FileUpload from "./components/User/FileUpload";
 import SessionManager from "./SessionManager";
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import { store, persistor } from './store/store'; 
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "./store/store";
 
 function App() {
-  const [user, setUser] = useState({ username: '', userID: '',email:'',assigned_admin:'',assigned_admin_id:''});
+  const [user, setUser] = useState({
+    username: "",
+    userID: "",
+    email: "",
+    assigned_admin: "",
+    assigned_admin_id: "",
+  });
   const [auth, setAuth] = useState(false);
   const [superadmin, setsuperadmin] = useState("");
   const [adminEmail, setAdminEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [admin, setAdmin] = useState({
-    username:'',
-    adminID:'',
-    email:''
+    username: "",
+    adminID: "",
+    email: "",
   });
 
   const router = createBrowserRouter([
@@ -51,12 +56,8 @@ function App() {
       element: <UpdateProfile />,
     },
     {
-      path: "/adminPanel",
-      element: <AdminPanel />,
-    },
-    {
       path: "/add-user",
-      element: <UserForm/>,
+      element: <UserForm />,
     },
     {
       path: "/Chatbot",
@@ -64,7 +65,7 @@ function App() {
     },
     {
       path: "/edit-profile",
-      element:<EditProfileForm/>,
+      element:  <EditProfileForm />,
     },
     {
       path: "/",
@@ -95,44 +96,46 @@ function App() {
       element: <SuperAdminDashboard />,
     },
     {
-      path:'/forgot-password',
-      element:(<ForgotPassword/>)
+      path: "/forgot-password",
+      element: <ForgotPassword />,
     },
     {
-      path: '/usersection',
-      element: <UserSection/>
+      path: "/usersection",
+      element: <UserSection />,
     },
     {
-      path: '/ProfileUpdatePage',
-      element: <ProfileUpdatePage/>
+      path: "/ProfileUpdatePage",
+      element: <ProfileUpdatePage />,
     },
     {
-      path: '/Summary',
-      element: <Summary/>
+      path: "/Summary",
+      element: <Summary />,
     },
-   
   ]);
   return (
     <>
-    <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-    <SessionManager/>
-      <loadingContext.Provider value={{ loading, setLoading }}>
-        <userContext.Provider value={{ user, setUser }}>
-          <superadminContext.Provider value={{ superadmin, setsuperadmin }}>
-            <adminEmailContext.Provider value={{ adminEmail, setAdminEmail }}>
-              <adminContext.Provider value={{ admin, setAdmin }}>
-                <authContext.Provider value={{ auth, setAuth }}>
-                    <RouterProvider router={router} />
-                    <ToastContainer />
-               
-                </authContext.Provider>
-              </adminContext.Provider>
-            </adminEmailContext.Provider>
-          </superadminContext.Provider>
-        </userContext.Provider>
-      </loadingContext.Provider>
-      </PersistGate>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <SessionManager />
+          <loadingContext.Provider value={{ loading, setLoading }}>
+            <userContext.Provider
+              value={{ user, setUser }}
+            >
+              <superadminContext.Provider value={{ superadmin, setsuperadmin }}>
+                <adminEmailContext.Provider
+                  value={{ adminEmail, setAdminEmail }}
+                >
+                  <adminContext.Provider value={{ admin, setAdmin }}>
+                    <authContext.Provider value={{ auth, setAuth }}>
+                      <RouterProvider router={router} />
+                      <ToastContainer />
+                    </authContext.Provider>
+                  </adminContext.Provider>
+                </adminEmailContext.Provider>
+              </superadminContext.Provider>
+            </userContext.Provider>
+          </loadingContext.Provider>
+        </PersistGate>
       </Provider>
     </>
   );

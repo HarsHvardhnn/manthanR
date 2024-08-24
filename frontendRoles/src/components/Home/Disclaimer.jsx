@@ -12,9 +12,9 @@ const Disclaimer = () => {
   const { user } = useContext(userContext);
 
   const handleSubmit = () => {
-    // console.log(user);
+    // console.log("user", user);
     const token = localStorage.getItem("token");
-
+    // console.log("token", token);
     axios
       .post(
         "https://manthanr.onrender.com/v1/update-tnc",

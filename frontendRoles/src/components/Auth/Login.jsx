@@ -15,21 +15,21 @@ import useLocalStorage from "../../use-persist-hook";
 import * as Yup from "yup";
 
 const LoginPage = () => {
-  const { user,setUser } = useContext(userContext);
+  const { user, setUser } = useContext(userContext);
   const { setAuth } = useContext(authContext);
-  const [loading,setLoading] =useState(false);
+  const [loading, setLoading] = useState(false);
   const [storedValue, setStoredValue] = useLocalStorage();
   const [showPassword, setShowPassword] = useState(false);
-  const [assigned_admin,setAssigned_admin] = useState({});
+  const [assigned_admin, setAssigned_admin] = useState({});
   const [showForgotPasswordFields, setShowForgotPasswordFields] =
-    useState(false); 
+    useState(false);
   const navigate = useNavigate();
   const initialValues = {
     email: "",
     password: "",
-    otp: "", 
-    newPassword: "", 
-    confirmPassword: "", 
+    otp: "",
+    newPassword: "",
+    confirmPassword: "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -37,54 +37,52 @@ const LoginPage = () => {
     password: Yup.string().required("Password is required"),
   });
   const onSubmit = (values) => {
-    
     if (showForgotPasswordFields) {
       handleForgotPassword(values);
     } else {
       handleLogin(values);
     }
   };
-  
+
   const handleLogin = (values) => {
     setLoading(true);
     // console.log(loading);
     axios
-    .post("https://manthanr.onrender.com/v1/login", {
+      .post("https://manthanr.onrender.com/v1/login", {
         email: values.email.toLowerCase(),
         password: values.password,
       })
       .then((res) => {
-         if(res.data==='admins and super admins cant login'){
-          toast.error('Sorry admins aren\'t allowed to login');
+        if (res.data === "admins and super admins cant login") {
+          toast.error("Sorry admins aren't allowed to login");
           return;
-         }
-          console.log(res)
+        }
+        // console.log(res);
         //  setUser({
         //   ...user,
         //   assigned_admin_id:res.data.user.assigned_admin
         //  })
- 
-         if (res.status === 200) {
+
+        if (res.status === 200) {
           localStorage.setItem("token", res.data.token);
-          toast.success("Login Successful")
-         // console.log(res.data.token);
-          
+          toast.success("Login Successful");
+          // console.log(res);
+
           setUser({
             username: res.data.user.username,
             userID: res.data.user._id,
-            email:values.email,
-            assigned_admin:res.data.user.assigned_admin
+            email: values.email,
+            assigned_admin: res.data.user.assigned_admin,
           });
           // console.log(user);
-          const object ={
+          const object = {
             username: res.data.user.username,
             userID: res.data.user._id,
-            email:values.email,
-            assigned_admin:res.data.user.assigned_admin
+            email: values.email,
+            assigned_admin: res.data.user.assigned_admin,
           };
           const storeObject = JSON.stringify(object);
-          localStorage.setItem('user' , storeObject);
-
+          localStorage.setItem("user", storeObject);
 
           // navigate("/updateprofile");
           setAuth(true);
@@ -94,8 +92,7 @@ const LoginPage = () => {
               // navigate("/updateprofile");
               navigate("/usersection");
               // console.log(user);
-            } 
-            else {
+            } else {
               navigate("/usersection");
             }
           } else {
@@ -106,10 +103,11 @@ const LoginPage = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error('Wrong Email or Password');
-      }).finally(()=>{
-        setLoading(false);
+        toast.error("Wrong Email or Password");
       })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleForgotPassword = (values) => {
@@ -117,9 +115,7 @@ const LoginPage = () => {
       .post("https://manthanr.onrender.com/v1/sendOtp", { email: values.email })
       .then((res) => {
         if (res === 200) {
-
           toast.success("OTP sent");
-      
         }
       })
       .catch((err) => {
@@ -139,8 +135,6 @@ const LoginPage = () => {
   }, []);
 
   return (
-    
-
     <div
       className="min-h-screen flex justify-center items-center bg-blue-200 font-montserrat"
       style={{
@@ -150,7 +144,6 @@ const LoginPage = () => {
     >
       <Header />
       <div className="flex flex-col lg:flex-row bg-white justify-center mt-10 items-center w-4/5 sm:w-3/5 lg:w-8/12 xl:w-3/5 shadow-xl rounded-xl">
-        {/* Left section  */}
         <div className="flex-1">
           <img
             src={Img}
@@ -158,7 +151,6 @@ const LoginPage = () => {
             className="w-full h-full object-cover rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none"
           />
         </div>
-        {/* Right section  */}
         <div className="flex-1 bg-white py-4 px-6 rounded-b-xl lg:rounded-s-xl w-full sm:w-96">
           <h2 className="text-2xl font-bold mb-2 uppercase text-center">
             Student Login
@@ -170,9 +162,7 @@ const LoginPage = () => {
           >
             {({ errors, touched, values }) => (
               <Form>
-                {/* Form fields here */}
                 <div className="mb-4">
-                  {/* Email */}
                   <Field
                     type="email"
                     name="email"
@@ -190,7 +180,6 @@ const LoginPage = () => {
                   />
                 </div>
                 <div className="mb-4 relative">
-                  {/* Password */}
                   <Field
                     type={showPassword ? "text" : "password"}
                     name="password"
@@ -218,9 +207,7 @@ const LoginPage = () => {
                     className="text-red-500 text-sm"
                   />
                 </div>
-                {/* Display forgot password fields if showForgotPasswordFields is true */}
 
-                {/* Submit button */}
                 <div className="flex justify-between">
                   <button
                     type="button"
@@ -233,7 +220,7 @@ const LoginPage = () => {
                   </button>
 
                   <button className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md text-white mt-1 text-xs sm:text-base">
-             {loading?('loading...'):("Login")}
+                    {loading ? "loading..." : "Login"}
                   </button>
                 </div>
               </Form>
@@ -242,7 +229,6 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
-
   );
 };
 
