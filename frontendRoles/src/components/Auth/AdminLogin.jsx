@@ -73,9 +73,10 @@ const AdminLogin = () => {
       .catch((err) => {
         console.log(err)
 
-        if (err.response.status === 401) {
+        if (err.response.status === 401 || err.response.status === 404) {
           toast.error("Please check Email or Password");
         }
+        
       }).finally(()=>{
         setLoading(false);
       })

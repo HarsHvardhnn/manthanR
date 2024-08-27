@@ -25,6 +25,7 @@ import AllUsersChart from "./AllUsersChart";
 import AddAdmin from "./AddAdmin";
 import AllAdmins from "./AllAdmins";
 import UserForm from "./addUser";
+import DialogModal from "../Admin/DialogModal";
 
 const SuperAdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("AllUsersChart");
@@ -35,7 +36,8 @@ const SuperAdminDashboard = () => {
   const navigate = useNavigate();
   const [showSidebar, setShowSidebar] = useState(true);
   const dropdownRef = useRef(null);
-
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [adminName, setAdminName] = useState(null);
   useEffect(() => {
     const handleResize = () => {
       setShowSidebar(window.innerWidth >= 768);
@@ -79,6 +81,12 @@ const SuperAdminDashboard = () => {
       });
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("superadminToken");
+    localStorage.removeItem("superadmin");
+    navigate("/adminlogin");
+  };
+
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -101,6 +109,10 @@ const SuperAdminDashboard = () => {
     setIsDropdownOpen(false);
   };
 
+  const handleAdminName = (admin) => {
+    setAdminName(admin.username + (admin.lastname ? ` ${admin.lastname}` : ""));
+  }
+  
   useEffect(() => {
     // console.log(selectedAdmin);
   }, [selectedAdmin]);
@@ -172,12 +184,13 @@ const SuperAdminDashboard = () => {
             {isDropdownOpen && (
               <div
                 ref={dropdownRef}
-                className="admins absolute mt-24 ml-10 max-w-44 max-h-48 overflow-auto bg-gray-800 rounded-md shadow-lg"
+                className="admins absolute mt-48 ml-6 w-48 max-w-60 max-h-60 overflow-auto bg-gray-800 rounded-md shadow-lg"
               >
                 {admins.map((admin) => {
                   return (
                     <button
                       onClick={() => {
+                        handleAdminName(admin);
                         handleChartOptionClick(admin.email);
                         toggleSidebar();
                       }}
@@ -273,13 +286,7 @@ const SuperAdminDashboard = () => {
 
             <div className="relative inline-block">
               <button
-                onClick={() => {
-                  // setsuperadmin("");
-                  localStorage.removeItem("superadminToken");
-                  localStorage.removeItem("superadmin");
-                  // console.log(localStorage.getItem("superadminToken"), "ji");
-                  navigate("/adminlogin");
-                }}
+                onClick={() => setIsDialogOpen(true)}
                 className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded flex w-fit items-center"
               >
                 <FaSignOutAlt className="mr-2" />
@@ -305,13 +312,7 @@ const SuperAdminDashboard = () => {
           </div>
           <div className="relative">
             <button
-              onClick={() => {
-                // setsuperadmin("");
-                localStorage.removeItem("superadminToken");
-                localStorage.removeItem("superadmin");
-                // console.log(localStorage.getItem("superadminToken"), "ji");
-                navigate("/adminlogin");
-              }}
+              onClick={() => setIsDialogOpen(true)}
               className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
             >
               <FaSignOutAlt className="mr-2" />
@@ -322,7 +323,7 @@ const SuperAdminDashboard = () => {
         {/* Content based on active tab */}
         {activeTab === "AllUsersChart" && <AllUsersChart />}
         {activeTab === "Userreport" && <UserReportSuper />}
-        {activeTab === "charts" && <AdminWiseChart admin={selectedAdmin} />}
+        {activeTab === "charts" && <AdminWiseChart admin={selectedAdmin} adminName={adminName}/>}
         {activeTab === "Users" && (
           <UserDataSuper showSOSButton={false} showSummaryColumn={true} />
         )}
@@ -330,6 +331,14 @@ const SuperAdminDashboard = () => {
         {activeTab === "AllAdmins" && <AllAdmins />}
         {activeTab === "UserForm" && <UserForm />}
       </div>
+      <DialogModal
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        onSubmit={handleLogout}
+        paragraph="Are you sure you want to logout?"
+        closeBtnText="Cancel"
+        submitBtnText="Logout"
+      />
     </div>
   );
 };

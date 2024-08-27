@@ -118,17 +118,19 @@ const ProfileUpdatePage = () => {
         }
       );
 
-      console.log("peonse", res);
       if (res.data.message === "Profile created successfully") {
         toast.success("Profile updated");
         setIsUpdating(false);
 
-        setUser({
+        const updatedUser = {
           ...user,
           username: values.username,
           email: values.email,
           assigned_admin: res.data.admintoupdate._id,
-        });
+        };
+  
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
         console.log(user);
       }
     } catch (err) {
@@ -397,7 +399,7 @@ const ProfileUpdatePage = () => {
                             errors.hostelName && touched.hostelName
                               ? "border-red-500"
                               : " focus:border-blue-400 focus:border-2"
-                          } ${!values.gender ? "text-gray-400" : "text-black"}`}
+                          } ${!values.hostelName ? "text-gray-400" : "text-black"}`}
                         >
                           <option value="" disabled>
                             Select Hostel *
@@ -444,7 +446,7 @@ const ProfileUpdatePage = () => {
                                     ? "border-red-500"
                                     : " focus:border-blue-400 focus:border-2"
                                 } ${
-                          !values.gender ? "text-gray-400" : "text-black"
+                          !values.relationshipStatus ? "text-gray-400" : "text-black"
                         }`}
                       >
                         <option className="" value="" disabled>

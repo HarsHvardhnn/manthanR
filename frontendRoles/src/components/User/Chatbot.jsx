@@ -11,6 +11,7 @@ import { FaRedo, FaUndo } from "react-icons/fa";
 import Header from "../Home/Header";
 import Popup from "./Popup";
 import ProgressBar from "@ramonak/react-progress-bar";
+import DialogModal from "../Admin/DialogModal";
 
 const TypingLoader = () => (
   <div className="text-center mt-12 mb-20 ml-4">
@@ -60,6 +61,8 @@ const Chatbot = () => {
   const [initialResponse, setInitialResponse] = useState("");
   const [remarks, setRemarks] = useState("");
   const [initialQuestionAnswered, setInitialQuestionAnswered] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [restartClicked, setRestartClicked] = useState(false);
 
   const axiosConfig = axios.create({
     baseURL: "https://manthanr.onrender.com/v1", // Base URL for API requests
@@ -129,6 +132,8 @@ const Chatbot = () => {
   };
 
   const handleRestart = () => {
+    setIsDialogOpen(false);
+    setRestartClicked(false);
     setCurrentQuestionIndex(0);
     setAnswers([]);
     setShowThankYou(false);
@@ -279,8 +284,7 @@ const Chatbot = () => {
         <Header />
       </div>
 
-      <div className=" max-w-full px-4 pb-24 font-montserrat h-screen bg-blue-200 pt-16 md:pt-24">
-        
+      <div className=" max-w-full px-4 font-montserrat min-h-svh sm:min-h-screen bg-blue-200 pt-16 md:pt-24">
         <div className="background-animation-wrapper">
           <ul id="shape">
             <li></li>
@@ -321,8 +325,12 @@ const Chatbot = () => {
                 </div>
                 <div className="hidden sm:flex ">
                   <button
-                    onClick={handleRestart}
-                    className="bg-white font-bold mx-2 py-2 px-6 rounded-xl text-sm transition duration-300 ease-in-out transform hover:scale-105"
+                    disabled={currentQuestionIndex < 1}
+                    onClick={() => {
+                      setRestartClicked(true);
+                      setIsDialogOpen(true);
+                    }}
+                    className="bg-white font-bold mx-2 py-2 px-6 disabled:pointer-events-none disabled:transition-none disabled:opacity-85 rounded-xl text-sm transition duration-300 ease-in-out transform hover:scale-105"
                   >
                     Restart Chat
                   </button>
@@ -330,7 +338,10 @@ const Chatbot = () => {
 
                 <div className="sm:hidden font-bold rounded-lg bg-white my-auto py-1.5">
                   <button
-                    onClick={handleRestart}
+                    onClick={() => {
+                      setRestartClicked(true);
+                      setIsDialogOpen(true);
+                    }}
                     className="my-1 mx-auto px-4 rounded-l-xl text-xs transition duration-300 ease-in-out transform hover:scale-105"
                     title="Restart"
                   >
@@ -466,7 +477,7 @@ const Chatbot = () => {
                                   </div>
 
                                   <textarea
-                                    className="w-[90%] py-1 sm:py-2 px-2 sm:px-4 border rounded-2xl placeholder:text-[10px] placeholder:leading-3 placeholder:sm:leading-5 placeholder:sm:text-sm font-medium text-sm sm:text-base ml-1.5 border-gray-600 outline-none shadow-md"
+                                    className="w-[90%] py-1 sm:py-2 px-2 sm:px-4 border rounded-2xl placeholder:px-1 placeholder:text-[10px] placeholder:leading-3 placeholder:sm:leading-5 placeholder:sm:text-sm font-medium text-sm sm:text-base ml-1.5 border-gray-600 outline-none shadow-md"
                                     rows="6"
                                     placeholder={`For example:
   - "I've been feeling a bit anxious and stressed due to work."
@@ -651,13 +662,8 @@ const Chatbot = () => {
                   currentQuestionIndex === questions.length && (
                     <div className="text-center mt-2">
                       <button
-                        onClick={() => {
-                          // console.log(userScore);
-                          // console.log("submitted");
-                          submitAns();
-                          // console.log(answers)
-                        }}
-                        className="bg-white font-bold py-1 px-4 text-sm sm:text-base rounded-xl border border-gray-700 transition duration-300 ease-in-out transform hover:bg-blue-600 hover:text-white hover:scale-105"
+                        onClick={() => setIsDialogOpen(true)}
+                        className="bg-white font-bold py-1 px-4 text-sm sm:text-base rounded-xl border border-gray-700 transition duration-300 ease-in-out transform hover:bg-blue-600 hover:text-white hover:border-cyan-50 hover:scale-105"
                       >
                         Submit
                       </button>
@@ -667,6 +673,18 @@ const Chatbot = () => {
             </>
           )}
         </div>
+        <DialogModal
+          isOpen={isDialogOpen}
+          onClose={() => setIsDialogOpen(false)}
+          onSubmit={restartClicked ? handleRestart : submitAns}
+          paragraph={`${
+            restartClicked
+              ? "Restart chat and clear conversation?"
+              : "Are you sure you want to submit your responses?"
+          } `}
+          closeBtnText="Cancel"
+          submitBtnText={`${restartClicked ? "Restart" : "Submit"} `}
+        />
       </div>
     </>
   );

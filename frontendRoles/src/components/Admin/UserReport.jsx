@@ -60,7 +60,7 @@ const UserReport = ({ admin }) => {
           <p>Loading...</p>
         </div>
       ) : (
-        userWithInfo.map((report) => (
+        userWithInfo.slice().reverse().map((report) => (
           <div
             key={report.id}
             className="bg-yellow-100 p-4 rounded-lg shadow mb-4"

@@ -23,7 +23,14 @@ const AdminDetails = ({ onClose, loading, getAdmin, assigned_admin }) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
   return (
-    <div className="fixed inset-0 flex items-center justify-center font-montserrat bg-gray-800 bg-opacity-75 z-40">
+    <div
+      className="fixed inset-0 flex items-center justify-center font-montserrat bg-gray-800 bg-opacity-75 z-40"
+      onClick={(e) => {
+        if (e.currentTarget === e.target) {
+          onClose();
+        }
+      }}
+    >
       <div className="bg-white w-[90%] sm:w-96 p-6 rounded-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold uppercase underline">

@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import axios from "axios";
 import { toast } from "react-toastify";
-import {  FaTrash } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
+import DialogModal from "../Admin/DialogModal";
 
 const AllAdmins = () => {
   const [loading, setLoading] = useState(false);
-
   const [userData, setUserData] = useState([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [adminToDelete, setAdminToDelete] = useState(null);
+
   // async function fetchUserInformation(userIds) {
   //   const userInformation = [];
 
@@ -104,6 +107,17 @@ const AllAdmins = () => {
       });
   };
 
+  const handleDeleteClick = (admin) => {
+    setAdminToDelete(admin);
+    setIsDialogOpen(true);
+  };
+
+  const handleDeleteConfirmation = () => {
+    if (adminToDelete) {
+      handleDeleteAdmin(adminToDelete._id);
+    }
+    setIsDialogOpen(false);
+  };
   const capitalizeFirstLetter = (string) => {
     if (!string) return "";
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -145,17 +159,23 @@ const AllAdmins = () => {
               <tbody className="text-center">
                 {userData.map((admin, index) => (
                   <tr key={admin._id}>
-                    <td className="border px-4 py-2">{index + 1}</td>
-                    <td className="border px-4 py-2">{capitalizeFirstLetter(admin.username) || "NA"}</td>
-                    <td className="border px-4 py-2">{admin.contactNumber || "NA"}</td>
+                    <td className="border font-semibold px-4 py-2">
+                      {index + 1}.
+                    </td>
+                    <td className="border px-4 py-2">
+                      {capitalizeFirstLetter(admin.username) || "NA"}
+                    </td>
+                    <td className="border px-4 py-2">
+                      {admin.contactNumber || "NA"}
+                    </td>
                     <td className="border px-4 py-2">{admin.email || "NA"}</td>
                     <td className="border px-4 py-2">
                       <button
-                      title="Delete Admin"
+                        title="Delete Admin"
                         className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded"
-                        onClick={() => handleDeleteAdmin(admin._id)}
+                        onClick={() => handleDeleteClick(admin)}
                       >
-                        <FaTrash/>
+                        <FaTrash />
                       </button>
                     </td>
                   </tr>
@@ -165,6 +185,14 @@ const AllAdmins = () => {
           )}
         </div>
       )}
+      <DialogModal
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        onSubmit={handleDeleteConfirmation}
+        paragraph="Do you want to delete this admin?"
+        closeBtnText="Cancel"
+        submitBtnText="Delete"
+      />
     </div>
   );
 };

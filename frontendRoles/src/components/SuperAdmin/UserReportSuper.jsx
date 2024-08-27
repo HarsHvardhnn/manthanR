@@ -5,7 +5,7 @@ import emailjs from "emailjs-com";
 import { ThreeDots } from "react-loader-spinner";
 import ReportMessage from "../Admin/ReportMessage";
 import CommentsComponent from "../Summary";
-// import { toast } from "react-toastify";
+import { addPreventTab, removePreventTab } from "../User/preventTab";
 
 const UserReport = () => {
   const [showSummary, setShowSummary] = useState(false);
@@ -16,6 +16,14 @@ const UserReport = () => {
   const [filterByPsy, setFilterByPsy] = useState(false);
   const [comments, setComments] = useState();
   const [sumID, setSumId] = useState("");
+
+  useEffect(() => {
+    if (showReportModal || showSummary) {
+      addPreventTab();
+    } else {
+      removePreventTab();
+    }
+  }, [showReportModal, showSummary]);
 
   const getUsers = () => {
     const token = localStorage.getItem("superadminToken");
@@ -28,7 +36,7 @@ const UserReport = () => {
       })
       .then((res) => {
         setUserWithInfo(res.data);
-        console.log(res.data)
+        //console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -109,7 +117,7 @@ const UserReport = () => {
       .send(serviceId, templateId, templateParams, userId)
       .then((response) => {
         if (response.status === 200) {
-          toast.success("Reported user to super admin");
+          toast.success("Email has been sent to psychiatrist");
         }
       })
       .catch((error) => {
@@ -197,71 +205,86 @@ const UserReport = () => {
           <p>Loading...</p>
         </div>
       ) : (
-        userWithInfo.reverse().map(
-          (report) =>
-            (!filterByPsy || report.reported_psych) && (
-              <div
-                key={report.id}
-                className={`${
-                  report.read ? "bg-gray-200" : "bg-yellow-100"
-                } p-4 rounded-lg shadow mb-4`}
-              >
-                <p className="text-base md:text-lg">
-                  <span className="font-semibold">User Name:</span>{" "}
-                  {capitalizeFirstLetter(report.username) || "NA"}
-                </p>
-                <p className="text-base md:text-lg">
-                  <span className="font-semibold">User Email:</span>{" "}
-                  {report.email || "NA"}
-                </p>
-                <p className="text-base md:text-lg">
-                  <span className="font-semibold">Contact Number:</span>{" "}
-                  {report.contactNumber || "NA"}
-                </p>
-                <p className="text-base md:text-lg">
-                  <span className="font-semibold">Assigned Admin:</span>{" "}
-                  {report?.assigned_admin || "NA"}
-                  {/*under this admin*/}
-                </p>
-                <p className="text-base md:text-lg">
-                  <span className="font-semibold">User Score:</span>{" "}
-                  {report?.score === undefined
-                    ? "Survey not submitted"
-                    : report?.score}
-                </p>
-                <p className="text-base md:text-lg">
-                  <span className="font-semibold">Admin Comments:</span>{" "}
-                  {report.message || "NA"}
-                </p>
-                <div className="mt-2 text-sm sm:text-base md:text-lg flex items-center ">
-                  <button
-                    className={`mr-2 px-3 py-1 rounded ${
-                      report.reported_psych
-                        ? "bg-gray-400 text-gray-700 cursor-not-allowed"
-                        : "bg-blue-500 hover:bg-blue-600 text-white"
-                    }`}
-                    onClick={() => {
-                      handleReportUser(report);
-                    }}
-                    disabled={report.reported_psych}
-                  >
-                    {report.reported_psych
-                      ? "Already Reported"
-                      : "Report to Psychiatrist"}
-                  </button>
-                  <button
-                    onClick={() => {
-                      setSumId(report?.user);
-                      setShowSummary(true);
-                    }}
-                    className={`mr-2 px-3 py-1 rounded bg-blue-500 hover:bg-blue-600 text-white`}
-                  >
-                    Summary
-                  </button>
+        userWithInfo
+          .slice()
+          .reverse()
+          .map(
+            (report) =>
+              (!filterByPsy || report.reported_psych) && (
+                <div
+                  key={report.id}
+                  className={`${
+                    report.read ? "bg-gray-200" : "bg-yellow-100"
+                  } p-4 rounded-lg shadow mb-4`}
+                >
+                  <p className="text-base md:text-lg">
+                    <span className="font-semibold">User Name:</span>{" "}
+                    {capitalizeFirstLetter(report.username) || "NA"}
+                  </p>
+                  <p className="text-base md:text-lg">
+                    <span className="font-semibold">User Email:</span>{" "}
+                    {report.email || "NA"}
+                  </p>
+                  <p className="text-base md:text-lg">
+                    <span className="font-semibold">Contact Number:</span>{" "}
+                    {report.contactNumber || "NA"}
+                  </p>
+                  <p className="text-base md:text-lg">
+                    <span className="font-semibold">User Score:</span>{" "}
+                    {report?.score === undefined
+                      ? "Survey not submitted"
+                      : report?.score}
+                  </p>
+                  {report.message === "reported by super admin directly" ? (
+                    <>
+                      <p className="text-base md:text-lg font-semibold">
+                        Reported by Superadmin
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-base md:text-lg">
+                        <span className="font-semibold">Assigned Admin:</span>{" "}
+                        {report.admin && report.admin.includes("@")
+                          ? report.admin
+                          : "No admin allotted"}
+                      </p>
+                      <p className="text-base md:text-lg">
+                        <span className="font-semibold">Admin Comments:</span>{" "}
+                        {capitalizeFirstLetter(report.message) || "NA"}
+                      </p>
+                    </>
+                  )}
+
+                  <div className="mt-2 text-sm sm:text-base md:text-lg flex items-center ">
+                    <button
+                      className={`mr-2 px-3 py-1 rounded ${
+                        report.reported_psych
+                          ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+                          : "bg-blue-500 hover:bg-blue-600 text-white"
+                      }`}
+                      onClick={() => {
+                        handleReportUser(report);
+                      }}
+                      disabled={report.reported_psych}
+                    >
+                      {report.reported_psych
+                        ? "Already Reported"
+                        : "Report to Psychiatrist"}
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSumId(report?.user);
+                        setShowSummary(true);
+                      }}
+                      className={`mr-2 px-3 py-1 rounded bg-blue-500 hover:bg-blue-600 text-white`}
+                    >
+                      Summary
+                    </button>
+                  </div>
                 </div>
-              </div>
-            )
-        )
+              )
+          )
       )}
       {showReportModal && (
         <ReportMessage

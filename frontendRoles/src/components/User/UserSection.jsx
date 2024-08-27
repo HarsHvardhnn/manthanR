@@ -20,10 +20,10 @@ import { userContext } from "../../context";
 import axios from "axios";
 import { toast } from "react-toastify";
 import useLocalStorage from "../../use-persist-hook";
-
+import ConsultModal from "./ConsultModal";
+import { addPreventTab, removePreventTab } from "./preventTab";
 const axiosConfig = axios.create({
   baseURL: "http://localhost:3030/v1", // Base URL for API requests
-
 });
 
 const UserSection = () => {
@@ -45,6 +45,10 @@ const UserSection = () => {
   const [adminStatus, setAdminStatus] = useState(false);
   const [adminLoading, setAdminLoading] = useState(false);
   const [profileLoading, setProfileLoading] = useState(false);
+  const [consultModal, setConsultModal] = useState(false);
+  const [isSosRequestPending, setIsSosRequestPending] = useState(false);
+  const [isAdminRequestPending, setIsAdminRequestPending] = useState(false);
+  const [isProfileRequestPending, setIsProfileRequestPending] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -62,7 +66,19 @@ const UserSection = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    if (showReportModal || showAdminData || showProfile) {
+      addPreventTab();
+    } else {
+      removePreventTab();
+    }
+  }, [showReportModal, showAdminData, showProfile]);
+
   const handleReportClick = () => {
+    if (isSosRequestPending) return;
+
+    setIsSosRequestPending(true);
+
     const token = localStorage.getItem("token");
     setLoading(true);
     setAdminStatus(true);
@@ -77,11 +93,19 @@ const UserSection = () => {
           setShowReportModal(true);
         } else {
           toast.error("SOS cannot be sent: You do not have an assigned admin.");
+          setTimeout(() => {
+            toast.info(
+              "Click 'Admin Details' to check if an admin is available."
+            );
+          }, 2000);
         }
         setAdminStatus(false);
       })
       .catch((err) => {
         toast.error(err.message);
+      })
+      .finally(() => {
+        setIsSosRequestPending(false);
       });
   };
 
@@ -121,6 +145,9 @@ const UserSection = () => {
   };
 
   const adminData = () => {
+    if (isAdminRequestPending) return;
+
+    setIsAdminRequestPending(true);
     setAdminLoading(true);
     axios
       .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`, {
@@ -150,6 +177,7 @@ const UserSection = () => {
                   getUserAssignedAdmin();
                   setAdminLoading(false);
                   setShowAdminData(true);
+                  toast.success("An admin has just been assigned to you.");
                 }
               });
           }, 2000);
@@ -161,17 +189,24 @@ const UserSection = () => {
       })
       .catch((err) => {
         toast.error(err.message);
+      })
+      .finally(() => {
+        setIsAdminRequestPending(false);
       });
   };
   const closeAdminData = () => {
     setShowAdminData(false);
+    setIsAdminRequestPending(false);
   };
 
   const viewProfileClicked = () => {
+    if (isProfileRequestPending) return;
+    setIsProfileRequestPending(true);
     getUser();
   };
   const closeProfile = () => {
     setShowProfile(false);
+    setIsProfileRequestPending(false);
   };
 
   useEffect(() => {
@@ -198,6 +233,7 @@ const UserSection = () => {
 
   const handleCloseReportModal = () => {
     setShowReportModal(false);
+    setIsSosRequestPending(false);
   };
 
   const getpfp = () => {
@@ -291,6 +327,7 @@ const UserSection = () => {
       })
       .finally(() => {
         setProfileLoading(false);
+        setIsProfileRequestPending(false);
       });
   };
 
@@ -318,11 +355,14 @@ const UserSection = () => {
         if (res.status === 201) {
           // console.log('data sent');
           if (res.data.message === "Notification sent successfully")
-            toast.warn("YOUR ADMIN HAS BEEN WARNED");
+            setConsultModal(true);
         }
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsSosRequestPending(false);
       });
 
     // axios.post('')
@@ -345,7 +385,7 @@ const UserSection = () => {
         );
 
         setUser(response.data);
-        setPfp(response.data.profilePicture); 
+        setPfp(response.data.profilePicture);
       } catch (error) {
         console.error("Error fetching user data:", error);
       } finally {
@@ -364,7 +404,7 @@ const UserSection = () => {
     <>
       <Header />
       <div
-        className="flex flex-col min-h-screen font-montserrat bg-user-btns sm:bg-user-bg-small"
+        className="flex flex-col min-h-svh sm:min-h-screen font-montserrat bg-user-btns sm:bg-user-bg-small"
         style={{
           backgroundImage: `url(${bgImageUrl})`,
           backgroundSize: "cover",
@@ -423,7 +463,7 @@ const UserSection = () => {
                 className="btn min-w-32 sm:min-w-60 flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
               >
                 <FiUser className="icon text-4xl sm:text-6xl mb-2 mx-auto" />
-                <div className="txt text-sm sm:text-xl font-medium">
+                <div className="text-sm sm:text-xl font-medium">
                   <span className="relative">
                     View Profile{" "}
                     {profileLoading && (
@@ -504,6 +544,7 @@ const UserSection = () => {
           data={User}
         />
       )}
+      {consultModal && <ConsultModal onClose={() => setConsultModal(false)} />}
     </>
   );
 };

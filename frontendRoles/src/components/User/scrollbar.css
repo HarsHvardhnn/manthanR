@@ -68,11 +68,11 @@
   }
   .header-container {
     position: relative;
-    z-index: 20; /* Ensure this is higher than both the background and the chat container */
+    z-index: 20; 
   }
   .chat-container-wrapper {
     position: relative;
-    z-index: 10; /* Ensure this is higher than the background animation */
+    z-index: 10; 
   }
   .background-animation-wrapper {
     position: fixed;
@@ -80,8 +80,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1; /* Ensure this is lower than the chatbot container */
-    pointer-events: none; /* Prevent background elements from being interactive */
+    z-index: 1; 
+    pointer-events: none; 
   }
   
   ul#shape {
@@ -208,4 +208,9 @@ ul#shape li:nth-child(10) {
         opacity: 0;
         border-radius: 80%;
     }
+}
+
+/* dialog css */
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5); 
 }

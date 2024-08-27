@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
-function AdminWiseChart({ admin }) {
+function AdminWiseChart({ admin, adminName }) {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState([]);
   async function fetchUserInformation(userIds) {
     const userInformation = [];
-
+    console.log(admin);
     const token = localStorage.getItem("superadminToken");
     for (const userObj of userIds) {
       try {
@@ -25,6 +25,7 @@ function AdminWiseChart({ admin }) {
           ...response.data,
           message: userObj.message,
         };
+        console.log("userData", userData);
         userInformation.push(userData);
       } catch (error) {
         console.error(error);
@@ -164,8 +165,8 @@ function AdminWiseChart({ admin }) {
     dataLabels: {
       enabled: true,
       style: {
-        fontSize: "18px", 
-        colors: ["#000000"], 
+        fontSize: "18px",
+        colors: ["#000000"],
         fontFamily: "Montserrat, sans-serif",
       },
     },
@@ -243,6 +244,11 @@ function AdminWiseChart({ admin }) {
 
   return (
     <div className="bg-gray-100 border p-6 rounded-lg border-gray-300">
+      <div className="text-center mb-2">
+        <h2 className="font-semibold">
+          Selected Admin: {adminName.toUpperCase()}
+        </h2>
+      </div>
       <div
         className="w-full sm:w-5/6 mx-auto border border-gray-300 p-1 lg:p-6 rounded-lg"
         style={{ borderRadius: "10px" }}

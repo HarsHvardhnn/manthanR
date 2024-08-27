@@ -11,10 +11,9 @@ import "jspdf-autotable";
 import emailjs from "emailjs-com";
 import "./table.css";
 import { FaFilePdf, FaFileExcel } from "react-icons/fa";
+import DialogModal from "../Admin/DialogModal";
 
 const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
-  // const {user} = useContext(userContext);
-  // const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [reportedUsers, setReportedUsers] = useState([]);
   const [usersPerPage, setUsersPerPage] = useState(10);
@@ -33,7 +32,8 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   // const [selectUser, setSelectUser] = useState(null);
   const [users, setUsers] = useState([]);
   const [questions, setQuestions] = useState([]);
-
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [userToReport, setUserToReport] = useState(null);
   const getHeader = () => {
     const token = localStorage.getItem("superadminToken");
     if (token) {
@@ -115,8 +115,6 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       });
   };
 
-  const getMessage = () => {};
-
   const sendEmail = (report, message) => {
     const serviceId = "service_0jzntyg";
     const templateId = "template_dbu0gpy";
@@ -184,12 +182,24 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   };
 
   const handleReportSubmit = (comment) => {
-    // console.log(comment);
+    console.log(comment);
     // console.log("Reported user with id:", selectedUserId, "Comment:", comment);
     reportToPsych(comment);
     setShowReportModal(false);
   };
 
+  const handleReportClick = (user) => {
+    setUserToReport(user);
+    setIsDialogOpen(true);
+  };
+
+  const handleConfirmReport = () => {
+    if (userToReport) {
+      handleReportSubmit(userToReport);
+    }
+    setUserToReport(null);
+    setIsDialogOpen(false);
+  };
   function convertISOToDate(isoDate) {
     const date = new Date(isoDate);
     const options = {
@@ -429,12 +439,14 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
             </div>
             <div className="mt-2">
               <button
+                title="Download Excel File"
                 onClick={exportToExcel}
                 className="ml-4 bg-blue-600 text-white font-semibold md:font-bold py-2 px-2 rounded-md"
               >
                 <FaFileExcel />
               </button>
               <button
+                title="Download PDF File"
                 onClick={exportToPDF}
                 className="ml-4 bg-blue-600 text-white font-semibold md:font-bold py-2 px-2 rounded-md"
               >
@@ -499,7 +511,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                       </td>
                       <td className="px-4 py-2 border">
                         <button
-                          onClick={() => handleReportSubmit(user)}
+                          onClick={() => handleReportClick(user)}
                           className="font-medium text-blue-600 mr-2 underline"
                         >
                           Report to Psychiatrist
@@ -550,6 +562,14 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
           )}
         </>
       )}
+      <DialogModal
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        onSubmit={handleConfirmReport}
+        paragraph="Report this user to the Psychiatrist?"
+        closeBtnText="Cancel"
+        submitBtnText="Report"
+      />
     </div>
   );
 };

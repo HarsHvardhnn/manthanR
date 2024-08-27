@@ -16,6 +16,7 @@ const generateRandomPassword = () => {
 };
 const UserForm = () => {
   const [users, setUsers] = useState([]);
+  const [uploadPending, setUploadPending] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     lastname: "",
@@ -58,6 +59,9 @@ const UserForm = () => {
   };
   
   const handleUploadToDatabase = async () => {
+    if(uploadPending)
+      return;
+    setUploadPending(true);
     try {
       const usersData = users.map(user => ({
         username: user.username,
@@ -82,11 +86,14 @@ const UserForm = () => {
       }
       // console.log(response)
       toast.success("Users uploaded to database successfully");
-      setUsers([]); // Clear the users array after uploading to database
+      setUsers([]); 
+      setUploadPending(false);
     } catch (error) {
       console.error("Error uploading users to database:", error);
       toast.error('Some error occured please check username or email')
+      setUploadPending(false);
     }
+    
   };
   
   const handleEditUser = (index) => {
@@ -118,7 +125,7 @@ const UserForm = () => {
               className="block text-gray-700 text-base font-semibold "
               htmlFor="username"
             >
-              Username
+              Firstname
             </label>
             <input
               type="text"

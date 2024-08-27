@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Header from "../Home/Header";
+import DialogModal from "../Admin/DialogModal";
 
 const EditProfileForm = () => {
   const navigate = useNavigate();
@@ -12,6 +13,9 @@ const EditProfileForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { user, setUser } = useContext(userContext);
   const [obj, setObj] = useState({});
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [formValues, setFormValues] = useState({});
+  const [currentSem, setCurrentSem] = useState(null);
   const initialValues = {
     phoneNumber: "",
     hostelName: "",
@@ -20,6 +24,10 @@ const EditProfileForm = () => {
     semester: "",
   };
 
+  const handleDialogOpen = (values) => {
+    setFormValues(values);
+    setIsDialogOpen(true);
+  };
   const getUserProfile = () => {
     const token = localStorage.getItem("token");
     axios
@@ -29,8 +37,9 @@ const EditProfileForm = () => {
         },
       })
       .then((res) => {
+        console.log(res);
         const { profile_pic, contactNumber, semester, ...rest } = res.data;
-
+        setCurrentSem(res.data.semester);
         const needed_data = {
           profile_pic,
           contactNumber,
@@ -39,9 +48,8 @@ const EditProfileForm = () => {
 
         setObj(needed_data);
 
-        // Set initial values for Formik form
-        initialValues.phoneNumber = contactNumber; // Show contactNumber as phoneNumber
-        initialValues.semester = semester; // Keep semester visible
+        // initialValues.phoneNumber = contactNumber; // Show contactNumber as phoneNumber
+        //initialValues.semester = semester; // Keep semester visible
       })
       .catch((Err) => {
         console.log(Err);
@@ -88,9 +96,6 @@ const EditProfileForm = () => {
     { label: "Select Relationship Status", value: "" },
     { label: "Single", value: "Single" },
     { label: "In a Relationship", value: "In a Relationship" },
-    { label: "It's Complicated", value: "It's Complicated" },
-    { label: "Friendzoned", value: "Friendzoned" },
-    { label: "Building My Empire", value: "Building My Empire" },
     { label: "Focused on Self-Growth", value: "Focused on Self-Growth" },
   ];
 
@@ -108,8 +113,10 @@ const EditProfileForm = () => {
     { label: "Sem 10", value: "Sem 10" },
   ];
 
-  const onSubmit = async (values) => {
-    if (!values.phoneNumber.match(/^\d{10}$/)) {
+  const onSubmit = async () => {
+    const values = formValues;
+    setIsDialogOpen(false);
+    if (values.phoneNumber && !values.phoneNumber.match(/^\d{10}$/)) {
       toast.error("Please enter a valid 10-digit phone number.");
       return;
     }
@@ -151,10 +158,10 @@ const EditProfileForm = () => {
   };
 
   return (
-    <div className="w-full bg-blue-200 min-h-[120vh]">
+    <div className="w-full bg-blue-200 min-h-[120vh] font-montserrat">
       <Header />
-      <Formik initialValues={initialValues} onSubmit={onSubmit}>
-        {({ errors, touched, isValid }) => (
+      <Formik initialValues={initialValues} onSubmit={handleDialogOpen}>
+        {({ values, errors, touched, isValid, dirty }) => (
           <Form className="w-[90%] sm:w-[70%] md:w-[60%] lg:w-[40%] mx-auto relative top-20 sm:top-28 font-montserrat shadow-xl p-6 rounded-xl bg-white">
             <div>
               <h1 className="uppercase font-bold text-xl mb-4 underline">
@@ -180,7 +187,7 @@ const EditProfileForm = () => {
                 type="tel"
                 name="phoneNumber"
                 placeholder="Phone Number"
-                className="w-full px-3 py-2 border rounded-md"
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-2 focus:border-blue-400"
               />
               <ErrorMessage
                 name="phoneNumber"
@@ -193,7 +200,9 @@ const EditProfileForm = () => {
                 <Field
                   as="select"
                   name="hostelName"
-                  className="w-full px-3 py-2 border rounded-md text-xs sm:text-sm xl:text-base"
+                  className={`w-full px-3 py-2 border rounded-md text-xs sm:text-sm xl:text-base focus:outline-none focus:border-2 focus:border-blue-400 ${
+                    !values.hostelName ? "text-gray-400" : "text-black"
+                  }`}
                 >
                   {hostelOptions.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -212,7 +221,7 @@ const EditProfileForm = () => {
                   type="text"
                   name="hostelRoomNumber"
                   placeholder="Room No."
-                  className="w-full px-3 pt-2 pb-1 border rounded-md"
+                  className="w-full px-3 pt-2 pb-1 border rounded-md focus:outline-none focus:border-2 focus:border-blue-400"
                 />
                 <ErrorMessage
                   name="hostelRoomNumber"
@@ -225,7 +234,9 @@ const EditProfileForm = () => {
               <Field
                 as="select"
                 name="relationshipStatus"
-                className="w-full px-3 py-2 border rounded-md text-xs sm:text-sm xl:text-base"
+                className={`w-full px-3 py-2 border rounded-md text-xs sm:text-sm xl:text-base focus:outline-none focus:border-2 focus:border-blue-400 ${
+                  !values.relationshipStatus ? "text-gray-400" : "text-black"
+                }`}
               >
                 {relationshipStatusOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -243,7 +254,9 @@ const EditProfileForm = () => {
               <Field
                 as="select"
                 name="semester"
-                className="w-full px-3 py-2 border rounded-md text-xs sm:text-sm xl:text-base"
+                className={`w-full px-3 py-2 border rounded-md text-xs sm:text-sm xl:text-base focus:outline-none focus:border-2 focus:border-blue-400 ${
+                  !values.semester ? "text-gray-400" : "text-black"
+                }`}
               >
                 {semesterOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -290,11 +303,11 @@ const EditProfileForm = () => {
               <button
                 type="submit"
                 className={`bg-blue-500 text-white py-2 px-4 font-medium rounded-md hover:bg-blue-600 ${
-                  isSubmitting || !isValid
+                  isSubmitting || !isValid || !dirty
                     ? "opacity-50 cursor-not-allowed"
                     : ""
                 }`}
-                disabled={isSubmitting || !isValid}
+                disabled={isSubmitting || !isValid || !dirty}
               >
                 {isSubmitting ? "Submitting..." : "Submit"}
               </button>
@@ -302,6 +315,14 @@ const EditProfileForm = () => {
           </Form>
         )}
       </Formik>
+      <DialogModal
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        onSubmit={onSubmit}
+        paragraph="Are you sure you want to update your profile information?"
+        closeBtnText="Cancel"
+        submitBtnText="Update"
+      />
     </div>
   );
 };

@@ -16,10 +16,12 @@ import UserReport from "./UserReport";
 import SOSNotifications from "./SOSNotifications";
 import { adminContext } from "../../context";
 import { useNavigate } from "react-router-dom";
+import DialogModal from "./DialogModal";
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("charts");
   const [users, setUsers] = useState([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { admin, setAdmin } = useContext(adminContext);
   const [selectedFilter, setSelectedFilter] = useState("score");
   const navigate = useNavigate();
@@ -49,6 +51,14 @@ const AdminDashboard = () => {
     const obj = JSON.parse(object);
     setAdmin(obj);
   }, []);
+
+  const handleLogout = () => {
+    setAdmin("");
+    localStorage.removeItem("adminToken");
+    localStorage.removeItem("admin");
+    navigate("/adminlogin");
+  };
+
   const getPadding = () => {
     const screenWidth = window.innerWidth;
     return screenWidth >= 768 ? "1.365rem" : undefined;
@@ -58,7 +68,7 @@ const AdminDashboard = () => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
   return (
-    <div className="flex font-montserrat h-screen">
+    <div className="flex font-montserrat min-h-svh sm:min-h-screen">
       <div
         className={`absolute top-0 left-0 bottom-0 w-48 md:w-64 bg-gray-700 transition-transform duration-300 z-50 ${
           showSidebar ? "translate-x-0" : "-translate-x-full"
@@ -149,12 +159,7 @@ const AdminDashboard = () => {
             </button>
             <div className="relative">
               <button
-                onClick={() => {
-                  setAdmin("");
-                  localStorage.removeItem("adminToken");
-                  localStorage.removeItem("admin");
-                  navigate("/adminlogin");
-                }}
+                onClick={() => setIsDialogOpen(true)}
                 className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
               >
                 {" "}
@@ -173,12 +178,7 @@ const AdminDashboard = () => {
           </div>
           <div className="relative">
             <button
-              onClick={() => {
-                setAdmin("");
-                localStorage.removeItem("adminToken");
-                localStorage.removeItem("admin");
-                navigate("/adminlogin");
-              }}
+              onClick={() => setIsDialogOpen(true)}
               className="bg-gray-800 mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
             >
               <FaSignOutAlt className="mr-2" />
@@ -186,10 +186,18 @@ const AdminDashboard = () => {
             </button>
           </div>
         </nav>
-        {activeTab === "charts" && <ScoreRangeChart admin={admin}/>}
+        {activeTab === "charts" && <ScoreRangeChart admin={admin} />}
         {activeTab === "allUsers" && <UserData admin={admin} />}
         {activeTab === "userreport" && <UserReport admin={admin} />}
         {activeTab === "sosnotification" && <SOSNotifications admin={admin} />}
+        <DialogModal
+          isOpen={isDialogOpen}
+          onClose={() => setIsDialogOpen(false)}
+          onSubmit={handleLogout}
+          paragraph="Are you sure you want to logout?"
+          closeBtnText="Cancel"
+          submitBtnText="Logout"
+        />
       </div>
     </div>
   );

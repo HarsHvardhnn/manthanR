@@ -1,6 +1,10 @@
 import { useState, useEffect, useContext } from "react";
 import { superadminContext, userContext, adminContext } from "./context";
-import {  RouterProvider, createBrowserRouter, useNavigate,} from "react-router-dom";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  useNavigate,
+} from "react-router-dom";
 import Login from "./components/Auth/Login";
 import "./App.css";
 import UpdateProfile from "./components/User/UpdateProfile";
@@ -27,7 +31,7 @@ import SessionManager from "./SessionManager";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./store/store";
-
+import fetchUserData from "./components/Auth/FetchUserInfo";
 function App() {
   const [user, setUser] = useState({
     username: "",
@@ -45,7 +49,19 @@ function App() {
     adminID: "",
     email: "",
   });
-
+  const [isProfileComplete, setIsProfileComplete] = useState(false);
+  useEffect(() => {
+    const checkProfileCompletion = async () => {
+      if (user.userID) {
+        const { isProfileComplete, hasAcceptedTnc } = await fetchUserData(
+          user.userID
+        );
+        setIsProfileComplete(isProfileComplete);
+        console.log(isProfileComplete);
+      }
+    };
+    checkProfileCompletion();
+  }, [user.userID]);
   const router = createBrowserRouter([
     {
       path: "/login",
@@ -53,7 +69,7 @@ function App() {
     },
     {
       path: "/UpdateProfile",
-      element: <UpdateProfile />,
+      element: isProfileComplete ? <UserSection /> : <UpdateProfile />,
     },
     {
       path: "/add-user",
@@ -61,11 +77,11 @@ function App() {
     },
     {
       path: "/Chatbot",
-      element: <Chatbot />,
+      element: isProfileComplete ? <Chatbot /> : <UpdateProfile />,
     },
     {
       path: "/edit-profile",
-      element:  <EditProfileForm />,
+      element: isProfileComplete ? <EditProfileForm /> : <UpdateProfile />,
     },
     {
       path: "/",
@@ -81,7 +97,7 @@ function App() {
     },
     {
       path: "/disclaimer",
-      element: <Disclaimer />,
+      element: isProfileComplete ? <Disclaimer /> : <UpdateProfile />,
     },
     {
       path: "/AdminDashboard",
@@ -101,7 +117,7 @@ function App() {
     },
     {
       path: "/usersection",
-      element: <UserSection />,
+      element: isProfileComplete ? <UserSection /> : <UpdateProfile />,
     },
     {
       path: "/ProfileUpdatePage",
@@ -118,9 +134,7 @@ function App() {
         <PersistGate loading={null} persistor={persistor}>
           <SessionManager />
           <loadingContext.Provider value={{ loading, setLoading }}>
-            <userContext.Provider
-              value={{ user, setUser }}
-            >
+            <userContext.Provider value={{ user, setUser }}>
               <superadminContext.Provider value={{ superadmin, setsuperadmin }}>
                 <adminEmailContext.Provider
                   value={{ adminEmail, setAdminEmail }}

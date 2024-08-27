@@ -130,7 +130,7 @@ const LoginPage = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      navigate("/chatbot");
+      navigate("/UserSection");
     }
   }, []);
 

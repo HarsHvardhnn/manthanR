@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Logo from "./Header.png";
 import { toast } from "react-toastify";
-
+import DialogModal from "../Admin/DialogModal";
 function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const { pathname } = location;
-
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [token, setToken] = useState(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -22,6 +22,12 @@ function Header() {
 
   const handleMouseLeave = () => {
     setIsDropdownOpen(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+    localStorage.removeItem("user");
   };
 
   return (
@@ -47,27 +53,37 @@ function Header() {
           </div>
         )}
 
-        <div>
-          {pathname === "/usersection" ? (
-            <button
-              onClick={() => window.open("https://calendly.com/counselor2-iitp/quickcall", "_blank")}
-              className="px-3 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
-            >
-              Consult
-            </button>
-          ) : ( 
-            token && (
-              <button
-                onClick={() => {
-                  navigate("/usersection");
-                }}
-                className="px-3 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
-              >
-                Profile
-              </button>
-            )
-          )}
-        </div>
+        {pathname !== "/updateprofile" && (
+          <>
+            <div>
+              {pathname === "/usersection" ? (
+                <button
+                  onClick={() =>
+                    window.open(
+                      "https://calendly.com/counselor2-iitp/quickcall",
+                      "_blank"
+                    )
+                  }
+                  className="px-3 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
+                >
+                  Consult
+                </button>
+              ) : (
+                token && (
+                  <button
+                    onClick={() => {
+                      navigate("/usersection");
+                    }}
+                    className="px-3 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
+                  >
+                    Profile
+                  </button>
+                )
+              )}
+            </div>
+          </>
+        )}
+
         <div
           className="relative mr-1 sm:mr-2 lg:mr-12 xl:mr-32"
           onMouseEnter={handleMouseEnter}
@@ -78,11 +94,7 @@ function Header() {
               className=" px-3 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
               aria-haspopup="true"
               aria-expanded={isDropdownOpen ? "true" : "false"}
-              onClick={() => {
-                localStorage.removeItem("token");
-                navigate("/login");
-                localStorage.removeItem("user");
-              }}
+              onClick={() => setIsDialogOpen(true)}
             >
               Logout
             </button>
@@ -120,7 +132,14 @@ function Header() {
           )} */}
         </div>
       </div>
-     
+      <DialogModal
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        onSubmit={handleLogout}
+        paragraph="Are you sure you want to logout?"
+        closeBtnText="Cancel"
+        submitBtnText="Logout"
+      />
     </div>
   );
 }

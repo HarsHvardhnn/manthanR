@@ -4,19 +4,19 @@ import axios from "axios";
 import ReactPaginate from "react-paginate";
 import * as XLSX from "xlsx";
 import ReportMessage from "./ReportMessage";
-import {  adminEmailContext } from "../../context";
+import { adminEmailContext } from "../../context";
 import jsPDF from "jspdf";
 import { ThreeDots } from "react-loader-spinner";
 import emailjs from "emailjs-com";
 import "jspdf-autotable";
 import { FaFilePdf, FaFileExcel } from "react-icons/fa";
+import DialogModal from "./DialogModal";
 
 const UserData = ({
   showSOSButton = true,
   showSummaryColumn = false,
   admin,
 }) => {
-
   const [currentPage, setCurrentPage] = useState(0);
   const [usersPerPage, setUsersPerPage] = useState(10);
   const [selectedSort, setSelectedSort] = useState("none");
@@ -25,16 +25,16 @@ const UserData = ({
   const [selectedYear, setSelectedYear] = useState("All");
   const [showReportModal, setShowReportModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   // const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   // const [fetchedReportedUsers, setFetchedReportedUsers] = useState();
   // const { admin } = useContext(adminContext);
   const { adminEmail } = useContext(adminEmailContext);
-
   const [selectUser, setSelectUser] = useState(null);
   const [users, setUsers] = useState([]);
   const [questions, setQuestions] = useState([]);
-
+  const [userToPromote, setUserToPromote] = useState(null);
 
   const getAllQuestions = async () => {
     const token = localStorage.getItem("adminToken");
@@ -127,17 +127,27 @@ const UserData = ({
         }
       );
       if (res.status === 200) {
-        toast.success("User promoted to admin");
+        toast.success("User promoted to Admin");
       }
     } catch (error) {
       console.error(error);
     }
   };
-  
 
+  const handlePromoteClick = (user) => {
+    setUserToPromote(user);
+    setIsDialogOpen(true);
+  };
+
+  const handleConfirmPromotion = () => {
+    if (userToPromote) {
+      promoteToAdmin(userToPromote._id);
+    }
+    setUserToPromote(null);
+    setIsDialogOpen(false);
+  };
   const handleReportUser = (id) => {
     setSelectedUserId(id);
-
     setShowReportModal(true);
   };
 
@@ -225,7 +235,7 @@ const UserData = ({
       ? filteredByMonth
       : filteredByMonth.filter((user) => {
           const userYear = user.createdAt.substring(0, 4);
-         
+
           return userYear === selectedYear;
         });
 
@@ -283,10 +293,10 @@ const UserData = ({
     usersPerPage === "all"
       ? filteredByYear
       : filteredByYear.slice(offset, offset + parseInt(usersPerPage));
-      const capitalizeFirstLetter = (string) => {
-        if (!string) return "";
-        return string.charAt(0).toUpperCase() + string.slice(1);
-      };
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
   return (
     <div className="mx-auto p-2 md:p-4 pb-10 bg-gray-100 font-montserrat text-xs md:text-sm overflow-y-auto h-[90%]">
       {loading ? (
@@ -463,12 +473,12 @@ const UserData = ({
                   {currentUsers.map((user, index) => (
                     <tr key={user._id}>
                       <td className="px-4 py-2 border">{index + 1}</td>
-                      <td className="px-4 py-2 border">{capitalizeFirstLetter(user.username)}</td>
+                      <td className="px-4 py-2 border">
+                        {capitalizeFirstLetter(user.username)}
+                      </td>
                       <td className="px-4 py-2 border">{user.email}</td>
                       <td className="px-4 py-2 border">{user.contactNumber}</td>
-                      <td className="px-4 py-2 border">
-                        {user.score ?? "NA"}
-                      </td>
+                      <td className="px-4 py-2 border">{user.score ?? "NA"}</td>
                       <td className="px-4 py-2 border">
                         {convertISOToDate(user.createdAt)}
                       </td>
@@ -477,12 +487,14 @@ const UserData = ({
                       </td>
                       <td className="px-4 py-2 border">
                         <button
-                          onClick={() => promoteToAdmin(user._id)}
+                          title="Promote to admin"
+                          onClick={() => handlePromoteClick(user)}
                           className="font-medium text-blue-600 mr-2 underline mt-2 xl:mt-0"
                         >
                           Promote
                         </button>
                         <button
+                          title="Report to superadmin"
                           onClick={() => {
                             setSelectUser(user.email);
                             handleReportUser(user._id);
@@ -526,6 +538,14 @@ const UserData = ({
                   disabledClassName={"pagination__link--disabled"}
                 />
               </div>
+              <DialogModal
+                isOpen={isDialogOpen}
+                onClose={() => setIsDialogOpen(false)}
+                onSubmit={handleConfirmPromotion}
+                paragraph="Are you sure you want to promote this user to admin?"
+                closeBtnText="Cancel"
+                submitBtnText="Promote"
+              />
             </div>
           )}
         </>
