@@ -53,11 +53,20 @@ function App() {
   useEffect(() => {
     const checkProfileCompletion = async () => {
       if (user.userID) {
-        const { isProfileComplete, hasAcceptedTnc } = await fetchUserData(
-          user.userID
-        );
-        setIsProfileComplete(isProfileComplete);
-        console.log(isProfileComplete);
+        const storedProfileStatus = localStorage.getItem("isProfileComplete");
+        if (storedProfileStatus) {
+          setIsProfileComplete(JSON.parse(storedProfileStatus));
+          console.log(
+            "Loaded isProfileComplete from localStorage:",
+            storedProfileStatus
+          );
+        } else {
+          const { isProfileComplete, hasAcceptedTnc } = await fetchUserData(
+            user.userID
+          );
+          setIsProfileComplete(isProfileComplete);
+          localStorage.setItem("isProfileComplete", JSON.stringify(isProfileComplete));
+        }
       }
     };
     checkProfileCompletion();

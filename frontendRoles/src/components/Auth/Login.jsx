@@ -136,7 +136,7 @@ const LoginPage = () => {
 
   return (
     <div
-      className="min-h-screen flex justify-center items-center bg-blue-200 font-montserrat"
+      className="min-h-svh sm:min-h-screen flex justify-center items-center bg-blue-200 font-montserrat"
       style={{
         backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${Bg})`,
         backgroundSize: "Cover",

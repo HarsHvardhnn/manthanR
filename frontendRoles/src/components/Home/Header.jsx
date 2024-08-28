@@ -28,6 +28,7 @@ function Header() {
     localStorage.removeItem("token");
     navigate("/login");
     localStorage.removeItem("user");
+    localStorage.removeItem("isProfileComplete")
   };
 
   return (
