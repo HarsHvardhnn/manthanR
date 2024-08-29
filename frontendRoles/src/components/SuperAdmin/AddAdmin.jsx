@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -12,10 +12,10 @@ const AddAdmin = () => {
     email: "",
     degree: "",
     dept: "",
-    semester: "",
+    semester: [],
     password: "",
   };
-
+  const [selectedSemesters, setSelectedSemesters] = useState([]);
 
   const validationSchema = Yup.object().shape({
     firstname: Yup.string().required("First Name is required"),
@@ -23,17 +23,20 @@ const AddAdmin = () => {
     phone: Yup.string().min(10).max(10).required("Phone Number is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     degree: Yup.string().required("Degree Type is required"),
-    dept: Yup.string().required("dept is required"),
-    semester: Yup.string().required("Year of Course is required"),
+    dept: Yup.string().required("Department is required"),
+    semester: Yup.array()
+      .min(1, "At least one semester must be selected")
+      .required("Semester is required"),
   });
 
   const onSubmit = (values, { resetForm }) => {
     const password = generateRandomPassword();
     const formData = {
       ...values,
+      semester: selectedSemesters,
       password: password,
     };
-   // console.log("Generated Password:", password);
+    // console.log("Generated Password:", password);
     const token = localStorage.getItem("superadminToken");
     // console.log(formData);
 
@@ -44,17 +47,16 @@ const AddAdmin = () => {
         },
       })
       .then((res) => {
-        // console.log(res);
-        toast.success("New admin created successfully")
+        //console.log(res);
+        toast.success("New admin created successfully");
       })
       .catch((err) => {
         console.log(err);
       });
 
     // Send formData to backend
-
     resetForm();
-    
+    setSelectedSemesters([]);
   };
 
   const generateRandomPassword = () => {
@@ -70,6 +72,16 @@ const AddAdmin = () => {
     return password;
   };
 
+  const handleSemesterClick = (semester, setFieldValue) => {
+  const updatedSemesters = selectedSemesters.includes(semester)
+    ? selectedSemesters.filter((s) => s !== semester)
+    : [...selectedSemesters, semester];
+
+  setSelectedSemesters(updatedSemesters);
+  setFieldValue("semester", updatedSemesters);
+};
+
+
   return (
     <div className="w-full bg-gray-100 overflow-y-auto h-[90%]">
       <div className="sm:w-3/4 md:w-11/12 lg:w-3/4 mx-auto bg-white rounded p-8 shadow-md">
@@ -81,7 +93,7 @@ const AddAdmin = () => {
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
-          {({ isSubmitting, isValid }) => (
+          {({ isSubmitting, isValid, setFieldValue }) => (
             <Form>
               <div className="flex justify-between w-full">
                 <div className="mb-4 mr-2 w-1/2">
@@ -95,7 +107,7 @@ const AddAdmin = () => {
                     type="text"
                     id="firstname"
                     name="firstname"
-                    className="mt-1 p-2 shadow block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    className="mt-1 p-2 text-xs sm:text-sm xl:text-base shadow block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   />
                   <ErrorMessage
                     name="firstname"
@@ -114,7 +126,7 @@ const AddAdmin = () => {
                     type="text"
                     id="lastname"
                     name="lastname"
-                    className="mt-1 p-2 shadow block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    className="mt-1 p-2 text-xs sm:text-sm xl:text-base shadow block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   />
                   <ErrorMessage
                     name="lastname"
@@ -134,7 +146,7 @@ const AddAdmin = () => {
                   type="text"
                   id="phone"
                   name="phone"
-                  className="mt-1 p-2 shadow block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 p-2 text-xs sm:text-sm xl:text-base shadow block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 />
                 <ErrorMessage
                   name="phone"
@@ -153,7 +165,7 @@ const AddAdmin = () => {
                   type="email"
                   id="email"
                   name="email"
-                  className="mt-1 p-2 shadow block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 p-2 text-xs sm:text-sm xl:text-base shadow block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 />
                 <ErrorMessage
                   name="email"
@@ -172,12 +184,21 @@ const AddAdmin = () => {
                   as="select"
                   id="degree"
                   name="degree"
-                  className="mt-1 p-2 shadow text-xs sm:text-sm xl:text-base block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 p-2 bg-white shadow text-xs sm:text-sm xl:text-base block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option value="">Select Degree Type</option>
-                  <option value="postgrad">PG</option>
-                  <option value="undergrad">UG</option>
-                  <option value="PhD">PHD</option>
+                  <option value="" disabled>
+                    Select Degree Type
+                  </option>
+                  <option value="B.Tech">B.Tech</option>
+                  <option value="M.Tech">M.Tech</option>
+                  <option value="M.Sc">M.Sc</option>
+                  <option value="PhD">PhD</option>
+                  <option value="Integrated (B.Tech-M.Tech)">
+                    Integrated (B.Tech-M.Tech)
+                  </option>
+                  <option value="Integrated (B.Tech-MBA)">
+                    Integrated (B.Tech-MBA)
+                  </option>
                 </Field>
                 <ErrorMessage
                   name="degree"
@@ -196,20 +217,40 @@ const AddAdmin = () => {
                   as="select"
                   id="dept"
                   name="dept"
-                  className="mt-1 p-2 shadow text-xs sm:text-sm xl:text-base block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 p-2 bg-white shadow text-xs sm:text-sm xl:text-base block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option value="">Select Dept.</option>
-                  <option value="cbe">CBE</option>
-                  <option value="cee">CEE</option>
-                  <option value="chem">CHEM</option>
-                  <option value="cse">CSE</option>
-                  <option value="ee">EE</option>
-                  <option value="hss">HSS</option>
-                  <option value="math">MATH</option>
-                  <option value="me">ME</option>
-                  <option value="mee">MEE</option>
-                  <option value="phy">PHY</option>
-                  
+                  <option value="" disabled>
+                    Select Dept.
+                  </option>
+                  <option value="AI">AI</option>
+                  <option value="AI&DS">AI&DS</option>
+                  <option value="AMT">Advance Manufacturing technology</option>
+                  <option value="CBE">CBE</option>
+                  <option value="CEE">CEE</option>
+                  <option value="CHEM">CHEM</option>
+                  <option value="CSE">CSE</option>
+                  <option value="CSSP">CSSP</option>
+                  <option value="Design">Design</option>
+                  <option value="ECE-VLSI">ECE-VLSI</option>
+                  <option value="ECE-CSSP">ECE-CSSP</option>
+                  <option value="EEE-P&C">EEE-P&C</option>
+                  <option value="ECE+CSSP">ECE+CSSP</option>
+                  <option value="EE">EE</option>
+                  <option value="EEE">EEE</option>
+                  <option value="Geo">GEO</option>
+                  <option value="HSS">HSS</option>
+                  <option value="Manufacturing">Manufacturing</option>
+                  <option value="Math">MATH</option>
+                  <option value="Mechanical Design">Mechanical Design</option>
+                  <option value="ME">ME</option>
+                  <option value="MEE">MEE</option>
+                  <option value="Mechatronics">Mechatronics</option>
+                  <option value="P&C">P&C</option>
+                  <option value="PHY">PHY</option>
+                  <option value="Structural ">Structural</option>
+                  <option value="TFE">Thermal & Fluids Engineering</option>
+                  <option value="Thermal">Thermal</option>
+                  <option value="VLSI">VLSI</option>
                 </Field>
                 <ErrorMessage
                   name="dept"
@@ -224,19 +265,28 @@ const AddAdmin = () => {
                 >
                   Semester
                 </label>
-                <Field
-                  as="select"
-                  id="semester"
-                  name="semester"
-                  className="mt-1 p-2 shadow text-xs sm:text-sm xl:text-base block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="">Select Semester</option>
-                  {[...Array(10)].map((_, index) => (
-                    <option key={index + 1} value={index + 1}>
-                      {index + 1}
-                    </option>
-                  ))}
-                </Field>
+                <div className="flex flex-wrap gap-2">
+                  {[...Array(10)].map((_, index) => {
+                    const semester = index + 1;
+                    const isSelected = selectedSemesters.includes(semester);
+
+                    return (
+                      <button
+                        type="button"
+                        key={semester}
+                        className={`py-1 px-4 text-xs sm:text-sm font-medium rounded-md border ${
+                          isSelected
+                            ? "bg-blue-500 bg-opacity-95 text-white"
+                            : "bg-gray-100 text-gray-700"
+                        }`}
+                        onClick={() => handleSemesterClick(semester, setFieldValue)}
+                      >
+                        Sem {semester}
+                      </button>
+                    );
+                  })}
+                </div>
+
                 <ErrorMessage
                   name="semester"
                   component="div"

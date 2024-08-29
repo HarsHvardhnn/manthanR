@@ -32,7 +32,7 @@ const ForgotPassword = () => {
   }, 60000);
 
   const checkEmail = (values) => {
-    setLoading(true); // Set loading to true initially
+    setLoading(true); 
 
     if (!values.email) {
       setLoading(false); 
@@ -52,10 +52,10 @@ const ForgotPassword = () => {
       })
       .catch((err) => {
         console.log("catch block", err);
-        toast.error(err.response.data);
+       // toast.error(err.response.data);
       })
       .finally(() => {
-        setLoading(false); // Set loading to false after the axios operation is completed (success or failure)
+        setLoading(false); 
       });
   };
 
@@ -69,7 +69,8 @@ const ForgotPassword = () => {
         }
       })
       .catch((err) => {
-        toast.error(err.response.status);
+
+       // toast.error(err.response.status);
       });
   };
 
@@ -112,6 +113,7 @@ const ForgotPassword = () => {
         if (err.response.status === 401) {
           setWrongOtp(true);
           toast.error("Wrong OTP. Please try again.");
+          setShowOTPFields(false);
           return;
         }
       });
@@ -138,9 +140,9 @@ const ForgotPassword = () => {
             </button>
           </div>
         </div>
-        {wrongOtp && (
+        {/* {wrongOtp && (
           <p className="text-red-500 mt-1">Wrong OTP. Please retry.</p>
-        )}
+        )} */}
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -266,7 +268,7 @@ const ForgotPassword = () => {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                      className="w-full hover:cursor-pointer bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
                     >
                       Submit
                     </button>

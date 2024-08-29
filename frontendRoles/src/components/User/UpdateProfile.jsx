@@ -131,7 +131,7 @@ const ProfileUpdatePage = () => {
 
         setUser(updatedUser);
         localStorage.setItem("user", JSON.stringify(updatedUser));
-        console.log(user);
+        //console.log(user);
       }
     } catch (err) {
       console.log(err);
@@ -307,9 +307,16 @@ const ProfileUpdatePage = () => {
                           <option value="" disabled>
                             Select Degree Type *
                           </option>
-                          <option value="undergrad">Undergraduate</option>
-                          <option value="postgrad">Postgraduate</option>
+                          <option value="B.Tech">B.Tech</option>
+                          <option value="M.Tech">M.Tech</option>
+                          <option value="M.Sc">M.Sc</option>
                           <option value="PhD">PhD</option>
+                          <option value="Integrated (B.Tech-M.Tech)">
+                            Integrated (B.Tech-M.Tech)
+                          </option>
+                          <option value="Integrated (B.Tech-MBA)">
+                            Integrated (B.Tech-MBA)
+                          </option>
                         </Field>
                         <ErrorMessage
                           name="degreeType"
@@ -333,16 +340,36 @@ const ProfileUpdatePage = () => {
                           <option value="" disabled>
                             Select Department *
                           </option>
-                          <option value="cbe">CBE</option>
-                          <option value="cee">CEE</option>
-                          <option value="chem">CHEM</option>
-                          <option value="cse">CSE</option>
-                          <option value="ee">EE</option>
-                          <option value="hss">HSS</option>
-                          <option value="math">MATH</option>
-                          <option value="me">ME</option>
-                          <option value="mee">MEE</option>
-                          <option value="phy">PHY</option>
+                          <option value="AI">AI</option>
+                          <option value="AI&DS">AI&DS</option>
+                          <option value="AMT">Advance Manufacturing technology</option>
+                          <option value="CBE">CBE</option>
+                          <option value="CEE">CEE</option>
+                          <option value="CHEM">CHEM</option>
+                          <option value="CSE">CSE</option>
+                          <option value="CSSP">CSSP</option>
+                          <option value="Design">Design</option>
+                          <option value="ECE-VLSI">ECE-VLSI</option>
+                          <option value="ECE-CSSP">ECE-CSSP</option>
+                          <option value="EEE-P&C">EEE-P&C</option>
+                          <option value="ECE+CSSP">ECE+CSSP</option>
+                          <option value="EE">EE</option>
+                          <option value="EEE">EEE</option>
+                          <option value="Geo">GEO</option>
+                          <option value="HSS">HSS</option>
+                          <option value="Manufacturing">Manufacturing</option>
+                          <option value="Math">MATH</option>
+                          <option value="Mechanical Design">Mechanical Design</option>
+                          <option value="ME">ME</option>
+                          <option value="MEE">MEE</option>
+                          <option value="Mechatronics">Mechatronics</option>
+                          <option value="P&C">P&C</option>
+                          <option value="PHY">PHY</option>
+                          <option value="Structural ">Structural</option>
+                          <option value="TFE">Thermal & Fluids Engineering</option>
+                          <option value="Thermal">Thermal</option>
+                          <option value="VLSI">VLSI</option>
+                          
                         </Field>
                         <ErrorMessage
                           name="department"
@@ -512,7 +539,7 @@ const ProfileUpdatePage = () => {
                         localStorage.setItem(
                           "isProfileComplete",
                           JSON.stringify(true)
-                        ); 
+                        );
                       }}
                       style={{ display: "block", margin: "auto" }}
                     >

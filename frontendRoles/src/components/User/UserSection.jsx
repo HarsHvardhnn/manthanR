@@ -137,7 +137,7 @@ const UserSection = () => {
         }
       )
       .then((Res) => {
-        console.log(Res);
+        //console.log(Res);
       })
       .catch((err) => {
         console.log(err);
@@ -397,9 +397,9 @@ const UserSection = () => {
   }, []);
   const capitalizeFirstLetter = (string) => {
     if (!string) return "";
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   };
-
+  
   return (
     <>
       <Header />
@@ -460,7 +460,8 @@ const UserSection = () => {
             <div className="h-3/5 flex flex-wrap justify-around w-11/12 sm:w-10/12 md:w-1/2 lg:w-11/12 md:ml-10 mx-auto lg:mx-auto rounded-xl mt-6 sm:mt-10">
               <button
                 onClick={viewProfileClicked}
-                className="btn min-w-32 sm:min-w-60 flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
+                disabled={adminLoading || adminStatus}
+                className="btn min-w-32 sm:min-w-60 disabled:opacity-90 disabled:scale-100 disabled:hover:bg-user-btns flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
               >
                 <FiUser className="icon text-4xl sm:text-6xl mb-2 mx-auto" />
                 <div className="text-sm sm:text-xl font-medium">
@@ -478,14 +479,16 @@ const UserSection = () => {
                 onClick={() => {
                   navigate("/disclaimer");
                 }}
-                className="btn min-w-32 sm:min-w-60 flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
+                disabled={adminLoading || adminStatus || profileLoading}
+                className="btn min-w-32 sm:min-w-60 disabled:opacity-90 disabled:scale-100 disabled:hover:bg-user-btns flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
               >
                 <FiMessageCircle className="text-4xl sm:text-6xl mb-2 mx-auto" />
                 <div className="text-sm sm:text-xl font-medium">Start Chat</div>
               </button>
               <button
                 onClick={handleReportClick}
-                className="btn min-w-32 sm:min-w-60 flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
+                disabled={adminLoading || profileLoading}
+                className="btn min-w-32 sm:min-w-60 disabled:opacity-90 disabled:scale-100 disabled:hover:bg-user-btns flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
               >
                 <FiAlertCircle className="text-4xl sm:text-6xl mb-2 mx-auto" />
                 <div className="text-sm sm:text-xl font-medium flex items-center justify-center">
@@ -501,7 +504,8 @@ const UserSection = () => {
               </button>
               <button
                 onClick={adminData}
-                className="btn min-w-32 sm:min-w-60 flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
+                disabled={profileLoading || adminStatus}
+                className="btn min-w-32 disabled:opacity-90 disabled:scale-100 disabled:hover:bg-user-btns sm:min-w-60 flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
               >
                 <BsInfoCircle className="text-4xl sm:text-6xl mb-2 mx-auto" />
                 <div className="text-sm sm:text-xl font-medium">

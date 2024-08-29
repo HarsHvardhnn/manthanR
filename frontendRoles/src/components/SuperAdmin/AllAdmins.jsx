@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { FaTrash } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import DialogModal from "../Admin/DialogModal";
 
 const AllAdmins = () => {
@@ -54,7 +54,7 @@ const AllAdmins = () => {
       })
       .then((res) => {
         setUserData(res.data);
-        // console.log(res.data)
+        //console.log(res.data);
       })
       .catch((Err) => {
         console.log(Err);
@@ -120,8 +120,9 @@ const AllAdmins = () => {
   };
   const capitalizeFirstLetter = (string) => {
     if (!string) return "";
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   };
+
   return (
     <div className="bg-gray-100 h-[90%]">
       {loading ? (
@@ -139,49 +140,63 @@ const AllAdmins = () => {
           <p>Loading...</p>
         </div>
       ) : (
-        <div className="max-w-6xl mx-auto bg-white px-6 py-10 overflow-y-auto h-full lg:h-[90%] shadow-md">
+        <div className="max-w-6xl text-xs sm:text-sm mx-auto bg-white p-6 overflow-y-auto h-full lg:h-[90%] shadow-md">
           <h2 className="text-2xl font-semibold mb-6 border-b-2 border-gray-200 uppercase ">
             All Admins
           </h2>
           {userData.length === 0 ? (
-            <p className="text-center text-gray-600">No data found.</p>
+            <p className=" text-red-500">No data available</p>
           ) : (
-            <table className="mt-2 table-auto w-full text-gray-700">
-              <thead>
-                <tr>
-                  <th className="px-4 py-2">#</th>
-                  <th className="px-4 py-2">Name</th>
-                  <th className="px-4 py-2">Phone</th>
-                  <th className="px-4 py-2">Email</th>
-                  <th className="px-4 py-2">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="text-center">
-                {userData.map((admin, index) => (
-                  <tr key={admin._id}>
-                    <td className="border font-semibold px-4 py-2">
-                      {index + 1}.
-                    </td>
-                    <td className="border px-4 py-2">
-                      {capitalizeFirstLetter(admin.username) || "NA"}
-                    </td>
-                    <td className="border px-4 py-2">
-                      {admin.contactNumber || "NA"}
-                    </td>
-                    <td className="border px-4 py-2">{admin.email || "NA"}</td>
-                    <td className="border px-4 py-2">
-                      <button
-                        title="Delete Admin"
-                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded"
-                        onClick={() => handleDeleteClick(admin)}
-                      >
-                        <FaTrash />
-                      </button>
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="mt-2 table-auto w-full text-gray-700">
+                <thead>
+                  <tr>
+                    <th className="px-4 border py-2">#</th>
+                    <th className="px-4 border py-2">Name</th>
+                    <th className="px-4 border py-2">Phone</th>
+                    <th className="px-4 border py-2">Email</th>
+                    <th className="px-4 border py-2">Degree</th>
+                    <th className="px-4 border py-2">Department</th>
+                    <th className="px-4 border py-2">Semester</th>
+                    <th className="px-4 border py-2">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="text-center">
+                  {userData.map((admin, index) => (
+                    <tr key={admin._id}>
+                      <td className="border font-semibold px-4 py-2">
+                        {index + 1}.
+                      </td>
+                      <td className="border px-4 py-2">
+                        {capitalizeFirstLetter(admin.username) || "NA"}
+                      </td>
+                      <td className="border px-4 py-2">
+                        {admin.contactNumber || "NA"}
+                      </td>
+                      <td className="border px-4 py-2">
+                        {admin.email || "NA"}
+                      </td>
+                      <td className="border px-4 py-2">
+                        {admin.degree || "NA"}
+                      </td>
+                      <td className="border px-4 py-2">{admin.dept || "NA"}</td>
+                      <td className="border px-4 py-2">
+                        {admin.semester || "NA"}
+                      </td>
+                      <td className="border px-4 py-2">
+                        <button
+                          title="Delete Admin"
+                          className="text-red-600 text-xl flex items-center mx-auto"
+                          onClick={() => handleDeleteClick(admin)}
+                        >
+                          <RiDeleteBin6Line />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       )}

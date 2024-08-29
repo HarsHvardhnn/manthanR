@@ -19,7 +19,7 @@ const SOSNotifications = ({ admin }) => {
         },
       })
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         setNotifications(res.data);
         // console.log(res)
       })
@@ -36,10 +36,11 @@ const SOSNotifications = ({ admin }) => {
     getsos();
   }, []);
 
-   const capitalizeFirstLetter = (string) => {
+  const capitalizeFirstLetter = (string) => {
     if (!string) return "";
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   };
+  
 
   return (
     <div className="p-4 overflow-y-auto h-[80%]">

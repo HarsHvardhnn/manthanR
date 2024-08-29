@@ -5,8 +5,8 @@ const ViewProfile = ({ onClose, loading, getUser, data }) => {
   const navigate = useNavigate();
   const capitalizeFirstLetter = (string) => {
     if (!string) return "";
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  };  
 
   return (
     <div
@@ -53,11 +53,11 @@ const ViewProfile = ({ onClose, loading, getUser, data }) => {
           </p>
           <p>
             <span className="font-semibold">Degree Type:</span>{" "}
-            {data?.degree ? data.degree.toUpperCase() : "NA"}
+            {data?.degree ? data.degree : "NA"}
           </p>
           <p>
             <span className="font-semibold">Department:</span>{" "}
-            {data?.dept ? data.dept.toUpperCase() : "NA"}
+            {data?.dept ? data.dept : "NA"}
           </p>
           <p>
             <span className="font-semibold">Semester:</span>{" "}

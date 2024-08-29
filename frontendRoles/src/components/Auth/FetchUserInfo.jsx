@@ -12,7 +12,7 @@ async function fetchUserData(userID) {
       }
     );
 
-    console.log("response.is_profile_complete", response.data.is_profile_complete);
+    //console.log("response.is_profile_complete", response.data.is_profile_complete);
     const { is_profile_complete, has_accepted_tnc } = response.data;
     return {
       isProfileComplete: is_profile_complete,

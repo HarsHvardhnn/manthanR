@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { FaTrash, FaEdit } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const generateRandomPassword = () => {
   const characters =
@@ -115,7 +116,7 @@ const UserForm = () => {
 
   return (
     <div className="container mx-auto bg-gray-100 h-[90%]">
-      <div className="w-11/12 xl:w-3/4 mx-auto bg-white rounded p-8 shadow-md">
+      <div className="w-11/12 xl:w-3/4 mx-auto bg-white rounded text-xs sm:text-sm xl:text-base p-8 shadow-md">
         <h2 className="text-2xl font-semibold mb-6 border-b-2 border-gray-200 uppercase ">
           Enter User Details
         </h2>
@@ -219,18 +220,18 @@ const UserForm = () => {
                     <td className="border px-4 py-2 text-center">
                       {user.password}
                     </td>
-                    <td className="border px-4 py-2 text-center">
+                    <td className="border px-4 py-2 text-center flex justify-center items-center gap-2">
                       <button
-                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline md:mr-2"
+                        className="text-blue-500 text-lg font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline md:mr-2"
                         onClick={() => handleEditUser(index)}
                       >
                         <FaEdit/>
                       </button>
                       <button
-                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                        className="text-red-500 text-lg font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
                         onClick={() => handleDeleteUser(index)}
                       >
-                        <FaTrash/>
+                        <RiDeleteBin6Line/>
                       </button>
                     </td>
                   </tr>

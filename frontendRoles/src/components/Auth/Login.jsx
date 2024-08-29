@@ -54,7 +54,7 @@ const LoginPage = () => {
       })
       .then((res) => {
         if (res.data === "admins and super admins cant login") {
-          toast.error("Sorry admins aren't allowed to login");
+          toast.error("Sorry, Admins aren't allowed to login");
           return;
         }
         // console.log(res);

@@ -7,7 +7,7 @@ function AdminWiseChart({ admin, adminName }) {
   const [userData, setUserData] = useState([]);
   async function fetchUserInformation(userIds) {
     const userInformation = [];
-    console.log(admin);
+    //console.log(admin);
     const token = localStorage.getItem("superadminToken");
     for (const userObj of userIds) {
       try {
@@ -25,7 +25,7 @@ function AdminWiseChart({ admin, adminName }) {
           ...response.data,
           message: userObj.message,
         };
-        console.log("userData", userData);
+        //console.log("userData", userData);
         userInformation.push(userData);
       } catch (error) {
         console.error(error);

@@ -106,7 +106,7 @@ const AdminLogin = () => {
 
   return (
     <div
-      className="bg-admin-back min-h-screen flex justify-center items-center font-montserrat"
+      className="bg-admin-back min-h-svh sm:min-h-screen flex justify-center items-center font-montserrat"
       style={{
         backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${Bg})`,
         backgroundSize: "Cover",

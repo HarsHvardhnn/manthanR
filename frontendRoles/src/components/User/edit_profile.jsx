@@ -37,7 +37,7 @@ const EditProfileForm = () => {
         },
       })
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         const { profile_pic, contactNumber, semester, ...rest } = res.data;
         setCurrentSem(res.data.semester);
         const needed_data = {
@@ -158,11 +158,11 @@ const EditProfileForm = () => {
   };
 
   return (
-    <div className="w-full bg-blue-200 min-h-[120vh] font-montserrat">
+    <div className="w-full bg-blue-200 min-h-[110vh] sm:min-h-[120vh] font-montserrat">
       <Header />
       <Formik initialValues={initialValues} onSubmit={handleDialogOpen}>
         {({ values, errors, touched, isValid, dirty }) => (
-          <Form className="w-[90%] sm:w-[70%] md:w-[60%] lg:w-[40%] mx-auto relative top-20 sm:top-28 font-montserrat shadow-xl p-6 rounded-xl bg-white">
+          <Form className="w-[95%] sm:w-[70%] md:w-[60%] lg:w-[50%] mx-auto relative top-20 sm:top-28 font-montserrat shadow-xl p-4 sm:p-6 rounded-xl bg-white">
             <div>
               <h1 className="uppercase font-bold text-xl mb-4 underline">
                 Edit Profile
@@ -187,7 +187,7 @@ const EditProfileForm = () => {
                 type="tel"
                 name="phoneNumber"
                 placeholder="Phone Number"
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-2 focus:border-blue-400"
+                className="w-full px-3 py-2 border rounded-md text-xs sm:text-sm xl:text-base focus:outline-none focus:border-2 focus:border-blue-400"
               />
               <ErrorMessage
                 name="phoneNumber"
@@ -200,7 +200,7 @@ const EditProfileForm = () => {
                 <Field
                   as="select"
                   name="hostelName"
-                  className={`w-full px-3 py-2 border rounded-md text-xs sm:text-sm xl:text-base focus:outline-none focus:border-2 focus:border-blue-400 ${
+                  className={`w-full px-3 py-2 xl:py-2.5 border rounded-md text-xs bg-white sm:text-sm xl:text-base focus:outline-none focus:border-2 focus:border-blue-400 ${
                     !values.hostelName ? "text-gray-400" : "text-black"
                   }`}
                 >
@@ -216,12 +216,12 @@ const EditProfileForm = () => {
                   className="text-red-500 text-sm"
                 />
               </div>
-              <div className="ml-2 mb-4">
+              <div className="flex-1 ml-2 mb-4">
                 <Field
                   type="text"
                   name="hostelRoomNumber"
                   placeholder="Room No."
-                  className="w-full px-3 pt-2 pb-1 border rounded-md focus:outline-none focus:border-2 focus:border-blue-400"
+                  className="w-full px-3 py-2 border rounded-md text-xs sm:text-sm xl:text-base focus:outline-none focus:border-2 focus:border-blue-400"
                 />
                 <ErrorMessage
                   name="hostelRoomNumber"
@@ -234,7 +234,7 @@ const EditProfileForm = () => {
               <Field
                 as="select"
                 name="relationshipStatus"
-                className={`w-full px-3 py-2 border rounded-md text-xs sm:text-sm xl:text-base focus:outline-none focus:border-2 focus:border-blue-400 ${
+                className={`w-full px-3 py-2 border rounded-md bg-white text-xs sm:text-sm xl:text-base focus:outline-none focus:border-2 focus:border-blue-400 ${
                   !values.relationshipStatus ? "text-gray-400" : "text-black"
                 }`}
               >
@@ -254,7 +254,7 @@ const EditProfileForm = () => {
               <Field
                 as="select"
                 name="semester"
-                className={`w-full px-3 py-2 border rounded-md text-xs sm:text-sm xl:text-base focus:outline-none focus:border-2 focus:border-blue-400 ${
+                className={`w-full px-3 py-2 border rounded-md bg-white text-xs sm:text-sm xl:text-base focus:outline-none focus:border-2 focus:border-blue-400 ${
                   !values.semester ? "text-gray-400" : "text-black"
                 }`}
               >
@@ -271,11 +271,14 @@ const EditProfileForm = () => {
               />
             </div>
             <div className="mb-4">
+              <p className="text-xs sm:text-sm xl:text-base font-semibold mb-1">
+                Upload new Profile Picture
+              </p>
               <input
                 type="file"
                 onChange={uploadImage}
                 accept="image/*"
-                className="mb-2 max-w-60"
+                className="mb-2 max-w-60 text-xs sm:text-sm xl:text-base"
               />
               {image && (
                 <img
@@ -296,18 +299,18 @@ const EditProfileForm = () => {
                 onClick={(values) => {
                   navigate("/forgot-password");
                 }}
-                className="underline px-2.5 py-1 hover:text-blue-600 rounded-md text-base"
+                className="underline py-1 hover:text-blue-600 rounded-md text-base"
               >
                 Change Password
               </button>{" "}
               <button
                 type="submit"
                 className={`bg-blue-500 text-white py-2 px-4 font-medium rounded-md hover:bg-blue-600 ${
-                  isSubmitting || !isValid || !dirty
+                  isSubmitting || !isValid || !(dirty || image)
                     ? "opacity-50 cursor-not-allowed"
                     : ""
                 }`}
-                disabled={isSubmitting || !isValid || !dirty}
+                disabled={isSubmitting || !isValid || !(dirty || image)}
               >
                 {isSubmitting ? "Submitting..." : "Submit"}
               </button>

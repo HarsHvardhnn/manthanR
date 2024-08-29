@@ -161,8 +161,9 @@ const UserReport = () => {
 
   const capitalizeFirstLetter = (string) => {
     if (!string) return "";
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   };
+
   return (
     <div className="p-2 sm:p-4 overflow-y-auto h-[80%] sm:mx-4">
       {showSummary && (
@@ -175,7 +176,7 @@ const UserReport = () => {
         />
       )}
       <div className="flex justify-between items-center mb-4 border-b-2 border-gray-200">
-        <h2 className="text-base sm:text-xl md:text-2xl font-semibold uppercase">
+        <h2 className="text-base sm:text-xl md:text-2xl pt-2 font-semibold uppercase">
           User Reports
         </h2>
         <div className="flex items-center space-x-2">
@@ -204,16 +205,18 @@ const UserReport = () => {
           />
           <p>Loading...</p>
         </div>
+      ) : userWithInfo.length === 0 ? (
+        <p className=" text-red-500">No data available</p>
       ) : (
         userWithInfo
           .slice()
           .reverse()
           .map(
-            (report) =>
+            (report, index) =>
               (!filterByPsy || report.reported_psych) && (
                 <div
-                  key={report.id}
-                  className={`${
+                key={`${report._id}-${index}`}
+                className={`${
                     report.read ? "bg-gray-200" : "bg-yellow-100"
                   } p-4 rounded-lg shadow mb-4`}
                 >

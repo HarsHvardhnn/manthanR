@@ -65,8 +65,9 @@ const AdminDashboard = () => {
   };
   const capitalizeFirstLetter = (string) => {
     if (!string) return "";
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   };
+  
   return (
     <div className="flex font-montserrat min-h-svh sm:min-h-screen">
       <div
@@ -76,7 +77,7 @@ const AdminDashboard = () => {
       >
         <div className="flex justify-between bg-gray-800 items-center">
           <h1
-            className="text-white text-base md:text-xl font-bold p-4 flex items-center uppercase"
+            className="text-white text-base md:text-xl font-bold py-[22px] px-4 flex items-center uppercase"
             style={{ padding: getPadding() }}
           >
             <FaHouseUser className="mr-2" />
@@ -91,7 +92,7 @@ const AdminDashboard = () => {
             </div>
           </button>
         </div>
-        <ul className="p-4 text-base">
+        <ul className="p-2 sm:p-4 text-base">
           <li
             className={`${
               activeTab === "charts"
@@ -160,7 +161,7 @@ const AdminDashboard = () => {
             <div className="relative">
               <button
                 onClick={() => setIsDialogOpen(true)}
-                className="bg-gray-800 md:mr-6 text-white font-bold py-2 px-4 rounded inline-flex items-center"
+                className="bg-gray-800 md:mr-6 text-white text-sm font-bold py-2 px-4 rounded inline-flex items-center"
               >
                 {" "}
                 <FaSignOutAlt className="mr-2" />

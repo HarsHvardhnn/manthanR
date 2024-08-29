@@ -20,8 +20,9 @@ const AdminDetails = ({ onClose, loading, getAdmin, assigned_admin }) => {
   };
   const capitalizeFirstLetter = (string) => {
     if (!string) return "";
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   };
+  
   return (
     <div
       className="fixed inset-0 flex items-center justify-center font-montserrat bg-gray-800 bg-opacity-75 z-40"
