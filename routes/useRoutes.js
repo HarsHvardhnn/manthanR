@@ -218,7 +218,7 @@ router.post('/assign-admin' , verifyToken , async(req,res) => {
    }
     const admins = await userModel.find({
       role: 'admin',
-      semester:user.semester,
+      semester: { $in: user.semesters },
       degree: user.degree,
       dept: user.dept
     });
