@@ -53,6 +53,11 @@ degree:{
 dept:{
   type:String,
 },
+
+semesters:{
+  type:[String],
+},
+
 semester:{
   type:String
 },
@@ -60,7 +65,7 @@ profile_pic:{
   type:String,
   
 }
-,
+
 
 });
 
