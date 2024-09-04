@@ -32,6 +32,7 @@ const Modal = ({ isOpen, onLogin }) => {
 
 const SessionManager = () => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [expiredSessionType, setExpiredSessionType] = useState(null);
 
   const checkTokenExpiry = () => {
     const token = localStorage.getItem("token");
@@ -39,6 +40,7 @@ const SessionManager = () => {
       const decodedToken = jwtDecode(token);
       const currentTime = Date.now() / 1000;
       if (decodedToken.exp < currentTime) {
+        setExpiredSessionType("user");
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         localStorage.removeItem("isProfileComplete");
@@ -47,17 +49,54 @@ const SessionManager = () => {
     }
   };
 
+  const checkAdminTokenExpiry = () => {
+    const adminToken = localStorage.getItem("adminToken");
+    if (adminToken) {
+      const decodedToken = jwtDecode(adminToken);
+      const currentTime = Date.now() / 1000;
+      if (decodedToken.exp < currentTime) {
+        setExpiredSessionType("admin");
+        localStorage.removeItem("adminToken");
+        localStorage.removeItem("admin");
+        setModalOpen(true);
+      }
+    }
+  };
+
+  const checkSuperadminTokenExpiry = () => {
+    const superadminToken = localStorage.getItem("superadminToken");
+    if (superadminToken) {
+      const decodedToken = jwtDecode(superadminToken);
+      const currentTime = Date.now() / 1000;
+      if (decodedToken.exp < currentTime) {
+        setExpiredSessionType("admin");
+        localStorage.removeItem("superadminToken");
+        localStorage.removeItem("superadmin");
+        setModalOpen(true);
+      }
+    }
+  };
+
   useEffect(() => {
     checkTokenExpiry();
+    checkAdminTokenExpiry();
+    checkSuperadminTokenExpiry();
 
-    const intervalId = setInterval(checkTokenExpiry, 120000);
-
+    const intervalId = setInterval(() => {
+      checkTokenExpiry();
+      checkAdminTokenExpiry();
+      checkSuperadminTokenExpiry();
+    }, 120000);
     return () => clearInterval(intervalId);
   }, []);
 
   const handleLoginRedirect = () => {
     setModalOpen(false);
-    window.location.href = "/login";
+    if (expiredSessionType === "user") {
+      window.location.href = "/login";
+    } else if (expiredSessionType === "admin") {
+      window.location.href = "/adminlogin";
+    }
   };
 
   return (

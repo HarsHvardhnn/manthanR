@@ -4,7 +4,7 @@ import axios from "axios";
 
 const SOSNotifications = ({ admin }) => {
   const [loading, setLoading] = useState(false);
-  const [notifications, setNotifications] = useState();
+  const [notifications, setNotifications] = useState([]);
 
 
   const getsos = () => {
@@ -19,7 +19,7 @@ const SOSNotifications = ({ admin }) => {
         },
       })
       .then((res) => {
-        //console.log(res);
+        console.log(res);
         setNotifications(res.data);
         // console.log(res)
       })
@@ -43,8 +43,8 @@ const SOSNotifications = ({ admin }) => {
   
 
   return (
-    <div className="p-4 overflow-y-auto h-[80%]">
-      <h2 className="text-2xl font-semibold mb-6 border-b-2 border-gray-200 uppercase ">
+    <div className="px-2 sm:px-4 h-[85%]">
+      <h2 className="text-2xl font-semibold mb-6 pt-4 border-b-2 border-gray-200 uppercase ">
         SOS Notifications
       </h2>
       {loading ? (
@@ -61,13 +61,16 @@ const SOSNotifications = ({ admin }) => {
           />
           <p>Loading...</p>
         </div>
-      ) : (
-        notifications
+      ) :  notifications.length === 0 ? (
+        <p className=" text-red-500">No data available</p>
+      ) :(
+        <div className="overflow-y-auto h-[calc(100vh-160px)]">
+        {notifications
           ?.slice()
           .reverse()
           .map((notification) => (
             <div
-              key={notification.id}
+              key={notification._id}
               className={`${
                 notification.read ? "bg-gray-200" : "bg-yellow-100"
               } p-4 rounded-lg shadow mb-4`}
@@ -105,7 +108,8 @@ const SOSNotifications = ({ admin }) => {
             {notification.read ? "Mark as Unread" : "Mark as Read"}
           </button> */}
             </div>
-          ))
+          ))}
+          </div>
       )}
     </div>
   );

@@ -313,13 +313,13 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       ? filteredByYear
       : filteredByYear.slice(offset, offset + parseInt(usersPerPage));
 
-      const capitalizeFirstLetter = (string) => {
-        if (!string) return "";
-        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-      };      
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  };
 
   return (
-    <div className="mx-auto p-2 md:p-4 pb-10 bg-gray-100 font-montserrat text-xs md:text-sm overflow-y-auto h-[90%]">
+    <div className="mx-auto px-2 md:px-4 bg-gray-100 font-montserrat text-xs md:text-sm h-[85%]">
       {loading ? (
         <div className="w-full flex flex-col items-center justify-center text-xl">
           <ThreeDots
@@ -343,7 +343,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
             />
           )}
 
-          <div className="flex justify-center mt-4 flex-wrap mx-4 sm:mx-0">
+          <div className="flex font-medium justify-center mt-4 flex-wrap mx-4 sm:mx-0">
             <div className="flex flex-col md:flex-row mx-1">
               <label htmlFor="count" className="mr-2">
                 Users per page:
@@ -455,68 +455,79 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
             </div>
           </div>
 
-          {filteredByYear.length === 0 || filteredUsers.length === 0 ? (
-            <p className="text-center mt-4 text-red-500">
-              No data available for the selected filter.
-            </p>
-          ) : (
-            <div className="overflow-y-auto mt-2 h-[90%]">
-              <table className="w-full max-w-6xl mx-auto bg-white border rounded-md">
-                <thead>
-                  <tr className="">
-                    <td
-                      colSpan={8}
-                      className="text-lg text-center uppercase mt-2 font-bold"
-                    >
-                      Total Users: {totalCount}
-                    </td>
-                  </tr>
-                  <tr className="">
-                    <th className="px-1 md:px-4 py-1 md:py-2 border">Index</th>
-                    <th className="px-1 md:px-4 py-1 md:py-2 border">
-                      Full Name
-                    </th>
-                    <th className="px-1 md:px-4 py-1 md:py-2 border">Email</th>
-                    <th className="px-1 md:px-4 py-1 md:py-2 border">Phone</th>
-                    <th className="px-1 md:px-4 py-1 md:py-2 border">Score</th>
-                    <th className="px-1 md:px-4 py-1 md:py-2 border">Date</th>
-                    <th className="px-1 md:px-4 py-1 md:py-2 border">
-                      Category
-                    </th>
-                    <th className="px-1 md:px-4 py-1 md:py-2 border">
-                      Actions
-                    </th>
-                    {/* {showSummaryColumn && (
+          <div className="h-[calc(100vh-160px)] overflow-y-auto">
+            {filteredByYear.length === 0 || filteredUsers.length === 0 ? (
+              <p className="text-center mt-4 text-red-500">
+                No data available for the selected filter.
+              </p>
+            ) : (
+              <div className="overflow-y-auto mt-2 h-[90%]">
+                <table className="w-full max-w-6xl mx-auto bg-white border rounded-md">
+                  <thead>
+                    <tr className="">
+                      <td
+                        colSpan={8}
+                        className="text-lg text-center uppercase mt-2 font-bold"
+                      >
+                        Total Users: {totalCount}
+                      </td>
+                    </tr>
+                    <tr className="">
+                      <th className="px-1 md:px-4 py-1 md:py-2 border">
+                        Index
+                      </th>
+                      <th className="px-1 md:px-4 py-1 md:py-2 border">
+                        Full Name
+                      </th>
+                      <th className="px-1 md:px-4 py-1 md:py-2 border">
+                        Email
+                      </th>
+                      <th className="px-1 md:px-4 py-1 md:py-2 border">
+                        Phone
+                      </th>
+                      <th className="px-1 md:px-4 py-1 md:py-2 border">
+                        Score
+                      </th>
+                      <th className="px-1 md:px-4 py-1 md:py-2 border">Date</th>
+                      <th className="px-1 md:px-4 py-1 md:py-2 border">
+                        Category
+                      </th>
+                      <th className="px-1 md:px-4 py-1 md:py-2 border">
+                        Actions
+                      </th>
+                      {/* {showSummaryColumn && (
                 <th className="px-1 md:px-4 py-1 md:py-2 border">Summary</th>
               )} */}
-                  </tr>
-                </thead>
-                <tbody className="text-center">
-                  {currentUsers.map((user, index) => (
-                    <tr key={user._id}>
-                      <td className="px-4 py-2 border">{index + 1}</td>
-                      <td className="px-4 py-2 border">
-                        {capitalizeFirstLetter(user.username)}
-                      </td>
-                      <td className="px-4 py-2 border">{user.email}</td>
-                      <td className="px-4 py-2 border">
-                        {user.contactNumber ?? "NA"}
-                      </td>
-                      <td className="px-4 py-2 border">{user.score ?? "NA"}</td>
-                      <td className="px-4 py-2 border">
-                        {convertISOToDate(user.createdAt)}
-                      </td>
-                      <td className="px-4 py-2 border">
-                        {categorizeUser(user.score)}
-                      </td>
-                      <td className="px-4 py-2 border">
-                        <button
-                          onClick={() => handleReportClick(user)}
-                          className="font-medium text-blue-600 mr-2 underline"
-                        >
-                          Report to Psychiatrist
-                        </button>
-                        {/* <button
+                    </tr>
+                  </thead>
+                  <tbody className="text-center">
+                    {currentUsers.map((user, index) => (
+                      <tr key={user._id}>
+                        <td className="px-4 py-2 border">{index + 1}</td>
+                        <td className="px-4 py-2 border">
+                          {capitalizeFirstLetter(user.username)}
+                        </td>
+                        <td className="px-4 py-2 border">{user.email}</td>
+                        <td className="px-4 py-2 border">
+                          {user.contactNumber ?? "NA"}
+                        </td>
+                        <td className="px-4 py-2 border">
+                          {user.score ?? "NA"}
+                        </td>
+                        <td className="px-4 py-2 border">
+                          {convertISOToDate(user.createdAt)}
+                        </td>
+                        <td className="px-4 py-2 border">
+                          {categorizeUser(user.score)}
+                        </td>
+                        <td className="px-4 py-2 border">
+                          <button
+                            onClick={() => handleReportClick(user)}
+                            className="font-medium text-blue-600 mr-2 underline"
+                          >
+                            Report to Psychiatrist
+                          </button>
+                          {/* <button
                     onClick={() => {
                       setSelectUser(user.email);
                       handleReportUser(user._id);
@@ -525,41 +536,43 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                   >
                     Report
                   </button> */}
-                        {showSOSButton && (
-                          <button className="font-medium text-red-600 underline">
-                            SOS
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className="flex justify-center mt-2">
-                <ReactPaginate
-                  pageCount={pageCount}
-                  onPageChange={handlePageClick}
-                  nextLabel="Next >"
-                  pageRangeDisplayed={3}
-                  marginPagesDisplayed={2}
-                  previousLabel="< Previous"
-                  pageClassName="page-item"
-                  pageLinkClassName="page-link"
-                  previousClassName="page-item"
-                  previousLinkClassName="page-link"
-                  nextClassName="page-item"
-                  nextLinkClassName="page-link"
-                  breakLabel="..."
-                  breakClassName="page-item"
-                  breakLinkClassName="page-link"
-                  containerClassName="pagination"
-                  activeClassName="active"
-                  renderOnZeroPageCount={null}
-                  disabledClassName={"pagination__link--disabled"}
-                />
+                          {showSOSButton && (
+                            <button className="font-medium text-red-600 underline">
+                              SOS
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <div className="flex justify-center mt-2">
+                  <ReactPaginate
+                    pageCount={pageCount}
+                    onPageChange={handlePageClick}
+                    nextLabel="Next >"
+                    pageRangeDisplayed={3}
+                    marginPagesDisplayed={2}
+                    previousLabel="< Previous"
+                    pageClassName="page-item"
+                    pageLinkClassName="page-link"
+                    previousClassName="page-item"
+                    previousLinkClassName="page-link"
+                    nextClassName="page-item"
+                    nextLinkClassName="page-link"
+                    breakLabel="..."
+                    breakClassName="page-item"
+                    breakLinkClassName="page-link"
+                    containerClassName="pagination"
+                    activeClassName="active"
+                    renderOnZeroPageCount={null}
+                    disabledClassName={"pagination__link--disabled"}
+                  />
+                </div>
               </div>
-            </div>
-          )}
+            )}
+
+          </div>
         </>
       )}
       <DialogModal

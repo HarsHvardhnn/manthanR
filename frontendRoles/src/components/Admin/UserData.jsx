@@ -299,7 +299,7 @@ const UserData = ({
       };
       
   return (
-    <div className="mx-auto p-2 md:p-4 pb-10 bg-gray-100 font-montserrat text-xs md:text-sm overflow-y-auto h-[90%]">
+    <div className="mx-auto px-2 md:px-4 bg-gray-100 font-montserrat text-xs md:text-sm h-[85%]">
       {loading ? (
         <div className="w-full flex flex-col items-center justify-center mt-10 text-lg">
           <ThreeDots
@@ -323,7 +323,7 @@ const UserData = ({
             />
           )}
 
-          <div className="flex justify-center mt-4 flex-wrap mx-4 sm:mx-0">
+          <div className="flex font-medium justify-center mt-4 flex-wrap mx-4 sm:mx-0">
             <div className="flex flex-col md:flex-row mx-1">
               <label htmlFor="count" className="mr-2 ">
                 Users per page:
@@ -431,7 +431,7 @@ const UserData = ({
               </button>
             </div>
           </div>
-
+          <div className="overflow-y-auto h-[calc(100vh-160px)]">
           {filteredByYear.length === 0 || filteredUsers.length === 0 ? (
             <p className="text-center mt-4 text-red-500">
               No data available for the selected filter.
@@ -475,7 +475,7 @@ const UserData = ({
                     <tr key={user._id}>
                       <td className="px-4 py-2 border">{index + 1}</td>
                       <td className="px-4 py-2 border">
-                        {capitalizeFirstLetter(user.username)}
+                      {capitalizeFirstLetter(user.username) + " " + capitalizeFirstLetter(user.lastname ?? "")}
                       </td>
                       <td className="px-4 py-2 border">{user.email}</td>
                       <td className="px-4 py-2 border">{user.contactNumber}</td>
@@ -549,6 +549,7 @@ const UserData = ({
               />
             </div>
           )}
+          </div>
         </>
       )}
     </div>

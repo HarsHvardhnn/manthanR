@@ -165,7 +165,7 @@ const UserReport = () => {
   };
 
   return (
-    <div className="p-2 sm:p-4 overflow-y-auto h-[80%] sm:mx-4">
+    <div className="px-2 sm:px-4 sm:mx-4 h-[85%]">
       {showSummary && (
         <CommentsComponent
           comments={comments}
@@ -208,7 +208,8 @@ const UserReport = () => {
       ) : userWithInfo.length === 0 ? (
         <p className=" text-red-500">No data available</p>
       ) : (
-        userWithInfo
+        <div className="overflow-y-auto h-[calc(100vh-160px)]">
+        {userWithInfo
           .slice()
           .reverse()
           .map(
@@ -287,7 +288,8 @@ const UserReport = () => {
                   </div>
                 </div>
               )
-          )
+          )}
+          </div>
       )}
       {showReportModal && (
         <ReportMessage

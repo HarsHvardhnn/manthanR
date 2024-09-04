@@ -54,7 +54,6 @@ function Header() {
           </div>
         )}
 
-        {pathname !== "/updateprofile" && (
           <>
             <div>
               {pathname === "/usersection" ? (
@@ -83,7 +82,7 @@ function Header() {
               )}
             </div>
           </>
-        )}
+        
 
         <div
           className="relative mr-1 sm:mr-2 lg:mr-12 xl:mr-32"

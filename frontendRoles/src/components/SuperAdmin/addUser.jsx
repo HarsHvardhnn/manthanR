@@ -34,21 +34,21 @@ const UserForm = () => {
 
   const handleAddUser = (e) => {
     e.preventDefault();
-  
+
     // Check if the new user's username or email already exists
     // const existingUsername = users.find(user => user.username === formData.username);
-    const existingEmail = users.find(user => user.email === formData.email);
-  
+    const existingEmail = users.find((user) => user.email === formData.email);
+
     // if (existingUsername) {
     //   alert("Username already exists. Please choose a different username.");
     //   return;
     // }
-  
+
     if (existingEmail) {
       alert("Email already exists. Please use a different email address.");
       return;
     }
-  
+
     // If the username and email are unique, add the new user
     setUsers([...users, formData]);
     setFormData({
@@ -58,20 +58,19 @@ const UserForm = () => {
       password: generateRandomPassword(),
     });
   };
-  
+
   const handleUploadToDatabase = async () => {
-    if(uploadPending)
-      return;
+    if (uploadPending) return;
     setUploadPending(true);
     try {
-      const usersData = users.map(user => ({
+      const usersData = users.map((user) => ({
         username: user.username,
         lastname: user.lastname,
         email: user.email,
-        password: user.password
+        password: user.password,
       }));
-     // console.log(usersData)
-  
+      // console.log(usersData)
+
       const response = await axios.post(
         "https://manthanr.onrender.com/v1/add-users",
         usersData,
@@ -81,22 +80,21 @@ const UserForm = () => {
           },
         }
       );
-  
+
       if (response.status !== 201) {
         throw new Error("Failed to upload users to database");
       }
       // console.log(response)
       toast.success("Users uploaded to database successfully");
-      setUsers([]); 
+      setUsers([]);
       setUploadPending(false);
     } catch (error) {
       console.error("Error uploading users to database:", error);
-      toast.error('Some error occured please check username or email')
+      toast.error("Some error occured please check username or email");
       setUploadPending(false);
     }
-    
   };
-  
+
   const handleEditUser = (index) => {
     const editedUser = users[index];
     setFormData({
@@ -115,8 +113,8 @@ const UserForm = () => {
   };
 
   return (
-    <div className="container mx-auto bg-gray-100 h-[90%]">
-      <div className="w-11/12 xl:w-3/4 mx-auto bg-white rounded text-xs sm:text-sm xl:text-base p-8 shadow-md">
+    <div className="container mx-auto bg-gray-100 h-[85%]">
+      <div className="w-11/12 xl:w-3/4 mx-auto bg-white rounded text-xs sm:text-sm xl:text-base px-8 pt-4 shadow-md">
         <h2 className="text-2xl font-semibold mb-6 border-b-2 border-gray-200 uppercase ">
           Enter User Details
         </h2>
@@ -186,63 +184,62 @@ const UserForm = () => {
             </button>
           </div>
         </form>
-        <div className="mt-8">
-          <h2 className="text-base uppercase font-semibold mb-4 underline">
+        <div className="mt-4">
+          <h2 className="text-base uppercase font-semibold mb-2 underline">
             Recently Added
           </h2>
-          {users.length === 0 ? (
-            <p>No recent additions</p>
-          ) : (
-            <div className="overflow-x-auto">
-
-            <table className="table-auto w-full">
-              <thead>
-                <tr>
-                  <th className="px-4 py-2 font-semibold">Firstname</th>
-                  <th className="px-4 py-2 font-semibold">Lastname</th>
-                  <th className="px-4 py-2 font-semibold">Email</th>
-                  <th className="px-4 py-2 font-semibold">Password</th>
-                  <th className="px-4 py-2 font-semibold">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user, index) => (
-                  <tr key={index}>
-                    <td className="border px-4 py-2 text-center">
-                      {user.username}
-                    </td>
-                    <td className="border px-4 py-2 text-center">
-                      {user.lastname}
-                    </td>
-                    <td className="border px-4 py-2 text-center">
-                      {user.email}
-                    </td>
-                    <td className="border px-4 py-2 text-center">
-                      {user.password}
-                    </td>
-                    <td className="border px-4 py-2 text-center flex justify-center items-center gap-2">
-                      <button
-                        className="text-blue-500 text-lg font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline md:mr-2"
-                        onClick={() => handleEditUser(index)}
-                      >
-                        <FaEdit/>
-                      </button>
-                      <button
-                        className="text-red-500 text-lg font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-                        onClick={() => handleDeleteUser(index)}
-                      >
-                        <RiDeleteBin6Line/>
-                      </button>
-                    </td>
+          <div className="overflow-x-auto overflow-y-auto h-[20vh]">
+            {users.length === 0 ? (
+              <p>No recent additions</p>
+            ) : (
+              <table className="table-auto w-full">
+                <thead>
+                  <tr>
+                    <th className="px-4 py-2 font-semibold">Firstname</th>
+                    <th className="px-4 py-2 font-semibold">Lastname</th>
+                    <th className="px-4 py-2 font-semibold">Email</th>
+                    <th className="px-4 py-2 font-semibold">Password</th>
+                    <th className="px-4 py-2 font-semibold">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-            </div>
-          )}
+                </thead>
+                <tbody>
+                  {users.map((user, index) => (
+                    <tr key={index}>
+                      <td className="border px-4 py-2 text-center">
+                        {user.username}
+                      </td>
+                      <td className="border px-4 py-2 text-center">
+                        {user.lastname}
+                      </td>
+                      <td className="border px-4 py-2 text-center">
+                        {user.email}
+                      </td>
+                      <td className="border px-4 py-2 text-center">
+                        {user.password}
+                      </td>
+                      <td className="border px-4 py-2 text-center flex justify-center items-center gap-2">
+                        <button
+                          className="text-blue-500 text-lg font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline md:mr-2"
+                          onClick={() => handleEditUser(index)}
+                        >
+                          <FaEdit />
+                        </button>
+                        <button
+                          className="text-red-500 text-lg font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                          onClick={() => handleDeleteUser(index)}
+                        >
+                          <RiDeleteBin6Line />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
         </div>
 
-        <div className="flex items-center justify-center mt-4">
+        <div className="flex items-center justify-center py-2">
           <button
             onClick={handleUploadToDatabase}
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

@@ -286,7 +286,7 @@ const Chatbot = () => {
       </div>
 
       <div className=" max-w-full px-4 font-montserrat min-h-svh sm:min-h-screen bg-blue-200 pt-16 md:pt-24">
-        <div className="background-animation-wrapper">
+        {/* <div className="background-animation-wrapper">
           <ul id="shape">
             <li></li>
             <li></li>
@@ -299,7 +299,7 @@ const Chatbot = () => {
             <li></li>
             <li></li>
           </ul>
-        </div>
+        </div> */}
         <div className="chat-container-wrapper">
           {showPopup ? (
             <Popup

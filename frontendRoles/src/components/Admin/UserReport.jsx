@@ -6,7 +6,7 @@ const UserReport = ({ admin }) => {
   // const [reports, setReports] = useState([]);
   const [userWithInfo, setUserWithInfo] = useState([]);
   const [loading, setLoading] = useState(false);
-
+const userWithInfos = {}
   //console.log(admin);
 
   const getUsers = () => {
@@ -23,7 +23,7 @@ const UserReport = ({ admin }) => {
         }
       )
       .then((res) => {
-        //console.log(res);
+        // console.log(res);
         setUserWithInfo(res.data);
       })
       .catch((err) => {
@@ -40,10 +40,10 @@ const UserReport = ({ admin }) => {
     if (!string) return "";
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   };
-  
+
   return (
-    <div className="p-4 overflow-y-auto h-[80%]">
-      <h2 className="text-2xl font-semibold mb-6 border-b-2 border-gray-200 uppercase ">
+    <div className="px-2 sm:px-4 h-[85%]">
+      <h2 className="text-2xl font-semibold mb-6 border-b-2 pt-4 border-gray-200 uppercase ">
         Reported Users
       </h2>
       {loading ? (
@@ -60,32 +60,40 @@ const UserReport = ({ admin }) => {
           />
           <p>Loading...</p>
         </div>
+      ) :  userWithInfo.length === 0 ? (
+        <p className=" text-red-500">No data available</p>
       ) : (
-        userWithInfo.slice().reverse().map((report) => (
-          <div
-            key={report.id}
-            className="bg-yellow-100 p-4 rounded-lg shadow mb-4"
-          >
-            <p className="text-base md:text-lg">
-              <span className="font-semibold">Name:</span>{" "}
-              {capitalizeFirstLetter(report.username)}
-            </p>
-            <p className="text-lg">
-              <span className="font-semibold">Email:</span> {report.email}
-            </p>
-            <p className="text-base md:text-lg">
-              <span className="font-semibold">Phone:</span>{" "}
-              {report?.contactNumber}
-            </p>
-            <p className="text-base md:text-lg">
-              <span className="font-semibold">Score:</span>{" "}
-              {report.score || "NA"}
-            </p>
-            <p className="text-base md:text-lg">
-              <span className="font-semibold">Comments:</span> {report.message}
-            </p>
-          </div>
-        ))
+        <div className="overflow-y-auto h-[calc(100vh-160px)]">
+          {userWithInfo
+            .slice()
+            .reverse()
+            .map((report, index) => (
+              <div
+                key={`${report._id}-${index}`}
+                className="bg-yellow-100 p-4 rounded-lg shadow mb-4"
+              >
+                <p className="text-base md:text-lg">
+                  <span className="font-semibold">Name:</span>{" "}
+                  {capitalizeFirstLetter(report.username)}
+                </p>
+                <p className="text-lg">
+                  <span className="font-semibold">Email:</span> {report.email}
+                </p>
+                <p className="text-base md:text-lg">
+                  <span className="font-semibold">Phone:</span>{" "}
+                  {report?.contactNumber}
+                </p>
+                <p className="text-base md:text-lg">
+                  <span className="font-semibold">Score:</span>{" "}
+                  {report.score || "NA"}
+                </p>
+                <p className="text-base md:text-lg">
+                  <span className="font-semibold">Comments:</span>{" "}
+                  {report.message}
+                </p>
+              </div>
+            ))}
+        </div>
       )}
     </div>
   );

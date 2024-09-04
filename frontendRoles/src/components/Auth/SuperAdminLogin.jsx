@@ -15,7 +15,6 @@ const SuperAdminLogin = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loading,setLoading] =  useState(false);
-  const [showForgotPasswordPopup, setShowForgotPasswordPopup] = useState(false);
   
   const initialValues = {
     email: "",

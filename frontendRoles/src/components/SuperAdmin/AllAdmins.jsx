@@ -124,7 +124,7 @@ const AllAdmins = () => {
   };
 
   return (
-    <div className="bg-gray-100 h-[90%]">
+    <div className="bg-gray-100 h-[85%]">
       {loading ? (
         <div className="w-full flex flex-col items-center justify-center mt-10 text-lg">
           <ThreeDots
@@ -140,14 +140,14 @@ const AllAdmins = () => {
           <p>Loading...</p>
         </div>
       ) : (
-        <div className="max-w-6xl text-xs sm:text-sm mx-auto bg-white p-6 overflow-y-auto h-full lg:h-[90%] shadow-md">
+        <div className="max-w-6xl text-xs sm:text-sm mx-auto bg-white p-6 h-full shadow-md">
           <h2 className="text-2xl font-semibold mb-6 border-b-2 border-gray-200 uppercase ">
             All Admins
           </h2>
           {userData.length === 0 ? (
             <p className=" text-red-500">No data available</p>
           ) : (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto overflow-y-auto h-[calc(100vh-200px)]">
               <table className="mt-2 table-auto w-full text-gray-700">
                 <thead>
                   <tr>

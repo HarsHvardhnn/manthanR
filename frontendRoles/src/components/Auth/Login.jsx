@@ -57,16 +57,11 @@ const LoginPage = () => {
           toast.error("Sorry, Admins aren't allowed to login");
           return;
         }
-        // console.log(res);
-        //  setUser({
-        //   ...user,
-        //   assigned_admin_id:res.data.user.assigned_admin
-        //  })
+        console.log(res);
 
         if (res.status === 200) {
           localStorage.setItem("token", res.data.token);
           toast.success("Login Successful");
-          // console.log(res);
 
           setUser({
             username: res.data.user.username,
@@ -74,7 +69,6 @@ const LoginPage = () => {
             email: values.email,
             assigned_admin: res.data.user.assigned_admin,
           });
-          // console.log(user);
           const object = {
             username: res.data.user.username,
             userID: res.data.user._id,
@@ -83,22 +77,18 @@ const LoginPage = () => {
           };
           const storeObject = JSON.stringify(object);
           localStorage.setItem("user", storeObject);
-
-          // navigate("/updateprofile");
+          localStorage.setItem("isProfileComplete", res.data.user.is_profile_complete)
           setAuth(true);
 
           if (res.data.user.is_profile_complete) {
             if (res.data.user.has_accepted_tnc) {
-              // navigate("/updateprofile");
               navigate("/usersection");
-              // console.log(user);
             } else {
               navigate("/usersection");
             }
           } else {
             navigate("/updateprofile");
           }
-          // console.log(res.data.user._id);
         }
       })
       .catch((err) => {
