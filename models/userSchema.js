@@ -56,6 +56,7 @@ dept:{
 
 semesters:{
   type:[String],
+  default:[]
 },
 
 semester:{
