@@ -12,7 +12,7 @@ const AddAdmin = () => {
     email: "",
     degree: "",
     dept: "",
-    semester: [],
+    semesters: [], // Updated to plural
     password: "",
   };
   const [selectedSemesters, setSelectedSemesters] = useState([]);
@@ -24,21 +24,20 @@ const AddAdmin = () => {
     email: Yup.string().email("Invalid email").required("Email is required"),
     degree: Yup.string().required("Degree Type is required"),
     dept: Yup.string().required("Department is required"),
-    semester: Yup.array()
+    semesters: Yup.array()
       .min(1, "At least one semester must be selected")
-      .required("Semester is required"),
+      .required("Semesters are required"), // Updated error message
   });
 
   const onSubmit = (values, { resetForm }) => {
     const password = generateRandomPassword();
     const formData = {
       ...values,
-      semester: selectedSemesters,
+      semesters: selectedSemesters, // Updated to plural
       password: password,
     };
-    // console.log("Generated Password:", password);
     const token = localStorage.getItem("superadminToken");
-    // console.log(formData);
+    console.log(formData);
 
     axios
       .post("https://manthanr.onrender.com/v1/create-admin", formData, {
@@ -47,14 +46,12 @@ const AddAdmin = () => {
         },
       })
       .then((res) => {
-        //console.log(res);
         toast.success("New admin created successfully");
       })
       .catch((err) => {
         console.log(err);
       });
 
-    // Send formData to backend
     resetForm();
     setSelectedSemesters([]);
   };
@@ -73,14 +70,13 @@ const AddAdmin = () => {
   };
 
   const handleSemesterClick = (semester, setFieldValue) => {
-  const updatedSemesters = selectedSemesters.includes(semester)
-    ? selectedSemesters.filter((s) => s !== semester)
-    : [...selectedSemesters, semester];
+    const updatedSemesters = selectedSemesters.includes(semester.toString())
+      ? selectedSemesters.filter((s) => s !== semester.toString())
+      : [...selectedSemesters, semester.toString()];
 
-  setSelectedSemesters(updatedSemesters);
-  setFieldValue("semester", updatedSemesters);
-};
-
+    setSelectedSemesters(updatedSemesters);
+    setFieldValue("semesters", updatedSemesters); // Updated to plural
+  };
 
   return (
     <div className="w-full bg-gray-100 overflow-y-auto h-[90%]">
@@ -242,7 +238,6 @@ const AddAdmin = () => {
                   <option value="Manufacturing">Manufacturing</option>
                   <option value="Math">MATH</option>
                   <option value="Mechanical Design">Mechanical Design</option>
-                  <option value="ME">ME</option>
                   <option value="MEE">MEE</option>
                   <option value="Mechatronics">Mechatronics</option>
                   <option value="P&C">P&C</option>
@@ -260,15 +255,17 @@ const AddAdmin = () => {
               </div>
               <div className="mb-4">
                 <label
-                  htmlFor="semester"
+                  htmlFor="semesters"
                   className="block font-semibold text-gray-700"
                 >
-                  Semester
+                  Semesters
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {[...Array(10)].map((_, index) => {
                     const semester = index + 1;
-                    const isSelected = selectedSemesters.includes(semester);
+                    const isSelected = selectedSemesters.includes(
+                      semester.toString()
+                    );
 
                     return (
                       <button
@@ -279,7 +276,9 @@ const AddAdmin = () => {
                             ? "bg-blue-500 bg-opacity-95 text-white"
                             : "bg-gray-100 text-gray-700"
                         }`}
-                        onClick={() => handleSemesterClick(semester, setFieldValue)}
+                        onClick={() =>
+                          handleSemesterClick(semester, setFieldValue)
+                        }
                       >
                         Sem {semester}
                       </button>
@@ -288,7 +287,7 @@ const AddAdmin = () => {
                 </div>
 
                 <ErrorMessage
-                  name="semester"
+                  name="semesters"
                   component="div"
                   className="text-red-500 text-sm"
                 />

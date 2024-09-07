@@ -28,10 +28,10 @@ const EditProfileForm = () => {
     setFormValues(values);
     setIsDialogOpen(true);
   };
-  const getUserProfile = () => {
+  const getUserProfile = (userID) => {
     const token = localStorage.getItem("token");
     axios
-      .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`, {
+      .get(`https://manthanr.onrender.com/v1/get-user-info/${userID}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -58,17 +58,20 @@ const EditProfileForm = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const storedUserData = localStorage.getItem("user");
+
     if (!token) {
       navigate("/login");
+      return;
     }
 
-    const storedUserData = localStorage.getItem("user");
-    if (storedUserData) {
-      const parsedUserData = JSON.parse(storedUserData);
-      setUser(parsedUserData);
-    }
+    const parsedUserData = JSON.parse(storedUserData);
+    setUser(parsedUserData);
+    console.log(parsedUserData);
 
-    getUserProfile();
+    if (parsedUserData?.userID) {
+      getUserProfile(parsedUserData.userID);
+    }
   }, []);
 
   const uploadImage = (e) => {
@@ -146,7 +149,6 @@ const EditProfileForm = () => {
         }
       )
       .then((res) => {
-        // console.log(res);
         if (res.data.message === "Profile updated successfully") {
           toast.success("Profile updated");
           navigate("/usersection");
@@ -154,6 +156,7 @@ const EditProfileForm = () => {
       })
       .catch((err) => {
         toast.error("Some error occured");
+        navigate("/usersection");
       });
   };
 
@@ -170,12 +173,14 @@ const EditProfileForm = () => {
             </div>
 
             <div className="mb-4">
-              <label>Current profile picture:</label>
+              <label className="text-xs sm:text-sm xl:text-base font-medium">
+                Current profile picture:
+              </label>
               {obj.profile_pic ? (
                 <img
                   src={obj.profile_pic}
                   alt="current profile"
-                  className="h-24 w-24 mb-4"
+                  className="h-24 w-24 mb-4 rounded-full"
                 />
               ) : (
                 <div className="text-sm mb-3 text-gray-500">
@@ -271,7 +276,7 @@ const EditProfileForm = () => {
               />
             </div>
             <div className="mb-4">
-              <p className="text-xs sm:text-sm xl:text-base font-semibold mb-1">
+              <p className="text-xs sm:text-sm xl:text-base font-medium mb-1">
                 Upload new Profile Picture
               </p>
               <input

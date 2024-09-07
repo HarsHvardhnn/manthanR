@@ -117,7 +117,7 @@ const ProfileUpdatePage = () => {
           },
         }
       );
-
+      console.log("updated", res);
       if (res.data.message === "Profile created successfully") {
         toast.success("Profile updated");
         setIsUpdating(false);
@@ -134,7 +134,7 @@ const ProfileUpdatePage = () => {
         //console.log(user);
       }
     } catch (err) {
-      console.log(err);
+      console.log("err", err);
       setIsUpdating(false);
     }
   };
@@ -342,7 +342,9 @@ const ProfileUpdatePage = () => {
                           </option>
                           <option value="AI">AI</option>
                           <option value="AI&DS">AI&DS</option>
-                          <option value="AMT">Advance Manufacturing technology</option>
+                          <option value="AMT">
+                            Advance Manufacturing technology
+                          </option>
                           <option value="CBE">CBE</option>
                           <option value="CEE">CEE</option>
                           <option value="CHEM">CHEM</option>
@@ -359,17 +361,20 @@ const ProfileUpdatePage = () => {
                           <option value="HSS">HSS</option>
                           <option value="Manufacturing">Manufacturing</option>
                           <option value="Math">MATH</option>
-                          <option value="Mechanical Design">Mechanical Design</option>
+                          <option value="Mechanical Design">
+                            Mechanical Design
+                          </option>
                           <option value="ME">ME</option>
                           <option value="MEE">MEE</option>
                           <option value="Mechatronics">Mechatronics</option>
                           <option value="P&C">P&C</option>
                           <option value="PHY">PHY</option>
                           <option value="Structural ">Structural</option>
-                          <option value="TFE">Thermal & Fluids Engineering</option>
+                          <option value="TFE">
+                            Thermal & Fluids Engineering
+                          </option>
                           <option value="Thermal">Thermal</option>
                           <option value="VLSI">VLSI</option>
-                          
                         </Field>
                         <ErrorMessage
                           name="department"

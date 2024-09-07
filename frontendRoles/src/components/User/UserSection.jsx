@@ -225,11 +225,15 @@ const UserSection = () => {
     };
 
     fetchData();
-    getpfp();
+    if (!pfp) {
+      getpfp();
+      console.log("getpfp called because pfp was null or empty");
+    }
+
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
-  }, [user.userID]);
+  }, [user.userID, pfp]);
 
   const handleCloseReportModal = () => {
     setShowReportModal(false);
@@ -246,7 +250,6 @@ const UserSection = () => {
         },
       })
       .then((res) => {
-        // console.log(res);
         setPfp(res.data);
       })
       .catch((err) => {
@@ -385,7 +388,7 @@ const UserSection = () => {
         );
 
         setUser(response.data);
-        setPfp(response.data.profilePicture);
+        setPfp(response.data.profile_pic);
       } catch (error) {
         console.error("Error fetching user data:", error);
       } finally {
@@ -399,7 +402,7 @@ const UserSection = () => {
     if (!string) return "";
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   };
-  
+
   return (
     <>
       <Header />
