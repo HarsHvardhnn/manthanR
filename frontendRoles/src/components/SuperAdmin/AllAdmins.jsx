@@ -54,7 +54,7 @@ const AllAdmins = () => {
       })
       .then((res) => {
         setUserData(res.data);
-        //console.log(res.data);
+        console.log(res.data);
       })
       .catch((Err) => {
         console.log(Err);
@@ -181,7 +181,9 @@ const AllAdmins = () => {
                       </td>
                       <td className="border px-4 py-2">{admin.dept || "NA"}</td>
                       <td className="border px-4 py-2">
-                        {admin.semester || "NA"}
+                        {Array.isArray(admin.semesters)
+                          ? admin.semesters.join(", ")
+                          : "NA"}
                       </td>
                       <td className="border px-4 py-2">
                         <button
