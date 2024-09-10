@@ -132,7 +132,7 @@ const SuperAdminDashboard = () => {
   };
   
   return (
-    <div className="flex font-montserrat min-h-svh sm:min-h-screen">
+    <div className="flex font-montserrat min-h-svh sm:min-h-screen max-h-screen">
       {/* Sidebar */}
       <div
         className={`absolute top-0 left-0 bottom-0 w-48 md:w-64 bg-gray-700 transition-transform duration-300 z-50 ${
@@ -173,7 +173,7 @@ const SuperAdminDashboard = () => {
           </li>
 
           <li
-            className={`${
+            className={` relative ${
               activeTab === "charts"
                 ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-44 relative"
                 : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
@@ -185,7 +185,7 @@ const SuperAdminDashboard = () => {
             {isDropdownOpen && (
               <div
                 ref={dropdownRef}
-                className="admins absolute mt-48 ml-6 w-48 max-w-60 max-h-60 overflow-auto bg-gray-800 rounded-md shadow-lg"
+                className="admins absolute top-6 ml-6 w-48 max-w-60 max-h-60 overflow-auto bg-gray-800 rounded-md shadow-lg"
               >
                 {admins.map((admin) => {
                   return (

@@ -69,7 +69,7 @@ const AdminDashboard = () => {
   };
   
   return (
-    <div className="flex font-montserrat min-h-svh sm:min-h-screen">
+    <div className="flex font-montserrat min-h-svh sm:min-h-screen max-h-screen">
       <div
         className={`absolute top-0 left-0 bottom-0 w-48 md:w-64 bg-gray-700 transition-transform duration-300 z-50 ${
           showSidebar ? "translate-x-0" : "-translate-x-full"

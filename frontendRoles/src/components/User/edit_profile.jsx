@@ -76,13 +76,22 @@ const EditProfileForm = () => {
 
   const uploadImage = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setImage(reader.result);
-    };
-
     if (file) {
+      const fileSizeInKB = file.size / 1024;
+      const maxSizeInKB = 750;
+
+      if (fileSizeInKB > maxSizeInKB) {
+        toast.error(`File size should be less than ${maxSizeInKB} KB.`);
+        e.target.value = null;
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
+
       reader.readAsDataURL(file);
     }
   };
@@ -180,7 +189,7 @@ const EditProfileForm = () => {
                 <img
                   src={obj.profile_pic}
                   alt="current profile"
-                  className="h-24 w-24 mb-4 rounded-full"
+                  className="h-24 w-24 mb-4 rounded-full border"
                 />
               ) : (
                 <div className="text-sm mb-3 text-gray-500">
@@ -277,7 +286,15 @@ const EditProfileForm = () => {
             </div>
             <div className="mb-4">
               <p className="text-xs sm:text-sm xl:text-base font-medium mb-1">
-                Upload new Profile Picture
+                Upload new Profile Picture: (Max size: 750 KB)
+                <a
+                  href="https://image.pi7.org/reduce-image-size-in-kb"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 underline text-xs font-medium ml-2"
+                >
+                  Compress Image
+                </a>
               </p>
               <input
                 type="file"

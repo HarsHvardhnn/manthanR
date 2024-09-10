@@ -344,7 +344,7 @@ const UserSection = () => {
         "https://manthanr.onrender.com/v1/send-sos",
         {
           userId: user.userID,
-          admin: user.assigned_admin,
+          admin: user.assigned_admin || assigned_admin,
           username: user.username,
           message: comment,
         },
@@ -362,6 +362,7 @@ const UserSection = () => {
         }
       })
       .catch((err) => {
+        toast.error("Something went wrong. Please try to log in again.");
         console.log(err);
       })
       .finally(() => {

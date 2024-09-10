@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 // import { questions } from "../../constants/quest";
-import bot from "./bot.png";
+import bot from "./chatboticon.jpeg";
 import { useContext } from "react";
 import { authContext, userContext } from "../../context";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ import Header from "../Home/Header";
 import Popup from "./Popup";
 import ProgressBar from "@ramonak/react-progress-bar";
 import DialogModal from "../Admin/DialogModal";
+import TypeWriterEffect from "react-typewriter-effect";
 
 const TypingLoader = () => (
   <div className="text-center mt-12 mb-20 ml-4">
@@ -19,7 +20,7 @@ const TypingLoader = () => (
       <img
         src={bot}
         alt="logo"
-        className="max-h-9 max-w-9 ml-2 rounded-full border border-gray-800"
+        className="max-h-9 max-w-9 size-9 ml-2 p-1 rounded-full border border-gray-800"
       />
       <h1 className="font-medium text-sm sm:text-base text-slate-600 ml-2">
         Typing
@@ -97,7 +98,7 @@ const Chatbot = () => {
         // console.log(res.data);
         const questionsArray = res.data.map((questionObj) => questionObj.text);
         const shuffledQuestions = shuffleArray(questionsArray);
-        setQuestions(shuffledQuestions);
+        setQuestions(shuffledQuestions.slice(48));
       })
       .catch((err) => {
         toast.error(err.response.data);
@@ -271,7 +272,6 @@ const Chatbot = () => {
     if (!string) return "";
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   };
-  
 
   const handleInitialSubmit = () => {
     setInitialQuestionAnswered(true);
@@ -381,7 +381,7 @@ const Chatbot = () => {
                               <img
                                 src={bot}
                                 alt="logo"
-                                className="max-h-9 max-w-9 ml-2 rounded-full border border-gray-800"
+                                className="max-h-9 max-w-9 ml-2 p-1 rounded-full border border-gray-800"
                               />
                             )}
                             <p className="py-1 px-4 ml-1.5 mb-1 w-fit text-sm sm:text-base max-w-3xl border border-gray-600 font-medium rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
@@ -416,7 +416,7 @@ const Chatbot = () => {
                             <img
                               src={bot}
                               alt="logo"
-                              className="max-h-9 max-w-9 ml-2 rounded-full border border-gray-800"
+                              className="max-h-9 max-w-9 ml-2 p-1 rounded-full border border-gray-800"
                             />
 
                             {!initialQuestionAnswered && (
@@ -437,7 +437,7 @@ const Chatbot = () => {
                                         )
                                       }
                                     >
-                                      Ex. 1
+                                      ex. 1
                                     </button>
                                     <button
                                       className="py-1 px-3 bg-blue-500 text-white text-xs sm:text-sm rounded-2xl shadow-md hover:bg-blue-600"
@@ -447,7 +447,7 @@ const Chatbot = () => {
                                         )
                                       }
                                     >
-                                      Ex. 2
+                                      ex. 2
                                     </button>
                                     <button
                                       className="py-1 px-3 bg-blue-500 text-white text-xs sm:text-sm rounded-2xl shadow-md hover:bg-blue-600"
@@ -457,7 +457,7 @@ const Chatbot = () => {
                                         )
                                       }
                                     >
-                                      Ex. 3
+                                      ex. 3
                                     </button>
                                     <button
                                       className="py-1 px-3 bg-blue-500 text-white text-xs sm:text-sm rounded-2xl shadow-md hover:bg-blue-600"
@@ -467,7 +467,7 @@ const Chatbot = () => {
                                         )
                                       }
                                     >
-                                      Ex. 4
+                                      ex. 4
                                     </button>
                                     <button
                                       className="py-1 px-3 bg-blue-500 text-white text-xs sm:text-sm rounded-2xl shadow-md hover:bg-blue-600"
@@ -514,7 +514,16 @@ const Chatbot = () => {
                             {initialQuestionAnswered && (
                               <div className="flex justify-between w-full">
                                 <p className="py-1 px-4 ml-1.5 mb-1 w-fit max-w-3xl border border-gray-600 font-medium text-sm sm:text-base rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
-                                  {questions[currentQuestionIndex]}
+                                  <TypeWriterEffect
+                                    textStyle={{
+                                      fontFamily: "montserrat",
+                                    }}
+                                    startDelay={10}
+                                    cursorColor="black"
+                                    text={questions[currentQuestionIndex]}
+                                    typeSpeed={20}
+                                    hideCursorAfterText="true"
+                                  />{" "}
                                 </p>
                                 {answers.length > 0 && (
                                   <button
@@ -640,22 +649,41 @@ const Chatbot = () => {
 
                 {showThankYou && (
                   <div className="text-center mt-8 mx-4">
-                    <p className="text-base sm:text-2xl uppercase font-bold">
-                      Thank You for Your Responses!
+                    <p className="text-2xl font-extrabold uppercase text-green-700 tracking-wide">
+                      Thank You for your responses.
                     </p>
-                    <textarea
-                      className="mt-4 w-full p-2 max-w-3xl border border-gray-500 outline-none rounded-md placeholder:text-sm font-medium text-sm sm:text-base"
-                      rows="5"
-                      placeholder="Please share your remarks..."
-                      maxLength={300}
-                      value={remarks}
-                      onChange={(e) => setRemarks(e.target.value)}
-                      style={{ resize: "none" }}
-                    />
-                    <p className="mt-2 text-sm text-gray-600 my-6">
-                      Note: Sharing your remarks is optional. Please click the
-                      "Submit" button to send your responses.
+
+                    {/* Mental health score evaluation */}
+                    <p className="mt-4 text-lg font-medium text-gray-800 max-w-2xl mx-auto">
+                      Your mental health score will be evaluated, and if
+                      necessary, steps will be taken to ensure you receive the
+                      support you need.
                     </p>
+
+                    {/* Admin notification */}
+                    <p className="mt-3 text-base font-semibold text-blue-600 max-w-2xl mx-auto">
+                      The data will be reviewed by the admin team.
+                    </p>
+
+                    {/* Immediate help message */}
+                    <div className="mt-6 bg-blue-100 border-l-4 border-blue-600 p-4 max-w-xl mx-auto rounded-lg shadow-md">
+                      <p className="text-sm font-bold text-blue-700">
+                        Need help now?
+                        <span className="font-extrabold text-blue-800">
+                          {" "}
+                          Click "Consult"
+                        </span>{" "}
+                        in the dashboard for immediate support.
+                      </p>
+                    </div>
+
+                    {/* Submit button */}
+                    <p className="mt-4 text-base font-medium text-gray-600">
+                      Please click the "Submit" button below to finalize and
+                      send your responses.
+                    </p>
+
+                   
                   </div>
                 )}
 
@@ -664,7 +692,7 @@ const Chatbot = () => {
                     <div className="text-center mt-2">
                       <button
                         onClick={() => setIsDialogOpen(true)}
-                        className="bg-white font-bold py-1 px-4 text-sm sm:text-base rounded-xl border border-gray-700 transition duration-300 ease-in-out transform hover:bg-blue-600 hover:text-white hover:border-cyan-50 hover:scale-105"
+                        className="mt-3 bg-blue-600 text-white text-lg font-semibold py-2 px-6 rounded-xl shadow-xl hover:bg-blue-800 hover:scale-105 transition transform duration-300 ease-in-out"
                       >
                         Submit
                       </button>

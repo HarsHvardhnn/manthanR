@@ -97,7 +97,7 @@ function AdminWiseChart({ admin, adminName }) {
     return acc;
   }, {});
 
-  const labelOrder = ["High", "Moderate", "Low", "NA"];
+  const labelOrder = ["Low", "Moderate", "High", "NA"];
   const labels = labelOrder.filter((label) => chartData[label] !== undefined);
 
   const filteredLabels = labels.filter((label) => chartData[label] !== 0);
@@ -254,6 +254,45 @@ function AdminWiseChart({ admin, adminName }) {
         style={{ borderRadius: "10px" }}
       >
         <Chart options={options} series={series} type="bar" height={400} />
+      </div>
+      <div className="mt-4 bg-white p-3 rounded-lg shadow-md">
+        <table className="w-full table-auto">
+          <thead>
+            <tr className="text-sm sm:text-base">
+              <th className="text-left py-1 px-2">Category</th>
+              <th className="text-left py-1 px-2">Score Range</th>
+              <th className="text-left py-1 px-2">Description</th>
+            </tr>
+          </thead>
+          <tbody className="text-sm sm:text-base">
+            <tr className="border-t">
+              <td className="py-1 px-2 text-red-600 font-semibold">Low</td>
+              <td className="py-1 px-2">0 - 126</td>
+              <td className="py-1 px-2">Well-being score is considered low.</td>
+            </tr>
+            <tr className="border-t">
+              <td className="py-1 px-2 text-yellow-600 font-semibold">
+                Moderate
+              </td>
+              <td className="py-1 px-2">127 - 174</td>
+              <td className="py-1 px-2">
+                Well-being score is in a moderate range.
+              </td>
+            </tr>
+            <tr className="border-t">
+              <td className="py-1 px-2 text-green-600 font-semibold">High</td>
+              <td className="py-1 px-2">175 and above</td>
+              <td className="py-1 px-2">
+                Well-being score is considered high.
+              </td>
+            </tr>
+            <tr className="border-t">
+              <td className="py-1 px-2 text-blue-600 font-semibold">NA</td>
+              <td className="py-1 px-2">N/A</td>
+              <td className="py-1 px-2">No well-being score available.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );

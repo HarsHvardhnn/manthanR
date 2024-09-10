@@ -54,87 +54,148 @@ function MainPage() {
   }, []);
 
   return (
-    <div
-      className="h-full min-h-svh sm:min-h-screen bg-center bg-no-repeat flex flex-col lg:justify-center items-center font-montserrat main-background"
-      style={{
-        backgroundImage: `url(${bgImageUrl})`,
-        backgroundSize: "cover",
-      }}
-    >
-      {/* Navbar */}
-      <Header />
+    <>
+      <div
+        className="h-full min-h-svh sm:min-h-screen bg-center bg-no-repeat flex flex-col lg:justify-center items-center font-montserrat main-background"
+        style={{
+          backgroundImage: `url(${bgImageUrl})`,
+          backgroundSize: "cover",
+        }}
+      >
+        {/* Navbar */}
+        <Header />
 
-      {/* Content */}
-      <div className=" flex flex-col w-full pl-6 items-center ">
-        <div className="flex mt-10 w-full justify-center">
-          {/* text content */}
-          <div className="flex flex-col mt-4 mr-4 xl:mr-28">
-            <div className="w-full sm:max-w-xl min-h-48 rounded-lg typewriter-text uppercase">
-              <TypeWriterEffect
-                textStyle={{
-                  fontFamily: "montserrat",
-                  fontWeight: "800",
-                }}
-                startDelay={100}
-                cursorColor="black"
-                text="Your Mental Health Matters. Let us help!"
-                typeSpeed={100}
-                hideCursorAfterText="true"
-              />
+        {/* Content */}
+        <div className=" flex flex-col w-full pl-6 items-center ">
+          <div className="flex mt-10 w-full justify-center">
+            {/* text content */}
+            <div className="flex flex-col mt-4 mr-4 xl:mr-28">
+              <div className="w-full sm:max-w-xl min-h-48 rounded-lg typewriter-text uppercase">
+                <TypeWriterEffect
+                  textStyle={{
+                    fontFamily: "montserrat",
+                    fontWeight: "800",
+                  }}
+                  startDelay={100}
+                  cursorColor="black"
+                  text="Your Mental Health Matters. Let us help!"
+                  typeSpeed={100}
+                  hideCursorAfterText="true"
+                />
+              </div>
+              {/* image small */}
+              <div className="lg:hidden mx-auto ">
+                <img
+                  src={BgImage}
+                  alt="Description"
+                  className="h-56 sm:h-96 animate-custom-bounce image-small"
+                  style={{
+                    animationDuration: "3s",
+                    animationIterationCount: "infinite",
+                  }}
+                />
+              </div>
+              <div className=" sm:mb-4 py-2 max-w-xl para">
+                <p className="text-base font-medium paragraph ">
+                  Enter{" "}
+                  <span className="font-bold  text-blue-600">ManoWealth</span> -
+                  A Place Where Your Mental Well-being Finds Support, Comfort,
+                  and Strength.
+                </p>
+              </div>
+              {loggedin ? null : (
+                <div className="login">
+                  <button
+                    onClick={() => {
+                      navigate("/login");
+                      // if (loggedin) {
+                      //   navigate("/usersection");
+                      // } else {
+                      //   navigate("/login");
+                      // }
+                    }}
+                    className="login-btn bg-blue-600 text-white w-fit text-base sm:text-base md:text-lg mb-6 font-semibold sm:font-bold uppercase rounded-full cursor-pointer shadow-lg z-50 transition duration-300 ease-in-out transform hover:scale-105"
+                  >
+                    Login
+                  </button>
+                </div>
+              )}
             </div>
-            {/* image small */}
-            <div className="lg:hidden mx-auto ">
+            {/* image md */}
+            <div className="hidden lg:flex md-img">
               <img
                 src={BgImage}
                 alt="Description"
-                className="h-56 sm:h-96 animate-custom-bounce image-small"
+                className="h-80 xl:h-96 animate-custom-bounce"
                 style={{
                   animationDuration: "3s",
                   animationIterationCount: "infinite",
                 }}
               />
             </div>
-            <div className=" sm:mb-4 py-2 max-w-xl para">
-              <p className="text-base font-medium paragraph ">
-                Enter{" "}
-                <span className="font-bold  text-blue-600">ManoWealth</span> - A
-                Place Where Your Mental Well-being Finds Support, Comfort, and
-                Strength.
-              </p>
-            </div>
-            {loggedin ? null : (
-              <div className="login">
-                <button
-                  onClick={() => {
-                    navigate("/login");
-                    // if (loggedin) {
-                    //   navigate("/usersection");
-                    // } else {
-                    //   navigate("/login");
-                    // }
-                  }}
-                  className="login-btn bg-blue-600 text-white w-fit text-base sm:text-base md:text-lg mb-6 font-semibold sm:font-bold uppercase rounded-full cursor-pointer shadow-lg z-50 transition duration-300 ease-in-out transform hover:scale-105"
-                >
-                  Login
-                </button>
-              </div>
-            )}
-          </div>
-          {/* image md */}
-          <div className="hidden lg:flex md-img">
-            <img
-              src={BgImage}
-              alt="Description"
-              className="h-80 xl:h-96 animate-custom-bounce"
-              style={{
-                animationDuration: "3s",
-                animationIterationCount: "infinite",
-              }}
-            />
           </div>
         </div>
       </div>
-    </div>
+      <div className="py-10 w-full px-4 lg:px-12 font-montserrat">
+        <h2 className="text-2xl lg:text-3xl font-bold text-center text-blue-800 mb-8">
+          Important Resources & Links
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-white p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between">
+            <h3 className="text-lg font-semibold text-blue-700 mb-2">
+              IITP Gymkhana
+            </h3>
+            <p className="text-sm text-gray-700 mb-2">
+              The IITP Gymkhana provides a platform for students to participate
+              in sports, culture, and technology activities.
+            </p>
+            <a
+              href="https://www.iitp.ac.in/gymkhana/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 underline"
+            >
+              Visit Gymkhana
+            </a>
+          </div>
+          <div className="bg-white p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between">
+            <h3 className="text-lg font-semibold text-blue-700 mb-2">
+              IITP Medical Unit
+            </h3>
+            <p className="text-sm text-gray-700 mb-2">
+              The medical unit at IITP provides essential health services for
+              students, staff, and faculty.
+            </p>
+            <a
+              href="https://www.iitp.ac.in/services-amenities/medical-unit"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 underline"
+            >
+              Visit Medical Unit
+            </a>
+          </div>
+          <div className="bg-white p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between">
+            <h3 className="text-lg font-semibold text-blue-700 mb-2">
+              IITP HoSCA
+            </h3>
+            <p className="text-sm text-gray-700 mb-2">
+              HoSCA oversees cultural and social activities at IITP, hosting
+              events like "Nebula" and "Reverberance," and organizing the
+              prestigious fest "Anwesha."
+            </p>
+            <a
+              href="https://www.iitp.ac.in/hosca/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 underline"
+            >
+              Visit HoSCA
+            </a>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 

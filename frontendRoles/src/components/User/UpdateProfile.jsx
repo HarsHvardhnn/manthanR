@@ -53,13 +53,17 @@ const ProfileUpdatePage = () => {
 
   const uploadImage = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setImage(reader.result);
-    };
-
     if (file) {
+      if (file.size > 750 * 1024) {
+        toast.error("File size exceeds 750 KB. Please upload a smaller image.");
+        e.target.value = null;
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
       reader.readAsDataURL(file);
     }
   };
@@ -257,10 +261,10 @@ const ProfileUpdatePage = () => {
                           />
                           {!values.dateOfBirth && (
                             <>
-                              <span className="sm:hidden absolute text-gray-400 text-xs md:text-base left-4 top-2.5">
+                              {/* <span className="sm:hidden absolute text-gray-400 text-xs md:text-base left-4 top-2.5">
                                 Date of Birth
-                              </span>
-                              <span className="absolute text-gray-400 text-xs md:text-base left-24 sm:left-32 top-2">
+                              </span> */}
+                              <span className="absolute text-gray-400 text-xs md:text-base left-[104px] sm:left-32 top-2">
                                 *
                               </span>
                             </>
@@ -451,9 +455,10 @@ const ProfileUpdatePage = () => {
                           </option>
                           <option value="APJ Kalam Hostel">APJ Kalam</option>
                           <option value="Asima Hostel">Asima</option>
-                          <option value="AryaBhatt Hostel">AryaBhatt</option>
+                          <option value="AryaBhatt Hostel">AryaBhatta</option>
+                          <option value="AryaBhatt Hostel Girls">AryaBhatta (Girls)</option>
                           <option value="CV Raman Hostel">CV Raman</option>
-                          {/* Add more hostels as needed */}
+                          <option value="Married">Married</option>
                         </Field>
                         <ErrorMessage
                           name="hostelName"
@@ -518,7 +523,15 @@ const ProfileUpdatePage = () => {
                     </div>
                     <div className="mb-4">
                       <p className="text-gray-600 text-xs sm:text-sm xl:text-base font-semibold mb-2">
-                        Upload your Profile Picture
+                        Upload your Profile Picture (Max size: 750 KB){" "}
+                        <a
+                          href="https://image.pi7.org/reduce-image-size-in-kb"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-400 underline text-xs font-medium"
+                        >
+                          Compress Image
+                        </a>
                       </p>
 
                       <label className="relative overflow-hidden w-full rounded-lg cursor-pointer">

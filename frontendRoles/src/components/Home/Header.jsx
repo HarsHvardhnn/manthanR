@@ -76,7 +76,7 @@ function Header() {
                     }}
                     className="px-3 py-1 sm:px-6 sm:py-2 rounded-full text-xs font-extrabold sm:text-base mr-1 sm:mr-4 sm:mb-2 md:mb-0 text-blue-600 border-2 border-blue-600 hover:bg-blue-600 hover:text-white"
                   >
-                    Profile
+                    Dashboard
                   </button>
                 )
               )}
