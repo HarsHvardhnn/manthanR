@@ -62,7 +62,8 @@ const LoginPage = () => {
         if (res.status === 200) {
           localStorage.setItem("token", res.data.token);
           toast.success("Login Successful");
-
+          console.log(" login", res);
+          
           setUser({
             username: res.data.user.username,
             userID: res.data.user._id,
@@ -70,7 +71,7 @@ const LoginPage = () => {
             assigned_admin: res.data.user.assigned_admin,
           });
           const object = {
-            username: res.data.user.username,
+            username: res.data.user.username ?? "name",
             userID: res.data.user._id,
             email: values.email,
             assigned_admin: res.data.user.assigned_admin,

@@ -34,18 +34,43 @@ const ProfileUpdatePage = () => {
   };
 
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required("First Name is required"),
+    firstName: Yup.string()
+      .matches(/^[A-Za-z]+$/, "First Name can only contain letters, no spaces")
+      .max(50, "First Name cannot be longer than 50 characters")
+      .required("First Name is required"),
+    lastName: Yup.string()
+      .matches(/^[A-Za-z\s]+$/, "Last Name can only contain letters")
+      .max(50, "First Name cannot be longer than 50 characters"),
     gender: Yup.string().required("Gender is required"),
     contactNumber: Yup.string()
-      .matches(/^[0-9]{10}$/, "Must be only digits and exactly 10 digits")
+      .matches(
+        /^[1-9][0-9]{9}$/,
+        "Must be exactly 10 digits and cannot start with 0"
+      )
       .required("Contact Number is required"),
-    dateOfBirth: Yup.string().required("Date of Birth is required"),
+    dateOfBirth: Yup.date()
+      .max(new Date(), "Date of Birth cannot be in the future")
+      .min(
+        new Date(new Date().setFullYear(new Date().getFullYear() - 100)),
+        "Date of Birth is too far in the past"
+      )
+      .required("Date of Birth is required"),
     degreeType: Yup.string().required("Degree Type is required"),
     department: Yup.string().required("Department is required"),
     semester: Yup.string().required("Semester is required"),
-    rollNumber: Yup.string().required("Roll Number is required"),
+    rollNumber: Yup.string()
+      .matches(
+        /^[A-Za-z0-9]{1,50}$/,
+        "Roll Number must be between 1 and 50 characters long and contain only letters and numbers."
+      )
+      .required("Roll Number is required"),
     hostelName: Yup.string().required("Hostel Name is required"),
-    hostelRoomNumber: Yup.string().required("Hostel Room Number is required"),
+    hostelRoomNumber: Yup.string()
+      .matches(
+        /^[A-Za-z0-9]{1,50}$/,
+        "Room Number must be up to 50 characters long and contain only letters and numbers"
+      )
+      .required("Hostel Room Number is required"),
     relationshipStatus: Yup.string().required(
       "Relationship Status is required"
     ),
@@ -88,6 +113,7 @@ const ProfileUpdatePage = () => {
 
   const onSubmit = async (values) => {
     const token = localStorage.getItem("token");
+
     try {
       setIsUpdating(true);
       const idOfUser = user.userID;
@@ -125,12 +151,12 @@ const ProfileUpdatePage = () => {
       if (res.data.message === "Profile created successfully") {
         toast.success("Profile updated");
         setIsUpdating(false);
-
+        console.log("values", values);
         const updatedUser = {
           ...user,
-          username: values.username,
+          username: values.firstName,
           email: values.email,
-          assigned_admin: res.data.admintoupdate._id,
+          // assigned_admin: res.data.admintoupdate._id,
         };
 
         setUser(updatedUser);
@@ -456,7 +482,9 @@ const ProfileUpdatePage = () => {
                           <option value="APJ Kalam Hostel">APJ Kalam</option>
                           <option value="Asima Hostel">Asima</option>
                           <option value="AryaBhatt Hostel">AryaBhatta</option>
-                          <option value="AryaBhatt Hostel Girls">AryaBhatta (Girls)</option>
+                          <option value="AryaBhatt Hostel Girls">
+                            AryaBhatta (Girls)
+                          </option>
                           <option value="CV Raman Hostel">CV Raman</option>
                           <option value="Married">Married</option>
                         </Field>
