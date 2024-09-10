@@ -326,7 +326,7 @@ const updateProfile = async (req, res) => {
    
 
 
-    res.status(201).json({ message: "Profile created successfully", profile ,admintoupdate  });
+    res.status(201).json({ message: "Profile created successfully", profile   });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
