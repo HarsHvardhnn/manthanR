@@ -48,7 +48,7 @@ const { sendSos, getAllSoS } = require("../controllers/SoScontroller");
 const verifyToken = require("../middlewares/authenticateToken");
 const supAdminModel = require("../models/superAdminModel");
 // const uploadImage = require("../middlewares/fileUpload");
-
+const {sendOTP} = require('../otpService')
 router.post("/signup", signup);
 router.post("/login",  login);
 router.post("/promote-to-admin", verifyToken, promoteToAdmin);
@@ -346,7 +346,7 @@ router.post('/report-to-psych',verifyToken, async (req, res) => {
       { user: id },
       { reported_psych: true },
       { new: true }
-  );
+  ).select("-password");
 
   const userMess = await supAdminModel.findOne({user:id});
   const userMessage = userMess.message;
@@ -358,9 +358,9 @@ router.post('/report-to-psych',verifyToken, async (req, res) => {
   }
   
 
-  if (update.password) {
-      delete update.password;
-  }
+  // if (update.password) {
+  //     delete update.password;
+  // }
   
 
   update.message= userMessage;
@@ -373,6 +373,29 @@ router.post('/report-to-psych',verifyToken, async (req, res) => {
   }
 });
 
+
+function generateOTP() {
+  return Math.floor(100000 + Math.random() * 900000);
+}
+router.post('/send-otp', verifyToken, async (req, res) => {
+  const { email } = req.decoded;
+  // email = 'harshvchawla997@gmail.com';
+
+  // console.log(decoded);
+  if (!email) {
+    return res.status(400).json({ message: 'Email is required' });
+  }
+
+  try {
+    const otp = generateOTP(); 
+    await sendOTP(email, otp);
+    
+    res.status(200).json({ message: `OTP sent to ${email}`, otp });
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+    res.status(500).json({ message: 'Failed to send OTP' ,error});
+  }
+});
 
 
 

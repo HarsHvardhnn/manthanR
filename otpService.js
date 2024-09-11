@@ -4,8 +4,8 @@ function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000);
 }
 
-async function sendOTP(email) {
-  const otp = generateOTP();
+async function sendOTP(email ,otp) {
+  // const otp = generateOTP();
 
   let transporter = nodemailer.createTransport({
     host: "smtp-mail.outlook.com",
