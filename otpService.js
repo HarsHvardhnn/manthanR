@@ -18,7 +18,7 @@ async function sendOTP(email) {
   });
 
   let info = await transporter.sendMail({
-    from: '"Your Name" manowealth@iitp.ac.in',
+    from: 'manowealth@iitp.ac.in',
     to: email,
     subject: "OTP Verification",
     text: `Your OTP is: ${otp}`,
