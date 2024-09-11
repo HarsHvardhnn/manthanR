@@ -665,19 +665,16 @@ const Chatbot = () => {
                       Thank You for your responses.
                     </p>
 
-                    {/* Mental health score evaluation */}
-                    <p className="mt-4 text-lg font-medium text-gray-800 max-w-2xl mx-auto">
+                    <p className="mt-4 font-medium text-gray-800 max-w-2xl mx-auto">
                       Your mental health score will be evaluated, and if
                       necessary, steps will be taken to ensure you receive the
                       support you need.
                     </p>
 
-                    {/* Admin notification */}
                     <p className="mt-3 text-base font-semibold text-blue-600 max-w-2xl mx-auto">
                       The data will be reviewed by the admin team.
                     </p>
 
-                    {/* Immediate help message */}
                     <div className="mt-6 bg-blue-100 border-l-4 border-blue-600 p-4 max-w-xl mx-auto rounded-lg shadow-md">
                       <p className="text-sm font-bold text-blue-700">
                         Need help now?
@@ -689,7 +686,6 @@ const Chatbot = () => {
                       </p>
                     </div>
 
-                    {/* Submit button */}
                     <p className="mt-4 text-base font-medium text-gray-600">
                       Please click the "Submit" button below to finalize and
                       send your responses.
