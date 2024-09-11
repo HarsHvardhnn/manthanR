@@ -63,9 +63,13 @@ const AdminDashboard = () => {
     const screenWidth = window.innerWidth;
     return screenWidth >= 768 ? "1.365rem" : undefined;
   };
-  const capitalizeFirstLetter = (string) => {
+  const capitalizeWords = (string) => {
     if (!string) return "";
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    
+    return string
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
   };
   
   return (
@@ -174,7 +178,7 @@ const AdminDashboard = () => {
           <div className="flex">
             <FaUserCircle className="text-white text-2xl mr-2" />
             <p className="text-lg font-semibold text-white">
-              Welcome {capitalizeFirstLetter(admin.username)}
+              Welcome, {capitalizeWords(admin.username)}
             </p>
           </div>
           <div className="relative">

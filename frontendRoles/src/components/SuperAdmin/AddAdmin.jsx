@@ -34,7 +34,7 @@ const AddAdmin = () => {
     const formData = {
       ...values,
       semesters: selectedSemesters, // Updated to plural
-      password: password,
+      password: values.phone,
     };
     const token = localStorage.getItem("superadminToken");
     console.log(formData);
@@ -232,13 +232,15 @@ const AddAdmin = () => {
                   <option value="EEE-P&C">EEE-P&C</option>
                   <option value="ECE+CSSP">ECE+CSSP</option>
                   <option value="EE">EE</option>
+                  <option value="ECE">ECE</option>
                   <option value="EEE">EEE</option>
                   <option value="Geo">GEO</option>
                   <option value="HSS">HSS</option>
                   <option value="Manufacturing">Manufacturing</option>
                   <option value="Math">MATH</option>
                   <option value="Mechanical Design">Mechanical Design</option>
-                  <option value="MEE">MEE</option>
+                  <option value="ME">ME</option>
+                  <option value="MME">MME</option>
                   <option value="Mechatronics">Mechatronics</option>
                   <option value="P&C">P&C</option>
                   <option value="PHY">PHY</option>

@@ -98,10 +98,12 @@ const EditProfileForm = () => {
 
   const hostelOptions = [
     { label: "Select Hostel", value: "" },
-    { label: "APJ Kalam Hostel", value: "APJ Kalam Hostel" },
-    { label: "Asima Hostel", value: "Asima Hostel" },
-    { label: "AryaBhatt Hostel", value: "AryaBhatt Hostel" },
-    { label: "CV Raman Hostel", value: "CV Raman Hostel" },
+    { label: "APJ Kalam Hostel", value: "APJ Kalam" },
+    { label: "Asima Hostel", value: "Asima" },
+    { label: "AryaBhatt Hostel", value: "AryaBhatta" },
+    { label: "AryaBhatt Hostel Girls", value: "AryaBhatta (Girls)" },
+    { label: "CV Raman Hostel", value: "CV Raman" },
+    { label: "Married", value: "Married" },
   ];
 
   const relationshipStatusOptions = [
@@ -128,8 +130,15 @@ const EditProfileForm = () => {
   const onSubmit = async () => {
     const values = formValues;
     setIsDialogOpen(false);
-    if (values.phoneNumber && !values.phoneNumber.match(/^\d{10}$/)) {
+    if (values.phoneNumber && !values.phoneNumber.match(/^[1-9]\d{9}$/)) {
       toast.error("Please enter a valid 10-digit phone number.");
+      return;
+    }
+    if (
+      values.hostelRoomNumber &&
+      !values.hostelRoomNumber.match(/^[a-zA-Z0-9-_/\\]{1,10}$/)
+    ) {
+      toast.error("Please enter a valid room number");
       return;
     }
     setIsSubmitting(true);

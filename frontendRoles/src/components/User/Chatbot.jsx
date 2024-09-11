@@ -533,7 +533,7 @@ const Chatbot = () => {
                                     startDelay={10}
                                     cursorColor="black"
                                     text={questions[currentQuestionIndex]}
-                                    typeSpeed={20}
+                                    typeSpeed={40}
                                     hideCursorAfterText="true"
                                   />{" "}
                                 </p>

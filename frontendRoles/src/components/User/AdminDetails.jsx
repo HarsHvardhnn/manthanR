@@ -18,10 +18,15 @@ const AdminDetails = ({ onClose, loading, getAdmin, assigned_admin }) => {
   const handleReportSubmit = (comment) => {
     setShowReportModal(false);
   };
-  const capitalizeFirstLetter = (string) => {
+  const capitalizeWords = (string) => {
     if (!string) return "";
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    
+    return string
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
   };
+  
   
   return (
     <div
@@ -60,8 +65,8 @@ const AdminDetails = ({ onClose, loading, getAdmin, assigned_admin }) => {
           <div>
             <p className="text-gray-700">
               <span className="font-semibold">Name:</span>{" "}
-              {capitalizeFirstLetter(assigned_admin.username)}&nbsp;
-              {capitalizeFirstLetter(assigned_admin.lastname)}
+              {capitalizeWords(assigned_admin.username)}&nbsp;
+              {capitalizeWords(assigned_admin.lastname)}
             </p>
             <p className="text-gray-700">
               <span className="font-semibold">Email:</span>{" "}

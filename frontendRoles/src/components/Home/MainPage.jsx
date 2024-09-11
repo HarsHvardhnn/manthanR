@@ -141,54 +141,65 @@ function MainPage() {
           Important Resources & Links
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between">
-            <h3 className="text-lg font-semibold text-blue-700 mb-2">
+          <div className="p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between bg-red-100">
+            <h3 className="text-lg font-semibold text-slate-700 mb-2">
+              IITP Counselor Unit
+            </h3>
+            <div className="text-sm text-gray-700 mb-2">
+              Our counselors help students manage academic, personal, and
+              emotional challenges for a balanced campus life.
+              <br />
+              <div className="flex flex-col ">
+                <span className="font-semibold">Email:</span>{" "}
+                counselor1@iitp.ac.in{" "}
+                <span className="font-semibold">Phone:</span> 06115-233-8944
+              </div>
+            </div>
+            <a
+              href="https://www.iitp.ac.in/services-amenities/wellness-center"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-600 underline"
+            >
+              Visit Counselor Unit
+            </a>
+          </div>
+          <div className="p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between bg-yellow-100">
+            <h3 className="text-lg font-semibold text-slate-700 mb-2">
               IITP Gymkhana
             </h3>
             <p className="text-sm text-gray-700 mb-2">
-              The IITP Gymkhana provides a platform for students to participate
-              in sports, culture, and technology activities.
+              The Students' Gymkhana at IIT Patna promotes leadership, talent,
+              and co-curricular engagement through sports, cultural events, and
+              major fests like ANWESHA and CELESTA. It plays a key role in
+              students' holistic development and building an inclusive campus
+              community.
             </p>
             <a
               href="https://www.iitp.ac.in/gymkhana/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 underline"
+              className="text-slate-600 underline"
             >
               Visit Gymkhana
             </a>
           </div>
-          <div className="bg-white p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between">
-            <h3 className="text-lg font-semibold text-blue-700 mb-2">
-              IITP Medical Unit
-            </h3>
-            <p className="text-sm text-gray-700 mb-2">
-              The medical unit at IITP provides essential health services for
-              students, staff, and faculty.
-            </p>
-            <a
-              href="https://www.iitp.ac.in/services-amenities/medical-unit"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 underline"
-            >
-              Visit Medical Unit
-            </a>
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between">
-            <h3 className="text-lg font-semibold text-blue-700 mb-2">
+
+          <div className="p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between bg-blue-100">
+            <h3 className="text-lg font-semibold text-slate-700 mb-2">
               IITP HoSCA
             </h3>
             <p className="text-sm text-gray-700 mb-2">
-              HoSCA oversees cultural and social activities at IITP, hosting
-              events like "Nebula" and "Reverberance," and organizing the
-              prestigious fest "Anwesha."
+              HoSCA at IIT Patna manages cultural activities, including Nebula,
+              Reverberance, and the fest Anwesha, offering students
+              opportunities to showcase talents through various clubs like
+              Exousia (dance) and Pixxel (photography).
             </p>
             <a
               href="https://www.iitp.ac.in/hosca/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 underline"
+              className="text-slate-600 underline"
             >
               Visit HoSCA
             </a>

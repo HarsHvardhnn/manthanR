@@ -53,7 +53,12 @@ const AllAdmins = () => {
         },
       })
       .then((res) => {
-        setUserData(res.data);
+        const sortedData = res.data.sort((a, b) => {
+          const nameA = a.username?.toLowerCase() || ""; 
+          const nameB = b.username?.toLowerCase() || "";
+          return nameA.localeCompare(nameB);
+        });
+        setUserData(sortedData);
         console.log(res.data);
       })
       .catch((Err) => {
@@ -120,7 +125,7 @@ const AllAdmins = () => {
   };
   const capitalizeFirstLetter = (string) => {
     if (!string) return "";
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
   return (
@@ -168,7 +173,9 @@ const AllAdmins = () => {
                         {index + 1}.
                       </td>
                       <td className="border px-4 py-2">
-                        {capitalizeFirstLetter(admin.username) || "NA"}
+                        {`${capitalizeFirstLetter(
+                          admin.username
+                        )} ${capitalizeFirstLetter(admin.lastname)}` || "NA"}
                       </td>
                       <td className="border px-4 py-2">
                         {admin.contactNumber || "NA"}

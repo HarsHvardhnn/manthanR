@@ -7,7 +7,6 @@ import SubmitOTP from "../Auth/SubmitOtp";
 import { userContext } from "../../context";
 import Header from "../Home/Header";
 import { toast } from "react-toastify";
-import { BsPlusLg } from "react-icons/bs";
 
 const ProfileUpdatePage = () => {
   const { user, setUser } = useContext(userContext);
@@ -59,23 +58,17 @@ const ProfileUpdatePage = () => {
     department: Yup.string().required("Department is required"),
     semester: Yup.string().required("Semester is required"),
     rollNumber: Yup.string()
-      .matches(
-        /^[A-Za-z0-9]{1,50}$/,
-        "Roll Number must be between 1 and 50 characters long and contain only letters and numbers."
-      )
+      .matches(/^[a-zA-Z0-9-_/\\]{1,20}$/, "Please enter a valid roll number.")
       .required("Roll Number is required"),
     hostelName: Yup.string().required("Hostel Name is required"),
     hostelRoomNumber: Yup.string()
-      .matches(
-        /^[A-Za-z0-9]{1,50}$/,
-        "Room Number must be up to 50 characters long and contain only letters and numbers"
-      )
+      .matches(/^[a-zA-Z0-9-_/\\]{1,10}$/, "Please enter a valid room number.")
       .required("Hostel Room Number is required"),
     relationshipStatus: Yup.string().required(
       "Relationship Status is required"
     ),
   });
-
+  
   const uploadImage = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -386,6 +379,7 @@ const ProfileUpdatePage = () => {
                           <option value="EEE-P&C">EEE-P&C</option>
                           <option value="ECE+CSSP">ECE+CSSP</option>
                           <option value="EE">EE</option>
+                          <option value="ECE">ECE</option>
                           <option value="EEE">EEE</option>
                           <option value="Geo">GEO</option>
                           <option value="HSS">HSS</option>
@@ -395,7 +389,7 @@ const ProfileUpdatePage = () => {
                             Mechanical Design
                           </option>
                           <option value="ME">ME</option>
-                          <option value="MEE">MEE</option>
+                          <option value="MME">MME</option>
                           <option value="Mechatronics">Mechatronics</option>
                           <option value="P&C">P&C</option>
                           <option value="PHY">PHY</option>

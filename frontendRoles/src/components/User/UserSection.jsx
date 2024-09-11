@@ -404,6 +404,11 @@ const UserSection = () => {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   };
 
+  const truncateUsername = (username) => {
+    return username.length > 15
+      ? `${username.substring(0, 10)}...`
+      : username;
+  };
   return (
     <>
       <Header />
@@ -443,10 +448,17 @@ const UserSection = () => {
                 </div>
               </div>
               <div className="col-span-2 row-span-2 txt">
-                <h1 className="name text-xl sm:text-4xl lg:text-4xl lg:w-[140%] mt-2 text-white sm:text-user-btns-dark font-bold">
+                <h1
+                  title={
+                    user.username
+                      ? capitalizeFirstLetter(user.username)
+                      : "Hi, welcome!"
+                  }
+                  className="name text-xl sm:text-4xl lg:text-4xl lg:w-[140%] mt-2 text-white sm:text-user-btns-dark font-bold"
+                >
                   {user.username
-                    ? `Hello, ${capitalizeFirstLetter(user.username)}`
-                    : "Hello, welcome!"}
+                    ? `Hi, ${truncateUsername(capitalizeFirstLetter(user.username))}`
+                    : "Hi, welcome!"}
                 </h1>
                 <div className="mr-2 sm:mr-32">
                   <Quotes />

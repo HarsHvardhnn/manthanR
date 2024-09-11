@@ -3,11 +3,15 @@ import { useNavigate } from "react-router-dom";
 
 const ViewProfile = ({ onClose, loading, getUser, data }) => {
   const navigate = useNavigate();
-  const capitalizeFirstLetter = (string) => {
+  const capitalizeWords = (string) => {
     if (!string) return "";
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-  };  
-
+    
+    return string
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+  };
+  
   return (
     <div
       className="fixed inset-0 flex items-center justify-center font-montserrat bg-gray-800 bg-opacity-75 z-50"
@@ -42,7 +46,9 @@ const ViewProfile = ({ onClose, loading, getUser, data }) => {
         <div>
           <p>
             <span className="font-semibold">Name:</span>{" "}
-            {capitalizeFirstLetter(data?.username) || "NA"}
+            {`${capitalizeWords(data?.username)} ${capitalizeWords(
+              data?.lastname
+            )}` || "NA"}{" "}
           </p>
           <p>
             <span className="font-semibold">Email:</span> {data?.email || "NA"}
