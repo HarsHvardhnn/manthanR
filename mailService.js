@@ -6,19 +6,19 @@ async function notifyPsy(user ,email) {
 
 
   let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
+    host: "smtp-mail.outlook.com",
     port: 587,
     secure: false,
     auth: {
-      user: "weldon32@ethereal.email",
-      pass: "X9z8MgvHTHmjudkaWn",
+      user: "manowealth@iitp.ac.in",
+      pass: "CRwnf613#@!",
     },
   });
 
   let info = await transporter.sendMail({
-    from: '"super admin" harsh@gmail.com',
+    from: '"PIC Wellness" manowealth@iitp.ac.in',
     to: email,
-    subject: "need urgent help",
+    subject: "Immediate attention is needed",
     text: `${user} needs your urgent help`,
   });
 
