@@ -9,8 +9,8 @@ async function sendOTP(email) {
 
   let transporter = nodemailer.createTransport({
     host: "smtp-mail.outlook.com",
-    port: 465,
-    secure: true,
+    port: 587,
+    secure: false,
     auth: {
       user: "manowealth@iitp.ac.in",
       pass: "CRwnf613#@!",
