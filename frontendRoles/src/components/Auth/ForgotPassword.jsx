@@ -62,7 +62,7 @@ const ForgotPassword = () => {
   const sendOtp = (values) => {
     // setLoading(true);
     axios
-      .post("https://manthanr.onrender.com/v1/sendOtp", { email: values.email })
+      .post("https://manthanr.onrender.com/v1/send-otp", { email: values.email })
       .then((res) => {
         if (res.status === 200) {
           toast.success("OTP sent. Please enter it.");
