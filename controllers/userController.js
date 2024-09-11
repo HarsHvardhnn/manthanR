@@ -25,16 +25,14 @@ const resetPassword = async (req, res) => {
   // console.log()
   try {
     // Check if OTP matches
-    const otpRecord = await otpModel.findOne({ email: email });
+    const otpRecord = await otpModel.findOne({ email: email,otp:otpBody });
     //console.log(otpRecord);
 
     if (!otpRecord) {
       return res.status(401).send("OTP not found"); 
     }
 
-    if (otpBody !== otpRecord.otp) {
-      return res.status(401).send("Incorrect OTP");
-    }
+    
   } catch (err) {
     console.error("Error checking OTP:", err);
     return res.status(500).send("Internal server error");
