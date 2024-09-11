@@ -2,6 +2,7 @@ const express = require("express");
 const csv = require('csv-parser');
 const fs = require('fs');
 const userModel = require("../models/userSchema");
+const otpModel = require("../models/otpModel")
 const {
   login,
   signup,
@@ -390,7 +391,8 @@ router.post('/send-otp', async (req, res) => {
   try {
     const otp = generateOTP(); 
     await sendOTP(email, otp);
-    
+    await otpModel.create({ email: email, otp: otp });
+
     res.status(200).json({ message: `OTP sent to ${email}`, otp });
   } catch (error) {
     console.error('Error sending OTP:', error);
