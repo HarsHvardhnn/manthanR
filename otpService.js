@@ -8,17 +8,17 @@ async function sendOTP(email) {
   const otp = generateOTP();
 
   let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
+    host: "smtp-mail.outlook.com",
     port: 587,
     secure: false,
     auth: {
-      user: "weldon32@ethereal.email",
-      pass: "X9z8MgvHTHmjudkaWn",
+      user: "manowealth@iitp.ac.in",
+      pass: "CRwnf613#@!",
     },
   });
 
   let info = await transporter.sendMail({
-    from: '"Your Name" <your_email@example.com>',
+    from: '"Your Name" manowealth@iitp.ac.in',
     to: email,
     subject: "OTP Verification",
     text: `Your OTP is: ${otp}`,
