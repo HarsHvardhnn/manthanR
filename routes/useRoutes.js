@@ -377,7 +377,7 @@ router.post('/report-to-psych',verifyToken, async (req, res) => {
 function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000);
 }
-router.post('/send-otp', verifyToken, async (req, res) => {
+router.post('/send-otp', async (req, res) => {
   // const { email } = req.decoded;
   const {email} = req.body;
   // email = 'harshvchawla997@gmail.com';
