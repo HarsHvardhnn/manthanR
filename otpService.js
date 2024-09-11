@@ -8,12 +8,12 @@ async function sendOTP(email) {
   const otp = generateOTP();
 
   let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
+    host: "smtp-mail.outlook.com",
     port: 587,
     secure: false,
     auth: {
-      user: "weldon32@ethereal.email",
-      pass: "X9z8MgvHTHmjudkaWn",
+      user: "manowealth@iitp.ac.in",
+      pass: "CRwnf613#@!",
     },
   });
 
