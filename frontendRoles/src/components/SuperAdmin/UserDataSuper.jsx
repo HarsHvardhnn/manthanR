@@ -455,7 +455,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
             </div>
             <div className="mt-2">
               <button
-                title="Download Excel File"
+                title="Download CSC File"
                 onClick={exportToCSV}
                 className="ml-4 bg-white text-blue-500 hover:text-blue-600 font-semibold md:font-bold text-2xl py-1 px-2 rounded-md"
               >
