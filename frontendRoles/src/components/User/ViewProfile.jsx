@@ -5,13 +5,13 @@ const ViewProfile = ({ onClose, loading, getUser, data }) => {
   const navigate = useNavigate();
   const capitalizeWords = (string) => {
     if (!string) return "";
-    
+
     return string
-      .split(' ')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(' ');
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
   };
-  
+
   return (
     <div
       className="fixed inset-0 flex items-center justify-center font-montserrat bg-gray-800 bg-opacity-75 z-50"

@@ -59,7 +59,7 @@ const AllAdmins = () => {
           return nameA.localeCompare(nameB);
         });
         setUserData(sortedData);
-        console.log(res.data);
+        //console.log(res.data);
       })
       .catch((Err) => {
         console.log(Err);

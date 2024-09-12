@@ -140,8 +140,8 @@ function MainPage() {
         <h2 className="text-2xl lg:text-3xl font-bold text-center text-blue-800 mb-8">
           Important Resources & Links
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between bg-red-100">
+        <div className="grid grid-cols-1 md:grid-cols-3 font-medium gap-4">
+          <div className="p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between bg-red-200">
             <h3 className="text-lg font-semibold text-slate-700 mb-2">
               IITP Counselor Unit
             </h3>
@@ -164,7 +164,7 @@ function MainPage() {
               Visit Counselor Unit
             </a>
           </div>
-          <div className="p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between bg-yellow-100">
+          <div className="p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between bg-yellow-200">
             <h3 className="text-lg font-semibold text-slate-700 mb-2">
               IITP Gymkhana
             </h3>
@@ -185,7 +185,7 @@ function MainPage() {
             </a>
           </div>
 
-          <div className="p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between bg-blue-100">
+          <div className="p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between bg-blue-200">
             <h3 className="text-lg font-semibold text-slate-700 mb-2">
               IITP HoSCA
             </h3>

@@ -98,7 +98,7 @@ const Chatbot = () => {
         // console.log(res.data);
         const questionsArray = res.data.map((questionObj) => questionObj.text);
         const shuffledQuestions = shuffleArray(questionsArray);
-        setQuestions(shuffledQuestions.slice(48));
+        setQuestions(shuffledQuestions);
       })
       .catch((err) => {
         toast.error(err.response.data);
@@ -664,8 +664,11 @@ const Chatbot = () => {
                     <p className="text-2xl font-extrabold uppercase text-green-700 tracking-wide">
                       Thank You for your responses.
                     </p>
-
-                    <p className="mt-4 font-medium text-gray-800 max-w-2xl mx-auto">
+                    <p className="mt-4 text-base font-medium text-gray-800">
+                      Please click the "Submit" button below to finalize and
+                      send your responses.
+                    </p>
+                    <p className="mt-4 font-medium text-gray-800 text-base max-w-xl mx-auto">
                       Your mental health score will be evaluated, and if
                       necessary, steps will be taken to ensure you receive the
                       support you need.
@@ -685,11 +688,6 @@ const Chatbot = () => {
                         in the dashboard for immediate support.
                       </p>
                     </div>
-
-                    <p className="mt-4 text-base font-medium text-gray-600">
-                      Please click the "Submit" button below to finalize and
-                      send your responses.
-                    </p>
                   </div>
                 )}
 

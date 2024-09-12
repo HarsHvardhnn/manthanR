@@ -6,7 +6,6 @@ import {
   FaUserCircle,
   FaSignOutAlt,
   FaHouseUser,
-  FaBell,
   FaFilePdf,
   FaArrowLeft,
   FaBars,
@@ -15,7 +14,6 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 import "../User/scrollbar.css";
-// import { Link } from "eact-router-dom";
 import UserDataSuper from "./UserDataSuper";
 import UserReportSuper from "./UserReportSuper";
 import AdminWiseChart from "./AdminWiseChart";
@@ -52,7 +50,6 @@ const SuperAdminDashboard = () => {
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
-      // Close dropdown if clicked outside
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
@@ -74,7 +71,14 @@ const SuperAdminDashboard = () => {
         },
       })
       .then((res) => {
-        setAdmins(res.data);
+        const sortedAdmins = res.data.sort((a, b) => {
+          const nameA = (a.username || "").toLowerCase();
+          const nameB = (b.username || "").toLowerCase();
+          if (nameA < nameB) return -1;
+          if (nameA > nameB) return 1;
+          return 0;
+        });
+        setAdmins(sortedAdmins);
       })
       .catch((Err) => {
         console.log(Err);
@@ -111,8 +115,8 @@ const SuperAdminDashboard = () => {
 
   const handleAdminName = (admin) => {
     setAdminName(admin.username + (admin.lastname ? ` ${admin.lastname}` : ""));
-  }
-  
+  };
+
   useEffect(() => {
     // console.log(selectedAdmin);
   }, [selectedAdmin]);
@@ -126,11 +130,15 @@ const SuperAdminDashboard = () => {
     const screenWidth = window.innerWidth;
     return screenWidth >= 768 ? "1.365rem" : undefined;
   };
-  const capitalizeFirstLetter = (string) => {
+  const capitalizeWords = (string) => {
     if (!string) return "";
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+
+    return string
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
   };
-  
+
   return (
     <div className="flex font-montserrat min-h-svh sm:min-h-screen max-h-screen">
       {/* Sidebar */}
@@ -190,14 +198,22 @@ const SuperAdminDashboard = () => {
                 {admins.map((admin) => {
                   return (
                     <button
+                      key={admin.email}
                       onClick={() => {
                         handleAdminName(admin);
                         handleChartOptionClick(admin.email);
                         toggleSidebar();
                       }}
+                      title={capitalizeWords(
+                        admin.username +
+                          (admin.lastname ? ` ${admin.lastname}` : "")
+                      )}
                       className="block px-4 py-2 text-xs text-white w-full hover:bg-gray-600"
                     >
-                      {capitalizeFirstLetter(admin.username)}
+                      {capitalizeWords(
+                        admin.username +
+                          (admin.lastname ? ` ${admin.lastname}` : "")
+                      )}
                     </button>
                   );
                 })}
@@ -308,7 +324,7 @@ const SuperAdminDashboard = () => {
           <div className="flex">
             <FaUserCircle className="text-white text-2xl mr-2" />
             <p className="text-lg font-semibold text-white">
-              Welcome {capitalizeFirstLetter(superadmin)}
+              Welcome, {capitalizeWords(superadmin)}
             </p>
           </div>
           <div className="relative">
@@ -324,7 +340,9 @@ const SuperAdminDashboard = () => {
         {/* Content based on active tab */}
         {activeTab === "AllUsersChart" && <AllUsersChart />}
         {activeTab === "Userreport" && <UserReportSuper />}
-        {activeTab === "charts" && <AdminWiseChart admin={selectedAdmin} adminName={adminName}/>}
+        {activeTab === "charts" && (
+          <AdminWiseChart admin={selectedAdmin} adminName={adminName} />
+        )}
         {activeTab === "Users" && (
           <UserDataSuper showSOSButton={false} showSummaryColumn={true} />
         )}

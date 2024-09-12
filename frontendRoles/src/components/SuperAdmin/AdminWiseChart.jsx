@@ -152,6 +152,23 @@ function AdminWiseChart({ admin, adminName }) {
     chart: {
       type: "bar",
       height: 350,
+      toolbar: {
+        show: true,
+        tools: {
+          download: true,
+        },
+        export: {
+          csv: {
+            filename: "wellness_score_distribution",
+          },
+          svg: {
+            filename: "wellness_score_distribution",
+          },
+          png: {
+            filename: "wellness_score_distribution",
+          },
+        },
+      },
     },
     plotOptions: {
       bar: {
@@ -233,6 +250,9 @@ function AdminWiseChart({ admin, adminName }) {
         },
       },
     },
+    legend: {
+      show: false,
+    },
   };
 
   const series = [
@@ -255,44 +275,37 @@ function AdminWiseChart({ admin, adminName }) {
       >
         <Chart options={options} series={series} type="bar" height={400} />
       </div>
-      <div className="mt-4 bg-white p-3 rounded-lg shadow-md">
-        <table className="w-full table-auto">
-          <thead>
-            <tr className="text-sm sm:text-base">
-              <th className="text-left py-1 px-2">Category</th>
-              <th className="text-left py-1 px-2">Score Range</th>
-              <th className="text-left py-1 px-2">Description</th>
-            </tr>
-          </thead>
-          <tbody className="text-sm sm:text-base">
-            <tr className="border-t">
-              <td className="py-1 px-2 text-red-600 font-semibold">Low</td>
-              <td className="py-1 px-2">0 - 126</td>
-              <td className="py-1 px-2">Well-being score is considered low.</td>
-            </tr>
-            <tr className="border-t">
-              <td className="py-1 px-2 text-yellow-600 font-semibold">
-                Moderate
-              </td>
-              <td className="py-1 px-2">127 - 174</td>
-              <td className="py-1 px-2">
-                Well-being score is in a moderate range.
-              </td>
-            </tr>
-            <tr className="border-t">
-              <td className="py-1 px-2 text-green-600 font-semibold">High</td>
-              <td className="py-1 px-2">175 and above</td>
-              <td className="py-1 px-2">
-                Well-being score is considered high.
-              </td>
-            </tr>
-            <tr className="border-t">
-              <td className="py-1 px-2 text-blue-600 font-semibold">NA</td>
-              <td className="py-1 px-2">N/A</td>
-              <td className="py-1 px-2">No well-being score available.</td>
-            </tr>
-          </tbody>
-        </table>
+      <div className="mt-4 bg-white rounded-lg p-1 shadow-md lg:w-[80%] mx-auto">
+        <div className="flex flex-col sm:flex-row gap-1 ">
+          <div className="flex-1 ">
+            <div className="flex items-center justify-center p-2 sm:p-4 rounded-lg text-red-600 font-semibold">
+              <span className="text-sm sm:text-base font-bold">
+                Low: 0 - 126
+              </span>
+            </div>
+          </div>
+          <div className="flex-1 ">
+            <div className="flex text-yellow-400 font-semibold justify-center p-2 sm:p-4 rounded-lg items-center">
+              <span className="text-sm sm:text-base font-bold">
+                Moderate: 127 - 174
+              </span>
+            </div>
+          </div>
+          <div className="flex-1 ">
+            <div className="flex text-green-600 font-semibold justify-center p-2 sm:p-4 rounded-lg items-center">
+              <span className="text-sm sm:text-base font-bold">
+                High: 175 and above
+              </span>
+            </div>
+          </div>
+          <div className="flex-1 ">
+            <div className="flex text-blue-600 font-semibold  justify-center p-2 sm:p-4 rounded-lg items-center">
+              <span className="text-sm sm:text-base font-bold">
+                NA: No Data
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

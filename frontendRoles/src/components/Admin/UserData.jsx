@@ -2,14 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-import * as XLSX from "xlsx";
 import ReportMessage from "./ReportMessage";
 import { adminEmailContext } from "../../context";
 import jsPDF from "jspdf";
 import { ThreeDots } from "react-loader-spinner";
 import emailjs from "emailjs-com";
 import "jspdf-autotable";
-import { FaFilePdf, FaFileExcel } from "react-icons/fa";
+import { FaFilePdf, FaFileCsv } from "react-icons/fa6";
 import DialogModal from "./DialogModal";
 
 const UserData = ({
@@ -204,13 +203,18 @@ const UserData = ({
     else if (score < 127) return "Low";
   };
 
-  const sortedUsers = users.sort((a, b) => {
+  const sortedUsers = users.slice().sort((a, b) => {
     if (selectedSort === "none") {
-      return 0;
+      return a.username.localeCompare(b.username); 
     } else if (selectedSort === "score_highest") {
-      return b.score - a.score;
+      return (b.score || 0) - (a.score || 0);
+    } else if (selectedSort === "score_lowest") {
+      return (a.score || 0) - (b.score || 0);
+    } else if (selectedSort === "alphabetical") {
+      return a.username.localeCompare(b.username); 
     } else {
-      return a.score - b.score;
+      console.warn("Invalid sort option");
+      return 0;
     }
   });
 
@@ -259,22 +263,32 @@ const UserData = ({
     doc.save("User_Data.pdf");
   };
 
-  const exportToExcel = () => {
-    const fileName = "User_Data.xlsx";
-    const worksheet = XLSX.utils.json_to_sheet(
-      filteredByYear.map((user) => ({
-        Username: user.username,
-        Email: user.email,
-        "Phone Number": user.contactNumber,
-        Score: user.score,
-        Date: convertISOToDateTime(user.createdAt),
-        Category: categorizeUser(user.score),
-      }))
-    );
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "User Data");
-    XLSX.writeFile(workbook, fileName);
+  const exportToCSV = () => {
+    const csvRows = [];
+    csvRows.push(["Username", "Email", "Phone Number", "Score", "Date", "Category"]);
+  
+    filteredByYear.forEach(user => {
+      const row = [
+        user.username ?? "NA",
+        user.email ?? "NA",
+        user.contactNumber ?? "NA",
+        user.score ?? "NA",
+        convertISOToDateTime(user.createdAt),
+        categorizeUser(user.score) ?? "NA"
+      ];
+      csvRows.push(row.join(',')); 
+    });
+  
+    const csvContent = csvRows.join("\n"); 
+  
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'User_Data.csv';
+    a.click();
   };
+ 
   function convertISOToDateTime(isoDate) {
     const date = new Date(isoDate);
     return date.toLocaleString("en-US");
@@ -351,6 +365,7 @@ const UserData = ({
                 className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-black text-xs md:text-sm"
               >
                 <option value="none">None</option>
+                <option value="alphabetical">Alphabetical</option>
                 <option value="score_highest">Score (Highest)</option>
                 <option value="score_lowest">Score (Lowest)</option>
               </select>
@@ -418,14 +433,14 @@ const UserData = ({
             </div>
             <div className="mt-2">
               <button
-                onClick={exportToExcel}
-                className="ml-4 bg-blue-600 text-white font-semibold md:font-bold py-2 px-2 rounded-md"
+                onClick={exportToCSV}
+                className="ml-4 bg-white text-blue-500 hover:text-blue-600 font-semibold md:font-bold text-2xl py-1 px-2 rounded-md"
               >
-                <FaFileExcel />
+                <FaFileCsv />
               </button>
               <button
                 onClick={exportToPDF}
-                className="ml-4 bg-blue-600 text-white font-semibold md:font-bold py-2 px-2 rounded-md"
+                className="ml-4 bg-white text-blue-500 hover:text-blue-600 font-semibold md:font-bold text-2xl py-1 px-2 rounded-md"
               >
                 <FaFilePdf />
               </button>

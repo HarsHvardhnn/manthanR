@@ -45,7 +45,7 @@ const UserForm = () => {
     // }
 
     if (existingEmail) {
-      alert("Email already exists. Please use a different email address.");
+      toast.error("Email already added. Please enter a different email address.");
       return;
     }
 
@@ -242,7 +242,8 @@ const UserForm = () => {
         <div className="flex items-center justify-center py-2">
           <button
             onClick={handleUploadToDatabase}
-            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            disabled= {users.length === 0}
+            className="bg-green-500 hover:bg-green-600 disabled:opacity-60 disabled:hover:bg-green-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Upload to Database
           </button>

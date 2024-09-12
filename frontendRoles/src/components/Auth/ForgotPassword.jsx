@@ -77,7 +77,7 @@ const ForgotPassword = () => {
       .required("Confirm password is required"),
   });
 
-  const onSubmit = (values, { setSubmitting }) => {
+  const onSubmit = (values, { setSubmitting, resetForm }) => {
     setLoading(true);
 
     axios
@@ -89,8 +89,8 @@ const ForgotPassword = () => {
       .then((res) => {
         if (res.status === 200) {
           toast.success("Password changed successfully.");
-          axios.delete("https://manthanr.onrender.com/v1/clear");
-          navigate("/login");
+          resetForm();
+          navigate("/");
         }
       })
       .catch((err) => {
@@ -98,6 +98,7 @@ const ForgotPassword = () => {
         if (err.response && err.response.status === 401) {
           setWrongOtp(true);
           toast.error("Wrong OTP. Please try again.");
+          resetForm();
           setShowOTPFields(false);
         }
       })
@@ -133,7 +134,7 @@ const ForgotPassword = () => {
             validationSchema={validationSchema}
             onSubmit={onSubmit}
           >
-            {({ isSubmitting, handleBlur, values }) => (
+            {({ isSubmitting, handleBlur, values, resetForm }) => (
               <Form>
                 <div className="mb-4">
                   <label htmlFor="email" className="block text-gray-600">
@@ -169,7 +170,10 @@ const ForgotPassword = () => {
                       <button
                         type="button"
                         onClick={() => checkEmail(values)}
-                        className="w-full bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                        disabled={
+                          !Yup.string().email().isValidSync(values.email)
+                        }
+                        className="w-full bg-blue-500 disabled:hover:bg-blue-500 disabled:opacity-60 text-white rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
                       >
                         Send OTP
                       </button>
