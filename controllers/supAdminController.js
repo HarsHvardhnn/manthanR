@@ -133,6 +133,10 @@ const authorityLogin = async (req, res) => {
         return res.status(404).send('Invalid email or password.');
     }
 
+    if(user?.role==='user'){
+        return res.send('User login not allowed').status(401);
+    }
+
     if (password !== user.password) {
         return res.status(401).send('Invalid password.');
     }

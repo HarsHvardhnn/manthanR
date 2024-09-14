@@ -205,13 +205,45 @@ router.get('/pfp/:id' ,  async (req,res)=>{
   }
 } )
 
+router.post('/assign-warden' , verifyToken ,async(req,res) => {
+ try{
+  const userProfile = await Profile.findById(req.decoded.userId);
+  const wardens = await userModel.find({hostelName:userProfile.hostelName});
+  const user = await userModel.findById(userProfile?.user);
+
+  if(!wardens){
+    return res.send('no wardens for this hostel registered').status(404);
+    
+  }
+
+  const updatedUser = await userModel.findByIdAndUpdate({_id:user._id} , {
+    assigned_warden:wardens[0],
+
+  })
+
+  return res.send({message:'warden assigned' , updatedUser}).status(201);
+
+  
+ }catch(err){
+  console.log(err)
+  return res.send(err).status(500);
+ }
+  
+  
+})
+
 
 router.post('/assign-admin' , verifyToken , async(req,res) => {
   try{
     // const {semester , dept, degree}  = req.body;
     const user1 = req.decoded;
 
+    
+
    const user = await userModel.findById(user1.userId);
+
+
+
    console.log(user)
 
    if(user?.assigned_admin){
@@ -524,6 +556,8 @@ router.post("/getAdminwisedata", getAdminWiseData);
 router.get('/user-admin-data/:admin',getUserAdmin)
 router.get("/getAllAdmins", verifyToken, getalladmins);
 router.post("/reportpsy", verifyToken, notifyAdmin);
+
+
 
 router.post('/single-login' , authorityLogin)
 module.exports = router;
