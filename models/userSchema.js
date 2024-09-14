@@ -47,6 +47,14 @@ const userSchema = new mongoose.Schema({
 assigned_admin:{
   type:mongoose.Schema.Types.ObjectId,
 },
+
+assigned_warden:{
+  type:mongoose.Schema.Types.ObjectId,
+},
+
+
+
+
 degree:{
   type:String,
 },

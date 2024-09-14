@@ -144,11 +144,29 @@ const UserSection = () => {
       });
   };
 
+  const assignWarden = () => {
+    axios
+      .post(
+        "https://manthanr.onrender.com/v1/assign-warden",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((Res) => {
+        console.log("warden ", Res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const adminData = () => {
     if (isAdminRequestPending) return;
 
     setIsAdminRequestPending(true);
     setAdminLoading(true);
+    assignWarden();
     axios
       .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`, {
         headers: {

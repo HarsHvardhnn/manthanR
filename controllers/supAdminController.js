@@ -55,11 +55,25 @@ const getAdminWiseData = async (req, res) => {
   }
 };
 const getUserAdmin = async (req, res) => {
-  try {
-    const { admin } = req.params;
-    //console.log("Received admin:", admin);
+    try {
+        const { admin } = req.params;
+        //console.log("Received admin:", admin);
+     
+        const adminOrWarden = await userModel.findById(admin);
+        if(adminOrWarden.role === 'warden'){
+            const data = await userModel.find({ assigned_warden: admin });
+            console.log(data)
+            if (!data || data.length === 0) {
+                return res.status(404).json({ error: "Data not found" });
+            }
+            return res.send(data);
+        }
 
-    const data = await userModel.find({ assigned_admin: admin });
+        const data = await userModel.find({ assigned_admin: admin });
+
+        console.log("Found data:", data);
+
+    //const data = await userModel.find({ assigned_admin: admin });
     //console.log("Found data:", data);
 
     if (!data || data.length === 0) {
@@ -137,9 +151,19 @@ const authorityLogin = async (req, res) => {
     return res.status(404).send("Invalid email or password.");
   }
 
+<<<<<<< HEAD
   if (password !== user.password) {
     return res.status(401).send("Invalid password.");
   }
+=======
+    if(user?.role==='user'){
+        return res.send('User login not allowed').status(401);
+    }
+
+    if (password !== user.password) {
+        return res.status(401).send('Invalid password.');
+    }
+>>>>>>> 881f55b76ad36d937c32d7b1f766057b46b8f21b
 
   const token = jwt.sign(
     { userId: user.id, username: user.username, role: user.role },
