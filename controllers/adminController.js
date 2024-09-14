@@ -70,9 +70,18 @@ const promoteToAdmin = async (req, res) => {
   
   const createAdmin = async (req,res)=>{
     try{
-      const {firstname,lastname,phone,email,degree,dept,semesters,password} =  req.body;
+
+
+
+      
+
+      const {firstname,lastname,phone,email,degree,dept,semesters,password ,role , hostelName} =  req.body;
+
+
+      let admin;
+      if (role === 'warden'){
      // console.log(firstname,lastname,phone,email,degree,dept,semester)
-      const admin =await  userModel.create({
+     admin= await  userModel.create({
         username:firstname,
         lastname:lastname,
         contactNumber:phone,
@@ -80,11 +89,30 @@ const promoteToAdmin = async (req, res) => {
         degree:degree,
         semesters:semesters,
         dept:dept,
+        hostelName,
+
         password:password,
-        role:'admin'
+        role:'warden'
 
 
-      })
+      })}
+      else {
+        admin= await  userModel.create({
+          username:firstname,
+          lastname:lastname,
+          contactNumber:phone,
+          email:email,
+          degree:degree,
+          semesters:semesters,
+          dept:dept,
+  
+          password:password,
+          role:'admin'
+  
+  
+        })
+
+      }
  //console.log(admin);
       return res.send('admin created').status(201);
     }

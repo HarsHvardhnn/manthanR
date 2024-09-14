@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['user', 'admin', 'super admin'], 
+    enum: ['user', 'admin', 'super admin','warden'], 
     default: 'user' 
   },
   is_profile_complete:{
@@ -54,6 +54,10 @@ dept:{
   type:String,
 },
 
+hostelName: {
+  type: String,
+
+},
 semesters:{
   type:[String],
   default:[]
