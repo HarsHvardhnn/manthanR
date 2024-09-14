@@ -25,7 +25,6 @@ function AdminWiseChart({ admin, adminName }) {
           ...response.data,
           message: userObj.message,
         };
-        //console.log("userData", userData);
         userInformation.push(userData);
       } catch (error) {
         console.error(error);
@@ -49,7 +48,7 @@ function AdminWiseChart({ admin, adminName }) {
         }
       )
       .then(async (res) => {
-        // console.log('response',res.data);
+        console.log('response',res.data);
         // const userIds = res.data.map(user => ({ user: user.userId, message: user.message }));
         const userInformation = await fetchUserInformation(res.data);
         // console.log("User Information:", userInformation);
@@ -63,6 +62,7 @@ function AdminWiseChart({ admin, adminName }) {
       });
   };
 
+  
   useEffect(() => {
     setLoading(true);
     setUserData([]);

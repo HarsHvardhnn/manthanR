@@ -454,7 +454,7 @@ const UserSection = () => {
                       ? capitalizeFirstLetter(user.username)
                       : "Hi, welcome!"
                   }
-                  className="name text-xl sm:text-4xl lg:text-4xl lg:w-[140%] mt-2 text-white sm:text-user-btns-dark font-bold"
+                  className="name text-xl sm:text-4xl lg:text-4xl lg:w-fit lg:max-w-[140%] mt-2 text-white sm:text-user-btns-dark font-bold"
                 >
                   {user.username
                     ? `Hi, ${truncateUsername(capitalizeFirstLetter(user.username))}`

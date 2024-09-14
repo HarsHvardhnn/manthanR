@@ -189,7 +189,7 @@ const UserData = ({
     emailjs
       .send(serviceId, templateId, templateParams, userId)
       .then((response) => {
-        // console.log("Email sent:", response);
+        console.log("Email sent:", response);
       })
       .catch((error) => {
         console.error("Email error:", error);

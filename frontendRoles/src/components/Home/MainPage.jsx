@@ -53,6 +53,16 @@ function MainPage() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    const adminToken = localStorage.getItem("adminToken");
+    const superadminToken = localStorage.getItem("superadminToken");
+    if (adminToken) {
+      navigate("/adminDashboard");
+    } else if (superadminToken) {
+      navigate("/superadminDashboard");
+    }
+  }, []);
+
   return (
     <>
       <div
@@ -62,13 +72,10 @@ function MainPage() {
           backgroundSize: "cover",
         }}
       >
-        {/* Navbar */}
         <Header />
 
-        {/* Content */}
         <div className=" flex flex-col w-full pl-6 items-center ">
           <div className="flex mt-10 w-full justify-center">
-            {/* text content */}
             <div className="flex flex-col mt-4 mr-4 xl:mr-28">
               <div className="w-full sm:max-w-xl min-h-48 rounded-lg typewriter-text uppercase">
                 <TypeWriterEffect
@@ -78,7 +85,7 @@ function MainPage() {
                   }}
                   startDelay={100}
                   cursorColor="black"
-                  text="Your Mental Health Matters. Let us help!"
+                  text="Your Mental Wealth Matters. Let us help!"
                   typeSpeed={100}
                   hideCursorAfterText="true"
                 />
@@ -103,23 +110,35 @@ function MainPage() {
                   and Strength.
                 </p>
               </div>
-              {loggedin ? null : (
-                <div className="login">
-                  <button
-                    onClick={() => {
-                      navigate("/login");
-                      // if (loggedin) {
-                      //   navigate("/usersection");
-                      // } else {
-                      //   navigate("/login");
-                      // }
-                    }}
-                    className="login-btn bg-blue-600 text-white w-fit text-base sm:text-base md:text-lg mb-6 font-semibold sm:font-bold uppercase rounded-full cursor-pointer shadow-lg z-50 transition duration-300 ease-in-out transform hover:scale-105"
-                  >
-                    Login
-                  </button>
-                </div>
-              )}
+              <div className="flex">
+                {loggedin ? null : (
+                  <div className="login">
+                    <button
+                      onClick={() => {
+                        navigate("/login");
+                        // if (loggedin) {
+                        //   navigate("/usersection");
+                        // } else {
+                        //   navigate("/login");
+                        // }
+                      }}
+                      className="login-btn bg-blue-600 text-white w-fit text-base sm:text-base md:text-lg mb-6 font-semibold sm:font-bold uppercase rounded-full cursor-pointer shadow-lg z-50 transition duration-300 ease-in-out transform hover:scale-105"
+                    >
+                      Login
+                    </button>
+                  </div>
+                )}
+                <button
+                  onClick={() => {
+                    navigate("/upcoming-events");
+                  }}
+                  className={`px-6 py-2.5  ${
+                    !loggedin && "ml-4"
+                  } bg-white text-blue-600 w-fit text-base sm:text-base md:text-lg mb-6 font-semibold sm:font-bold uppercase rounded-full cursor-pointer shadow-lg z-50 transition duration-300 ease-in-out transform hover:scale-105`}
+                >
+                  Upcoming Events
+                </button>
+              </div>
             </div>
             {/* image md */}
             <div className="hidden lg:flex md-img">
@@ -152,7 +171,7 @@ function MainPage() {
               <div className="flex flex-col ">
                 <span className="font-semibold">Email:</span>{" "}
                 counselor1@iitp.ac.in{" "}
-                <span className="font-semibold">Phone:</span> 06115-233-8944
+                <span className="font-semibold">Phone:</span> +91 9721322486
               </div>
             </div>
             <a
@@ -168,13 +187,18 @@ function MainPage() {
             <h3 className="text-lg font-semibold text-slate-700 mb-2">
               IITP Gymkhana
             </h3>
-            <p className="text-sm text-gray-700 mb-2">
+            <div className="text-sm text-gray-700 mb-2">
               The Students' Gymkhana at IIT Patna promotes leadership, talent,
               and co-curricular engagement through sports, cultural events, and
               major fests like ANWESHA and CELESTA. It plays a key role in
               students' holistic development and building an inclusive campus
               community.
-            </p>
+              <div className="flex flex-col ">
+                <span className="font-semibold">Email:</span>{" "}
+                vpgymkhana@iitp.ac.in{" "}
+                <span className="font-semibold">Phone:</span> +91 8340389862
+              </div>
+            </div>
             <a
               href="https://www.iitp.ac.in/gymkhana/"
               target="_blank"
@@ -189,12 +213,17 @@ function MainPage() {
             <h3 className="text-lg font-semibold text-slate-700 mb-2">
               IITP HoSCA
             </h3>
-            <p className="text-sm text-gray-700 mb-2">
+            <div className="text-sm text-gray-700 mb-2">
               HoSCA at IIT Patna manages cultural activities, including Nebula,
               Reverberance, and the fest Anwesha, offering students
               opportunities to showcase talents through various clubs like
               Exousia (dance) and Pixxel (photography).
-            </p>
+              <div className="flex flex-col ">
+                <span className="font-semibold">Email:</span>{" "}
+                gensec_cult@iitp.ac.in{" "}
+                <span className="font-semibold">Phone:</span> +91 8860680193
+              </div>
+            </div>
             <a
               href="https://www.iitp.ac.in/hosca/"
               target="_blank"
