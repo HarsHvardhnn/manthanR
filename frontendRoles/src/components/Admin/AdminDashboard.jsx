@@ -109,7 +109,7 @@ const AdminDashboard = () => {
             }}
           >
             <FaChartBar className="mr-2" />
-            Chart
+            Overview
           </li>
           <li
             className={

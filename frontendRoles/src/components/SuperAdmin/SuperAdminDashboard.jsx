@@ -178,7 +178,7 @@ const SuperAdminDashboard = () => {
             }}
           >
             <FaChartBar className="mr-2" />
-            Overall Chart
+            Overview
           </li>
 
           <li
@@ -190,7 +190,7 @@ const SuperAdminDashboard = () => {
             onClick={toggleDropdown}
           >
             <FaChartBar className="mr-2" />
-            Admin Charts
+            AdminWise Data
             {isDropdownOpen && (
               <div
                 ref={dropdownRef}

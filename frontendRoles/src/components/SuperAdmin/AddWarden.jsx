@@ -20,7 +20,7 @@ const AddWarden = () => {
     lastname: Yup.string().required("Last Name is required"),
     phone: Yup.string().min(10).max(10).required("Phone Number is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
-    hostel: Yup.string().required("Hostel is required"),
+    hostelName: Yup.string().required("Hostel is required"),
   });
 
   const onSubmit = (values, { resetForm }) => {
@@ -38,6 +38,8 @@ const AddWarden = () => {
         },
       })
       .then((res) => {
+        console.log(res);
+        
         toast.success("New Warden created successfully");
         resetForm();
       })
@@ -141,7 +143,7 @@ const AddWarden = () => {
               </div>
               <div className="mb-4">
                 <label
-                  htmlFor="hostel"
+                  htmlFor="hostelName"
                   className="block font-semibold text-gray-700 "
                 >
                   Hostel

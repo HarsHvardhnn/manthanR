@@ -1,36 +1,36 @@
 import React from "react";
 import { FaCalendarAlt } from "react-icons/fa";
 import Header from "./Header";
-
+import Week1 from "./Week1.jpeg";
+import Week2 from "./Week2.jpeg";
+import Week3 from "./Week3.jpg";
+import Week4 from "./Week4.jpeg";
 const events = [
   {
     title: "Battling Burnout: Strategies for Academic Stress",
     date: "October 6 - Friday 6pm",
-    image: "https://img.freepik.com/premium-photo/trees-growing-forest_1048944-30368869.jpg?w=996",
+    image: Week1,
     description:
       "Focus on managing the intense academic pressures and preventing burnout, a common issue among students in competitive environments like IITs.",
   },
   {
     title: "Mind Matters: Enhancing Focus and Mental Clarity",
     date: "October 13 - Friday 6pm",
-    image:
-      "https://drive.google.com/uc?export=view&id=1YlINQqywA84-0hGGcZ0nWKxxA15gvmEX",
+    image: Week2,
     description:
       "This session helps students develop techniques for improving concentration and maintaining mental clarity during their studies.",
   },
   {
     title: "Beyond Grades: Building a Resilient Mindset",
     date: "October 20 - Friday 6pm",
-    image:
-      "https://drive.google.com/uc?export=view&id=180OlGq44LjbHe4Ee_4jeYHdQD3MEbag7",
+    image: Week3,
     description:
       "Encourage students to look beyond academic achievements and cultivate resilience to handle challenges in both their academic and personal lives.",
   },
   {
     title: "Social Support and Mental Health: Building a Strong Network",
     date: "October 27 - Friday 6pm",
-    image:
-      "https://drive.google.com/uc?export=view&id=1PVRukiwGbqceBpbl6kqC4OyJjvh6SPm-",
+    image: Week4,
     description:
       "Highlight the importance of social connections and how building a supportive network can positively impact mental health during their time at IITs.",
   },
@@ -54,8 +54,8 @@ function EventsPage() {
               <div className="p-6">
                 <img
                   src={event.image}
-                  alt={event.title}
-                  className="w-full h-48 object-cover mb-4"
+                  alt="event_img"
+                  className="w-full h-96 mb-4 rounded-lg border border-slate-300"
                 />
                 <h2 className="text-xl font-semibold text-gray-800 mb-2">
                   {event.title}
