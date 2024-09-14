@@ -51,7 +51,17 @@ const getUserAdmin = async (req, res) => {
         const { admin } = req.params;
         //console.log("Received admin:", admin);
      
+        const adminOrWarden = await userModel.findById(admin);
+        if(adminOrWarden.role === 'warden'){
+            const data = await userModel.find({ assigned_warden: admin });
+            if (!data || data.length === 0) {
+                return res.status(404).json({ error: "Data not found" });
+            }
+            return res.send(data);
+        }
+
         const data = await userModel.find({ assigned_admin: admin });
+
         //console.log("Found data:", data);
 
         if (!data || data.length === 0) {

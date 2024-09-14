@@ -191,6 +191,7 @@ router.get('/get-user-j' , async(req,res)=>{
     console.log(err)
   }
 })
+
 router.get('/pfp/:id' ,  async (req,res)=>{
   try {
     const {id}= req.params;
@@ -203,7 +204,7 @@ router.get('/pfp/:id' ,  async (req,res)=>{
     console.log(err)
     return res.send('error').status(500);
   }
-} )
+})
 
 router.post('/assign-warden' , verifyToken ,async(req,res) => {
  try{
@@ -218,7 +219,6 @@ router.post('/assign-warden' , verifyToken ,async(req,res) => {
 
   const updatedUser = await userModel.findByIdAndUpdate({_id:user._id} , {
     assigned_warden:wardens[0],
-
   })
 
   return res.send({message:'warden assigned' , updatedUser}).status(201);
