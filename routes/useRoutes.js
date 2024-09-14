@@ -330,9 +330,9 @@ router.post('/report-to-psych',verifyToken, async (req, res) => {
     if (!id) {
       return res.status(400).json({ error: "User ID is required" });
     }
-    // console.log(id)
+  
    const super_admin = await userModel.find({role:'super admin'});
-  //  console.log(super_admin)
+ 
    const supadminId= super_admin[0]?._id || '6633b695e302c9a413f4a578';
 
     let userExists = await supAdminModel.exists({ user: id });
@@ -480,6 +480,13 @@ router.get('/get-summary/:id',verifyToken, async (req,res) => {
     return res.send('error').status(500);  }
 })
 router.post("/create-admin", verifyToken, createAdmin);
+
+
+router.get('/warden/students', async (req,res)=>{
+
+})
+
+
 router.delete("/delete-admin/:id", verifyToken, deleteAdmin);
 // router.get('/getQuestions' , getQuestions);
 router.get('/assigned-admin/:id' ,async (req,res)=>{

@@ -17,7 +17,7 @@ async function notifyPsy(user ,email) {
 
   let info = await transporter.sendMail({
     from: '"PIC Wellness" manowealth@iitp.ac.in',
-    to: email,
+    to: "abhisek_1921cs16@iitp.ac.in",
     subject: "Immediate attention is needed",
     text: `${user} needs your urgent help`,
   });
