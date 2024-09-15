@@ -4,7 +4,11 @@ import Image from "./adminimage.jpg";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { adminContext, adminEmailContext, superadminContext } from "../../context";
+import {
+  adminContext,
+  adminEmailContext,
+  superadminContext,
+} from "../../context";
 import Header from "../Home/Header";
 import Bg from "./StudentLoginBackground.jpg";
 import openEye from "./open.png";
@@ -14,8 +18,8 @@ const AdminLogin = () => {
   const { admin, setAdmin } = useContext(adminContext);
   const { adminEmail, setAdminEmail } = useContext(adminEmailContext);
   const navigate = useNavigate();
-  const {superadmin,setsuperadmin} =useContext(superadminContext);
-  const [loading,setLoading]=  useState(false);
+  const { superadmin, setsuperadmin } = useContext(superadminContext);
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPasswordPopup, setShowForgotPasswordPopup] = useState(false);
 
@@ -32,60 +36,62 @@ const AdminLogin = () => {
         password: values.password,
       })
       .then((res) => {
-                 
+        if (res.data === "User login not allowed") {
+          toast.error("Admins only. Students cannot log in.");
+        }
+
         const token = res.data.token;
-        if(token){
-               
-          if(res.data.user.role === 'admin' || res.data.user.role==='warden'){
-            localStorage.setItem('adminToken' , token);
-            toast.success('Welcome Admin');
-            setAdmin({username:res.data.user.username,
-              adminID:res.data.user._id});
-              setAdminEmail(res.data.user.email);
-              navigate("/AdminDashboard");
-              const object = {username:res.data.user.username,
-                adminID:res.data.user._id
-              , email:values.email}
-               // console.log(object)
-                const storeObject = JSON.stringify(object);
-              localStorage.setItem('admin' , storeObject)
-
-          }
-           
-          else if (res.data.user.role=== 'super admin'){
-
+        if (token) {
+          if (
+            res.data.user.role === "admin" ||
+            res.data.user.role === "warden"
+          ) {
+            localStorage.setItem("adminToken", token);
+            toast.success("Welcome Admin");
+            setAdmin({
+              username: res.data.user.username,
+              adminID: res.data.user._id,
+            });
+            setAdminEmail(res.data.user.email);
+            navigate("/AdminDashboard");
+            const object = {
+              username: res.data.user.username,
+              adminID: res.data.user._id,
+              email: values.email,
+            };
+            // console.log(object)
+            const storeObject = JSON.stringify(object);
+            localStorage.setItem("admin", storeObject);
+          } else if (res.data.user.role === "super admin") {
             setsuperadmin(res.data.user.username);
-            localStorage.setItem('superadminToken', token);
+            localStorage.setItem("superadminToken", token);
 
-            toast.success('SuperAdmin login successful');
+            toast.success("SuperAdmin login successful");
             // setsuperadmin(values.email);
             const superadmin = res.data.user.username;
-         
-            localStorage.setItem('superadmin' ,superadmin)
 
-            navigate('/SuperAdminDashboard');
+            localStorage.setItem("superadmin", superadmin);
 
+            navigate("/SuperAdminDashboard");
           }
-  
-
         }
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
 
         if (err.response.status === 401 || err.response.status === 404) {
           toast.error("Please check Email or Password");
         }
-        
-      }).finally(()=>{
-        setLoading(false);
       })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
-    const adminToken = localStorage.getItem('adminToken');
-    if(adminToken){
-      navigate('/admindashboard')
+    const adminToken = localStorage.getItem("adminToken");
+    if (adminToken) {
+      navigate("/admindashboard");
     }
   }, []);
 
@@ -170,7 +176,7 @@ const AdminLogin = () => {
                       type="submit"
                       className="w-full font-medium bg-admin text-white py-1 px-4 rounded-md focus:outline-none transition duration-300 ease-in-out transform hover:scale-105"
                     >
-                     {loading?'logging in...' : "login"}
+                      {loading ? "logging in..." : "login"}
                     </button>
                   </div>
                 </div>
@@ -179,7 +185,6 @@ const AdminLogin = () => {
           </Formik>
         </div>
       </div>
-     
     </div>
   );
 };

@@ -20,7 +20,7 @@ const ConsultModal = ({ onClose }) => {
         </div>
         <p className="my-4 font-medium text-justify flex gap-x-2">
           <FaBell className="text-yellow-400 text-2xl" />
-          SOS sent to the admin. Your concern is being addressed.
+          SOS is sent to the concerned person. Your concern is being addressed.
         </p>
         <p className="flex items-start whitespace-pre-wrap mb-4 text-sm  font-medium text-justify">
           <FaInfoCircle className=" text-blue-500 text-4xl relative -top-2 sm:top-0 mr-2 " />

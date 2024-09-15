@@ -18,7 +18,7 @@ const AddWarden = () => {
   const validationSchema = Yup.object().shape({
     firstname: Yup.string().required("First Name is required"),
     lastname: Yup.string().required("Last Name is required"),
-    phone: Yup.string().min(10).max(10).required("Phone Number is required"),
+    phone: Yup.string().min(10).max(15).required("Phone Number is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     hostelName: Yup.string().required("Hostel is required"),
   });
