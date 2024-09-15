@@ -12,8 +12,9 @@ const AddAdmin = () => {
     email: "",
     degree: "",
     dept: "",
-    semesters: [], // Updated to plural
+    semesters: [], 
     password: "",
+    role: "admin"
   };
   const [selectedSemesters, setSelectedSemesters] = useState([]);
 

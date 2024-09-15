@@ -11,6 +11,7 @@ import emailjs from "emailjs-com";
 import "./table.css";
 import { FaFilePdf, FaFileCsv } from "react-icons/fa6";
 import DialogModal from "../Admin/DialogModal";
+import { VscDebugRestart } from "react-icons/vsc";
 
 const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -219,13 +220,13 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   };
   const sortedUsers = users.slice().sort((a, b) => {
     if (selectedSort === "none") {
-      return a.username.localeCompare(b.username); 
+      return a.username.localeCompare(b.username);
     } else if (selectedSort === "score_highest") {
       return (b.score || 0) - (a.score || 0);
     } else if (selectedSort === "score_lowest") {
       return (a.score || 0) - (b.score || 0);
     } else if (selectedSort === "alphabetical") {
-      return a.username.localeCompare(b.username); 
+      return a.username.localeCompare(b.username);
     } else {
       console.warn("Invalid sort option");
       return 0;
@@ -284,30 +285,36 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
 
   const exportToCSV = () => {
     const csvRows = [];
-    csvRows.push(["Username", "Email", "Phone Number", "Score", "Date", "Category"]);
-  
-    filteredByYear.forEach(user => {
+    csvRows.push([
+      "Username",
+      "Email",
+      "Phone Number",
+      "Score",
+      "Date",
+      "Category",
+    ]);
+
+    filteredByYear.forEach((user) => {
       const row = [
         user.username ?? "NA",
         user.email ?? "NA",
         user.contactNumber ?? "NA",
         user.score ?? "NA",
         convertISOToDateTime(user.createdAt),
-        categorizeUser(user.score) ?? "NA"
+        categorizeUser(user.score) ?? "NA",
       ];
-      csvRows.push(row.join(',')); 
+      csvRows.push(row.join(","));
     });
-  
-    const csvContent = csvRows.join("\n"); 
-  
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+
+    const csvContent = csvRows.join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'User_Data.csv';
+    a.download = "User_Data.csv";
     a.click();
   };
-  
 
   function convertISOToDateTime(isoDate) {
     const date = new Date(isoDate);
@@ -328,9 +335,21 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       ? filteredByYear
       : filteredByYear.slice(offset, offset + parseInt(usersPerPage));
 
-  const capitalizeFirstLetter = (string) => {
+  const capitalizeWords = (string) => {
     if (!string) return "";
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+
+    return string
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  };
+
+  const handleResetFilters = () => {
+    setUsersPerPage(10);
+    setSelectedSort("none");
+    setSelectedFilter("All");
+    setSelectedMonth("All");
+    setSelectedYear("All");
   };
 
   return (
@@ -455,7 +474,17 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
             </div>
             <div className="mt-2">
               <button
-                title="Download CSC File"
+                onClick={handleResetFilters}
+                title="Reset filters"
+                className="ml-4 bg-white text-blue-500 hover:text-blue-600 font-semibold md:font-bold text-2xl py-1 px-2 rounded-md"
+              >
+                <VscDebugRestart />
+              </button>
+            </div>
+
+            <div className="mt-2">
+              <button
+                title="Download CSV File"
                 onClick={exportToCSV}
                 className="ml-4 bg-white text-blue-500 hover:text-blue-600 font-semibold md:font-bold text-2xl py-1 px-2 rounded-md"
               >
@@ -521,7 +550,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                       <tr key={user._id}>
                         <td className="px-4 py-2 border">{index + 1}</td>
                         <td className="px-4 py-2 border">
-                          {capitalizeFirstLetter(user.username)}
+                          {capitalizeWords(user.username)}
                         </td>
                         <td className="px-4 py-2 border">{user.email}</td>
                         <td className="px-4 py-2 border">

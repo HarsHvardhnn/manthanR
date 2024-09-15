@@ -10,6 +10,7 @@ import emailjs from "emailjs-com";
 import "jspdf-autotable";
 import { FaFilePdf, FaFileCsv } from "react-icons/fa6";
 import DialogModal from "./DialogModal";
+import { VscDebugRestart } from "react-icons/vsc";
 
 const UserData = ({
   showSOSButton = true,
@@ -189,7 +190,7 @@ const UserData = ({
     emailjs
       .send(serviceId, templateId, templateParams, userId)
       .then((response) => {
-        // console.log("Email sent:", response);
+        console.log("Email sent:", response);
       })
       .catch((error) => {
         console.error("Email error:", error);
@@ -205,13 +206,13 @@ const UserData = ({
 
   const sortedUsers = users.slice().sort((a, b) => {
     if (selectedSort === "none") {
-      return a.username.localeCompare(b.username); 
+      return a.username.localeCompare(b.username);
     } else if (selectedSort === "score_highest") {
       return (b.score || 0) - (a.score || 0);
     } else if (selectedSort === "score_lowest") {
       return (a.score || 0) - (b.score || 0);
     } else if (selectedSort === "alphabetical") {
-      return a.username.localeCompare(b.username); 
+      return a.username.localeCompare(b.username);
     } else {
       console.warn("Invalid sort option");
       return 0;
@@ -265,30 +266,37 @@ const UserData = ({
 
   const exportToCSV = () => {
     const csvRows = [];
-    csvRows.push(["Username", "Email", "Phone Number", "Score", "Date", "Category"]);
-  
-    filteredByYear.forEach(user => {
+    csvRows.push([
+      "Username",
+      "Email",
+      "Phone Number",
+      "Score",
+      "Date",
+      "Category",
+    ]);
+
+    filteredByYear.forEach((user) => {
       const row = [
         user.username ?? "NA",
         user.email ?? "NA",
         user.contactNumber ?? "NA",
         user.score ?? "NA",
         convertISOToDateTime(user.createdAt),
-        categorizeUser(user.score) ?? "NA"
+        categorizeUser(user.score) ?? "NA",
       ];
-      csvRows.push(row.join(',')); 
+      csvRows.push(row.join(","));
     });
-  
-    const csvContent = csvRows.join("\n"); 
-  
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+
+    const csvContent = csvRows.join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'User_Data.csv';
+    a.download = "User_Data.csv";
     a.click();
   };
- 
+
   function convertISOToDateTime(isoDate) {
     const date = new Date(isoDate);
     return date.toLocaleString("en-US");
@@ -307,11 +315,18 @@ const UserData = ({
     usersPerPage === "all"
       ? filteredByYear
       : filteredByYear.slice(offset, offset + parseInt(usersPerPage));
-      const capitalizeFirstLetter = (string) => {
-        if (!string) return "";
-        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-      };
-      
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  };
+
+  const handleResetFilters = () => {
+    setUsersPerPage(10);
+    setSelectedSort("none");
+    setSelectedFilter("All");
+    setSelectedMonth("All");
+    setSelectedYear("All");
+  };
   return (
     <div className="mx-auto px-2 md:px-4 bg-gray-100 font-montserrat text-xs md:text-sm h-[85%]">
       {loading ? (
@@ -426,19 +441,31 @@ const UserData = ({
                   className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-black text-xs md:text-sm"
                 >
                   <option value="All">All</option>
-                  <option value="2023">2024</option>
-                  <option value="2022">2023</option>
+                  <option value="2024">2024</option>
+                  <option value="2025">2025</option>
+                  <option value="2026">2026</option>
                 </select>
               </div>
             </div>
             <div className="mt-2">
               <button
+                onClick={handleResetFilters}
+                title="Reset filters"
+                className="ml-4 bg-white text-blue-500 hover:text-blue-600 font-semibold md:font-bold text-2xl py-1 px-2 rounded-md"
+              >
+                <VscDebugRestart />
+              </button>
+            </div>
+            <div className="mt-2">
+              <button
+                title="Download CSV File"
                 onClick={exportToCSV}
                 className="ml-4 bg-white text-blue-500 hover:text-blue-600 font-semibold md:font-bold text-2xl py-1 px-2 rounded-md"
               >
                 <FaFileCsv />
               </button>
               <button
+                title="Download PDF File"
                 onClick={exportToPDF}
                 className="ml-4 bg-white text-blue-500 hover:text-blue-600 font-semibold md:font-bold text-2xl py-1 px-2 rounded-md"
               >
@@ -447,123 +474,137 @@ const UserData = ({
             </div>
           </div>
           <div className="overflow-y-auto h-[calc(100vh-160px)]">
-          {filteredByYear.length === 0 || filteredUsers.length === 0 ? (
-            <p className="text-center mt-4 text-red-500">
-              No data available for the selected filter.
-            </p>
-          ) : (
-            <div className="overflow-y-auto mt-4 h-[90%]">
-              <table className="w-full max-w-6xl mx-auto bg-white border rounded-md">
-                <thead>
-                  <tr className="">
-                    <td
-                      colSpan={8}
-                      className="text-lg text-center uppercase mt-2 font-bold"
-                    >
-                      Total Users: {totalCount}
-                    </td>
-                  </tr>
-                  <tr className="">
-                    <th className="px-1 md:px-4 py-1 md:py-2 border">Index</th>
-                    <th className="px-1 md:px-4 py-1 md:py-2 border">
-                      Full Name
-                    </th>
-                    <th className="px-1 md:px-4 py-1 md:py-2 border">Email</th>
-                    <th className="px-1 md:px-4 py-1 md:py-2 border">Phone</th>
-                    <th className="px-1 md:px-4 py-1 md:py-2 border">Score</th>
-                    <th className="px-1 md:px-4 py-1 md:py-2 border">Date</th>
-                    <th className="px-1 md:px-4 py-1 md:py-2 border">
-                      Category
-                    </th>
-                    <th className="px-1 md:px-4 py-1 md:py-2 border">
-                      Actions
-                    </th>
-                    {showSummaryColumn && (
+            {filteredByYear.length === 0 || filteredUsers.length === 0 ? (
+              <p className="text-center mt-4 text-red-500">
+                No data available for the selected filter.
+              </p>
+            ) : (
+              <div className="overflow-y-auto mt-4 h-[90%]">
+                <table className="w-full max-w-6xl mx-auto bg-white border rounded-md">
+                  <thead>
+                    <tr className="">
+                      <td
+                        colSpan={8}
+                        className="text-lg text-center uppercase mt-2 font-bold"
+                      >
+                        Total Users: {totalCount}
+                      </td>
+                    </tr>
+                    <tr className="">
                       <th className="px-1 md:px-4 py-1 md:py-2 border">
-                        Summary
+                        Index
                       </th>
-                    )}
-                  </tr>
-                </thead>
-                <tbody className="text-center">
-                  {currentUsers.map((user, index) => (
-                    <tr key={user._id}>
-                      <td className="px-4 py-2 border">{index + 1}</td>
-                      <td className="px-4 py-2 border">
-                      {capitalizeFirstLetter(user.username) + " " + capitalizeFirstLetter(user.lastname ?? "")}
-                      </td>
-                      <td className="px-4 py-2 border">{user.email}</td>
-                      <td className="px-4 py-2 border">{user.contactNumber}</td>
-                      <td className="px-4 py-2 border">{user.score ?? "NA"}</td>
-                      <td className="px-4 py-2 border">
-                        {convertISOToDate(user.createdAt)}
-                      </td>
-                      <td className="px-4 py-2 border">
-                        {categorizeUser(user.score)}
-                      </td>
-                      <td className="px-4 py-2 border">
-                        <button
-                          title="Promote to admin"
-                          onClick={() => handlePromoteClick(user)}
-                          className="font-medium text-blue-600 mr-2 underline mt-2 xl:mt-0"
-                        >
-                          Promote
-                        </button>
-                        <button
-                          title="Report to superadmin"
-                          onClick={() => {
-                            setSelectUser(user.email);
-                            handleReportUser(user._id);
-                          }}
-                          className="font-medium text-blue-600 mr-2 underline mt-2 xl:mt-0"
-                        >
-                          Report
-                        </button>
-                      </td>
+                      <th className="px-1 md:px-4 py-1 md:py-2 border">
+                        Full Name
+                      </th>
+                      <th className="px-1 md:px-4 py-1 md:py-2 border">
+                        Email
+                      </th>
+                      <th className="px-1 md:px-4 py-1 md:py-2 border">
+                        Phone
+                      </th>
+                      <th className="px-1 md:px-4 py-1 md:py-2 border">
+                        Score
+                      </th>
+                      <th className="px-1 md:px-4 py-1 md:py-2 border">Date</th>
+                      <th className="px-1 md:px-4 py-1 md:py-2 border">
+                        Category
+                      </th>
+                      <th className="px-1 md:px-4 py-1 md:py-2 border">
+                        Actions
+                      </th>
                       {showSummaryColumn && (
-                        <td className="px-4 py-2 border">
-                          <button className="font-medium text-blue-600 underline">
-                            Summary
-                          </button>
-                        </td>
+                        <th className="px-1 md:px-4 py-1 md:py-2 border">
+                          Summary
+                        </th>
                       )}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className="flex justify-center mt-2">
-                <ReactPaginate
-                  pageCount={pageCount}
-                  onPageChange={handlePageClick}
-                  nextLabel="Next >"
-                  pageRangeDisplayed={3}
-                  marginPagesDisplayed={2}
-                  previousLabel="< Previous"
-                  pageClassName="page-item"
-                  pageLinkClassName="page-link"
-                  previousClassName="page-item"
-                  previousLinkClassName="page-link"
-                  nextClassName="page-item"
-                  nextLinkClassName="page-link"
-                  breakLabel="..."
-                  breakClassName="page-item"
-                  breakLinkClassName="page-link"
-                  containerClassName="pagination"
-                  activeClassName="active"
-                  renderOnZeroPageCount={null}
-                  disabledClassName={"pagination__link--disabled"}
+                  </thead>
+                  <tbody className="text-center">
+                    {currentUsers.map((user, index) => (
+                      <tr key={user._id}>
+                        <td className="px-4 py-2 border">{index + 1}</td>
+                        <td className="px-4 py-2 border">
+                          {capitalizeFirstLetter(user.username) +
+                            " " +
+                            capitalizeFirstLetter(user.lastname ?? "")}
+                        </td>
+                        <td className="px-4 py-2 border">{user.email}</td>
+                        <td className="px-4 py-2 border">
+                          {user.contactNumber}
+                        </td>
+                        <td className="px-4 py-2 border">
+                          {user.score ?? "NA"}
+                        </td>
+                        <td className="px-4 py-2 border">
+                          {convertISOToDate(user.createdAt)}
+                        </td>
+                        <td className="px-4 py-2 border">
+                          {categorizeUser(user.score)}
+                        </td>
+                        <td className="px-4 py-2 border">
+                          <button
+                            title="Promote to admin"
+                            onClick={() => handlePromoteClick(user)}
+                            className="font-medium text-blue-600 mr-2 underline mt-2 xl:mt-0"
+                          >
+                            Promote
+                          </button>
+                          <button
+                            title="Report to superadmin"
+                            onClick={() => {
+                              setSelectUser(user.email);
+                              handleReportUser(user._id);
+                            }}
+                            className="font-medium text-blue-600 mr-2 underline mt-2 xl:mt-0"
+                          >
+                            Report
+                          </button>
+                        </td>
+                        {showSummaryColumn && (
+                          <td className="px-4 py-2 border">
+                            <button className="font-medium text-blue-600 underline">
+                              Summary
+                            </button>
+                          </td>
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <div className="flex justify-center mt-2">
+                  <ReactPaginate
+                    pageCount={pageCount}
+                    onPageChange={handlePageClick}
+                    nextLabel="Next >"
+                    pageRangeDisplayed={3}
+                    marginPagesDisplayed={2}
+                    previousLabel="< Previous"
+                    pageClassName="page-item"
+                    pageLinkClassName="page-link"
+                    previousClassName="page-item"
+                    previousLinkClassName="page-link"
+                    nextClassName="page-item"
+                    nextLinkClassName="page-link"
+                    breakLabel="..."
+                    breakClassName="page-item"
+                    breakLinkClassName="page-link"
+                    containerClassName="pagination"
+                    activeClassName="active"
+                    renderOnZeroPageCount={null}
+                    disabledClassName={"pagination__link--disabled"}
+                  />
+                </div>
+                <DialogModal
+                  isOpen={isDialogOpen}
+                  onClose={() => setIsDialogOpen(false)}
+                  onSubmit={handleConfirmPromotion}
+                  paragraph="Are you sure you want to promote this user to admin?"
+                  closeBtnText="Cancel"
+                  submitBtnText="Promote"
                 />
               </div>
-              <DialogModal
-                isOpen={isDialogOpen}
-                onClose={() => setIsDialogOpen(false)}
-                onSubmit={handleConfirmPromotion}
-                paragraph="Are you sure you want to promote this user to admin?"
-                closeBtnText="Cancel"
-                submitBtnText="Promote"
-              />
-            </div>
-          )}
+            )}
           </div>
         </>
       )}

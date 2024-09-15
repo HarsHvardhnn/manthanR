@@ -21,6 +21,7 @@ import { adminContext, superadminContext } from "../../context";
 import { useNavigate } from "react-router-dom";
 import AllUsersChart from "./AllUsersChart";
 import AddAdmin from "./AddAdmin";
+import AddWarden from "./AddWarden";
 import AllAdmins from "./AllAdmins";
 import UserForm from "./addUser";
 import DialogModal from "../Admin/DialogModal";
@@ -177,7 +178,7 @@ const SuperAdminDashboard = () => {
             }}
           >
             <FaChartBar className="mr-2" />
-            Overall Chart
+            Overview
           </li>
 
           <li
@@ -189,7 +190,7 @@ const SuperAdminDashboard = () => {
             onClick={toggleDropdown}
           >
             <FaChartBar className="mr-2" />
-            Admin Charts
+            AdminWise Data
             {isDropdownOpen && (
               <div
                 ref={dropdownRef}
@@ -261,6 +262,20 @@ const SuperAdminDashboard = () => {
           >
             <FaUserPlus className="mr-2" />
             New Admin{" "}
+          </li>
+          <li
+            className={
+              activeTab === "AddWarden"
+                ? "text-white font-semibold mb-4 cursor-pointer flex items-center underline bg-slate-800 py-2 px-4 rounded-md w-44"
+                : "text-gray-300 mb-4 cursor-pointer flex items-center px-2"
+            }
+            onClick={() => {
+              setActiveTab("AddWarden");
+              toggleSidebar();
+            }}
+          >
+            <FaUserPlus className="mr-2" />
+            New Warden{" "}
           </li>
           <li
             className={
@@ -348,6 +363,7 @@ const SuperAdminDashboard = () => {
         )}
         {activeTab === "AddAdmin" && <AddAdmin />}
         {activeTab === "AllAdmins" && <AllAdmins />}
+        {activeTab === "AddWarden" && <AddWarden />}
         {activeTab === "UserForm" && <UserForm />}
       </div>
       <DialogModal

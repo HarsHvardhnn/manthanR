@@ -13,12 +13,12 @@ import "react-toastify/dist/ReactToastify.css";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import SuperAdminDashboard from "./components/SuperAdmin/SuperAdminDashboard";
 import ForgotPassword from "./components/Auth/ForgotPassword";
-import SuperAdminLogin from "./components/Auth/SuperAdminLogin";
 import Disclaimer from "./components/Home/Disclaimer";
 import UserSection from "./components/User/UserSection";
 import { loadingContext } from "./context";
 import { adminEmailContext } from "./context";
 import EditProfileForm from "./components/User/edit_profile";
+import EventsPage from "./components/Home/EventsPage";
 import SessionManager from "./SessionManager";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -89,6 +89,10 @@ function App() {
     {
       path: "/usersection",
       element: <Protected Component={UserSection} />,
+    },
+    {
+      path: "/upcoming-events",
+      element: <EventsPage />,
     },
   ]);
   return (

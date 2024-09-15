@@ -63,7 +63,7 @@ const LoginPage = () => {
           localStorage.setItem("token", res.data.token);
           toast.success("Login Successful");
           console.log(" login", res);
-          
+
           setUser({
             username: res.data.user.username,
             userID: res.data.user._id,
@@ -78,7 +78,10 @@ const LoginPage = () => {
           };
           const storeObject = JSON.stringify(object);
           localStorage.setItem("user", storeObject);
-          localStorage.setItem("isProfileComplete", res.data.user.is_profile_complete)
+          localStorage.setItem(
+            "isProfileComplete",
+            res.data.user.is_profile_complete
+          );
           setAuth(true);
 
           if (res.data.user.is_profile_complete) {
@@ -125,6 +128,15 @@ const LoginPage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const adminToken = localStorage.getItem("adminToken");
+    const superadminToken = localStorage.getItem("superadminToken");
+    if (adminToken) {
+      navigate("/adminDashboard");
+    } else if (superadminToken) {
+      navigate("/superadminDashboard");
+    }
+  }, []);
   return (
     <div
       className="min-h-svh sm:min-h-screen flex justify-center items-center bg-blue-200 font-montserrat"
