@@ -148,6 +148,7 @@ const UserSection = () => {
     axios
       .post(
         "https://manthanr.onrender.com/v1/assign-warden",
+        {},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -166,7 +167,7 @@ const UserSection = () => {
 
     setIsAdminRequestPending(true);
     setAdminLoading(true);
-    assignWarden();
+    // assignWarden();
     axios
       .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`, {
         headers: {
@@ -423,9 +424,7 @@ const UserSection = () => {
   };
 
   const truncateUsername = (username) => {
-    return username.length > 15
-      ? `${username.substring(0, 10)}...`
-      : username;
+    return username.length > 15 ? `${username.substring(0, 10)}...` : username;
   };
   return (
     <>
@@ -475,7 +474,9 @@ const UserSection = () => {
                   className="name text-xl sm:text-4xl lg:text-4xl lg:w-fit lg:max-w-[140%] mt-2 text-white sm:text-user-btns-dark font-bold"
                 >
                   {user.username
-                    ? `Hi, ${truncateUsername(capitalizeFirstLetter(user.username))}`
+                    ? `Hi, ${truncateUsername(
+                        capitalizeFirstLetter(user.username)
+                      )}`
                     : "Hi, welcome!"}
                 </h1>
                 <div className="mr-2 sm:mr-32">

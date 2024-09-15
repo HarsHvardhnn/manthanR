@@ -8,28 +8,28 @@ import Week4 from "./Week4.jpeg";
 const events = [
   {
     title: "Battling Burnout: Strategies for Academic Stress",
-    date: "October 6 - Friday 6pm",
+    date: "October 6 - Friday 6-6:30 PM",
     image: Week1,
     description:
       "Focus on managing the intense academic pressures and preventing burnout, a common issue among students in competitive environments like IITs.",
   },
   {
     title: "Mind Matters: Enhancing Focus and Mental Clarity",
-    date: "October 13 - Friday 6pm",
+    date: "October 13 - Friday 6-6:30 PM",
     image: Week2,
     description:
       "This session helps students develop techniques for improving concentration and maintaining mental clarity during their studies.",
   },
   {
     title: "Beyond Grades: Building a Resilient Mindset",
-    date: "October 20 - Friday 6pm",
+    date: "October 20 - Friday 6-6:30 PM",
     image: Week3,
     description:
       "Encourage students to look beyond academic achievements and cultivate resilience to handle challenges in both their academic and personal lives.",
   },
   {
     title: "Social Support and Mental Health: Building a Strong Network",
-    date: "October 27 - Friday 6pm",
+    date: "October 27 - Friday 6-6:30 PM",
     image: Week4,
     description:
       "Highlight the importance of social connections and how building a supportive network can positively impact mental health during their time at IITs.",
@@ -40,7 +40,7 @@ function EventsPage() {
   return (
     <>
       <Header />
-      <div className="min-h-screen py-10 px-4 sm:px-28 font-montserrat bg-blue-100 ">
+      <div className="min-h-screen py-10 px-4 lg:px-28 font-montserrat bg-blue-100 ">
         <h1 className="text-3xl font-bold text-blue-700 text-center mb-8 mt-16">
           Upcoming Events
         </h1>
@@ -55,7 +55,7 @@ function EventsPage() {
                 <img
                   src={event.image}
                   alt="event_img"
-                  className="w-full h-96 mb-4 rounded-lg border border-slate-300"
+                  className="w-full xl:px-20 mx-auto h-72 mb-4 rounded-lg border border-slate-300"
                 />
                 <h2 className="text-xl font-semibold text-gray-800 mb-2">
                   {event.title}

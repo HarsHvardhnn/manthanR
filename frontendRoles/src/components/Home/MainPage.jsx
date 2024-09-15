@@ -134,7 +134,7 @@ function MainPage() {
                   }}
                   className={`px-6 py-2.5  ${
                     !loggedin && "ml-4"
-                  } bg-white text-blue-600 w-fit text-base sm:text-base md:text-lg mb-6 font-semibold sm:font-bold uppercase rounded-full cursor-pointer shadow-lg z-50 transition duration-300 ease-in-out transform hover:scale-105`}
+                  } bg-white text-blue-600 w-fit text-base sm:text-base md:text-lg mb-6 font-semibold sm:font-bold uppercase rounded-full cursor-pointer shadow-lg transition duration-300 ease-in-out transform hover:scale-105`}
                 >
                   Upcoming Events
                 </button>
@@ -159,14 +159,16 @@ function MainPage() {
         <h2 className="text-2xl lg:text-3xl font-bold text-center text-blue-800 mb-8">
           Important Resources & Links
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 font-medium gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 font-medium gap-4">
           <div className="p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between bg-red-200">
             <h3 className="text-lg font-semibold text-slate-700 mb-2">
               IITP Counselor Unit
             </h3>
             <div className="text-sm text-gray-700 mb-2">
-              Our counselors help students manage academic, personal, and
-              emotional challenges for a balanced campus life.
+              Our counselors assist students in managing academic, personal, and
+              emotional challenges to promote a balanced and fulfilling campus
+              life. They provide guidance and support to help students thrive
+              both inside and outside the classroom.
               <br />
               <div className="flex flex-col ">
                 <span className="font-semibold">Email:</span>{" "}
