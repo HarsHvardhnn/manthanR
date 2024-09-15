@@ -568,9 +568,9 @@ router.post("/getAdminwisedata", getAdminWiseData);
 router.get('/user-admin-data/:admin',getUserAdmin)
 router.get("/getAllAdmins", verifyToken, getalladmins);
 router.post("/reportpsy", verifyToken, notifyAdmin);
-router.get('/admin/users'  , async(req,res) => {
+router.get('/admin/users/:adminId'  , async(req,res) => {
   try{
-    const {adminId} = req.body;
+    const {adminId} = req.params;
     const adminUsers = await userModel.find({assigned_admin:adminId}).select('-password');
     if(!adminUsers){
       return res.send('no students under this admin');
