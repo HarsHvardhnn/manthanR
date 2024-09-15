@@ -530,7 +530,6 @@ router.get('/get-summary/:id',verifyToken, async (req,res) => {
 })
 router.post("/create-admin", verifyToken, createAdmin);
 
-
 router.post('/send-bulk-email', async (req, res) => {
   const { recipients, subject, body } = req.body;
 

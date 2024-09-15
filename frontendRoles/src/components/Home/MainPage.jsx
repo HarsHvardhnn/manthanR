@@ -132,7 +132,7 @@ function MainPage() {
                   onClick={() => {
                     navigate("/upcoming-events");
                   }}
-                  className={`px-6 py-2.5  ${
+                  className={`login-btn ${
                     !loggedin && "ml-4"
                   } bg-white text-blue-600 w-fit text-base sm:text-base md:text-lg mb-6 font-semibold sm:font-bold uppercase rounded-full cursor-pointer shadow-lg transition duration-300 ease-in-out transform hover:scale-105`}
                 >

@@ -76,6 +76,30 @@ const UserData = ({
     getAllQuestions();
   }, []);
 
+  const sendEmail = async () => {
+    const token = localStorage.getItem("adminToken");
+    axios
+      .post(
+        "https://manthanr.onrender.com/v1/send-bulk-email",
+        {
+          recipients: ["avinashsingh9946@gmail.com"],
+          subject: "subject",
+          body: "body",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Some error occured");
+      });
+  };
   const submitReport = async (selectedUserId, message, admin) => {
     const token = localStorage.getItem("adminToken");
     axios
@@ -100,12 +124,7 @@ const UserData = ({
             (user) => user.email === selectedUserId
           );
           //console.log(username);
-          sendEmail(
-            username[0].username,
-            message,
-            username[0].email,
-            username[0].contactNumber
-          );
+          sendEmail();
         }
       })
       .catch((err) => {
@@ -168,34 +187,6 @@ const UserData = ({
     };
     return date.toLocaleDateString("en-US", options);
   }
-
-  const sendEmail = (username, message, email, contactNumber) => {
-    const serviceId = "service_0jzntyg";
-    const templateId = "template_ugy8wsb";
-    const userId = "4n-EC2hBnJ4wZnL_F";
-
-    const templateParams = {
-      to_name: "PSYCH",
-      from_name: "super admin",
-      message: message,
-      to_email: "abhisektiwari2014@gmail.com",
-      username: username,
-      admin: admin.username,
-      email: email,
-      contact: `${contactNumber}`,
-      subject: "User Reported",
-      message: message,
-    };
-
-    emailjs
-      .send(serviceId, templateId, templateParams, userId)
-      .then((response) => {
-        console.log("Email sent:", response);
-      })
-      .catch((error) => {
-        console.error("Email error:", error);
-      });
-  };
 
   const categorizeUser = (score) => {
     if (score === undefined) return "NA";
