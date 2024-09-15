@@ -208,15 +208,15 @@ router.get('/pfp/:id' ,  async (req,res)=>{
 
 router.post('/assign-warden' , verifyToken ,async(req,res) => {
  try{
-  const userProfile = await Profile.findById(req.decoded.userId);
+  // const userProfile = await Profile.findOne({user:req.decoded.userId});
    console.log(userProfile)
   const wardens = await userModel.find({hostelName:userProfile.hostelName});
-  const user = await userModel.findById(userProfile?.user);
+  const user = await userModel.findById(req.decoded?.userId);
 
 
-   console.log('user');
+   console.log('user' ,  user);
    
-   console.log(wardens)
+  //  console.log(wardens)
    
   if(!wardens){
     return res.send('no wardens for this hostel registered').status(404);
@@ -228,7 +228,7 @@ router.post('/assign-warden' , verifyToken ,async(req,res) => {
     assigned_warden:wardens[0],
   })
 
-   console.log(updatedUser);
+  //  console.log(updatedUser);
 
   return res.send({message:'warden assigned' , updatedUser}).status(201);
 

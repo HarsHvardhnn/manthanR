@@ -237,9 +237,8 @@ const updateProfile = async (req, res) => {
   try {
     const { user } = req.body;
     
-    //console.log("user is ", user);
+   
     const user1 = await userModel.findOne({ _id: user });
-    // console.log(user1);
 
     if (!user1) {
       return res.status(404).send("user not found");
@@ -247,10 +246,10 @@ const updateProfile = async (req, res) => {
 
     const {
       rollNumber, 
-      contactNumber, //
-      hostelName, //
-      relationshipStatus, //
-      semester,//
+      contactNumber, 
+      hostelName, 
+      relationshipStatus, 
+      semester,
       room,
       dateOfBirth,
       degree,
@@ -305,6 +304,7 @@ const updateProfile = async (req, res) => {
         contactNumber:contactNumber,
         semester: semester,
         dept: dept,
+        hostelName,
         profile_pic:imageUrl
       },
       { new: true }
@@ -320,7 +320,6 @@ const updateProfile = async (req, res) => {
       relationshipStatus,
       roomNumber:room,
     });  
-    // console.log(semester,dept,degree)
 
    
 
