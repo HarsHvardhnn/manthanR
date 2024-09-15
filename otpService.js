@@ -20,8 +20,8 @@ async function sendOTP(email ,otp) {
   let info = await transporter.sendMail({
     from: 'manowealth@iitp.ac.in',
     to: email,
-    subject: "OTP Verification",
-    text: `Your OTP is: ${otp}`,
+    subject: "OTP Verification Code",
+    text: `Dear User,\n\nYour OTP is: ${otp}\n\nThank you,\nManoWealth Team`,
   });
 
   //console.log("Message sent: %s", info.messageId);
