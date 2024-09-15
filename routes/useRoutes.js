@@ -209,9 +209,12 @@ router.get('/pfp/:id' ,  async (req,res)=>{
 router.post('/assign-warden' , verifyToken ,async(req,res) => {
  try{
   // const userProfile = await Profile.findOne({user:req.decoded.userId});
-   console.log(userProfile)
-  const wardens = await userModel.find({hostelName:userProfile.hostelName});
+  //  console.log(userProfile)
   const user = await userModel.findById(req.decoded?.userId);
+  if(user.assigned_warden){
+    return res.send({info:'warden already assigned to user' , message:user?.assigned_warden})
+  }
+  const wardens = await userModel.find({hostelName:user?.hostelName});
 
 
    console.log('user' ,  user);
@@ -267,8 +270,8 @@ router.post('/assign-admin' , verifyToken , async(req,res) => {
   const admins = await userModel.find({
   role: 'admin',
   semesters: { $elemMatch: { $eq: String(user.semester) } },
-  degree: user.degree,
-  dept: user.dept
+  degrees:  { $elemMatch: { $eq: String(user.degree) } },
+  depts:  { $elemMatch: { $eq: String(user.degree) } }
 });
 
     if(admins.length<=0 ){
@@ -565,7 +568,23 @@ router.post("/getAdminwisedata", getAdminWiseData);
 router.get('/user-admin-data/:admin',getUserAdmin)
 router.get("/getAllAdmins", verifyToken, getalladmins);
 router.post("/reportpsy", verifyToken, notifyAdmin);
+router.get('/admin/users/:adminId'  , async(req,res) => {
+  try{
+    const {adminId} = req.params;
+    const adminUsers = await userModel.find({assigned_admin:adminId}).select('-password');
+    if(!adminUsers){
+      return res.send('no students under this admin');
+    }
+    return res.send(adminUsers);
 
+
+
+ 
+  }catch(err){
+    console.log(err);
+  }
+
+})
 
 
 router.post('/single-login' , authorityLogin)
