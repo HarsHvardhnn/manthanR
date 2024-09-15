@@ -75,7 +75,7 @@ const promoteToAdmin = async (req, res) => {
 
       
 
-      const {firstname,lastname,phone,email,degree,dept,semesters,password ,role , hostelName} =  req.body;
+      const {firstname,lastname,phone,email,degree,dept,semesters,password ,role , hostelName,depts,degrees} =  req.body;
 
 
       let admin;
@@ -90,6 +90,7 @@ const promoteToAdmin = async (req, res) => {
         semesters:semesters,
         dept:dept,
         hostelName,
+      
 
         password:password,
         role:'warden'
@@ -105,6 +106,8 @@ const promoteToAdmin = async (req, res) => {
           degree:degree,
           semesters:semesters,
           dept:dept,
+          degree,
+          depts,
   
           password:password,
           role:'admin'
