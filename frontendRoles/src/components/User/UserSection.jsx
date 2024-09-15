@@ -167,7 +167,7 @@ const UserSection = () => {
 
     setIsAdminRequestPending(true);
     setAdminLoading(true);
-    // assignWarden();
+    assignWarden();
     axios
       .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`, {
         headers: {
