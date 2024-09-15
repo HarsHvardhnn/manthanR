@@ -184,9 +184,13 @@ const AllAdmins = () => {
                         {admin.email || "NA"}
                       </td>
                       <td className="border px-4 py-2">
-                        {admin.degree || "NA"}
+                      {Array.isArray(admin.degrees)
+                          ? admin.degrees.join(", ")
+                          : "NA"}
                       </td>
-                      <td className="border px-4 py-2">{admin.dept || "NA"}</td>
+                      <td className="border px-4 py-2">{Array.isArray(admin.depts)
+                          ? admin.depts.join(", ")
+                          : "NA"}</td>
                       <td className="border px-4 py-2">
                         {Array.isArray(admin.semesters)
                           ? admin.semesters.join(", ")
