@@ -10,31 +10,39 @@ const AddAdmin = () => {
     lastname: "",
     phone: "",
     email: "",
-    degree: "",
-    dept: "",
-    semesters: [], 
+    degrees: [],
+    depts: [],
+    semesters: [],
     password: "",
-    role: "admin"
+    role: "admin",
   };
   const [selectedSemesters, setSelectedSemesters] = useState([]);
+  const [selectedDegrees, setSelectedDegrees] = useState([]);
+  const [selectedDepts, setSelectedDepts] = useState([]);
 
   const validationSchema = Yup.object().shape({
     firstname: Yup.string().required("First Name is required"),
     lastname: Yup.string().required("Last Name is required"),
     phone: Yup.string().min(10).max(10).required("Phone Number is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
-    degree: Yup.string().required("Degree Type is required"),
-    dept: Yup.string().required("Department is required"),
+    degrees: Yup.array()
+      .min(1, "At least one degree must be selected")
+      .required("Degrees are required"),
+    depts: Yup.array()
+      .min(1, "At least one department must be selected")
+      .required("Departments are required"),
     semesters: Yup.array()
       .min(1, "At least one semester must be selected")
-      .required("Semesters are required"), // Updated error message
+      .required("Semesters are required"),
   });
 
   const onSubmit = (values, { resetForm }) => {
     const password = generateRandomPassword();
     const formData = {
       ...values,
-      semesters: selectedSemesters, // Updated to plural
+      degrees: selectedDegrees,
+      depts: selectedDepts,
+      semesters: selectedSemesters,
       password: values.phone,
     };
     const token = localStorage.getItem("superadminToken");
@@ -55,6 +63,8 @@ const AddAdmin = () => {
 
     resetForm();
     setSelectedSemesters([]);
+    setSelectedDegrees([]);
+    setSelectedDepts([]);
   };
 
   const generateRandomPassword = () => {
@@ -70,13 +80,19 @@ const AddAdmin = () => {
     return password;
   };
 
-  const handleSemesterClick = (semester, setFieldValue) => {
-    const updatedSemesters = selectedSemesters.includes(semester.toString())
-      ? selectedSemesters.filter((s) => s !== semester.toString())
-      : [...selectedSemesters, semester.toString()];
+  const handleSelectionClick = (
+    item,
+    selectedItems,
+    setSelectedItems,
+    setFieldValue,
+    fieldName
+  ) => {
+    const updatedItems = selectedItems.includes(item)
+      ? selectedItems.filter((s) => s !== item)
+      : [...selectedItems, item];
 
-    setSelectedSemesters(updatedSemesters);
-    setFieldValue("semesters", updatedSemesters); // Updated to plural
+    setSelectedItems(updatedItems);
+    setFieldValue(fieldName, updatedItems);
   };
 
   return (
@@ -177,26 +193,37 @@ const AddAdmin = () => {
                 >
                   Degree Type
                 </label>
-                <Field
-                  as="select"
-                  id="degree"
-                  name="degree"
-                  className="mt-1 p-2 bg-white shadow text-xs sm:text-sm xl:text-base block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="" disabled>
-                    Select Degree Type
-                  </option>
-                  <option value="B.Tech">B.Tech</option>
-                  <option value="M.Tech">M.Tech</option>
-                  <option value="M.Sc">M.Sc</option>
-                  <option value="PhD">PhD</option>
-                  <option value="Integrated (B.Tech-M.Tech)">
-                    Integrated (B.Tech-M.Tech)
-                  </option>
-                  <option value="Integrated (B.Tech-MBA)">
-                    Integrated (B.Tech-MBA)
-                  </option>
-                </Field>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    "B.Tech",
+                    "M.Tech",
+                    "M.Sc",
+                    "PhD",
+                    "Integrated (B.Tech-M.Tech)",
+                    "Integrated (B.Tech-MBA)",
+                  ].map((degree) => (
+                    <button
+                      type="button"
+                      key={degree}
+                      className={`py-1 px-4 text-xs sm:text-sm font-medium rounded-md border ${
+                        selectedDegrees.includes(degree)
+                          ? "bg-blue-500 bg-opacity-95 text-white"
+                          : "bg-gray-100 text-gray-700"
+                      }`}
+                      onClick={() =>
+                        handleSelectionClick(
+                          degree,
+                          selectedDegrees,
+                          setSelectedDegrees,
+                          setFieldValue,
+                          "degrees"
+                        )
+                      }
+                    >
+                      {degree}
+                    </button>
+                  ))}
+                </div>
                 <ErrorMessage
                   name="degree"
                   component="div"
@@ -210,46 +237,61 @@ const AddAdmin = () => {
                 >
                   Department
                 </label>
-                <Field
-                  as="select"
-                  id="dept"
-                  name="dept"
-                  className="mt-1 p-2 bg-white shadow text-xs sm:text-sm xl:text-base block w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="" disabled>
-                    Select Dept.
-                  </option>
-                  <option value="AI">AI</option>
-                  <option value="AI&DS">AI&DS</option>
-                  <option value="AMT">Advance Manufacturing technology</option>
-                  <option value="CBE">CBE</option>
-                  <option value="CEE">CEE</option>
-                  <option value="CHEM">CHEM</option>
-                  <option value="CSE">CSE</option>
-                  <option value="CSSP">CSSP</option>
-                  <option value="Design">Design</option>
-                  <option value="ECE-VLSI">ECE-VLSI</option>
-                  <option value="ECE-CSSP">ECE-CSSP</option>
-                  <option value="EEE-P&C">EEE-P&C</option>
-                  <option value="ECE+CSSP">ECE+CSSP</option>
-                  <option value="EE">EE</option>
-                  <option value="ECE">ECE</option>
-                  <option value="EEE">EEE</option>
-                  <option value="Geo">GEO</option>
-                  <option value="HSS">HSS</option>
-                  <option value="Manufacturing">Manufacturing</option>
-                  <option value="Math">MATH</option>
-                  <option value="Mechanical Design">Mechanical Design</option>
-                  <option value="ME">ME</option>
-                  <option value="MME">MME</option>
-                  <option value="Mechatronics">Mechatronics</option>
-                  <option value="P&C">P&C</option>
-                  <option value="PHY">PHY</option>
-                  <option value="Structural ">Structural</option>
-                  <option value="TFE">Thermal & Fluids Engineering</option>
-                  <option value="Thermal">Thermal</option>
-                  <option value="VLSI">VLSI</option>
-                </Field>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    "AI",
+                    "AI&DS",
+                    "Advance Manufacturing technology",
+                    "CBE",
+                    "CEE",
+                    "CHEM",
+                    "CSE",
+                    "CSSP",
+                    "Design",
+                    "ECE-VLSI",
+                    "ECE-CSSP",
+                    "EEE-P&C",
+                    "ECE+CSSP",
+                    "EE",
+                    "ECE",
+                    "EEE",
+                    "GEO",
+                    "HSS",
+                    "Manufacturing",
+                    "MATH",
+                    "Mechanical Design",
+                    "ME",
+                    "MME",
+                    "Mechatronics",
+                    "P&C",
+                    "PHY",
+                    "Structural",
+                    "Thermal & Fluids Engineering",
+                    "Thermal",
+                    "VLSI",
+                  ].map((dept) => (
+                    <button
+                      type="button"
+                      key={dept}
+                      className={`py-1 px-4 text-xs sm:text-sm font-medium rounded-md border ${
+                        selectedDepts.includes(dept)
+                          ? "bg-blue-500 bg-opacity-95 text-white"
+                          : "bg-gray-100 text-gray-700"
+                      }`}
+                      onClick={() =>
+                        handleSelectionClick(
+                          dept,
+                          selectedDepts,
+                          setSelectedDepts,
+                          setFieldValue,
+                          "depts"
+                        )
+                      }
+                    >
+                      {dept}
+                    </button>
+                  ))}
+                </div>
                 <ErrorMessage
                   name="dept"
                   component="div"
@@ -280,7 +322,13 @@ const AddAdmin = () => {
                             : "bg-gray-100 text-gray-700"
                         }`}
                         onClick={() =>
-                          handleSemesterClick(semester, setFieldValue)
+                          handleSelectionClick(
+                            semester.toString(),
+                            selectedSemesters,
+                            setSelectedSemesters,
+                            setFieldValue,
+                            "semesters"
+                          )
                         }
                       >
                         Sem {semester}

@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
-function AdminWiseChart({ admin, adminName }) {
+function AdminWiseChart({ admin, adminName, selectedAdminId }) {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState([]);
   async function fetchUserInformation(userIds) {
     const userInformation = [];
-    //console.log(admin);
+    console.log(selectedAdminId);
     const token = localStorage.getItem("superadminToken");
     for (const userObj of userIds) {
       try {
@@ -34,13 +34,12 @@ function AdminWiseChart({ admin, adminName }) {
     return userInformation;
   }
 
-  const getData = (selectedAdmin) => {
+  const getData = () => {
     // console.log(selectedAdmin);
     const token = localStorage.getItem("superadminToken");
     axios
-      .post(
-        "https://manthanr.onrender.com/v1/getAdminWiseData",
-        { admin: selectedAdmin },
+      .get(
+        `https://manthanr.onrender.com/v1/admin/users/${selectedAdminId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -49,10 +48,15 @@ function AdminWiseChart({ admin, adminName }) {
       )
       .then(async (res) => {
         console.log('response',res.data);
+        const simplifiedUsers = res.data.map((user) => ({
+          username: user.username,
+          score: user.score,
+        }));
+        setUserData(simplifiedUsers);
         // const userIds = res.data.map(user => ({ user: user.userId, message: user.message }));
-        const userInformation = await fetchUserInformation(res.data);
+        // const userInformation = await fetchUserInformation(res.data);
         // console.log("User Information:", userInformation);
-        setUserData(userInformation);
+        // setUserData(userInformation);
       })
       .catch((err) => {
         console.log(err);
