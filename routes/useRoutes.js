@@ -271,8 +271,10 @@ router.post('/assign-admin' , verifyToken , async(req,res) => {
   role: 'admin',
   semesters: { $elemMatch: { $eq: String(user.semester) } },
   degrees:  { $elemMatch: { $eq: String(user.degree) } },
-  depts:  { $elemMatch: { $eq: String(user.degree) } }
+  depts:  { $elemMatch: { $eq: String(user.dept) } }
 });
+
+console.log(admins)
 
     if(admins.length<=0 ){
       return res.send('Admin not found for this user').status(404)
