@@ -209,9 +209,12 @@ router.get('/pfp/:id' ,  async (req,res)=>{
 router.post('/assign-warden' , verifyToken ,async(req,res) => {
  try{
   // const userProfile = await Profile.findOne({user:req.decoded.userId});
-   console.log(userProfile)
-  const wardens = await userModel.find({hostelName:userProfile.hostelName});
+  //  console.log(userProfile)
   const user = await userModel.findById(req.decoded?.userId);
+  if(user.assigned_warden){
+    return res.send('warden already assigned to user' , user?.assigned_warden)
+  }
+  const wardens = await userModel.find({hostelName:user?.hostelName});
 
 
    console.log('user' ,  user);
