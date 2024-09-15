@@ -36,7 +36,7 @@ const AdminLogin = () => {
         const token = res.data.token;
         if(token){
                
-          if(res.data.user.role === 'admin'){
+          if(res.data.user.role === 'admin' || res.data.user.role==='warden'){
             localStorage.setItem('adminToken' , token);
             toast.success('Welcome Admin');
             setAdmin({username:res.data.user.username,
