@@ -106,7 +106,7 @@ const promoteToAdmin = async (req, res) => {
           degree:degree,
           semesters:semesters,
           dept:dept,
-          degree,
+          degrees,
           depts,
   
           password:password,
