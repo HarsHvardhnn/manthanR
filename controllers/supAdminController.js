@@ -60,7 +60,9 @@ const getUserAdmin = async (req, res) => {
         //console.log("Received admin:", admin);
      
         const adminOrWarden = await userModel.findById(admin);
+        console.log(adminOrWarden)
         if(adminOrWarden.role === 'warden'){
+           console.log(admin);
             const data = await userModel.find({ assigned_warden: admin });
             console.log(data)
             if (!data || data.length === 0) {
