@@ -76,15 +76,15 @@ const UserData = ({
     getAllQuestions();
   }, []);
 
-  const sendEmail = async () => {
+  const sendEmail = async (username, message, adminUsername, adminEmail) => {
     const token = localStorage.getItem("adminToken");
     axios
       .post(
         "https://manthanr.onrender.com/v1/send-bulk-email",
         {
           recipients: ["avinashsingh9946@gmail.com"],
-          subject: "subject",
-          body: "body",
+          subject: "Urgent: Consultation Request for Student Wellness",
+          body: "jgjhgh",
         },
         {
           headers: {
@@ -124,7 +124,7 @@ const UserData = ({
             (user) => user.email === selectedUserId
           );
           //console.log(username);
-          sendEmail();
+          sendEmail(username, message, admin.username, admin.email);
         }
       })
       .catch((err) => {

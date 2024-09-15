@@ -53,12 +53,12 @@ const AllAdmins = () => {
         },
       })
       .then((res) => {
-        // const sortedData = res.data.sort((a, b) => {
-        //   const nameA = a.username?.toLowerCase() || ""; 
-        //   const nameB = b.username?.toLowerCase() || "";
-        //   return nameA.localeCompare(nameB);
-        // });
-        setUserData(res.data);
+        const sortedData = res.data.sort((a, b) => {
+          const nameA = a.username?.toLowerCase() || ""; 
+          const nameB = b.username?.toLowerCase() || "";
+          return nameA.localeCompare(nameB);
+        });
+        setUserData(sortedData);
         //console.log(res.data);
       })
       .catch((Err) => {

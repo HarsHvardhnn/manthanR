@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import TypeWriterEffect from "react-typewriter-effect";
 import "./home.css";
 import Header from "./Header";
+import Footer from "./Footer";
 
 function MainPage() {
   const navigate = useNavigate();
@@ -237,6 +238,7 @@ function MainPage() {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

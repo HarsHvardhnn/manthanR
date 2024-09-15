@@ -13,7 +13,8 @@ import Popup from "./Popup";
 import ProgressBar from "@ramonak/react-progress-bar";
 import DialogModal from "../Admin/DialogModal";
 import TypeWriterEffect from "react-typewriter-effect";
-
+import { FaRegSmile, FaRegFrown, FaRegMeh } from "react-icons/fa";
+import { BiLinkExternal } from "react-icons/bi";
 const TypingLoader = () => (
   <div className="text-center mt-12 mb-20 ml-4">
     <div className="flex items-center gap-1">
@@ -64,6 +65,10 @@ const Chatbot = () => {
   const [initialQuestionAnswered, setInitialQuestionAnswered] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [restartClicked, setRestartClicked] = useState(false);
+  const [submitClicked, setSubmitClicked] = useState(false);
+  const [hideSubmit, setHideSubmit] = useState(false);
+  const [usersScore, setUsersScore] = useState(0);
+  const [showSurveyResponse, setShowSurveyResponse] = useState(false);
 
   const axiosConfig = axios.create({
     baseURL: "https://manthanr.onrender.com/v1", // Base URL for API requests
@@ -98,7 +103,7 @@ const Chatbot = () => {
         // console.log(res.data);
         const questionsArray = res.data.map((questionObj) => questionObj.text);
         const shuffledQuestions = shuffleArray(questionsArray);
-        setQuestions(shuffledQuestions);
+        setQuestions(shuffledQuestions.slice(0, 2));
       })
       .catch((err) => {
         toast.error(err.response.data);
@@ -106,6 +111,28 @@ const Chatbot = () => {
   }, []);
 
   const handleAnswer = ({ answer }) => {
+    let score = 0;
+    switch (answer) {
+      case "Strongly Agree":
+        score = 5;
+        break;
+      case "Agree":
+        score = 4;
+        break;
+      case "Undecided":
+        score = 3;
+        break;
+      case "Disagree":
+        score = 2;
+        break;
+      case "Strongly Disagree":
+        score = 1;
+        break;
+      default:
+        score = 0;
+        break;
+    }
+    setUsersScore(usersScore + score);
     setAnswers([
       ...answers,
       { question: questions[currentQuestionIndex], answer },
@@ -188,7 +215,7 @@ const Chatbot = () => {
 
   const submitAns = (values) => {
     const token = localStorage.getItem("token");
-
+    console.log(answers);
     const headers = { Authorization: `Bearer ${token}` };
 
     setIsFetchingData(true);
@@ -212,7 +239,10 @@ const Chatbot = () => {
         setIsFetchingData(false);
         if (res.status === 201) {
           toast.success("Submitted data successfully");
-          navigate("/usersection");
+          setSubmitClicked(true);
+          setIsDialogOpen(false);
+          setHideSubmit(true);
+          setShowSurveyResponse(true);
         }
       })
       .catch((err) => {
@@ -326,13 +356,13 @@ const Chatbot = () => {
                   </div>
                   <div className="hidden md:flex">
                     <p className="py-2 px-6 bg-white rounded-xl font-bold text-base ml-2">
-                      Hello {capitalizeFirstLetter(user.username)} ✨
+                      Hello, {capitalizeFirstLetter(user.username)} ✨
                     </p>
                   </div>
                 </div>
                 <div className="hidden sm:flex ">
                   <button
-                    disabled={currentQuestionIndex < 1}
+                    disabled={currentQuestionIndex < 1 || showSurveyResponse}
                     onClick={() => {
                       setRestartClicked(true);
                       setIsDialogOpen(true);
@@ -345,6 +375,7 @@ const Chatbot = () => {
 
                 <div className="sm:hidden font-bold rounded-lg bg-white my-auto py-1.5">
                   <button
+                    disabled={currentQuestionIndex < 1 || showSurveyResponse}
                     onClick={() => {
                       setRestartClicked(true);
                       setIsDialogOpen(true);
@@ -366,7 +397,8 @@ const Chatbot = () => {
                 }}
               >
                 <div className="chat">
-                  {currentQuestionIndex === questions.length ? (
+                  {currentQuestionIndex === questions.length &&
+                  submitClicked ? (
                     questions.length === 0 ? (
                       <p className="text-2xl font-semibold text-center pt-10">
                         Loading...
@@ -393,6 +425,17 @@ const Chatbot = () => {
                             <p className="py-1 px-4 ml-1.5 mb-1 w-fit text-sm sm:text-base max-w-3xl border border-gray-600 font-medium rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
                               {answer.question}
                             </p>
+                            {answers.length > 0 &&
+                              index + 1 === answers.length && (
+                                <button
+                                  onClick={undoLastQuestion}
+                                  className="bg-gray-700 ml-1 sm:mr-4 text-xs text-white font-semibold my-auto py-2 px-3 rounded-xl transition duration-300 ease-in-out shadow-xl transform hover:bg-black hover:scale-105"
+                                  title="Undo"
+                                >
+                                  {" "}
+                                  <FaUndo />
+                                </button>
+                              )}
                           </div>
                           <div className="flex float-right m-1 items-center ">
                             <p
@@ -407,7 +450,7 @@ const Chatbot = () => {
                               <img
                                 src={pfp}
                                 alt="logo"
-                                className="ml-2 rounded-full h-9 w-9"
+                                className="ml-2 rounded-full h-9 w-9 border border-gray-800"
                               />
                             ) : (
                               <div className="ml-2 rounded-full flex items-center justify-center bg-user-bg-small sm:bg-user-btns sm:text-white size-9 font-bold sm:font-semibold">
@@ -425,11 +468,13 @@ const Chatbot = () => {
                           className="chat-message px-1 py-2 sm:p-4 rounded-xl "
                         >
                           <div className="flex">
-                            <img
-                              src={bot}
-                              alt="logo"
-                              className="max-h-9 max-w-9 ml-2 p-1 rounded-full border border-gray-800"
-                            />
+                            {currentQuestionIndex !== questions.length && (
+                              <img
+                                src={bot}
+                                alt="logo"
+                                className="max-h-9 max-w-9 ml-2 p-1 rounded-full border border-gray-800"
+                              />
+                            )}
 
                             {!initialQuestionAnswered && (
                               <div className="">
@@ -523,121 +568,123 @@ const Chatbot = () => {
                                 </div>
                               </div>
                             )}
-                            {initialQuestionAnswered && (
-                              <div className="flex justify-between w-full">
-                                <p className="py-1 px-4 ml-1.5 mb-1 w-fit max-w-3xl border border-gray-600 font-medium text-sm sm:text-base rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
-                                  <TypeWriterEffect
-                                    textStyle={{
-                                      fontFamily: "montserrat",
-                                    }}
-                                    startDelay={10}
-                                    cursorColor="black"
-                                    text={questions[currentQuestionIndex]}
-                                    typeSpeed={40}
-                                    hideCursorAfterText="true"
-                                  />{" "}
-                                </p>
-                                {answers.length > 0 && (
-                                  <button
-                                    onClick={undoLastQuestion}
-                                    className="bg-gray-700 ml-1 sm:mr-4 text-xs text-white font-semibold my-auto py-2 px-3 rounded-xl transition duration-300 ease-in-out shadow-xl transform hover:bg-black hover:scale-105"
-                                    title="Undo"
-                                  >
-                                    {" "}
-                                    <FaUndo />
-                                  </button>
-                                )}
+                            {initialQuestionAnswered &&
+                              currentQuestionIndex !== questions.length && (
+                                <div className="flex justify-between w-full">
+                                  <p className="py-1 px-4 ml-1.5 mb-1 w-fit max-w-3xl border border-gray-600 font-medium text-sm sm:text-base rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
+                                    <TypeWriterEffect
+                                      textStyle={{
+                                        fontFamily: "montserrat",
+                                      }}
+                                      startDelay={10}
+                                      cursorColor="black"
+                                      text={questions[currentQuestionIndex]}
+                                      typeSpeed={40}
+                                      hideCursorAfterText="true"
+                                    />{" "}
+                                  </p>
+                                  {/* {answers.length > 0 && (
+                                    <button
+                                      onClick={undoLastQuestion}
+                                      className="bg-gray-700 ml-1 sm:mr-4 text-xs text-white font-semibold my-auto py-2 px-3 rounded-xl transition duration-300 ease-in-out shadow-xl transform hover:bg-black hover:scale-105"
+                                      title="Undo"
+                                    >
+                                      {" "}
+                                      <FaUndo />
+                                    </button>
+                                  )} */}
+                                </div>
+                              )}
+                          </div>
+                          {initialQuestionAnswered &&
+                            currentQuestionIndex !== questions.length && (
+                              <div className="options pl-10 sm:pl-12 pt-1 text-xs sm:text-sm">
+                                <button
+                                  className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                                  onClick={() => {
+                                    handleAnswer({
+                                      answer: "Strongly Agree",
+                                    });
+                                    setUserScore(userScore + 5);
+                                  }}
+                                >
+                                  <div className="flex flex-col">
+                                    <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                                      😄
+                                    </p>
+                                    <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal text-center">
+                                      Strongly Agree
+                                    </p>
+                                  </div>
+                                </button>
+                                <button
+                                  className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                                  onClick={() => {
+                                    handleAnswer({ answer: "Agree" });
+                                    setUserScore(userScore + 2);
+                                  }}
+                                >
+                                  <div className="flex flex-col">
+                                    <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                                      😊
+                                    </p>
+                                    <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
+                                      Agree
+                                    </p>
+                                  </div>
+                                </button>
+                                <button
+                                  className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                                  onClick={() => {
+                                    handleAnswer({ answer: "Undecided" });
+                                    setUserScore(userScore + 3);
+                                  }}
+                                >
+                                  <div className="flex flex-col">
+                                    <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                                      😑
+                                    </p>
+                                    <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
+                                      Undecided
+                                    </p>
+                                  </div>
+                                </button>
+                                <button
+                                  className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                                  onClick={() => {
+                                    handleAnswer({ answer: "Disagree" });
+                                    setUserScore(userScore + 2);
+                                  }}
+                                >
+                                  <div className="flex flex-col">
+                                    <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                                      😔
+                                    </p>
+                                    <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
+                                      Disagree
+                                    </p>
+                                  </div>
+                                </button>
+                                <button
+                                  className="inline-block sm:m-1 px-2 py-1  font-medium transition duration-300 ease-in-out transform hover:scale-105"
+                                  onClick={() => {
+                                    handleAnswer({
+                                      answer: "Strongly Disagree",
+                                    });
+                                    setUserScore(userScore + 1);
+                                  }}
+                                >
+                                  <div className="flex flex-col">
+                                    <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
+                                      😞
+                                    </p>
+                                    <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
+                                      Strongly Disagree
+                                    </p>
+                                  </div>
+                                </button>
                               </div>
                             )}
-                          </div>
-                          {initialQuestionAnswered && (
-                            <div className="options pl-10 sm:pl-12 pt-1 text-xs sm:text-sm">
-                              <button
-                                className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                                onClick={() => {
-                                  handleAnswer({
-                                    answer: "Strongly Agree",
-                                  });
-                                  setUserScore(userScore + 5);
-                                }}
-                              >
-                                <div className="flex flex-col">
-                                  <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                                    😄
-                                  </p>
-                                  <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal text-center">
-                                    Strongly Agree
-                                  </p>
-                                </div>
-                              </button>
-                              <button
-                                className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                                onClick={() => {
-                                  handleAnswer({ answer: "Agree" });
-                                  setUserScore(userScore + 2);
-                                }}
-                              >
-                                <div className="flex flex-col">
-                                  <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                                    😊
-                                  </p>
-                                  <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
-                                    Agree
-                                  </p>
-                                </div>
-                              </button>
-                              <button
-                                className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                                onClick={() => {
-                                  handleAnswer({ answer: "Undecided" });
-                                  setUserScore(userScore + 3);
-                                }}
-                              >
-                                <div className="flex flex-col">
-                                  <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                                    😑
-                                  </p>
-                                  <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
-                                    Undecided
-                                  </p>
-                                </div>
-                              </button>
-                              <button
-                                className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                                onClick={() => {
-                                  handleAnswer({ answer: "Disagree" });
-                                  setUserScore(userScore + 2);
-                                }}
-                              >
-                                <div className="flex flex-col">
-                                  <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                                    😔
-                                  </p>
-                                  <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
-                                    Disagree
-                                  </p>
-                                </div>
-                              </button>
-                              <button
-                                className="inline-block sm:m-1 px-2 py-1  font-medium transition duration-300 ease-in-out transform hover:scale-105"
-                                onClick={() => {
-                                  handleAnswer({
-                                    answer: "Strongly Disagree",
-                                  });
-                                  setUserScore(userScore + 1);
-                                }}
-                              >
-                                <div className="flex flex-col">
-                                  <p className="sm:p-1 text-xl md:text-2xl lg:text-3xl bg-gray-200 border rounded-md">
-                                    😞
-                                  </p>
-                                  <p className=" max-w-10 sm:max-w-14 text-[8px] sm:text-[10px] leading-snug sm:leading-normal ">
-                                    Strongly Disagree
-                                  </p>
-                                </div>
-                              </button>
-                            </div>
-                          )}
                         </div>
                       )}
                     </>
@@ -659,7 +706,166 @@ const Chatbot = () => {
                     </div>
                   )}
 
-                {showThankYou && (
+                {showSurveyResponse && (
+                  <div className="text-center mt-6">
+                    {/* Low Well-being */}
+                    {userScore <= 2 && (
+                      <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-6 py-6 rounded-lg shadow-md">
+                        <div className="flex items-center justify-center">
+                          <FaRegFrown className="text-3xl mr-3" />
+                          <h2 className="text-xl sm:text-2xl font-semibold mb-2">
+                            Your well-being level is{" "}
+                            <span className="font-bold uppercase">Low</span>
+                          </h2>
+                        </div>
+                        <p className="text-base sm:text-lg font-medium mb-4">
+                          Thank you, {capitalizeFirstLetter(user.username)}, for taking out your
+                          valuable time for the assessment. The assessment shows
+                          a slightly lower score than expected. This suggests
+                          that some areas of your life may need more attention
+                          and support. This can be a valuable opportunity to
+                          identify challenges and seek resources to improve your
+                          well-being.
+                        </p>
+
+                        <p className="font-bold text-lg">
+                          Recommended Reading:
+                        </p>
+                        <ul className="list-disc pl-5 text-left text-sm sm:text-base mx-auto">
+                          <li>
+                            <a
+                              href="https://tinybuddha.com/blog/how-i-created-a-beautiful-life-on-the-other-side-of-burnout/"
+                              className="text-blue-600 hover:text-blue-800 flex items-center"
+                            >
+                              How I Created a Beautiful Life on the Other Side
+                              of Burnout <BiLinkExternal className="ml-1" />
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="https://tinybuddha.com/blog/the-amazing-healing-power-of-talking-about-our-anxiety/"
+                              className="text-blue-600 hover:text-blue-800 flex items-center"
+                            >
+                              The Amazing Healing Power of Talking About Our
+                              Anxiety <BiLinkExternal className="ml-1" />
+                            </a>
+                          </li>
+                        </ul>
+
+                        <p className="text-base sm:text-lg font-medium mt-4">
+                          Let us help you to enhance your beautiful life. You're
+                          advised to see your institute counselor at Gymkhana
+                          for support and strategies.
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Moderate Well-being */}
+                    {userScore >= 3 && userScore <= 4 && (
+                      <div className="bg-blue-100 border border-blue-400 text-blue-700 px-6 py-6 rounded-lg shadow-md">
+                        <div className="flex items-center justify-center">
+                          <FaRegMeh className="text-3xl mr-3" />
+                          <h2 className="text-xl sm:text-2xl font-semibold mb-2">
+                            Your well-being level is{" "}
+                            <span className="font-bold uppercase">
+                              Moderate
+                            </span>
+                          </h2>
+                        </div>
+                        <p className="text-base sm:text-lg font-medium mb-4">
+                          Thank you, {capitalizeFirstLetter(user.username)}, for taking out your
+                          valuable time for the assessment. Your moderate score
+                          indicates a balanced approach to well-being, with some
+                          areas of strength and others that could use more
+                          attention. Keep refining your strategies and start
+                          self-care practices such as regular exercise and a
+                          good sleep cycle.
+                        </p>
+
+                        <p className="font-bold text-lg">
+                          Recommended Reading:
+                        </p>
+                        <ul className="list-disc pl-5 text-left text-sm sm:text-base">
+                          <li>
+                            <a
+                              href="https://tinybuddha.com/blog/4-fears-that-create-people-pleasers-and-how-to-ease-them/"
+                              className="text-blue-600 hover:text-blue-800 flex items-center"
+                            >
+                              4 Fears That Create People Pleasers and How to
+                              Ease Them <BiLinkExternal className="ml-1" />
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="https://tinybuddha.com/blog/how-i-created-a-beautiful-life-on-the-other-side-of-burnout/"
+                              className="text-blue-600 hover:text-blue-800 flex items-center"
+                            >
+                              How I Created a Beautiful Life on the Other Side
+                              of Burnout <BiLinkExternal className="ml-1" />
+                            </a>
+                          </li>
+                        </ul>
+
+                        <p className="text-base sm:text-lg font-medium mt-4">
+                          Feel free to talk to your counselor at Gymkhana for
+                          more support and strategies.
+                        </p>
+                      </div>
+                    )}
+
+                    {/* High Well-being */}
+                    {userScore >= 5 && (
+                      <div className="bg-green-100 border border-green-400 text-green-700 px-6 py-6 rounded-lg shadow-md">
+                        <div className="flex items-center justify-center">
+                          <FaRegSmile className="text-3xl mr-3" />
+                          <h2 className="text-xl sm:text-2xl font-semibold mb-2">
+                            Your well-being level is{" "}
+                            <span className="font-bold uppercase">High</span>
+                          </h2>
+                        </div>
+                        <p className="text-base sm:text-lg font-medium mb-4">
+                          Thank you, {capitalizeFirstLetter(user.username)}, for taking out your
+                          valuable time for the assessment. Your high well-being
+                          score reflects a strong sense of overall wellness.
+                          Keep up the great work! You're advised to maintain
+                          your routine and engage in mindfulness practice.
+                        </p>
+
+                        <p className="font-bold text-lg">
+                          Recommended Reading:
+                        </p>
+                        <ul className="list-disc pl-5 text-left text-sm sm:text-base">
+                          <li>
+                            <a
+                              href="https://tinybuddha.com/blog/5-pillars-of-mindful-awareness-that-transformed-my-life/"
+                              className="text-blue-600 hover:text-blue-800 flex items-center"
+                            >
+                              5 Pillars of Mindful Awareness That Transformed My
+                              Life <BiLinkExternal className="ml-1" />
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="https://tinybuddha.com/blog/4-ways-to-help-someone-with-mental-health-challenges/"
+                              className="text-blue-600 hover:text-blue-800 flex items-center"
+                            >
+                              4 Ways to Help Someone with Mental Health
+                              Challenges <BiLinkExternal className="ml-1" />
+                            </a>
+                          </li>
+                        </ul>
+
+                        <p className="text-base sm:text-lg font-medium mt-4">
+                          If you feel anything needs improvement, you can visit
+                          the institute counselor at Gymkhana for support and
+                          strategies.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* {showThankYou && (
                   <div className="text-center mt-8 mx-4">
                     <p className="text-2xl font-extrabold uppercase text-green-700 tracking-wide">
                       Thank You for your responses.
@@ -689,9 +895,10 @@ const Chatbot = () => {
                       </p>
                     </div>
                   </div>
-                )}
+                )} */}
 
                 {initialQuestionAnswered &&
+                  !hideSubmit &&
                   currentQuestionIndex === questions.length && (
                     <div className="text-center mt-2">
                       <button
