@@ -34,7 +34,7 @@ const getAdminWiseData = async (req, res) => {
        // console.log("Received admin:", admin);
 
         const data = await supAdminModel.find({ admin: admin });
-       // console.log("Found data:", data);
+       console.log("Found data:", data);
 
         if (!data || data.length === 0) {
             return res.status(404).json({ error: "Data not found" });
