@@ -365,7 +365,7 @@ const ProfileUpdatePage = () => {
                           </option>
                           <option value="AI">AI</option>
                           <option value="AI&DS">AI&DS</option>
-                          <option value="AMT">
+                          <option value="Advance Manufacturing technology">
                             Advance Manufacturing technology
                           </option>
                           <option value="CBE">CBE</option>
@@ -381,7 +381,7 @@ const ProfileUpdatePage = () => {
                           <option value="EE">EE</option>
                           <option value="ECE">ECE</option>
                           <option value="EEE">EEE</option>
-                          <option value="Geo">GEO</option>
+                          <option value="GEO">GEO</option>
                           <option value="HSS">HSS</option>
                           <option value="Manufacturing">Manufacturing</option>
                           <option value="Math">MATH</option>
@@ -394,7 +394,7 @@ const ProfileUpdatePage = () => {
                           <option value="P&C">P&C</option>
                           <option value="PHY">PHY</option>
                           <option value="Structural ">Structural</option>
-                          <option value="TFE">
+                          <option value="Thermal & Fluids Engineering">
                             Thermal & Fluids Engineering
                           </option>
                           <option value="Thermal">Thermal</option>
