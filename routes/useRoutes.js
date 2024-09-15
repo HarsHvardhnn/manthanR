@@ -23,6 +23,7 @@ const {upload,uploadImage} = require('../middlewares/fileUpload')
 const { auth } = require("../middlewares/authMiddleware");
 const { setAnswers } = require("../controllers/AnswerController");
 const router = express.Router();
+const sendBulkEmail = require('../bullkMail')
 const {
   insertQuestions,
   getUsers,
@@ -529,6 +530,60 @@ router.get('/get-summary/:id',verifyToken, async (req,res) => {
 })
 router.post("/create-admin", verifyToken, createAdmin);
 
+
+router.post('/send-bulk-email', async (req, res) => {
+  const { recipients, subject, body } = req.body;
+
+  if (!recipients || !subject || !body) {
+    return res.status(400).json({ message: 'Recipients, subject, and body are required' });
+  }
+
+  try {
+    // Send the bulk email
+    await sendBulkEmail(recipients, subject, body);
+    
+    res.status(200).json({ message: 'Emails sent successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to send emails', error });
+  }
+});
+
+router.delete('/delete-duplicates', async (req, res) => {
+  const field  ='email';
+
+  if (!field) {
+      return res.status(400).json({ message: "Field parameter is required" });
+  }
+
+  try {
+      const duplicates = await userModel.aggregate([
+          {
+              $group: {
+                  _id: `$${field}`,
+                  count: { $sum: 1 },
+                  docs: { $push: "$_id" },  
+              }
+          },
+          {
+              $match: {
+                  count: { $gt: 1 }  
+              }
+          }
+      ]);
+
+     for (const duplicate of duplicates) {
+          const idsToDelete = duplicate.docs.slice(1); 
+
+          await userModel.deleteMany({ _id: { $in: idsToDelete } });
+      }
+
+      res.status(200).json({ message: "Duplicate users deleted successfully" });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error', error });
+  }
+});
 
 router.get('/warden/students', async (req,res)=>{
 
