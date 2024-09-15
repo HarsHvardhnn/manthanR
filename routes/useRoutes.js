@@ -270,8 +270,8 @@ router.post('/assign-admin' , verifyToken , async(req,res) => {
   const admins = await userModel.find({
   role: 'admin',
   semesters: { $elemMatch: { $eq: String(user.semester) } },
-  degree: user.degree,
-  dept: user.dept
+  degrees:  { $elemMatch: { $eq: String(user.degree) } },
+  depts:  { $elemMatch: { $eq: String(user.degree) } }
 });
 
     if(admins.length<=0 ){

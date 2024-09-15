@@ -62,6 +62,12 @@ dept:{
   type:String,
 },
 
+depts:{
+  type:[String]
+},
+degrees:{
+  type:[String]
+},
 hostelName: {
   type: String,
 
