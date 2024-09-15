@@ -34,7 +34,7 @@ function AdminWiseChart({ admin, adminName, selectedAdminId }) {
     return userInformation;
   }
 
-  const getData = (selectedAdmin) => {
+  const getData = () => {
     // console.log(selectedAdmin);
     const token = localStorage.getItem("superadminToken");
     axios
@@ -48,6 +48,11 @@ function AdminWiseChart({ admin, adminName, selectedAdminId }) {
       )
       .then(async (res) => {
         console.log('response',res.data);
+        const simplifiedUsers = res.data.map((user) => ({
+          username: user.username,
+          score: user.score,
+        }));
+        setUserData(simplifiedUsers);
         // const userIds = res.data.map(user => ({ user: user.userId, message: user.message }));
         // const userInformation = await fetchUserInformation(res.data);
         // console.log("User Information:", userInformation);
