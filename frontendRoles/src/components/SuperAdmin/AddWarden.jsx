@@ -29,7 +29,7 @@ const AddWarden = () => {
       password: values.phone,
     };
     const token = localStorage.getItem("superadminToken");
-    console.log(formData);
+    // console.log(formData);
 
     axios
       .post("https://manthanr.onrender.com/v1/create-admin", formData, {
@@ -38,7 +38,7 @@ const AddWarden = () => {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         
         toast.success("New Warden created successfully");
         resetForm();

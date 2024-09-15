@@ -57,12 +57,12 @@ const LoginPage = () => {
           toast.error("Sorry, Admins aren't allowed to login");
           return;
         }
-        console.log(res);
+        // console.log(res);
 
         if (res.status === 200) {
           localStorage.setItem("token", res.data.token);
           toast.success("Login Successful");
-          console.log(" login", res);
+          // console.log(" login", res);
 
           setUser({
             username: res.data.user.username,

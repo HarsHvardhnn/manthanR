@@ -42,15 +42,12 @@ function Protected(props) {
     }
     const normalizedPathname = pathname.toLowerCase();
     if (!profileStatus) {
-      console.log("chala1");
 
       navigate("/UpdateProfile");
     } else if (profileStatus && normalizedPathname === "/updateprofile") {
-      console.log("chala2");
 
       navigate("/usersection");
     } else if (token && normalizedPathname === "/adminlogin") {
-      console.log("chala3");
 
       navigate("/usersection");
     }

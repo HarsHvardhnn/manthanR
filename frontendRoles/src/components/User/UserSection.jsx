@@ -156,7 +156,7 @@ const UserSection = () => {
         }
       )
       .then((Res) => {
-        console.log("warden ", Res);
+        // console.log("warden ", Res);
       })
       .catch((err) => {
         console.log(err);
@@ -246,7 +246,7 @@ const UserSection = () => {
     fetchData();
     if (!pfp) {
       getpfp();
-      console.log("getpfp called because pfp was null or empty");
+      // console.log("getpfp called because pfp was null or empty");
     }
 
     setTimeout(() => {

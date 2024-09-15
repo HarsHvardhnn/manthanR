@@ -23,9 +23,9 @@ const TypingLoader = () => (
         alt="logo"
         className="max-h-9 max-w-9 size-9 ml-2 p-1 rounded-full border border-gray-800"
       />
-      <h1 className="font-medium text-sm sm:text-base text-slate-600 ml-2">
+      <p className="font-medium text-sm sm:text-base text-slate-600 ml-2">
         Typing
-      </h1>
+      </p>
       <div className="animate-pulse size-1.5 bg-gray-400 rounded-full mr-1"></div>
       <div className="animate-pulse size-1.5 bg-gray-400 rounded-full mr-1"></div>
       <div className="animate-pulse size-1.5 bg-gray-400 rounded-full mr-1"></div>
@@ -69,6 +69,7 @@ const Chatbot = () => {
   const [hideSubmit, setHideSubmit] = useState(false);
   const [usersScore, setUsersScore] = useState(0);
   const [showSurveyResponse, setShowSurveyResponse] = useState(false);
+  const [prevScore, setPrevScore] = useState(0);
 
   const axiosConfig = axios.create({
     baseURL: "https://manthanr.onrender.com/v1", // Base URL for API requests
@@ -110,6 +111,31 @@ const Chatbot = () => {
       });
   }, []);
 
+  const deleteFromScore = (answer) => {
+    let score = 0;
+    switch (answer) {
+      case "Strongly Agree":
+        score = 5;
+        break;
+      case "Agree":
+        score = 4;
+        break;
+      case "Undecided":
+        score = 3;
+        break;
+      case "Disagree":
+        score = 2;
+        break;
+      case "Strongly Disagree":
+        score = 1;
+        break;
+      default:
+        score = 0;
+        break;
+    }
+
+    setUserScore((prevScore) => prevScore - score);
+  };
   const handleAnswer = ({ answer }) => {
     let score = 0;
     switch (answer) {
@@ -132,7 +158,9 @@ const Chatbot = () => {
         score = 0;
         break;
     }
-    setUsersScore(usersScore + score);
+
+    setUsersScore((prevScore) => prevScore + score);
+
     setAnswers([
       ...answers,
       { question: questions[currentQuestionIndex], answer },
@@ -142,6 +170,33 @@ const Chatbot = () => {
       setShowThankYou(true);
     }
   };
+
+  // const handleUndo = ({ answer }) => {
+  //   let score = 0;
+  //   switch (answer) {
+  //     case "Strongly Agree":
+  //       score = 5;
+  //       break;
+  //     case "Agree":
+  //       score = 4;
+  //       break;
+  //     case "Undecided":
+  //       score = 3;
+  //       break;
+  //     case "Disagree":
+  //       score = 2;
+  //       break;
+  //     case "Strongly Disagree":
+  //       score = 1;
+  //       break;
+  //     default:
+  //       score = 0;
+  //       break;
+  //   }
+  //   setUsersScore(prevScore => prevScore - score);
+  //   console.log(usersScore);
+
+  // };
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -155,6 +210,9 @@ const Chatbot = () => {
     }
     const newAnswers = [...answers];
     newAnswers.pop();
+    // console.log(deletedQuestion.answer)
+    // handleUndo(deletedQuestion.answer);
+
     setAnswers(newAnswers);
     setCurrentQuestionIndex(currentQuestionIndex - 1);
   };
@@ -213,11 +271,41 @@ const Chatbot = () => {
       });
   };
 
+  const calculateScore = (answers) => {
+    let totalScore = 0;
+
+    answers.forEach(({ answer }) => {
+      let score = 0;
+      switch (answer) {
+        case "Strongly Agree":
+          score = 5;
+          break;
+        case "Agree":
+          score = 4;
+          break;
+        case "Undecided":
+          score = 3;
+          break;
+        case "Disagree":
+          score = 2;
+          break;
+        case "Strongly Disagree":
+          score = 1;
+          break;
+        default:
+          score = 0;
+          break;
+      }
+      totalScore += score;
+    });
+
+    return totalScore;
+  };
   const submitAns = (values) => {
     const token = localStorage.getItem("token");
-    console.log(answers);
+    const totalUserScore = calculateScore(answers);
+    setUsersScore(totalUserScore);
     const headers = { Authorization: `Bearer ${token}` };
-
     setIsFetchingData(true);
     axios
       .post(
@@ -428,7 +516,10 @@ const Chatbot = () => {
                             {answers.length > 0 &&
                               index + 1 === answers.length && (
                                 <button
-                                  onClick={undoLastQuestion}
+                                  onClick={() => {
+                                    undoLastQuestion();
+                                    deleteFromScore(answer.answer);
+                                  }}
                                   className="bg-gray-700 ml-1 sm:mr-4 text-xs text-white font-semibold my-auto py-2 px-3 rounded-xl transition duration-300 ease-in-out shadow-xl transform hover:bg-black hover:scale-105"
                                   title="Undo"
                                 >
@@ -571,7 +662,7 @@ const Chatbot = () => {
                             {initialQuestionAnswered &&
                               currentQuestionIndex !== questions.length && (
                                 <div className="flex justify-between w-full">
-                                  <p className="py-1 px-4 ml-1.5 mb-1 w-fit max-w-3xl border border-gray-600 font-medium text-sm sm:text-base rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
+                                  <div className="py-1 px-4 ml-1.5 mb-1 w-fit max-w-3xl border border-gray-600 font-medium text-sm sm:text-base rounded-tr-2xl rounded-tl-2xl rounded-br-2xl shadow-md">
                                     <TypeWriterEffect
                                       textStyle={{
                                         fontFamily: "montserrat",
@@ -582,7 +673,7 @@ const Chatbot = () => {
                                       typeSpeed={40}
                                       hideCursorAfterText="true"
                                     />{" "}
-                                  </p>
+                                  </div>
                                   {/* {answers.length > 0 && (
                                     <button
                                       onClick={undoLastQuestion}
@@ -708,8 +799,7 @@ const Chatbot = () => {
 
                 {showSurveyResponse && (
                   <div className="text-center mt-6">
-                    {/* Low Well-being */}
-                    {userScore <= 2 && (
+                    {usersScore <= 2 && (
                       <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-6 py-6 rounded-lg shadow-md">
                         <div className="flex items-center justify-center">
                           <FaRegFrown className="text-3xl mr-3" />
@@ -718,24 +808,30 @@ const Chatbot = () => {
                             <span className="font-bold uppercase">Low</span>
                           </h2>
                         </div>
-                        <p className="text-base sm:text-lg font-medium mb-4">
-                          Thank you, {capitalizeFirstLetter(user.username)}, for taking out your
-                          valuable time for the assessment. The assessment shows
-                          a slightly lower score than expected. This suggests
-                          that some areas of your life may need more attention
-                          and support. This can be a valuable opportunity to
-                          identify challenges and seek resources to improve your
-                          well-being.
+                        <p className="text-base sm:text-lg font-medium mb-4 text-justify">
+                          Thank you, {capitalizeFirstLetter(user.username)}, for
+                          taking out your valuable time for the assessment. The
+                          assessment shows a slightly lower score than expected.
+                          This suggests that some areas of your life may need
+                          more attention and support. This can be a valuable
+                          opportunity to identify challenges and seek resources
+                          to improve your well-being.
                         </p>
 
-                        <p className="font-bold text-lg">
+                        <p className="text-base text-left sm:text-lg font-medium mt-4">
+                          Let us help you to enhance your beautiful life. You're
+                          advised to see your institute counselor at Gymkhana
+                          for support and strategies.
+                        </p>
+
+                        <p className="font-bold text-left mt-4">
                           Recommended Reading:
                         </p>
-                        <ul className="list-disc pl-5 text-left text-sm sm:text-base mx-auto">
+                        <ul className="list-disc pl-5 text-left text-sm  mx-auto">
                           <li>
                             <a
                               href="https://tinybuddha.com/blog/how-i-created-a-beautiful-life-on-the-other-side-of-burnout/"
-                              className="text-blue-600 hover:text-blue-800 flex items-center"
+                              className="hover:underline flex items-center"
                             >
                               How I Created a Beautiful Life on the Other Side
                               of Burnout <BiLinkExternal className="ml-1" />
@@ -744,24 +840,17 @@ const Chatbot = () => {
                           <li>
                             <a
                               href="https://tinybuddha.com/blog/the-amazing-healing-power-of-talking-about-our-anxiety/"
-                              className="text-blue-600 hover:text-blue-800 flex items-center"
+                              className="hover:underline flex items-center"
                             >
                               The Amazing Healing Power of Talking About Our
                               Anxiety <BiLinkExternal className="ml-1" />
                             </a>
                           </li>
                         </ul>
-
-                        <p className="text-base sm:text-lg font-medium mt-4">
-                          Let us help you to enhance your beautiful life. You're
-                          advised to see your institute counselor at Gymkhana
-                          for support and strategies.
-                        </p>
                       </div>
                     )}
 
-                    {/* Moderate Well-being */}
-                    {userScore >= 3 && userScore <= 4 && (
+                    {usersScore >= 3 && usersScore <= 4 && (
                       <div className="bg-blue-100 border border-blue-400 text-blue-700 px-6 py-6 rounded-lg shadow-md">
                         <div className="flex items-center justify-center">
                           <FaRegMeh className="text-3xl mr-3" />
@@ -772,24 +861,29 @@ const Chatbot = () => {
                             </span>
                           </h2>
                         </div>
-                        <p className="text-base sm:text-lg font-medium mb-4">
-                          Thank you, {capitalizeFirstLetter(user.username)}, for taking out your
-                          valuable time for the assessment. Your moderate score
-                          indicates a balanced approach to well-being, with some
-                          areas of strength and others that could use more
-                          attention. Keep refining your strategies and start
-                          self-care practices such as regular exercise and a
-                          good sleep cycle.
+                        <p className="text-base sm:text-lg font-medium mb-4 text-justify">
+                          Thank you, {capitalizeFirstLetter(user.username)}, for
+                          taking out your valuable time for the assessment. Your
+                          moderate score indicates a balanced approach to
+                          well-being, with some areas of strength and others
+                          that could use more attention. Keep refining your
+                          strategies and start self-care practices such as
+                          regular exercise and a good sleep cycle.
                         </p>
 
-                        <p className="font-bold text-lg">
+                        <p className="text-base sm:text-lg font-medium mt-4">
+                          Feel free to talk to your counselor at Gymkhana for
+                          more support and strategies.
+                        </p>
+
+                        <p className="font-bold text-left mt-4">
                           Recommended Reading:
                         </p>
-                        <ul className="list-disc pl-5 text-left text-sm sm:text-base">
+                        <ul className="list-disc pl-5 text-left text-sm">
                           <li>
                             <a
                               href="https://tinybuddha.com/blog/4-fears-that-create-people-pleasers-and-how-to-ease-them/"
-                              className="text-blue-600 hover:text-blue-800 flex items-center"
+                              className="hover:underline flex items-center"
                             >
                               4 Fears That Create People Pleasers and How to
                               Ease Them <BiLinkExternal className="ml-1" />
@@ -798,23 +892,17 @@ const Chatbot = () => {
                           <li>
                             <a
                               href="https://tinybuddha.com/blog/how-i-created-a-beautiful-life-on-the-other-side-of-burnout/"
-                              className="text-blue-600 hover:text-blue-800 flex items-center"
+                              className="hover:underline flex items-center"
                             >
                               How I Created a Beautiful Life on the Other Side
                               of Burnout <BiLinkExternal className="ml-1" />
                             </a>
                           </li>
                         </ul>
-
-                        <p className="text-base sm:text-lg font-medium mt-4">
-                          Feel free to talk to your counselor at Gymkhana for
-                          more support and strategies.
-                        </p>
                       </div>
                     )}
 
-                    {/* High Well-being */}
-                    {userScore >= 5 && (
+                    {usersScore >= 5 && (
                       <div className="bg-green-100 border border-green-400 text-green-700 px-6 py-6 rounded-lg shadow-md">
                         <div className="flex items-center justify-center">
                           <FaRegSmile className="text-3xl mr-3" />
@@ -823,22 +911,28 @@ const Chatbot = () => {
                             <span className="font-bold uppercase">High</span>
                           </h2>
                         </div>
-                        <p className="text-base sm:text-lg font-medium mb-4">
-                          Thank you, {capitalizeFirstLetter(user.username)}, for taking out your
-                          valuable time for the assessment. Your high well-being
-                          score reflects a strong sense of overall wellness.
-                          Keep up the great work! You're advised to maintain
-                          your routine and engage in mindfulness practice.
+                        <p className="text-base sm:text-lg font-medium mb-4 text-justify">
+                          Thank you, {capitalizeFirstLetter(user.username)}, for
+                          taking out your valuable time for the assessment. Your
+                          high well-being score reflects a strong sense of
+                          overall wellness. Keep up the great work! You're
+                          advised to maintain your routine and engage in
+                          mindfulness practice.
                         </p>
 
-                        <p className="font-bold text-lg">
+                        <p className="text-base sm:text-lg font-medium mt-4">
+                          If you feel anything needs improvement, you can visit
+                          the institute counselor at Gymkhana for support and
+                          strategies.
+                        </p>
+                        <p className="font-bold text-left mt-4">
                           Recommended Reading:
                         </p>
-                        <ul className="list-disc pl-5 text-left text-sm sm:text-base">
+                        <ul className="list-disc pl-5 text-left text-sm ">
                           <li>
                             <a
                               href="https://tinybuddha.com/blog/5-pillars-of-mindful-awareness-that-transformed-my-life/"
-                              className="text-blue-600 hover:text-blue-800 flex items-center"
+                              className="hover:underline flex items-center"
                             >
                               5 Pillars of Mindful Awareness That Transformed My
                               Life <BiLinkExternal className="ml-1" />
@@ -847,19 +941,13 @@ const Chatbot = () => {
                           <li>
                             <a
                               href="https://tinybuddha.com/blog/4-ways-to-help-someone-with-mental-health-challenges/"
-                              className="text-blue-600 hover:text-blue-800 flex items-center"
+                              className="hover:underline flex items-center"
                             >
                               4 Ways to Help Someone with Mental Health
                               Challenges <BiLinkExternal className="ml-1" />
                             </a>
                           </li>
                         </ul>
-
-                        <p className="text-base sm:text-lg font-medium mt-4">
-                          If you feel anything needs improvement, you can visit
-                          the institute counselor at Gymkhana for support and
-                          strategies.
-                        </p>
                       </div>
                     )}
                   </div>

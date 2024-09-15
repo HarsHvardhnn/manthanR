@@ -46,7 +46,7 @@ const AddAdmin = () => {
       password: values.phone,
     };
     const token = localStorage.getItem("superadminToken");
-    console.log(formData);
+    // console.log(formData);
 
     axios
       .post("https://manthanr.onrender.com/v1/create-admin", formData, {

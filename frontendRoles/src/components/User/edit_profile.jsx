@@ -67,7 +67,7 @@ const EditProfileForm = () => {
 
     const parsedUserData = JSON.parse(storedUserData);
     setUser(parsedUserData);
-    console.log(parsedUserData);
+    // console.log(parsedUserData);
 
     if (parsedUserData?.userID) {
       getUserProfile(parsedUserData.userID);

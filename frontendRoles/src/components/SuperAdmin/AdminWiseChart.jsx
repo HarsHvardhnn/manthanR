@@ -7,7 +7,7 @@ function AdminWiseChart({ admin, adminName, selectedAdminId }) {
   const [userData, setUserData] = useState([]);
   async function fetchUserInformation(userIds) {
     const userInformation = [];
-    console.log(selectedAdminId);
+    // console.log(selectedAdminId);
     const token = localStorage.getItem("superadminToken");
     for (const userObj of userIds) {
       try {
@@ -47,7 +47,7 @@ function AdminWiseChart({ admin, adminName, selectedAdminId }) {
         }
       )
       .then(async (res) => {
-        console.log('response',res.data);
+        // console.log('response',res.data);
         const simplifiedUsers = res.data.map((user) => ({
           username: user.username,
           score: user.score,

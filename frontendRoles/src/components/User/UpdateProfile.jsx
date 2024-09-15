@@ -140,11 +140,11 @@ const ProfileUpdatePage = () => {
           },
         }
       );
-      console.log("updated", res);
+      // console.log("updated", res);
       if (res.data.message === "Profile created successfully") {
         toast.success("Profile updated");
         setIsUpdating(false);
-        console.log("values", values);
+        // console.log("values", values);
         const updatedUser = {
           ...user,
           username: values.firstName,
