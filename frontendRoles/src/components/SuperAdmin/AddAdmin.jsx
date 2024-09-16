@@ -3,8 +3,11 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { toast } from "react-toastify";
+import config from "../../config";
 
 const AddAdmin = () => {
+  const apiUrl = config.apiUrl;
+
   const initialValues = {
     firstname: "",
     lastname: "",

@@ -11,12 +11,13 @@ import "jspdf-autotable";
 import { FaFilePdf, FaFileCsv } from "react-icons/fa6";
 import DialogModal from "./DialogModal";
 import { VscDebugRestart } from "react-icons/vsc";
-
+import config from "../../config";
 const UserData = ({
   showSOSButton = true,
   showSummaryColumn = false,
   admin,
 }) => {
+  const apiUrl = config.apiUrl;
   const [currentPage, setCurrentPage] = useState(0);
   const [usersPerPage, setUsersPerPage] = useState(10);
   const [selectedSort, setSelectedSort] = useState("none");
@@ -80,7 +81,7 @@ const UserData = ({
     const token = localStorage.getItem("adminToken");
     axios
       .post(
-        "https://manthanr.onrender.com/v1/send-bulk-email",
+        `${apiUrl}/send-bulk-email`,
         {
           recipients: ["avinashsingh9946@gmail.com"],
           subject: "Urgent: Consultation Request for Student Wellness",
