@@ -44,11 +44,13 @@ const UserSection = () => {
   const [shimmerSize, setShimmerSize] = useState(120);
   const [adminStatus, setAdminStatus] = useState(false);
   const [adminLoading, setAdminLoading] = useState(false);
+  const [startChatLoading, setStartChatLoading] = useState(false);
   const [profileLoading, setProfileLoading] = useState(false);
   const [consultModal, setConsultModal] = useState(false);
   const [isSosRequestPending, setIsSosRequestPending] = useState(false);
   const [isAdminRequestPending, setIsAdminRequestPending] = useState(false);
   const [isProfileRequestPending, setIsProfileRequestPending] = useState(false);
+  const [isStartChatPending, setIsStartChatPending] = useState(false);
   const [userContactInfo, setUserContactInfo] = useState({});
   const [adminEmail, setAdminEmail] = useState("");
 
@@ -172,6 +174,57 @@ const UserSection = () => {
       })
       .catch((err) => {
         console.log(err);
+      });
+  };
+  const handleChatClicked = () => {
+    if (isStartChatPending) return;
+    const apiUrl = process.env.REACT_APP_API_URL;
+
+    setIsStartChatPending(true);
+    setStartChatLoading(true);
+    assignWarden();
+    axios
+      .get(`${apiUrl}/get-user-info/${user.userID}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        // console.log("res", res);
+        if (!res.data.assigned_admin) {
+          assignAdmin();
+          setTimeout(() => {
+            const apiUrl = process.env.REACT_APP_API_URL;
+            axios
+              .get(`${apiUrl}/get-user-info/${user.userID}`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              })
+              .then((updatedRes) => {
+                if (!updatedRes.data.assigned_admin) {
+                  setStartChatLoading(false);
+                  toast.error(
+                    "Cannot access chat: you currently have no assigned admin."
+                  );
+                } else {
+                  getUserAssignedAdmin();
+                  setStartChatLoading(false);
+                  navigate("/disclaimer");
+                }
+              });
+          }, 2000);
+        } else {
+          getUserAssignedAdmin();
+          setStartChatLoading(false);
+          navigate("/disclaimer");
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      })
+      .finally(() => {
+        setIsStartChatPending(false);
       });
   };
   const adminData = () => {
@@ -582,7 +635,7 @@ const UserSection = () => {
             <div className="h-3/5 flex flex-wrap justify-around w-11/12 sm:w-10/12 md:w-1/2 lg:w-11/12 md:ml-10 mx-auto lg:mx-auto rounded-xl mt-6 sm:mt-10">
               <button
                 onClick={viewProfileClicked}
-                disabled={adminLoading || adminStatus}
+                disabled={adminLoading || adminStatus || startChatLoading}
                 className="btn min-w-32 sm:min-w-60 disabled:opacity-90 disabled:scale-100 disabled:hover:bg-user-btns flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
               >
                 <FiUser className="icon text-4xl sm:text-6xl mb-2 mx-auto" />
@@ -598,18 +651,25 @@ const UserSection = () => {
                 </div>
               </button>
               <button
-                onClick={() => {
-                  navigate("/disclaimer");
-                }}
+                onClick={handleChatClicked}
                 disabled={adminLoading || adminStatus || profileLoading}
                 className="btn min-w-32 sm:min-w-60 disabled:opacity-90 disabled:scale-100 disabled:hover:bg-user-btns flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
               >
                 <FiMessageCircle className="text-4xl sm:text-6xl mb-2 mx-auto" />
-                <div className="text-sm sm:text-xl font-medium">Start Chat</div>
+                <div className="text-sm sm:text-xl font-medium flex items-center justify-center">
+                  <span className="relative">
+                    Start Chat
+                    {startChatLoading && (
+                      <span className="absolute -right-5 sm:-right-6 top-0.5 sm:top-2 text-xl animate-pulse">
+                        <HiDotsHorizontal />
+                      </span>
+                    )}
+                  </span>
+                </div>{" "}
               </button>
               <button
                 onClick={handleReportClick}
-                disabled={adminLoading || profileLoading}
+                disabled={adminLoading || profileLoading || startChatLoading}
                 className="btn min-w-32 sm:min-w-60 disabled:opacity-90 disabled:scale-100 disabled:hover:bg-user-btns flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
               >
                 <FiAlertCircle className="text-4xl sm:text-6xl mb-2 mx-auto" />
@@ -626,7 +686,7 @@ const UserSection = () => {
               </button>
               <button
                 onClick={adminData}
-                disabled={profileLoading || adminStatus}
+                disabled={profileLoading || adminStatus || startChatLoading}
                 className="btn min-w-32 disabled:opacity-90 disabled:scale-100 disabled:hover:bg-user-btns sm:min-w-60 flex-col items-center w-2/5 mb-4 mx-auto h-20 sm:h-32 py-2 sm:py-4 px-2 sm:px-8  bg-user-bg-small sm:bg-user-btns sm:text-white rounded-xl sm:hover:bg-user-btns-dark hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out"
               >
                 <BsInfoCircle className="text-4xl sm:text-6xl mb-2 mx-auto" />

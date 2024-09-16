@@ -13,10 +13,8 @@ function Protected(props) {
   async function fetchUserData() {
     try {
       const token = localStorage.getItem("token");
-      const apiUrl = process.env.REACT_APP_API_URL;
-
       const response = await axios.get(
-        `${apiUrl}/get-user-info/${user.userID}`,
+        `https://manthanr.onrender.com/v1/get-user-info/${user.userID}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

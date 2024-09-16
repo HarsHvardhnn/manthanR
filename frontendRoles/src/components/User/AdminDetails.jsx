@@ -78,7 +78,7 @@ const AdminDetails = ({ onClose, loading, getAdmin, assigned_admin }) => {
             </p>
             <div className="mt-4">
               <p className="text-red-500 font-semibold">
-                Feeling depressed? Contact admin now.
+                Feeling down? Contact admin now.
               </p>
               <button
                 className="mt-2 bg-red-600 text-white w-full px-4 py-2 rounded-lg hover:bg-red-700"
