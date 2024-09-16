@@ -716,7 +716,7 @@ const Chatbot = () => {
                                   className="inline-block sm:m-1 px-2 py-1 font-medium transition duration-300 ease-in-out transform hover:scale-105"
                                   onClick={() => {
                                     handleAnswer({ answer: "Agree" });
-                                    setUserScore(userScore + 2);
+                                    setUserScore(userScore + 4);
                                   }}
                                 >
                                   <div className="flex flex-col">
