@@ -49,6 +49,8 @@ const UserSection = () => {
   const [isSosRequestPending, setIsSosRequestPending] = useState(false);
   const [isAdminRequestPending, setIsAdminRequestPending] = useState(false);
   const [isProfileRequestPending, setIsProfileRequestPending] = useState(false);
+  const [userContactInfo, setUserContactInfo] = useState({});
+  const [adminEmail, setAdminEmail] = useState("");
 
   useEffect(() => {
     const handleResize = () => {
@@ -79,11 +81,15 @@ const UserSection = () => {
 
     setIsSosRequestPending(true);
 
+    getUserContact();
+    getUserAssignedAdmin();
     const token = localStorage.getItem("token");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     setLoading(true);
     setAdminStatus(true);
     axios
-      .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`, {
+      .get(`${apiUrl}/get-user-info/${user.userID}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -110,14 +116,16 @@ const UserSection = () => {
   };
 
   const getUserAssignedAdmin = () => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     axios
-      .get("https://manthanr.onrender.com/v1/get-assigned-admin", {
+      .get(`${apiUrl}/get-assigned-admin`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        // console.log(res);
+        setAdminEmail(res.data.email);
         setAssigned_admin(res.data);
       })
       .catch((err) => {
@@ -126,9 +134,11 @@ const UserSection = () => {
   };
 
   const assignAdmin = () => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     axios
       .post(
-        "https://manthanr.onrender.com/v1/assign-admin",
+        `${apiUrl}/assign-admin`,
         { details: "hi" },
         {
           headers: {
@@ -145,9 +155,11 @@ const UserSection = () => {
   };
 
   const assignWarden = () => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     axios
       .post(
-        "https://manthanr.onrender.com/v1/assign-warden",
+        `${apiUrl}/assign-warden`,
         {},
         {
           headers: {
@@ -164,12 +176,13 @@ const UserSection = () => {
   };
   const adminData = () => {
     if (isAdminRequestPending) return;
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     setIsAdminRequestPending(true);
     setAdminLoading(true);
     assignWarden();
     axios
-      .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`, {
+      .get(`${apiUrl}/get-user-info/${user.userID}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -179,15 +192,13 @@ const UserSection = () => {
         if (!res.data.assigned_admin) {
           assignAdmin();
           setTimeout(() => {
+            const apiUrl = process.env.REACT_APP_API_URL;
             axios
-              .get(
-                `https://manthanr.onrender.com/v1/get-user-info/${user.userID}`,
-                {
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                  },
-                }
-              )
+              .get(`${apiUrl}/get-user-info/${user.userID}`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              })
               .then((updatedRes) => {
                 if (!updatedRes.data.assigned_admin) {
                   setAdminLoading(false);
@@ -261,9 +272,11 @@ const UserSection = () => {
 
   const getpfp = () => {
     const token = localStorage.getItem("token");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     //console.log(user);
     axios
-      .get(`https://manthanr.onrender.com/v1/pfp/${user.userID}`, {
+      .get(`${apiUrl}/pfp/${user.userID}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -307,20 +320,18 @@ const UserSection = () => {
 
   const getAdmin = async () => {
     const token = localStorage.getItem("token");
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     setLoading(true);
 
     axios
-      .get(
-        `https://manthanr.onrender.com/v1/get-user-info/${user.assigned_admin}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .get(`${apiUrl}/get-user-info/${user.assigned_admin}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
-        // console.log(res);
+        console.log(res);
         setAssigned_admin(res.data);
       })
       .catch((err) => {
@@ -333,9 +344,11 @@ const UserSection = () => {
 
   const getUser = async () => {
     const token = localStorage.getItem("token");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     setProfileLoading(true);
     axios
-      .get(`https://manthanr.onrender.com/v1/get-user-info/${user.userID}`, {
+      .get(`${apiUrl}/get-user-info/${user.userID}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -353,14 +366,91 @@ const UserSection = () => {
       });
   };
 
+  const getUserContact = async () => {
+    const token = localStorage.getItem("token");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
+    axios
+      .get(`${apiUrl}/get-user-info/${user.userID}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setUserContactInfo(res.data);
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  };
+  const sendEmail = async (comment) => {
+    const token = localStorage.getItem("token");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
+    try {
+      console.log("userContactInfo", userContactInfo);
+
+      await axios.post(
+        `${apiUrl}/send-bulk-email`,
+        {
+          recipients: [
+            "pic_wellness@iitp.ac.in",
+            "counselor1@iitp.ac.in",
+            adminEmail,
+          ],
+          subject:
+            "Urgent Request for Immediate Mental Wellness Support for Student",
+          body: `Dear Admin, Superadmin, and Dr. Counsellor,
+  
+            We have received an SOS notification from a student indicating a potential mental health crisis. Below are the details of the student:
+
+            Student Details:
+            Name: ${capitalizeFirstLetter(userContactInfo.username)}${
+            userContactInfo.lastname
+              ? " " + capitalizeFirstLetter(userContactInfo.lastname)
+              : ""
+          }
+            Email: ${userContactInfo.email}
+            Phone No: ${userContactInfo.contactNumber}
+            
+            Message: ${comment}
+            
+            Given the urgent nature of this alert, please prioritize the following steps:
+
+            1. Admin: Verify the student's identity and provide necessary contact details for follow-up.
+            2. Psychiatrist/Counsellor: Assess the case promptly and advise on the best course of action.
+            3. Superadmin: Ensure all resources are aligned and emergency protocols are in place.
+
+            Please help the student as soon as possible.
+
+            Best regards,
+            ManoWealth Team
+            `,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success("Email sent successfully.");
+    } catch (error) {
+      console.error("Error sending email:", error);
+      toast.error("Some error occurred while sending the email.");
+    }
+  };
+
   const handleReportSubmit = (comment) => {
     //   console.log("Report submitted with comment:", comment);
     // console.log('user is', user);
     const token = localStorage.getItem("token");
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     axios
       .post(
-        "https://manthanr.onrender.com/v1/send-sos",
+        `${apiUrl}/send-sos`,
         {
           userId: user.userID,
           admin: user.assigned_admin || assigned_admin,
@@ -375,6 +465,7 @@ const UserSection = () => {
       )
       .then((res) => {
         if (res.status === 201) {
+          sendEmail(comment);
           // console.log('data sent');
           if (res.data.message === "Notification sent successfully")
             setConsultModal(true);
@@ -400,8 +491,9 @@ const UserSection = () => {
       }
 
       try {
+        const apiUrl = process.env.REACT_APP_API_URL;
         const response = await axios.get(
-          `https://manthanr.onrender.com/v1/get-user-info/${user.userID}`,
+          `${apiUrl}/get-user-info/${user.userID}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -441,12 +533,7 @@ const UserSection = () => {
             <div className="mt-20 sm:mt-36 mb-4 sm:sb-0 grid grid-cols-3 grid-rows-2 gap-0">
               <div className="row-span-2">
                 <div className="flex justify-center sm:ml-20 profile">
-                  {isLoading ? (
-                    <ShimmerCircularImage
-                      size={shimmerSize}
-                      className="ml-2 rounded-full"
-                    />
-                  ) : pfp ? (
+                  {pfp ? (
                     <img
                       src={pfp}
                       alt="Profile"
@@ -454,7 +541,7 @@ const UserSection = () => {
                       onLoad={() => setIsLoading(false)}
                     />
                   ) : (
-                    <div className="ml-2 rounded-full h-[77px] w-[77px] sm:size-28 flex items-center justify-center bg-user-bg-small sm:bg-user-btns sm:text-white text-3xl sm:text-5xl font-bold sm:font-semibold">
+                    <div className="ml-2 rounded-full h-[77px] w-[77px] sm:h-32 sm:w-32 flex items-center justify-center bg-user-bg-small sm:bg-user-btns sm:text-white text-3xl sm:text-5xl font-bold sm:font-semibold">
                       {user.username ? (
                         user.username.charAt(0).toUpperCase()
                       ) : (

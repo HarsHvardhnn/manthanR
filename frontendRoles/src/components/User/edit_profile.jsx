@@ -30,8 +30,10 @@ const EditProfileForm = () => {
   };
   const getUserProfile = (userID) => {
     const token = localStorage.getItem("token");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     axios
-      .get(`https://manthanr.onrender.com/v1/get-user-info/${userID}`, {
+      .get(`${apiUrl}/get-user-info/${userID}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -155,10 +157,12 @@ const EditProfileForm = () => {
     }
 
     const token = localStorage.getItem("token");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     axios
       .post(
         // "http://localhost:3030/v1/edit-profile",
-        "https://manthanr.onrender.com/v1/edit-profile",
+        `${apiUrl}/edit-profile`,
         formData,
         {
           headers: {

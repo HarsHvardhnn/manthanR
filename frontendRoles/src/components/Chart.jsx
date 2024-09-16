@@ -17,7 +17,7 @@ function BarChart() {
 
 // const getAllQuestions = async () => {
 //   axios
-//     .get("https://manthanr.onrender.com/v1/getAllData")
+//     .get("/getAllData")
 //     .then((res) => {
 //       // console.log(res.data);
 //       setQuestions(res.data[0].questions);

@@ -88,8 +88,9 @@ const ProfileUpdatePage = () => {
 
   const getAdmin = () => {
     const token = localStorage.getItem("token");
+    const apiUrl = process.env.REACT_APP_API_URL;
     axios
-      .get(`https://manthanr.onrender.com/v1/assigned-admin/${user.userID}`, {
+      .get(`${apiUrl}/assigned-admin/${user.userID}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -128,9 +129,10 @@ const ProfileUpdatePage = () => {
       if (image) {
         formData.append("image", image);
       }
+      const apiUrl = process.env.REACT_APP_API_URL;
 
       const res = await axios.post(
-        "https://manthanr.onrender.com/v1/update-profile",
+        `${apiUrl}/update-profile`,
         // 'http://localhost:3030/v1/update-profile',
         formData,
         {

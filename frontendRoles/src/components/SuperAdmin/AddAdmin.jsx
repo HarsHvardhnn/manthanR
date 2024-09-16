@@ -3,10 +3,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { toast } from "react-toastify";
-import config from "../../config";
 
 const AddAdmin = () => {
-  const apiUrl = config.apiUrl;
 
   const initialValues = {
     firstname: "",
@@ -50,9 +48,11 @@ const AddAdmin = () => {
     };
     const token = localStorage.getItem("superadminToken");
     // console.log(formData);
+    const apiUrl = process.env.REACT_APP_API_URL;
+
 
     axios
-      .post("https://manthanr.onrender.com/v1/create-admin", formData, {
+      .post(`${apiUrl}/create-admin`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

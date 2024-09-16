@@ -7,7 +7,7 @@
 //   const [selectedFilter, setSelectedFilter] = useState("score"); 
 //   const promoteToAdmin = async (id) => {
 //     axios
-//     .post("https://manthanr.onrender.com/v1/promote-to-admin", { user: id })
+//     .post("/promote-to-admin", { user: id })
 //       .then((res) => {
 //         // console.log(res);
 //         if (res.status === 200) {

@@ -3,8 +3,10 @@ import axios from "axios";
 async function fetchUserData(userID) {
   try {
     const token = localStorage.getItem("token");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     const response = await axios.get(
-      `https://manthanr.onrender.com/v1/get-user-info/${userID}`,
+      `${apiUrl}/get-user-info/${userID}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

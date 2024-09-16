@@ -37,8 +37,10 @@ const CommentsComponent = ({
   const getSummary = () => {
     const token = localStorage.getItem("superadminToken");
     setLoading(true);
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     axios
-      .get(`https://manthanr.onrender.com/v1/get-summary/${sumID}`, {
+      .get(`${apiUrl}/get-summary/${sumID}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {

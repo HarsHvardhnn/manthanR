@@ -11,11 +11,13 @@ const userWithInfos = {}
 
   const getUsers = () => {
     const token = localStorage.getItem("adminToken");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     setLoading(true);
 
     axios
       .get(
-        `https://manthanr.onrender.com/v1/get-admin-reported-users/${admin.email}`,
+        `${apiUrl}/get-admin-reported-users/${admin.email}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

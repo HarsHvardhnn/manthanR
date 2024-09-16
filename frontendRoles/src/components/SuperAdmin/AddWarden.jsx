@@ -30,9 +30,9 @@ const AddWarden = () => {
     };
     const token = localStorage.getItem("superadminToken");
     // console.log(formData);
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     axios
-      .post("https://manthanr.onrender.com/v1/create-admin", formData, {
+      .post(`${apiUrl}/create-admin`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

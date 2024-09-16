@@ -11,13 +11,11 @@ import "jspdf-autotable";
 import { FaFilePdf, FaFileCsv } from "react-icons/fa6";
 import DialogModal from "./DialogModal";
 import { VscDebugRestart } from "react-icons/vsc";
-import config from "../../config";
 const UserData = ({
   showSOSButton = true,
   showSummaryColumn = false,
   admin,
 }) => {
-  const apiUrl = config.apiUrl;
   const [currentPage, setCurrentPage] = useState(0);
   const [usersPerPage, setUsersPerPage] = useState(10);
   const [selectedSort, setSelectedSort] = useState("none");
@@ -26,6 +24,7 @@ const UserData = ({
   const [selectedYear, setSelectedYear] = useState("All");
   const [showReportModal, setShowReportModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
+  const [selectedUser, setSelectedUser] = useState({});
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   // const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -39,8 +38,10 @@ const UserData = ({
 
   const getAllQuestions = async () => {
     const token = localStorage.getItem("adminToken");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     axios
-      .get("https://manthanr.onrender.com/v1/getAllData", {
+      .get(`${apiUrl}/getAllData`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -55,10 +56,12 @@ const UserData = ({
 
   const fetchUsers = async () => {
     const token = localStorage.getItem("adminToken");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://manthanr.onrender.com/v1/user-admin-data/${admin.adminID}`,
+        `${apiUrl}/user-admin-data/${admin.adminID}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -79,13 +82,36 @@ const UserData = ({
 
   const sendEmail = async (username, message, adminUsername, adminEmail) => {
     const token = localStorage.getItem("adminToken");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     axios
       .post(
         `${apiUrl}/send-bulk-email`,
         {
-          recipients: ["avinashsingh9946@gmail.com"],
+          recipients: ["pic_wellness@iitp.ac.in"],
           subject: "Urgent: Consultation Request for Student Wellness",
-          body: "jgjhgh",
+          body: `
+                Hello, Superadmin
+
+                I hope this message finds you well. I am writing to request your urgent assistance regarding one of our students on ManoWealth.
+
+                Student Name: ${capitalizeFirstLetter(selectedUser.username)}${
+            selectedUser.lastname
+              ? " " + capitalizeFirstLetter(selectedUser.lastname)
+              : ""
+          }
+                Student Phone: ${selectedUser.contactNumber}
+                Student Email: ${selectedUser.email}
+                Reported Issue: ${message}
+
+                Your prompt attention to this matter would be greatly appreciated.
+
+                Best regards,
+                
+                Admin,
+                ${adminUsername}  
+                ${adminEmail}
+                `,
         },
         {
           headers: {
@@ -103,9 +129,11 @@ const UserData = ({
   };
   const submitReport = async (selectedUserId, message, admin) => {
     const token = localStorage.getItem("adminToken");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     axios
       .post(
-        "https://manthanr.onrender.com/v1/submit-report",
+        `${apiUrl}/submit-report`,
         {
           admin: admin.email,
           user: selectedUserId,
@@ -136,9 +164,11 @@ const UserData = ({
 
   const promoteToAdmin = async (id) => {
     const token = localStorage.getItem("adminToken");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     try {
       const res = await axios.post(
-        "https://manthanr.onrender.com/v1/promote-to-admin",
+        `${apiUrl}/promote-to-admin`,
         { user: id },
         {
           headers: {
@@ -547,6 +577,7 @@ const UserData = ({
                             onClick={() => {
                               setSelectUser(user.email);
                               handleReportUser(user._id);
+                              setSelectedUser(user);
                             }}
                             className="font-medium text-blue-600 mr-2 underline mt-2 xl:mt-0"
                           >

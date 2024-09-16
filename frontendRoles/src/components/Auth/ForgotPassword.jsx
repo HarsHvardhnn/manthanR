@@ -28,9 +28,10 @@ const ForgotPassword = () => {
       setLoading(false);
       return;
     }
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     axios
-      .post("https://manthanr.onrender.com/v1/check-email", {
+      .post(`${apiUrl}/check-email`, {
         email: values.email,
       })
       .then((res) => {
@@ -50,8 +51,10 @@ const ForgotPassword = () => {
   };
 
   const sendOtp = (values) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     axios
-      .post("https://manthanr.onrender.com/v1/send-otp", {
+      .post(`${apiUrl}/send-otp`, {
         email: values.email,
       })
       .then((res) => {
@@ -79,9 +82,10 @@ const ForgotPassword = () => {
 
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     setLoading(true);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     axios
-      .post("https://manthanr.onrender.com/v1/reset-password", {
+      .post(`${apiUrl}/reset-password`, {
         otpBody: values.otp,
         email: values.email,
         password: values.newPassword,

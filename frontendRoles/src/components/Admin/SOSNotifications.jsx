@@ -9,9 +9,9 @@ const SOSNotifications = ({ admin }) => {
 
   const getsos = () => {
     const token = localStorage.getItem("adminToken");
+    const apiUrl = process.env.REACT_APP_API_URL;
     setLoading(true);
-    const url = `https://manthanr.onrender.com/v1/get-all-sos/${admin.adminID}`;
-    const local_url = `http://localhost:3030/v1/get-all-sos/${admin.adminID}`;
+    const url = `${apiUrl}/get-all-sos/${admin.adminID}`;
     axios
       .get(url, {
         headers: {

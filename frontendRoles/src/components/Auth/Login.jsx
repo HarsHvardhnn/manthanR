@@ -46,9 +46,11 @@ const LoginPage = () => {
 
   const handleLogin = (values) => {
     setLoading(true);
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     // console.log(loading);
     axios
-      .post("https://manthanr.onrender.com/v1/login", {
+      .post(`${apiUrl}/login`, {
         email: values.email.toLowerCase(),
         password: values.password,
       })
@@ -105,8 +107,10 @@ const LoginPage = () => {
   };
 
   const handleForgotPassword = (values) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     axios
-      .post("https://manthanr.onrender.com/v1/sendOtp", { email: values.email })
+      .post(`${apiUrl}/sendOtp`, { email: values.email })
       .then((res) => {
         if (res === 200) {
           toast.success("OTP sent");

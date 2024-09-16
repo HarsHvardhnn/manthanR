@@ -19,7 +19,7 @@ const AllAdmins = () => {
   //       const userId = userObj.user;
 
   //       const response = await axios.get(
-  //         `https://manthanr.onrender.com/v1/get-user-info/${userId}`
+  //         `/get-user-info/${userId}`
   //       );
   //       const userData = {
   //         ...response.data,
@@ -46,8 +46,10 @@ const AllAdmins = () => {
   const getAllAdmins = () => {
     setLoading(true);
     const token = localStorage.getItem("superadminToken");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     axios
-      .get("https://manthanr.onrender.com/v1/getAllAdmins", {
+      .get(`${apiUrl}/getAllAdmins`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -75,7 +77,7 @@ const AllAdmins = () => {
 
   // const getData = (selectedAdmin) => {
   //   console.log(selectedAdmin);
-  //   axios.post('https://manthanr.onrender.com/v1/getAdminWiseData', { admin: selectedAdmin })
+  //   axios.post('/getAdminWiseData', { admin: selectedAdmin })
   //     .then(async (res) => {
   //       console.log('response',res.data);
   //       // const userIds = res.data.map(user => ({ user: user.userId, message: user.message }));
@@ -97,8 +99,10 @@ const AllAdmins = () => {
 
   const handleDeleteAdmin = (id) => {
     const token = localStorage.getItem("superadminToken");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     axios
-      .delete(`https://manthanr.onrender.com/v1/delete-admin/${id}`, {
+      .delete(`${apiUrl}/delete-admin/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

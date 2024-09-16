@@ -12,9 +12,10 @@ function AdminWiseChart({ admin, adminName, selectedAdminId }) {
     for (const userObj of userIds) {
       try {
         const userId = userObj.user;
+        const apiUrl = process.env.REACT_APP_API_URL;
 
         const response = await axios.get(
-          `https://manthanr.onrender.com/v1/get-user-info/${userId}`,
+          `${apiUrl}/get-user-info/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -37,9 +38,11 @@ function AdminWiseChart({ admin, adminName, selectedAdminId }) {
   const getData = () => {
     // console.log(selectedAdmin);
     const token = localStorage.getItem("superadminToken");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     axios
       .get(
-        `https://manthanr.onrender.com/v1/admin/users/${selectedAdminId}`,
+        `${apiUrl}/admin/users/${selectedAdminId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

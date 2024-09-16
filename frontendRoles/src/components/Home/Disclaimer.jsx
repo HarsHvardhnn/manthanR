@@ -14,10 +14,12 @@ const Disclaimer = () => {
   const handleSubmit = () => {
     // console.log("user", user);
     const token = localStorage.getItem("token");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     // console.log("token", token);
     axios
       .post(
-        "https://manthanr.onrender.com/v1/update-tnc",
+        `${apiUrl}/update-tnc`,
         { userId: user.userID },
         {
           headers: {

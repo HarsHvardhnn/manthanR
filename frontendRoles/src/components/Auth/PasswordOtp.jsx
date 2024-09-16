@@ -17,8 +17,10 @@ const PasswordOtp = ({ values }) => {
   });
 
   const onSubmitOTP = (values) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     axios
-      .post("https://manthanr.onrender.com/v1/signup", {
+      .post(`${apiUrl}/signup`, {
         otpBody: values.otp,
         username: username,
         email: email,

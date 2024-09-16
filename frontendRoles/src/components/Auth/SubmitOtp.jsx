@@ -16,15 +16,19 @@ const SubmitOTP = ({ values ,setUser}) => {
   });
    
   const clearDb = () =>{
-    axios.delete('https://manthanr.onrender.com/v1/clear').then((res)=>{
+    const apiUrl = process.env.REACT_APP_API_URL;
+
+    axios.delete(`${apiUrl}/clear`).then((res)=>{
     }).catch((err) => {
       console.log(err);
     })
   }
 
   const onSubmitOTP = (values) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     axios
-      .post("https://manthanr.onrender.com/v1/signup", {
+      .post(`${apiUrl}/signup`, {
         otpBody: values.otp,
         username: username,
         email: email,

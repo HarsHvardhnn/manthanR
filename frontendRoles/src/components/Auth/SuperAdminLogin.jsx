@@ -23,7 +23,9 @@ const SuperAdminLogin = () => {
 
   const onSubmit = (values) => {
     setLoading(true);
-    axios.post('https://manthanr.onrender.com/v1/super-login', {
+    const apiUrl = process.env.REACT_APP_API_URL;
+
+    axios.post(`${apiUrl}/super-login`, {
       email: values.email,
       password: values.password
     }).then((res) => {

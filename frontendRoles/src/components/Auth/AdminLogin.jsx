@@ -29,9 +29,11 @@ const AdminLogin = () => {
   };
 
   const onSubmit = (values) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     setLoading(true);
     axios
-      .post("https://manthanr.onrender.com/v1/single-login", {
+      .post(`${apiUrl}/single-login`, {
         email: values.email.toLowerCase(),
         password: values.password,
       })

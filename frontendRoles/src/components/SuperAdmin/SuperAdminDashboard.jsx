@@ -66,8 +66,10 @@ const SuperAdminDashboard = () => {
 
   const getAllAdmins = () => {
     const token = localStorage.getItem("superadminToken");
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     axios
-      .get("https://manthanr.onrender.com/v1/getAllAdmins", {
+      .get(`${apiUrl}/getAllAdmins`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

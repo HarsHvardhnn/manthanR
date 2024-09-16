@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
-
+import DialogModal from "../Admin/DialogModal";
 const generateRandomPassword = () => {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -18,11 +18,12 @@ const generateRandomPassword = () => {
 const UserForm = () => {
   const [users, setUsers] = useState([]);
   const [uploadPending, setUploadPending] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     lastname: "",
     email: "",
-    password: generateRandomPassword(),
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -45,7 +46,9 @@ const UserForm = () => {
     // }
 
     if (existingEmail) {
-      toast.error("Email already added. Please enter a different email address.");
+      toast.error(
+        "Email already added. Please enter a different email address."
+      );
       return;
     }
 
@@ -55,7 +58,7 @@ const UserForm = () => {
       username: "",
       lastname: "",
       email: "",
-      password: generateRandomPassword(),
+      password: "",
     });
   };
 
@@ -70,16 +73,13 @@ const UserForm = () => {
         password: user.password,
       }));
       // console.log(usersData)
+      const apiUrl = process.env.REACT_APP_API_URL;
 
-      const response = await axios.post(
-        "https://manthanr.onrender.com/v1/add-users",
-        usersData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post(`${apiUrl}/add-users`, usersData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (response.status !== 201) {
         throw new Error("Failed to upload users to database");
@@ -92,6 +92,8 @@ const UserForm = () => {
       console.error("Error uploading users to database:", error);
       toast.error("Some error occured please check username or email");
       setUploadPending(false);
+    } finally {
+      setIsDialogOpen(false);
     }
   };
 
@@ -119,41 +121,43 @@ const UserForm = () => {
           Enter User Details
         </h2>
         <form onSubmit={handleAddUser} className="mx-auto">
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-base font-semibold "
-              htmlFor="username"
-            >
-              Firstname
-            </label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
-            />
+          <div className="flex">
+            <div className="flex-1 mb-4 mr-2">
+              <label
+                className="block text-gray-700 text-base font-semibold "
+                htmlFor="username"
+              >
+                Firstname
+              </label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                required
+              />
+            </div>
+            <div className="flex-1 ml-2 mb-4">
+              <label
+                className="block text-gray-700 text-base font-semibold "
+                htmlFor="lastname"
+              >
+                Lastname
+              </label>
+              <input
+                type="text"
+                id="lastname"
+                name="lastname"
+                value={formData.lastname}
+                onChange={handleChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                required
+              />
+            </div>
           </div>
           <div className="mb-4">
-            <label
-              className="block text-gray-700 text-base font-semibold "
-              htmlFor="lastname"
-            >
-              Lastname
-            </label>
-            <input
-              type="text"
-              id="lastname"
-              name="lastname"
-              value={formData.lastname}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
-            />
-          </div>
-          <div className="">
             <label
               className="block text-gray-700 text-base font-semibold "
               htmlFor="email"
@@ -170,9 +174,26 @@ const UserForm = () => {
               required
             />
           </div>
+          <div className="">
+            <label
+              className="block text-gray-700 text-base font-semibold "
+              htmlFor="phone"
+            >
+              Phone
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              required
+            />
+          </div>
           <div className="flex items-center justify-between mb-4">
             <label className="text-gray-600 text-sm" htmlFor="password">
-              An automatically generated password will be sent to this email
+              The phone number will be set as the password.
             </label>
           </div>
           <div className="flex items-center justify-between">
@@ -241,14 +262,22 @@ const UserForm = () => {
 
         <div className="flex items-center justify-center py-2">
           <button
-            onClick={handleUploadToDatabase}
-            disabled= {users.length === 0}
+            onClick={() => setIsDialogOpen(true)}
+            disabled={users.length === 0}
             className="bg-green-500 hover:bg-green-600 disabled:opacity-60 disabled:hover:bg-green-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Upload to Database
           </button>
         </div>
       </div>
+      <DialogModal
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        onSubmit={handleUploadToDatabase}
+        paragraph="Do you want to add new users?"
+        closeBtnText="Cancel"
+        submitBtnText="Add Users"
+      />
     </div>
   );
 };

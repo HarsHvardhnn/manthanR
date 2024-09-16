@@ -45,8 +45,9 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
 
   const getAllQuestions = async () => {
     const token = localStorage.getItem("superadminToken");
+    const apiUrl = process.env.REACT_APP_API_URL;
     axios
-      .get("https://manthanr.onrender.com/v1/getAllData", {
+      .get(`${apiUrl}/getAllData`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -63,9 +64,10 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("superadminToken");
+      const apiUrl = process.env.REACT_APP_API_URL;
       setLoading(true);
       const response = await axios.get(
-        "https://manthanr.onrender.com/v1/getAllUsers",
+        `${apiUrl}/getAllUsers`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -87,10 +89,11 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
 
   const reportToPsych = (user) => {
     const token = localStorage.getItem("superadminToken");
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     axios
       .post(
-        "https://manthanr.onrender.com/v1/report-to-psych",
+        `${apiUrl}/report-to-psych`,
         {
           userID: user._id,
         },
@@ -105,9 +108,9 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
         if (res.status === 200) {
           toast.success("Reported");
           const username = users.filter((user1) => user1._id === user._id);
-          //console.log(res.data);
+          console.log("res.data",username[0]);
 
-          sendEmail(username[0], res.data.message);
+          sendEmail(username[0]);
         }
       })
       .catch((err) => {
@@ -115,38 +118,81 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       });
   };
 
-  const sendEmail = (report, message) => {
-    const serviceId = "service_0jzntyg";
-    const templateId = "template_dbu0gpy";
-    const userId = "4n-EC2hBnJ4wZnL_F";
+  const sendEmail = (report) => {
+    const token = localStorage.getItem("superadminToken");
+    const apiUrl = process.env.REACT_APP_API_URL;
 
-    const { email, contactNumber, score, username } = report;
-    //  console.log( email, contactNumber, score, username ,'empyuty')
+    axios
+      .post(
+        `${apiUrl}/send-bulk-email`,
+        {
+          recipients: ["counselor1@iitp.ac.in"],
+          subject:
+            "Urgent Request for Immediate Mental Wellness Support for Student",
+          body: `
+                Dear Counselor, 
 
-    const templateParams = {
-      to_name: "PSYCH",
-      from_name: "super admin",
-      to_email: "abhisektiwari2014@gmail.com",
-      username: username,
-      contact: contactNumber,
-      email: email,
-      score: score,
-      subject: "User Reported",
-      message: message,
-    };
+                I hope this message finds you well. I am writing to urgently request immediate support for a student who has been identified as struggling significantly with mental wellness. Given the current situation, it is crucial that this student receives timely therapy and assistance to address their needs effectively. 
+                Could you please arrange for an initial assessment and therapy sessions as soon as possible? Additionally, if there are any immediate resources or support services available, kindly let us know how we can facilitate access to these. Your prompt attention to this matter would be greatly appreciated. Please feel free to reach out to me directly if you need any more information or if there are additional steps we should take in this situation. 
 
-    emailjs
-      .send(serviceId, templateId, templateParams, userId)
-      .then((response) => {
-        if (response.status === 200) {
-          // console.log('hi')
-          toast.success("Email sent to Psychiatrist");
+                Student Details: 
+                Student Name: ${capitalizeWords(report.username)}${
+            report.lastname ? " " + capitalizeWords(report.lastname) : ""
+          }
+                Student Phone: ${report.contactNumber}
+                Student Email: ${report.email}
+
+                Thank you very much for your assistance and understanding. 
+                Best regards, PIC Wellness, IIT Patna
+
+                `,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
+      )
+      .then((res) => {
+        // console.log(res);
       })
-      .catch((error) => {
-        console.error("Email error:", error);
+      .catch((err) => {
+        console.log(err);
+        toast.error("Some error occured");
       });
   };
+  // const sendEmail = (report, message) => {
+  //   const serviceId = "service_0jzntyg";
+  //   const templateId = "template_dbu0gpy";
+  //   const userId = "4n-EC2hBnJ4wZnL_F";
+
+  //   const { email, contactNumber, score, username } = report;
+  //   //  console.log( email, contactNumber, score, username ,'empyuty')
+
+  //   const templateParams = {
+  //     to_name: "PSYCH",
+  //     from_name: "super admin",
+  //     to_email: "abhisektiwari2014@gmail.com",
+  //     username: username,
+  //     contact: contactNumber,
+  //     email: email,
+  //     score: score,
+  //     subject: "User Reported",
+  //     message: message,
+  //   };
+
+  //   emailjs
+  //     .send(serviceId, templateId, templateParams, userId)
+  //     .then((response) => {
+  //       if (response.status === 200) {
+  //         // console.log('hi')
+  //         toast.success("Email sent to Psychiatrist");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Email error:", error);
+  //     });
+  // };
 
   //  useEffect(() => {
   //   getReportedUsers();
@@ -154,8 +200,9 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
   const promoteToAdmin = async (id) => {
     try {
       const token = localStorage.getItem("superadminToken");
+      const apiUrl = process.env.REACT_APP_API_URL;
       const res = await axios.post(
-        "https://manthanr.onrender.com/v1/promote-to-admin",
+        `${apiUrl}/promote-to-admin`,
         { user: id },
         {
           headers: {

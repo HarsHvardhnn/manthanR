@@ -10,8 +10,9 @@ async function notifyPsy(user ,email) {
     port: 587,
     secure: false,
     auth: {
-      user: "manowealth@iitp.ac.in",
-      pass: "CRwnf613#@!",
+       user : process.env.EMAIL_USER,
+       pass : process.env.EMAIL_PASS,
+
     },
   });
 

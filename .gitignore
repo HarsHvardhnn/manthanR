@@ -5,3 +5,5 @@ node_modules/
 
 
 frontendRoles/build/
+
+.env
