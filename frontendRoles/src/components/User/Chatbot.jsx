@@ -70,8 +70,6 @@ const Chatbot = () => {
   const [showSurveyResponse, setShowSurveyResponse] = useState(false);
   const [prevScore, setPrevScore] = useState(0);
 
- 
-
   const emojiMapping = {
     "Strongly Agree": "😄",
     Agree: "😊",
@@ -829,6 +827,8 @@ const Chatbot = () => {
                             <a
                               href="https://tinybuddha.com/blog/how-i-created-a-beautiful-life-on-the-other-side-of-burnout/"
                               className="hover:underline flex items-center"
+                              target="_blank"
+                              rel="noopener noreferrer"
                             >
                               Let us help you to enhance your beautiful life
                             </a>
@@ -837,6 +837,8 @@ const Chatbot = () => {
                             <a
                               href="https://tinybuddha.com/blog/the-amazing-healing-power-of-talking-about-our-anxiety/"
                               className="hover:underline flex items-center"
+                              target="_blank"
+                              rel="noopener noreferrer"
                             >
                               Embrace the powerful techniques of healing
                             </a>
@@ -870,6 +872,8 @@ const Chatbot = () => {
                             <a
                               href="https://tinybuddha.com/blog/4-fears-that-create-people-pleasers-and-how-to-ease-them/"
                               className="hover:underline flex items-center"
+                              target="_blank"
+                              rel="noopener noreferrer"
                             >
                               Let's first accept ourselves to see the magic
                               within.
@@ -879,6 +883,8 @@ const Chatbot = () => {
                             <a
                               href="https://tinybuddha.com/blog/how-i-created-a-beautiful-life-on-the-other-side-of-burnout/"
                               className="hover:underline flex items-center"
+                              target="_blank"
+                              rel="noopener noreferrer"
                             >
                               Let us help you to enhance your beautiful life
                             </a>
@@ -911,6 +917,8 @@ const Chatbot = () => {
                             <a
                               href="https://tinybuddha.com/blog/5-pillars-of-mindful-awareness-that-transformed-my-life/"
                               className="hover:underline flex items-center"
+                              target="_blank"
+                              rel="noopener noreferrer"
                             >
                               Strengthen the pillars of Mindfulness
                             </a>
@@ -919,6 +927,8 @@ const Chatbot = () => {
                             <a
                               href="https://tinybuddha.com/blog/4-ways-to-help-someone-with-mental-health-challenges/"
                               className="hover:underline flex items-center"
+                              target="_blank"
+                              rel="noopener noreferrer"
                             >
                               In times of adversity, a little hope can make all
                               the difference. Let's extend that hope by helping

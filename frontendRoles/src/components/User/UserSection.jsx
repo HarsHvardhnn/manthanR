@@ -384,7 +384,7 @@ const UserSection = () => {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setAssigned_admin(res.data);
       })
       .catch((err) => {
@@ -430,7 +430,7 @@ const UserSection = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setUserContactInfo(res.data);
       })
       .catch((err) => {
@@ -442,7 +442,7 @@ const UserSection = () => {
     const apiUrl = process.env.REACT_APP_API_URL;
 
     try {
-      console.log("userContactInfo", userContactInfo);
+      // console.log("userContactInfo", userContactInfo);
 
       await axios.post(
         `${apiUrl}/send-bulk-email`,

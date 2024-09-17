@@ -108,7 +108,7 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
         if (res.status === 200) {
           toast.success("Reported");
           const username = users.filter((user1) => user1._id === user._id);
-          console.log("res.data",username[0]);
+          // console.log("res.data",username[0]);
 
           sendEmail(username[0]);
         }

@@ -19,7 +19,7 @@ const SOSNotifications = ({ admin }) => {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setNotifications(res.data);
         // console.log(res)
       })
