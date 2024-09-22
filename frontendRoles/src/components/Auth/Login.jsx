@@ -226,7 +226,10 @@ const LoginPage = () => {
                     Forgot Password
                   </button>
 
-                  <button className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md text-white mt-1 text-xs sm:text-base">
+                  <button
+                    disabled={loading}
+                    className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md text-white mt-1 text-xs sm:text-base"
+                  >
                     {loading ? "loading..." : "Login"}
                   </button>
                 </div>
