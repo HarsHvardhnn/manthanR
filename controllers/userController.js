@@ -195,6 +195,7 @@ const editProfile = async (req, res) => {
       ...(contactNumber && { contactNumber }),
       ...(imageUrl && { profile_pic: imageUrl }),
       ...(semester && { semester }),
+      ...(hostelName && { hostelName}),
     };
   // console.log(updateFields);
     const update = await userModel.findOneAndUpdate(
