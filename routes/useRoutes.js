@@ -215,7 +215,7 @@ router.post('/assign-warden' , verifyToken ,async(req,res) => {
   if(user.assigned_warden){
     return res.send({info:'warden already assigned to user' , message:user?.assigned_warden})
   }
-  const wardens = await userModel.find({hostelName:user?.hostelName});
+  const wardens = await userModel.find({role:'warden',hostelName:user?.hostelName});
 
 
    console.log('user' ,  user);
