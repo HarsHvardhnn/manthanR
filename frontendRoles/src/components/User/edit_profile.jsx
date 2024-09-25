@@ -117,16 +117,16 @@ const EditProfileForm = () => {
 
   const semesterOptions = [
     { label: "Select Semester", value: "" },
-    { label: "Sem 1", value: "Sem 1" },
-    { label: "Sem 2", value: "Sem 2" },
-    { label: "Sem 3", value: "Sem 3" },
-    { label: "Sem 4", value: "Sem 4" },
-    { label: "Sem 5", value: "Sem 5" },
-    { label: "Sem 6", value: "Sem 6" },
-    { label: "Sem 7", value: "Sem 7" },
-    { label: "Sem 8", value: "Sem 8" },
-    { label: "Sem 9", value: "Sem 9" },
-    { label: "Sem 10", value: "Sem 10" },
+    { label: "Sem 1", value: 1 },
+    { label: "Sem 2", value: 2 },
+    { label: "Sem 3", value: 3 },
+    { label: "Sem 4", value: 4 },
+    { label: "Sem 5", value: 5 },
+    { label: "Sem 6", value: 6 },
+    { label: "Sem 7", value: 7 },
+    { label: "Sem 8", value: 8 },
+    { label: "Sem 9", value: 9 },
+    { label: "Sem 10", value: 10 },
   ];
 
   const onSubmit = async () => {
@@ -144,7 +144,7 @@ const EditProfileForm = () => {
       return;
     }
     setIsSubmitting(true);
-    // console.log(values);
+    //console.log(values);
     const formData = new FormData();
     formData.append("user", user.userID);
     formData.append("contactNumber", values.phoneNumber);

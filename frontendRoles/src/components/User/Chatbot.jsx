@@ -301,6 +301,13 @@ const Chatbot = () => {
 
     return totalScore;
   };
+
+  useEffect(()=> {
+    if(!isDialogOpen)
+    {
+      setRestartClicked(false);
+    }
+  },[isDialogOpen])
   const submitAns = (values) => {
     const token = localStorage.getItem("token");
     const totalUserScore = calculateScore(answers);
