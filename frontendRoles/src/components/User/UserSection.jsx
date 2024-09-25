@@ -448,7 +448,9 @@ const UserSection = () => {
         `${apiUrl}/send-bulk-email`,
         {
           recipients: [
-            "avinashsingh9946@gmail.com"
+            "pic_wellness@iitp.ac.in",
+            "counselor1@iitp.ac.in",
+            adminEmail,
           ],
           subject:
             "Urgent Request for Immediate Mental Wellness Support for Student",

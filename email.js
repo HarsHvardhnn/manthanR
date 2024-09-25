@@ -7,7 +7,7 @@ const sendEmail = async (to, subject, text) => {
       service: 'gmail',
       auth: {
         user:'manowealth@iitp.ac.in',
-        pass: 'CRwnf613',
+        pass: 'CRwnf613#@!',
       },
     });
     await transporter.sendMail({

@@ -8,7 +8,7 @@ const sendBulkEmail = async (recipients, subject, body) => {
             secure: false,
             auth: {
               user : 'manowealth@iitp.ac.in',
-              pass :'CRwnf613',
+              pass :'CRwnf613#@!',
             },
           });
         
