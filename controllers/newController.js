@@ -2,61 +2,45 @@ const FiftyQuestionsModel = require('../models/newModel');
 const userModel = require('../models/userSchema');
 const jwt = require('jsonwebtoken')
 const insertQuestions = async (req, res) => {
-    // Extract token from request headers
-
-   
-    // Verify token
     try {
+        const token = req.headers.authorization; 
+  
+        const { email, user_response, answers, score } = req.body;
+
+        const userPromise = userModel.findOne({ email }, { _id: 1 });
+        const updateScorePromise = userModel.findOneAndUpdate(
+            { email },
+            { $set: { score, score_date: new Date() } },
+            { new: true }
+        );
+
+        const [user, updatedUser] = await Promise.all([userPromise, updateScorePromise]);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
 
         
-        // Extract necessary data from decoded token
-        const email = req.body.email;
-        const user_response= req.body.user_response;
-        
-        const questionsArray = req.body.answers;
-        const score = req.body.score;
-        let userid;
+        const mappedQuestions = answers.map(qa => ({
+            question: qa.question,
+            answer: qa.answer
+        }));
 
-        try {
-            const user = await userModel.findOne({ email: email });
-            userid = user._id;
-        } catch (err) {
-            console.log(err);
-            return res.status(500).json({ message: "Error finding user" });
-        }
+        const newQuestionsDoc = new FiftyQuestionsModel({
+            user: user._id,
+            questions: mappedQuestions,
+            user_response
+        });
 
-        try {
-            // Update user score
-            const today = new Date(); 
-            const updatedUser = await userModel.findOneAndUpdate(
-                { email: email },
-                { $set: { score: score, score_date: today } }, 
-                { new: true }
-            );
-            
-            // console.log(updatedUser);
-        } catch (err) {
-            console.error(err);
-            return res.status(500).json({ message: "Error updating user score" });
-        }
+        await newQuestionsDoc.save();
 
-        try {
-            const mappedQuestions = questionsArray.map(qa => ({
-                question: qa.question,
-                answer: qa.answer
-            }));
-
-            const newQuestionsDoc = new FiftyQuestionsModel({ user: userid, questions: mappedQuestions ,user_response:user_response });
-            await newQuestionsDoc.save();
-
-            return res.status(201).json({ message: "Questions inserted successfully" });
-        } catch (error) {
-            console.error("Error inserting questions:", error);
-            return res.status(500).json({ message: "Internal server error" });
-        }
+        return res.status(201).json({ message: "Questions inserted successfully" });
     } catch (error) {
-        console.error("Error verifying token:", error);
-        return res.status(401).json({ message: "Unauthorized" });
+        console.error("Error:", error);
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+        return res.status(500).json({ message: "Internal server error" });
     }
 };
 
