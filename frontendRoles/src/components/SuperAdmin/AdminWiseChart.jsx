@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
-function AdminWiseChart({ admin, adminName, selectedAdminId }) {
+function AdminWiseChart({ admin, adminName, selectedAdminDetails }) {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState([]);
   async function fetchUserInformation(userIds) {
@@ -14,14 +14,11 @@ function AdminWiseChart({ admin, adminName, selectedAdminId }) {
         const userId = userObj.user;
         const apiUrl = process.env.REACT_APP_API_URL;
 
-        const response = await axios.get(
-          `${apiUrl}/get-user-info/${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get(`${apiUrl}/get-user-info/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const userData = {
           ...response.data,
           message: userObj.message,
@@ -35,20 +32,18 @@ function AdminWiseChart({ admin, adminName, selectedAdminId }) {
     return userInformation;
   }
 
+  console.log(selectedAdminDetails);
   const getData = () => {
     // console.log(selectedAdmin);
     const token = localStorage.getItem("superadminToken");
     const apiUrl = process.env.REACT_APP_API_URL;
 
     axios
-      .get(
-        `${apiUrl}/admin/users/${selectedAdminId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .get(`${apiUrl}/admin/users/${selectedAdminDetails._id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then(async (res) => {
         // console.log('response',res.data);
         const simplifiedUsers = res.data.map((user) => ({
@@ -69,7 +64,6 @@ function AdminWiseChart({ admin, adminName, selectedAdminId }) {
       });
   };
 
-  
   useEffect(() => {
     setLoading(true);
     setUserData([]);
@@ -270,11 +264,43 @@ function AdminWiseChart({ admin, adminName, selectedAdminId }) {
   ];
 
   return (
-    <div className="bg-gray-100 border p-6 rounded-lg border-gray-300">
-      <div className="text-center mb-2">
-        <h2 className="font-semibold">
-          Selected Admin: {adminName.toUpperCase()}
-        </h2>
+    <div className="bg-gray-100 border p-6 rounded-lg border-gray-300 overflow-y-auto h-[90%]">
+      <div className="mb-2 text-left w-[80%] mx-auto">
+          <h2 className="text-lg font-semibold">{adminName.toUpperCase()}</h2>
+        <div className="text-sm">
+          <p>
+            {selectedAdminDetails.degrees &&
+            selectedAdminDetails.degrees.length > 0
+              ? selectedAdminDetails.degrees.map((degree, index) => (
+                  <span key={index}>
+                    {degree}
+                    {index < selectedAdminDetails.degrees.length - 1 && ", "}
+                  </span>
+                ))
+              : "No degrees available"}
+          </p>
+          <p>
+            {selectedAdminDetails.depts && selectedAdminDetails.depts.length > 0
+              ? selectedAdminDetails.depts.map((dept, index) => (
+                  <span key={index}>
+                    {dept}
+                    {index < selectedAdminDetails.depts.length - 1 && ", "}
+                  </span>
+                ))
+              : "No departments available"}
+          </p>
+          <p>
+            {selectedAdminDetails.semesters &&
+            selectedAdminDetails.semesters.length > 0
+              ? selectedAdminDetails.semesters.map((semester, index) => (
+                  <span key={index}>
+                    Sem {semester}
+                    {index < selectedAdminDetails.semesters.length - 1 && ", "}
+                  </span>
+                ))
+              : "No semesters available"}
+          </p>
+        </div>
       </div>
       <div
         className="w-full sm:w-5/6 mx-auto border border-gray-300 p-1 lg:p-6 rounded-lg"

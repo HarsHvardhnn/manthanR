@@ -37,7 +37,7 @@ const SuperAdminDashboard = () => {
   const dropdownRef = useRef(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [adminName, setAdminName] = useState(null);
-  const [selectedAdminId, setSelectedAdminId] = useState(null);
+  const [selectedAdminDetails, setSelectedAdminDetails] = useState({});
   useEffect(() => {
     const handleResize = () => {
       setShowSidebar(window.innerWidth >= 768);
@@ -207,7 +207,7 @@ const SuperAdminDashboard = () => {
                         handleAdminName(admin);
                         handleChartOptionClick(admin.email);
                         toggleSidebar();
-                        setSelectedAdminId(admin._id);
+                        setSelectedAdminDetails(admin);
                       }}
                       title={capitalizeWords(
                         admin.username +
@@ -360,7 +360,7 @@ const SuperAdminDashboard = () => {
         {activeTab === "AllUsersChart" && <AllUsersChart />}
         {activeTab === "Userreport" && <UserReportSuper />}
         {activeTab === "charts" && (
-          <AdminWiseChart admin={selectedAdmin} adminName={adminName} selectedAdminId={selectedAdminId}/>
+          <AdminWiseChart admin={selectedAdmin} adminName={adminName} selectedAdminDetails={selectedAdminDetails}/>
         )}
         {activeTab === "Users" && (
           <UserDataSuper showSOSButton={false} showSummaryColumn={true} />

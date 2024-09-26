@@ -4,17 +4,7 @@ import { toast } from "react-toastify";
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import DialogModal from "../Admin/DialogModal";
-const generateRandomPassword = () => {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const passwordLength = 8;
-  let password = "";
-  for (let i = 0; i < passwordLength; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    password += characters.charAt(randomIndex);
-  }
-  return password;
-};
+
 const UserForm = () => {
   const [users, setUsers] = useState([]);
   const [uploadPending, setUploadPending] = useState(false);
@@ -23,7 +13,7 @@ const UserForm = () => {
     username: "",
     lastname: "",
     email: "",
-    password: "",
+    phone: "",
   });
 
   const handleChange = (e) => {
@@ -35,9 +25,6 @@ const UserForm = () => {
 
   const handleAddUser = (e) => {
     e.preventDefault();
-
-    // Check if the new user's username or email already exists
-    // const existingUsername = users.find(user => user.username === formData.username);
     const existingEmail = users.find((user) => user.email === formData.email);
 
     // if (existingUsername) {
@@ -52,13 +39,18 @@ const UserForm = () => {
       return;
     }
 
-    // If the username and email are unique, add the new user
-    setUsers([...users, formData]);
+    setUsers([
+      ...users,
+      {
+        ...formData,
+        password: formData.phone, 
+      },
+    ]);
     setFormData({
       username: "",
       lastname: "",
       email: "",
-      password: "",
+      phone: "",
     });
   };
 
@@ -70,7 +62,7 @@ const UserForm = () => {
         username: user.username,
         lastname: user.lastname,
         email: user.email,
-        password: user.password,
+        password: user.phone,
       }));
       // console.log(usersData)
       const apiUrl = process.env.REACT_APP_API_URL;
@@ -103,7 +95,7 @@ const UserForm = () => {
       username: editedUser.username,
       lastname: editedUser.lastname,
       email: editedUser.email,
-      password: editedUser.password,
+      phone: editedUser.password,
     });
     handleDeleteUser(index);
   };
@@ -182,17 +174,17 @@ const UserForm = () => {
               Phone
             </label>
             <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
+              type="tel"
+              id="phone"
+              name="phone"
+              value={formData.phone}
               onChange={handleChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               required
             />
           </div>
           <div className="flex items-center justify-between mb-4">
-            <label className="text-gray-600 text-sm" htmlFor="password">
+            <label className="text-gray-600 text-sm" htmlFor="phone">
               The phone number will be set as the password.
             </label>
           </div>
@@ -276,7 +268,7 @@ const UserForm = () => {
         onSubmit={handleUploadToDatabase}
         paragraph="Do you want to add new users?"
         closeBtnText="Cancel"
-        submitBtnText="Add Users"
+        submitBtnText="Add"
       />
     </div>
   );

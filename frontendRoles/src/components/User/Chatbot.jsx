@@ -100,8 +100,9 @@ const Chatbot = () => {
         // console.log(res.data);
         const questionsArray = res.data.map((questionObj) => questionObj.text);
         const shuffledQuestions = shuffleArray(questionsArray);
-        setQuestions(shuffledQuestions.slice(0,2));
+        setQuestions(shuffledQuestions);
       })
+      
       .catch((err) => {
         toast.error(err.response.data);
       });

@@ -66,14 +66,11 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       const token = localStorage.getItem("superadminToken");
       const apiUrl = process.env.REACT_APP_API_URL;
       setLoading(true);
-      const response = await axios.get(
-        `${apiUrl}/getAllUsers`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${apiUrl}/getAllUsers`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setUsers(response.data);
       //console.log("users ", users);
     } catch (error) {
@@ -595,9 +592,13 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                   <tbody className="text-center">
                     {currentUsers.map((user, index) => (
                       <tr key={user._id}>
-                        <td className="px-4 py-2 border">{index + 1}</td>
+                        {console.log(user)}
+                        <td className="px-4 py-2 border">{index + 1}.</td>
                         <td className="px-4 py-2 border">
                           {capitalizeWords(user.username)}
+                          {user.lastname
+                            ? " " + capitalizeWords(user.lastname)
+                            : ""}
                         </td>
                         <td className="px-4 py-2 border">{user.email}</td>
                         <td className="px-4 py-2 border">
@@ -607,7 +608,9 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                           {user.score ?? "NA"}
                         </td>
                         <td className="px-4 py-2 border">
-                          {convertISOToDate(user.createdAt)}
+                          {user.score_date
+                            ? convertISOToDate(user.score_date)
+                            : "NA"}
                         </td>
                         <td className="px-4 py-2 border">
                           {categorizeUser(user.score)}
