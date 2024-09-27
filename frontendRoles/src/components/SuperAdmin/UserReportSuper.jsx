@@ -109,27 +109,27 @@ const UserReport = () => {
       .post(
         `${apiUrl}/send-bulk-email`,
         {
-          recipients: ["counselor1@iitp.ac.in"],
+          recipients: ["counselor2@iitp.ac.in"],
           subject:
             "Urgent Request for Immediate Mental Wellness Support for Student",
           body: `
-                Dear Counselor, 
+Dear Counselor, 
 
-                I hope this message finds you well. I am writing to urgently request immediate support for a student who has been identified as struggling significantly with mental wellness. Given the current situation, it is crucial that this student receives timely therapy and assistance to address their needs effectively. 
-                Could you please arrange for an initial assessment and therapy sessions as soon as possible? Additionally, if there are any immediate resources or support services available, kindly let us know how we can facilitate access to these. Your prompt attention to this matter would be greatly appreciated. Please feel free to reach out to me directly if you need any more information or if there are additional steps we should take in this situation. 
+I hope this message finds you well. I am writing to urgently request immediate support for a student who has been identified as struggling significantly with mental wellness. Given the current situation, it is crucial that this student receives timely therapy and assistance to address their needs effectively. 
 
-                Student Details: 
-                Student Name: ${capitalizeFirstLetter(report.username)}${
+Could you please arrange for an initial assessment and therapy sessions as soon as possible? Additionally, if there are any immediate resources or support services available, kindly let us know how we can facilitate access to these. Your prompt attention to this matter would be greatly appreciated. Please feel free to reach out to me directly if you need any more information or if there are additional steps we should take in this situation. 
+
+Student Details: 
+Student Name: ${capitalizeFirstLetter(report.username)}${
             report.lastname ? " " + capitalizeFirstLetter(report.lastname) : ""
           }
-                Student Phone: ${report.contactNumber}
-                Student Email: ${report.email}
-                SuperAdmin Comments: ${comment}
+Student Phone: ${report.contactNumber ? report.contactNumber : "Not available"}
+Student Email: ${report.email ? report.email : "Not available"}
+SuperAdmin Comments: ${comment}
 
-                Thank you very much for your assistance and understanding. 
-                Best regards, PIC Wellness, IIT Patna
-
-                `,
+Thank you very much for your assistance and understanding. 
+Best regards, PIC Wellness, IIT Patna
+`,
         },
         {
           headers: {

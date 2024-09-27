@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
+import { FaGraduationCap } from "react-icons/fa";
+import { MdOutlineBusiness } from "react-icons/md";
+import { PiBookBookmarkLight } from "react-icons/pi";
+
 function AdminWiseChart({ admin, adminName, selectedAdminDetails }) {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState([]);
@@ -266,39 +270,58 @@ function AdminWiseChart({ admin, adminName, selectedAdminDetails }) {
   return (
     <div className="bg-gray-100 border p-6 rounded-lg border-gray-300 overflow-y-auto h-[90%]">
       <div className="mb-2 text-left w-[80%] mx-auto">
+        <div className="text-sm font-medium">
           <h2 className="text-lg font-semibold">{adminName.toUpperCase()}</h2>
-        <div className="text-sm">
-          <p>
-            {selectedAdminDetails.degrees &&
-            selectedAdminDetails.degrees.length > 0
-              ? selectedAdminDetails.degrees.map((degree, index) => (
-                  <span key={index}>
-                    {degree}
-                    {index < selectedAdminDetails.degrees.length - 1 && ", "}
-                  </span>
-                ))
-              : "No degrees available"}
+
+          <p className="flex items-center mb-2">
+            <FaGraduationCap className="text-blue-500 mr-2" />
+            <span className="font-semibold text-gray-700">Degree(s): </span>
+            <span className="ml-1 text-gray-600">
+              {selectedAdminDetails.degrees &&
+              selectedAdminDetails.degrees.length > 0
+                ? selectedAdminDetails.degrees.map((degree, index) => (
+                    <span key={index}>
+                      {degree}
+                      {index < selectedAdminDetails.degrees.length - 1 && ", "}
+                    </span>
+                  ))
+                : "No degrees available"}
+            </span>
           </p>
-          <p>
-            {selectedAdminDetails.depts && selectedAdminDetails.depts.length > 0
-              ? selectedAdminDetails.depts.map((dept, index) => (
-                  <span key={index}>
-                    {dept}
-                    {index < selectedAdminDetails.depts.length - 1 && ", "}
-                  </span>
-                ))
-              : "No departments available"}
+
+          {/* Department Section */}
+          <p className="flex items-center mb-2">
+            <MdOutlineBusiness className="text-green-500 mr-2" />
+            <span className="font-semibold text-gray-700 leading-3">Department(s): </span>
+            <span className="ml-1 text-gray-600 flex ">
+              {selectedAdminDetails.depts &&
+              selectedAdminDetails.depts.length > 0
+                ? selectedAdminDetails.depts.map((dept, index) => (
+                    <span key={index}>
+                      {dept}
+                      {index < selectedAdminDetails.depts.length - 1 && ", "}
+                    </span>
+                  ))
+                : "No departments available"}
+            </span>
           </p>
-          <p>
-            {selectedAdminDetails.semesters &&
-            selectedAdminDetails.semesters.length > 0
-              ? selectedAdminDetails.semesters.map((semester, index) => (
-                  <span key={index}>
-                    Sem {semester}
-                    {index < selectedAdminDetails.semesters.length - 1 && ", "}
-                  </span>
-                ))
-              : "No semesters available"}
+
+          {/* Semester Section */}
+          <p className="flex items-center">
+            <PiBookBookmarkLight className="text-yellow-500 mr-2" />
+            <span className="font-semibold text-gray-700">Semester(s): </span>
+            <span className="ml-1 text-gray-600">
+              {selectedAdminDetails.semesters &&
+              selectedAdminDetails.semesters.length > 0
+                ? selectedAdminDetails.semesters.map((semester, index) => (
+                    <span key={index}>
+                      {semester}
+                      {index < selectedAdminDetails.semesters.length - 1 &&
+                        ", "}
+                    </span>
+                  ))
+                : "No semesters available"}
+            </span>
           </p>
         </div>
       </div>
@@ -308,10 +331,10 @@ function AdminWiseChart({ admin, adminName, selectedAdminDetails }) {
       >
         <Chart options={options} series={series} type="bar" height={400} />
       </div>
-      <div className="mt-4 bg-white rounded-lg p-1 shadow-md lg:w-[80%] mx-auto">
+      <div className="mt-2 bg-white rounded-lg shadow-md lg:w-[80%] mx-auto">
         <div className="flex flex-col sm:flex-row gap-1 ">
           <div className="flex-1 ">
-            <div className="flex items-center justify-center p-2 sm:p-4 rounded-lg text-red-600 font-semibold">
+            <div className="flex items-center justify-center p-2 sm:p-3 rounded-lg text-red-600 font-semibold">
               <span className="text-sm sm:text-base font-bold">
                 Low: 0 - 126
               </span>

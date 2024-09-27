@@ -448,9 +448,7 @@ const UserSection = () => {
         `${apiUrl}/send-bulk-email`,
         {
           recipients: [
-            "pic_wellness@iitp.ac.in",
-            "counselor1@iitp.ac.in",
-            adminEmail,
+            "avinashsingh9946@gmail.com",
           ],
           subject:
             "Urgent Request for Immediate Mental Wellness Support for Student",
@@ -716,11 +714,11 @@ ManoWealth Team
         <AdminDetails
           loading={loading}
           getAdmin={getAdmin}
+          handleReportClick={handleReportClick}
           onClose={closeAdminData}
           assigned_admin={assigned_admin}
         />
       )}
-      {/* View Profile */}
       {showProfile && (
         <ViewProfile
           loading={loading}
