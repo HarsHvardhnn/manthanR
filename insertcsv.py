@@ -1,8 +1,7 @@
 
 import pandas as pd
 from pymongo import MongoClient
-import os
-print(os.getcwd())  # This will show you the current working directory
+
 
 client = MongoClient('mongodb+srv://manowealth:jJ54ydOeqaKZXa0Y@cluster0.hydf0at.mongodb.net/')
 db = client['manowealth']

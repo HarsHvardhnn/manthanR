@@ -448,11 +448,13 @@ const UserSection = () => {
         `${apiUrl}/send-bulk-email`,
         {
           recipients: [
-            "avinashsingh9946@gmail.com",
+            "pic_wellness@iitp.ac.in",
+            "Counselor2@iitp.ac.in",
+            adminEmail,
           ],
           subject:
             "Urgent Request for Immediate Mental Wellness Support for Student",
-          body: `Dear Admin, Superadmin, and Dr. Counsellor,
+          body: `Dear Admin, Counsellor, and Superadmin,
   
 We have received an SOS notification from a student indicating a potential mental health crisis. Below are the details of the student:
 
