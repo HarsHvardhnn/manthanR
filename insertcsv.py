@@ -18,5 +18,5 @@ def csv_to_mongo(file_path):
         print('No data to insert.')
 
 if __name__ == "__main__":
-    file_path = 'RemUsers.csv'
+    file_path = 'RemmUsers.csv'
     csv_to_mongo(file_path)

@@ -261,7 +261,7 @@ const AddAdmin = () => {
                     "GEO",
                     "HSS",
                     "Manufacturing",
-                    "MATH",
+                    "Math",
                     "Mechanical Design",
                     "ME",
                     "MME",
