@@ -6,6 +6,7 @@ const session = require('express-session');
 const mongoStore = require('connect-mongo');
 const cookieParser = require('cookie-parser');
 const {dbConnect }= require('./config/database');
+require('dotenv').config();
 const path = require('path');
 dbConnect();
 
