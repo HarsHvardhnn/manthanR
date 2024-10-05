@@ -66,14 +66,11 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       const token = localStorage.getItem("superadminToken");
       const apiUrl = process.env.REACT_APP_API_URL;
       setLoading(true);
-      const response = await axios.get(
-        `${apiUrl}/getAllUsers`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${apiUrl}/getAllUsers`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setUsers(response.data);
       //console.log("users ", users);
     } catch (error) {
@@ -126,26 +123,26 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
       .post(
         `${apiUrl}/send-bulk-email`,
         {
-          recipients: ["counselor1@iitp.ac.in"],
+          recipients: ["counselor2@iitp.ac.in"],
           subject:
             "Urgent Request for Immediate Mental Wellness Support for Student",
           body: `
-                Dear Counselor, 
+Dear Counselor, 
 
-                I hope this message finds you well. I am writing to urgently request immediate support for a student who has been identified as struggling significantly with mental wellness. Given the current situation, it is crucial that this student receives timely therapy and assistance to address their needs effectively. 
-                Could you please arrange for an initial assessment and therapy sessions as soon as possible? Additionally, if there are any immediate resources or support services available, kindly let us know how we can facilitate access to these. Your prompt attention to this matter would be greatly appreciated. Please feel free to reach out to me directly if you need any more information or if there are additional steps we should take in this situation. 
+I hope this message finds you well. I am writing to urgently request immediate support for a student who has been identified as struggling significantly with mental wellness. Given the current situation, it is crucial that this student receives timely therapy and assistance to address their needs effectively. 
 
-                Student Details: 
-                Student Name: ${capitalizeWords(report.username)}${
+Could you please arrange for an initial assessment and therapy sessions as soon as possible? Additionally, if there are any immediate resources or support services available, kindly let us know how we can facilitate access to these. Your prompt attention to this matter would be greatly appreciated. Please feel free to reach out to me directly if you need any more information or if there are additional steps we should take in this situation. 
+
+Student Details: 
+Student Name: ${capitalizeWords(report.username)}${
             report.lastname ? " " + capitalizeWords(report.lastname) : ""
           }
-                Student Phone: ${report.contactNumber}
-                Student Email: ${report.email}
+Student Phone: ${report.contactNumber ? report.contactNumber : "Not available"}
+Student Email: ${report.email ? report.email : "Not available"}
 
-                Thank you very much for your assistance and understanding. 
-                Best regards, PIC Wellness, IIT Patna
-
-                `,
+Thank you very much for your assistance and understanding. 
+Best regards, PIC Wellness, IIT Patna
+`,
         },
         {
           headers: {
@@ -595,9 +592,12 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                   <tbody className="text-center">
                     {currentUsers.map((user, index) => (
                       <tr key={user._id}>
-                        <td className="px-4 py-2 border">{index + 1}</td>
+                        <td className="px-4 py-2 border">{index + 1}.</td>
                         <td className="px-4 py-2 border">
                           {capitalizeWords(user.username)}
+                          {user.lastname
+                            ? " " + capitalizeWords(user.lastname)
+                            : ""}
                         </td>
                         <td className="px-4 py-2 border">{user.email}</td>
                         <td className="px-4 py-2 border">
@@ -607,7 +607,9 @@ const UserDataSuper = ({ showSOSButton = true, showSummaryColumn = false }) => {
                           {user.score ?? "NA"}
                         </td>
                         <td className="px-4 py-2 border">
-                          {convertISOToDate(user.createdAt)}
+                          {user.score_date
+                            ? convertISOToDate(user.score_date)
+                            : "NA"}
                         </td>
                         <td className="px-4 py-2 border">
                           {categorizeUser(user.score)}

@@ -173,7 +173,7 @@ function MainPage() {
               <br />
               <div className="flex flex-col ">
                 <span className="font-semibold">Email:</span>{" "}
-                counselor1@iitp.ac.in{" "}
+                counselor2@iitp.ac.in{" "}
                 <span className="font-semibold">Phone:</span> +91 9721322486
               </div>
             </div>

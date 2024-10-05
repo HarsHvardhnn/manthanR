@@ -91,27 +91,27 @@ const UserData = ({
           recipients: ["pic_wellness@iitp.ac.in"],
           subject: "Urgent: Consultation Request for Student Wellness",
           body: `
-                Hello, Superadmin
+Hello, Superadmin
 
-                I hope this message finds you well. I am writing to request your urgent assistance regarding one of our students on ManoWealth.
+I hope this message finds you well. I am writing to request your urgent assistance regarding one of our students on ManoWealth.
 
-                Student Name: ${capitalizeFirstLetter(selectedUser.username)}${
+Student Name: ${capitalizeFirstLetter(selectedUser.username)}${
             selectedUser.lastname
               ? " " + capitalizeFirstLetter(selectedUser.lastname)
               : ""
           }
-                Student Phone: ${selectedUser.contactNumber}
-                Student Email: ${selectedUser.email}
-                Reported Issue: ${message}
+Student Phone: ${selectedUser.contactNumber}
+Student Email: ${selectedUser.email}
+Reported Issue: ${message}
 
-                Your prompt attention to this matter would be greatly appreciated.
+Your prompt attention to this matter would be greatly appreciated.
 
-                Best regards,
+Best regards,
                 
-                Admin,
-                ${adminUsername}  
-                ${adminEmail}
-                `,
+Admin,
+${adminUsername}  
+${adminEmail}
+`,
         },
         {
           headers: {
@@ -203,6 +203,7 @@ const UserData = ({
 
   const handleReportSubmit = (comment) => {
     submitReport(selectUser, comment, admin);
+    console.log(admin)
     setShowReportModal(false);
   };
 
@@ -545,21 +546,23 @@ const UserData = ({
                   <tbody className="text-center">
                     {currentUsers.map((user, index) => (
                       <tr key={user._id}>
-                        <td className="px-4 py-2 border">{index + 1}</td>
+                        <td className="px-4 py-2 border">{index + 1}.</td>
                         <td className="px-4 py-2 border">
                           {capitalizeFirstLetter(user.username) +
                             " " +
                             capitalizeFirstLetter(user.lastname ?? "")}
                         </td>
-                        <td className="px-4 py-2 border">{user.email}</td>
+                        <td className="px-4 py-2 border">{user.email ?? "NA"}</td>
                         <td className="px-4 py-2 border">
-                          {user.contactNumber}
+                          {user.contactNumber ?? "NA"}
                         </td>
                         <td className="px-4 py-2 border">
                           {user.score ?? "NA"}
                         </td>
                         <td className="px-4 py-2 border">
-                          {convertISOToDate(user.createdAt)}
+                          {user.score_date
+                            ? convertISOToDate(user.score_date)
+                            : "NA"}{" "}
                         </td>
                         <td className="px-4 py-2 border">
                           {categorizeUser(user.score)}

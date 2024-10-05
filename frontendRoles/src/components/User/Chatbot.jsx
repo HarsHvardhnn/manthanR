@@ -60,7 +60,6 @@ const Chatbot = () => {
   const [daysLeft, setDaysLeft] = useState(0);
   const [isFetchingData, setIsFetchingData] = useState(false);
   const [initialResponse, setInitialResponse] = useState("");
-  const [remarks, setRemarks] = useState("");
   const [initialQuestionAnswered, setInitialQuestionAnswered] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [restartClicked, setRestartClicked] = useState(false);
@@ -69,6 +68,7 @@ const Chatbot = () => {
   const [usersScore, setUsersScore] = useState(0);
   const [showSurveyResponse, setShowSurveyResponse] = useState(false);
   const [prevScore, setPrevScore] = useState(0);
+  const [submitBtnClicked, setSubmitBtnClicked] = useState(false);
 
   const emojiMapping = {
     "Strongly Agree": "😄",
@@ -100,8 +100,9 @@ const Chatbot = () => {
         // console.log(res.data);
         const questionsArray = res.data.map((questionObj) => questionObj.text);
         const shuffledQuestions = shuffleArray(questionsArray);
-        setQuestions(shuffledQuestions.slice(0,2));
+        setQuestions(shuffledQuestions);
       })
+      
       .catch((err) => {
         toast.error(err.response.data);
       });
@@ -218,6 +219,7 @@ const Chatbot = () => {
     setRestartClicked(false);
     setCurrentQuestionIndex(0);
     setAnswers([]);
+    setUserScore(0);
     setShowThankYou(false);
     setProgress(0);
   };
@@ -309,9 +311,11 @@ const Chatbot = () => {
     }
   },[isDialogOpen])
   const submitAns = (values) => {
+    if(submitBtnClicked) return;
+    setSubmitBtnClicked(true);
     const token = localStorage.getItem("token");
-    const totalUserScore = calculateScore(answers);
-    setUsersScore(totalUserScore);
+    // const totalUserScore = calculateScore(answers);
+    // setUserScore(totalUserScore);
     const headers = { Authorization: `Bearer ${token}` };
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -340,12 +344,14 @@ const Chatbot = () => {
           setIsDialogOpen(false);
           setHideSubmit(true);
           setShowSurveyResponse(true);
+          setSubmitBtnClicked(false);
         }
       })
       .catch((err) => {
         // console.log(err);
         toast.error(err.response.message);
         setIsFetchingData(false);
+        setSubmitBtnClicked(false);
       });
   };
 
@@ -808,7 +814,7 @@ const Chatbot = () => {
 
                 {showSurveyResponse && (
                   <div className="text-center mt-2 mx-2 sm:mx-0 sm:mt-6 ">
-                    {usersScore <= 126 && (
+                    {userScore <= 126 && (
                       <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 p-4 sm:p-6 rounded-lg shadow-md">
                         <p className="text-sm sm:text-lg font-medium mb-4 text-justify">
                           Thank you, {capitalizeFirstLetter(user.username)}, for
@@ -854,7 +860,7 @@ const Chatbot = () => {
                       </div>
                     )}
 
-                    {usersScore >= 127 && usersScore <= 174 && (
+                    {userScore >= 127 && userScore <= 174 && (
                       <div className="bg-blue-100 border border-blue-400 text-blue-700 p-4 sm:p-6 rounded-lg shadow-md">
                         <p className="text-sm sm:text-lg font-medium mb-4 text-justify">
                           Thank you, {capitalizeFirstLetter(user.username)}, for
@@ -900,7 +906,7 @@ const Chatbot = () => {
                       </div>
                     )}
 
-                    {usersScore >= 175 && (
+                    {userScore >= 175 && (
                       <div className="bg-green-100 border border-green-400 text-green-700 p-4 sm:p-6 rounded-lg shadow-md">
                         <p className="text-sm sm:text-lg font-medium mb-4 text-justify">
                           Thank you, {capitalizeFirstLetter(user.username)}, for

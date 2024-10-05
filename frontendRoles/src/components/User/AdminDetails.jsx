@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import ReportMessage from "../Admin/ReportMessage";
 
-const AdminDetails = ({ onClose, loading, getAdmin, assigned_admin }) => {
+const AdminDetails = ({ onClose, loading, getAdmin, assigned_admin , handleReportClick}) => {
   const [showReportModal, setShowReportModal] = useState(false);
 
   useEffect(() => {
     getAdmin();
   }, []);
 
-  const handleReportClick = () => {
-    setShowReportModal(true);
+  const handleSosClick = () => {
+    onClose();
+    handleReportClick();
   };
   const handleCloseReportModal = () => {
     setShowReportModal(false);
@@ -82,7 +83,7 @@ const AdminDetails = ({ onClose, loading, getAdmin, assigned_admin }) => {
               </p>
               <button
                 className="mt-2 bg-red-600 text-white w-full px-4 py-2 rounded-lg hover:bg-red-700"
-                onClick={handleReportClick}
+                onClick={handleSosClick}
               >
                 Send SOS
               </button>

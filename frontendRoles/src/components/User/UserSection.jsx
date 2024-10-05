@@ -449,37 +449,36 @@ const UserSection = () => {
         {
           recipients: [
             "pic_wellness@iitp.ac.in",
-            "counselor1@iitp.ac.in",
+            "Counselor2@iitp.ac.in",
             adminEmail,
           ],
           subject:
             "Urgent Request for Immediate Mental Wellness Support for Student",
-          body: `Dear Admin, Superadmin, and Dr. Counsellor,
+          body: `Dear Admin, Counsellor, and Superadmin,
   
-            We have received an SOS notification from a student indicating a potential mental health crisis. Below are the details of the student:
+We have received an SOS notification from a student indicating a potential mental health crisis. Below are the details of the student:
 
-            Student Details:
-            Name: ${capitalizeFirstLetter(userContactInfo.username)}${
+Student Details:
+Name: ${capitalizeFirstLetter(userContactInfo.username)}${
             userContactInfo.lastname
               ? " " + capitalizeFirstLetter(userContactInfo.lastname)
               : ""
           }
-            Email: ${userContactInfo.email}
-            Phone No: ${userContactInfo.contactNumber}
+Email: ${userContactInfo.email}
+Phone No: ${userContactInfo.contactNumber}
+Message: ${comment}
             
-            Message: ${comment}
-            
-            Given the urgent nature of this alert, please prioritize the following steps:
+Given the urgent nature of this alert, please prioritize the following steps:
 
-            1. Admin: Verify the student's identity and provide necessary contact details for follow-up.
-            2. Psychiatrist/Counsellor: Assess the case promptly and advise on the best course of action.
-            3. Superadmin: Ensure all resources are aligned and emergency protocols are in place.
+1. Admin: Verify the student's identity and provide necessary contact details for follow-up. 
+2. Superadmin: Ensure all resources are aligned and emergency protocols are in place.
+3. Psychiatrist/Counsellor: Assess the case promptly and advise on the best course of action.
 
-            Please help the student as soon as possible.
+Please help the student as soon as possible.
 
-            Best regards,
-            ManoWealth Team
-            `,
+Best regards,
+ManoWealth Team
+`,
         },
         {
           headers: {
@@ -717,11 +716,11 @@ const UserSection = () => {
         <AdminDetails
           loading={loading}
           getAdmin={getAdmin}
+          handleReportClick={handleReportClick}
           onClose={closeAdminData}
           assigned_admin={assigned_admin}
         />
       )}
-      {/* View Profile */}
       {showProfile && (
         <ViewProfile
           loading={loading}
