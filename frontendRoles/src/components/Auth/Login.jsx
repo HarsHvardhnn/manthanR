@@ -144,10 +144,10 @@ const LoginPage = () => {
   return (
     <div
       className="min-h-svh sm:min-h-screen flex justify-center items-center bg-blue-200 font-montserrat"
-      style={{
-        backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${Bg})`,
-        backgroundSize: "Cover",
-      }}
+      // style={{
+      //   backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${Bg})`,
+      //   backgroundSize: "Cover",
+      // }}
     >
       <Header />
       <div className="flex flex-col lg:flex-row bg-white justify-center mt-10 items-center w-4/5 sm:w-3/5 lg:w-8/12 xl:w-3/5 shadow-xl rounded-xl">

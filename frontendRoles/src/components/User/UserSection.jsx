@@ -243,7 +243,7 @@ const UserSection = () => {
       .then((res) => {
         // console.log("res", res);
         if (!res.data.assigned_admin) {
-          assignAdmin()
+          assignAdmin();
           setTimeout(() => {
             const apiUrl = process.env.REACT_APP_API_URL;
             axios

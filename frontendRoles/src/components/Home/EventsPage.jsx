@@ -45,40 +45,47 @@ function EventsPage() {
     <>
       <Header />
       <div className="min-h-screen py-10 px-4 lg:px-28 font-montserrat bg-blue-200 ">
-        <h1 className="text-3xl font-bold text-blue-700 text-center mb-8 mt-16">
+        <h1 className="text-3xl font-bold text-blue-800 text-center mb-3 mt-16 underline">
           Upcoming Events
         </h1>
+        <p className="text-blue-700 text-center font-medium mb-12">
+          Discover exciting events happening on campus!
+        </p>
 
         <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
           {events.map((event, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300"
+              className="bg-blue-50 rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300"
             >
-              <div className="p-6">
-                <img
-                  src={event.image}
-                  alt="event_img"
-                  className="w-full xl:px-20 mx-auto h-72 mb-4 rounded-lg border border-slate-300"
-                />
-                <h2 className="text-xl font-semibold text-gray-800 mb-2 cursor-pointer ">
-                  {event.title}
-                </h2>
-
-                <div className="flex items-center text-gray-500 mb-4">
-                  <FaCalendarAlt className="mr-2 text-blue-500" />
-                  <span className="text-sm">{event.date}</span>
-                  <span
-                    onClick={() => window.open(event.link, "_blank")}
-                    className="text-sm underline font-medium ml-2 text-blue-400 cursor-pointer"
-                  >
-                    Join Session
-                  </span>
+              <div>
+                <div className="bg-white">
+                  <img
+                    src={event.image}
+                    alt="event_img"
+                    className="object-cover mx-auto h-72 p-4 rounded-lg"
+                  />
                 </div>
+                <div className="p-4 border-t border-gray-100">
+                  <h2 className="text-xl font-semibold text-gray-800 mb-2 cursor-pointer ">
+                    {event.title}
+                  </h2>
 
-                <p className="text-gray-600 text-sm mb-4 font-medium">
-                  {event.description}
-                </p>
+                  <div className="flex items-center text-gray-500 mb-4">
+                    <FaCalendarAlt className="mr-2 text-blue-500" />
+                    <span className="text-sm">{event.date}</span>
+                    <span
+                      onClick={() => window.open(event.link, "_blank")}
+                      className="text-sm underline font-medium ml-2 text-blue-400 cursor-pointer"
+                    >
+                      Join Session
+                    </span>
+                  </div>
+
+                  <p className="text-gray-600 text-sm mb-4 font-medium">
+                    {event.description}
+                  </p>
+                </div>
               </div>
             </div>
           ))}

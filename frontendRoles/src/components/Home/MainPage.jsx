@@ -87,7 +87,7 @@ function MainPage() {
                   startDelay={100}
                   cursorColor="black"
                   text="Your Mental Wealth Matters. Let us help!"
-                  typeSpeed={100}
+                  typeSpeed={75}
                   hideCursorAfterText="true"
                 />
               </div>
@@ -163,7 +163,7 @@ function MainPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 font-medium gap-4">
           <div className="p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between bg-red-200">
             <h3 className="text-lg font-semibold text-slate-700 mb-2">
-              IITP Counselor Unit
+              Counseling Unit
             </h3>
             <div className="text-sm text-gray-700 mb-2">
               Our counselors assist students in managing academic, personal, and
@@ -173,72 +173,68 @@ function MainPage() {
               <br />
               <div className="flex flex-col ">
                 <span className="font-semibold">Email:</span>{" "}
-                counselor2@iitp.ac.in{" "}
-                <span className="font-semibold">Phone:</span> +91 9721322486
+                counselor@university.com{" "}
+                <span className="font-semibold">Phone:</span> +91 1234567890
               </div>
             </div>
             <a
-              href="https://www.iitp.ac.in/services-amenities/wellness-center"
-              target="_blank"
+              href="/"
               rel="noopener noreferrer"
               className="text-slate-600 underline"
             >
-              Visit Counselor Unit
+              Visit Counseling Unit
             </a>
           </div>
           <div className="p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between bg-yellow-200">
             <h3 className="text-lg font-semibold text-slate-700 mb-2">
-              IITP Gymkhana
+              Student Association
             </h3>
             <div className="text-sm text-gray-700 mb-2">
-              The Students' Gymkhana at IIT Patna promotes leadership, talent,
-              and co-curricular engagement through sports, cultural events, and
-              major fests like ANWESHA and CELESTA. It plays a key role in
-              students' holistic development and building an inclusive campus
-              community.
+              The Student Association promotes leadership, talent, and
+              co-curricular engagement through sports, cultural events, and
+              major festivals. It plays a key role in students' holistic
+              development and building an inclusive campus community.
               <div className="flex flex-col ">
                 <span className="font-semibold">Email:</span>{" "}
-                vpgymkhana@iitp.ac.in{" "}
-                <span className="font-semibold">Phone:</span> +91 8340389862
+                studentassociation@university.com{" "}
+                <span className="font-semibold">Phone:</span> +91 9876543210
               </div>
             </div>
             <a
-              href="https://www.iitp.ac.in/gymkhana/"
-              target="_blank"
+              href="/"
               rel="noopener noreferrer"
               className="text-slate-600 underline"
             >
-              Visit Gymkhana
+              Visit Student Association
             </a>
           </div>
 
           <div className="p-4 shadow-md rounded-lg min-h-32 flex flex-col justify-between bg-blue-200">
             <h3 className="text-lg font-semibold text-slate-700 mb-2">
-              IITP HoSCA
+              Cultural Affairs Committee
             </h3>
             <div className="text-sm text-gray-700 mb-2">
-              HoSCA at IIT Patna manages cultural activities, including Nebula,
-              Reverberance, and the fest Anwesha, offering students
-              opportunities to showcase talents through various clubs like
-              Exousia (dance) and Pixxel (photography).
+              The Cultural Affairs Committee manages cultural activities and
+              events, offering students opportunities to showcase their talents
+              through various clubs like dance, photography, and more.
               <div className="flex flex-col ">
                 <span className="font-semibold">Email:</span>{" "}
-                gensec_cult@iitp.ac.in{" "}
-                <span className="font-semibold">Phone:</span> +91 8860680193
+                culturalaffairs@university.com{" "}
+                <span className="font-semibold">Phone:</span> +91 1122334455
               </div>
             </div>
             <a
-              href="https://www.iitp.ac.in/hosca/"
-              target="_blank"
+              href="/"
               rel="noopener noreferrer"
               className="text-slate-600 underline"
             >
-              Visit HoSCA
+              Visit Cultural Affairs
             </a>
           </div>
         </div>
       </div>
-      <Footer/>
+
+      <Footer />
     </>
   );
 }

@@ -24,6 +24,8 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./store/store";
 import Protected from "./Protected";
+import QuizPage from "./components/Quiz/QuizPage";
+import Blogs from "./components/Blog/Blogs"
 function App() {
   const [user, setUser] = useState({
     username: "",
@@ -66,10 +68,10 @@ function App() {
       path: "/adminlogin",
       element: <Protected Component={AdminLogin} />,
     },
-    // {
-    //   path: "/superadminlogin",
-    //   element: <Protected Component={SuperAdminLogin} />,
-    // },
+    {
+      path: "/quizzes",
+      element: <QuizPage/>,
+    },
     {
       path: "/disclaimer",
       element: <Protected Component={Disclaimer} />,
@@ -93,6 +95,10 @@ function App() {
     {
       path: "/upcoming-events",
       element: <EventsPage />,
+    },
+    {
+      path: "/blogs",
+      element: <Blogs />,
     },
   ]);
   return (
