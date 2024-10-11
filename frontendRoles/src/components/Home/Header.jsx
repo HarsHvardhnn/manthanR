@@ -4,6 +4,8 @@ import Logo from "./newlogo.png";
 import { FaBars } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import DialogModal from "../Admin/DialogModal";
+import { FaCircleChevronDown } from "react-icons/fa6";
+import { CgCloseR } from "react-icons/cg";
 
 function Header() {
   const navigate = useNavigate();
@@ -13,7 +15,11 @@ function Header() {
   const [token, setToken] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [dropDown, setDropDown] = useState(false);
 
+  const handleClick = () => {
+    setDropDown((prev) => !prev);
+  };
   useEffect(() => {
     const token = localStorage.getItem("token");
     setToken(token);
@@ -113,18 +119,14 @@ function Header() {
           </div>
           <div>
             <button
-              onClick={() =>
-                window.open(
-                  "https://calendly.com/counselor2-iitp/quickcall",
-                  "_blank"
-                )
-              }
+              onClick={() => {
+                navigate("/consult");
+              }}
               className="px-3 py-1 sm:px-6 sm:py-2 rounded-full text-base md:text-lg font-bold sm:mb-2 md:mb-0 text-gray-800 hover:text-blue-600 hover:underline "
             >
               Consult
             </button>
           </div>
-          
           <div
             className="relative mr-1 sm:mr-2 lg:mr-12 xl:mr-32"
             onMouseEnter={handleMouseEnter}
@@ -140,16 +142,44 @@ function Header() {
                 Logout
               </button>
             ) : (
-              <button
-                className=" px-3 py-1 sm:px-6 sm:py-2 rounded-full text-base md:text-lg font-bold sm:mb-2 md:mb-0 text-gray-800 hover:text-blue-600 hover:underline "
-                aria-haspopup="true"
-                aria-expanded={isDropdownOpen ? "true" : "false"}
-                onClick={() => {
-                  navigate("/AdminLogin");
-                }}
-              >
-                Admin
-              </button>
+              <div className="flex items-center gap-4 ">
+                <button
+                  onClick={handleClick}
+                  className="px-5 py-2 flex gap-x-1 items-center rounded-full text-xs font-semibold sm:text-base bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  Get Started <FaCircleChevronDown className="text-lg" />
+                </button>
+                <div className="md:hidden text-2xl" onClick={handleMenu}>
+                  {isMenuOpen ? (
+                    <CgCloseR className="font-extrabold" />
+                  ) : (
+                    <FaBars />
+                  )}
+                </div>
+                {dropDown && (
+                  <div className="bg-white p-2 rounded-xl absolute top-12 sm:top-10 w-full shadow-xl">
+                    <ul className="list-none px-2">
+                      <li>
+                        <button
+                          onClick={() => navigate("/login")}
+                          className="w-full py-1 hover:underline rounded text-center"
+                        >
+                          Login
+                        </button>
+                      </li>
+
+                      <li>
+                        <button
+                          onClick={() => navigate("/adminlogin")}
+                          className="w-full py-1 hover:underline rounded text-center"
+                        >
+                          Admin
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
             )}
           </div>
         </div>

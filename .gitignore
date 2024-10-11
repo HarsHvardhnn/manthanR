@@ -7,3 +7,6 @@ node_modules/
 frontendRoles/build/
 
 .env
+
+insertcsv.py
+insertData.py

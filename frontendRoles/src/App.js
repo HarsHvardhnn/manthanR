@@ -25,7 +25,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./store/store";
 import Protected from "./Protected";
 import QuizPage from "./components/Quiz/QuizPage";
-import Blogs from "./components/Blog/Blogs"
+import Blogs from "./components/Blog/Blogs";
+import Consult from "./components/Home/Consult";
 function App() {
   const [user, setUser] = useState({
     username: "",
@@ -99,6 +100,10 @@ function App() {
     {
       path: "/blogs",
       element: <Blogs />,
+    },
+    {
+      path: "/consult",
+      element: <Consult />,
     },
   ]);
   return (

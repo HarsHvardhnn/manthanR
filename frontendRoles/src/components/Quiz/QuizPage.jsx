@@ -21,7 +21,7 @@ const QuizPage = () => {
   return (
     <>
       <Header />
-      <div className="px-4 md:px-8 lg:px-40 py-4 pt-28 min-h-screen font-montserrat bg-blue-50">
+      <div className="px-4 md:px-8 lg:px-40 py-4 pt-28 min-h-svh sm:min-h-screen font-montserrat bg-blue-50">
         {selectedQuiz ? (
           <CustomQuiz quiz={selectedQuiz} onComplete={handleQuizComplete} />
         ) : (

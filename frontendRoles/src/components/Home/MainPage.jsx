@@ -9,7 +9,7 @@ import TypeWriterEffect from "react-typewriter-effect";
 import "./home.css";
 import Header from "./Header";
 import Footer from "./Footer";
-
+import Testimonial from "./Testimonial";
 function MainPage() {
   const navigate = useNavigate();
   const [bgImageUrl, setBgImageUrl] = useState("");
@@ -87,7 +87,7 @@ function MainPage() {
                   startDelay={100}
                   cursorColor="black"
                   text="Your Mental Wealth Matters. Let us help!"
-                  typeSpeed={75}
+                  typeSpeed={85}
                   hideCursorAfterText="true"
                 />
               </div>
@@ -156,6 +156,14 @@ function MainPage() {
           </div>
         </div>
       </div>
+
+      <div className="py-10 w-full px-4 lg:px-12 font-montserrat">
+        <h2 className="text-2xl lg:text-3xl font-bold text-center text-blue-800 mb-6">
+          Testimonials
+        </h2>
+        <Testimonial />
+      </div>
+
       <div className="py-10 w-full px-4 lg:px-12 font-montserrat">
         <h2 className="text-2xl lg:text-3xl font-bold text-center text-blue-800 mb-8">
           Important Resources & Links
