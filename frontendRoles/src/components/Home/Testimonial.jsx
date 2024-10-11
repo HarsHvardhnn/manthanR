@@ -35,20 +35,20 @@ const Testimonial = () => {
 
   return (
     <div className=" flex items-center justify-center ">
-      <div className="w-full max-w-5xl p-12 bg-blue-100 rounded-lg shadow-md relative">
+      <div className="w-full max-w-5xl p-8 md:p-12 bg-blue-100 rounded-lg shadow-md relative">
         <p className="text-gray-800 font-medium italic text-lg mb-4">"{feedback}"</p>
 
         <div className="flex items-center justify-between">
           <div className="text-left">
-            <p className="text-lg font-semibold text-gray-800">{name}</p>
+            <p className="text-sm md:text-lg font-semibold text-gray-800">{name}</p>
             <p className="text-sm text-gray-700">{institute}</p>
           </div>
         </div>
 
-        <div className="absolute top-1/2 -translate-y-1/2 left-0 ml-1">
+        <div className="absolute top-1/2 -translate-y-1/2 left-0 ml-1 text-xs md:text-base">
           <button
             onClick={prevTestimonial}
-            className="bg-blue-700 text-white p-2 rounded-full hover:bg-blue-800"
+            className="bg-blue-700 text-white p-1.5 md:p-2 rounded-full hover:bg-blue-800"
           >
             <FaChevronLeft/>
           </button>
@@ -56,7 +56,7 @@ const Testimonial = () => {
         <div className="absolute top-1/2 -translate-y-1/2 right-0 mr-1">
           <button
             onClick={nextTestimonial}
-            className="bg-blue-700 text-white p-2 rounded-full hover:bg-blue-800"
+            className="bg-blue-700 text-white p-1.5 md:p-2 rounded-full hover:bg-blue-800"
           >
             <FaChevronRight/>
           </button>
