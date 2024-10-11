@@ -10,6 +10,8 @@ import "./home.css";
 import Header from "./Header";
 import Footer from "./Footer";
 import Testimonial from "./Testimonial";
+import Collaborations from "./Collaborations";
+
 function MainPage() {
   const navigate = useNavigate();
   const [bgImageUrl, setBgImageUrl] = useState("");
@@ -159,12 +161,19 @@ function MainPage() {
 
       <div className="py-10 w-full px-4 lg:px-12 font-montserrat">
         <h2 className="text-2xl lg:text-3xl font-bold text-center text-blue-800 mb-6">
+        Partners and Collaborators
+        </h2>
+        <Collaborations />
+      </div>
+
+      <div className="py-10 w-full px-4 lg:px-12 font-montserrat">
+        <h2 className="text-2xl lg:text-3xl font-bold text-center text-blue-800 mb-6">
           Testimonials
         </h2>
         <Testimonial />
       </div>
 
-      <div className="py-10 w-full px-4 lg:px-12 font-montserrat">
+      <div className="py-10 w-full px-4 lg:px-28 font-montserrat">
         <h2 className="text-2xl lg:text-3xl font-bold text-center text-blue-800 mb-8">
           Important Resources & Links
         </h2>
