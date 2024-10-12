@@ -27,6 +27,8 @@ import Protected from "./Protected";
 import QuizPage from "./components/Quiz/QuizPage";
 import Blogs from "./components/Blog/Blogs";
 import Consult from "./components/Home/Consult";
+import BlogDetail from "./components/Blog/BlogDetail";
+import CustomQuiz from "./components/Quiz/CustomQuiz";
 function App() {
   const [user, setUser] = useState({
     username: "",
@@ -74,6 +76,10 @@ function App() {
       element: <QuizPage/>,
     },
     {
+      path: "/quizzes/:quizTitle",
+      element: <CustomQuiz/>,
+    },
+    {
       path: "/disclaimer",
       element: <Protected Component={Disclaimer} />,
     },
@@ -100,6 +106,10 @@ function App() {
     {
       path: "/blogs",
       element: <Blogs />,
+    },
+    {
+      path: "/blogs/:category/:blogTitle",
+      element: <BlogDetail />,
     },
     {
       path: "/consult",

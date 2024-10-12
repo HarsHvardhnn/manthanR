@@ -4,14 +4,12 @@ const blogData = [
     blogs: [
       {
         title: "Understanding and Managing Exam Anxiety",
-        image:
-          "./img/exams.jpg",
+        image: "./img/exams.jpg",
       },
       {
         title: "Managing Anxiety",
-        category: "Anxiety",
-        image:
-          "./img/anxiety.jpg",
+
+        image: "./img/anxiety.jpg",
         content: `
           <p>Anxiety is something many university students experience. With academic responsibilities, social pressures, and the looming uncertainty of the future, anxiety can start to feel overwhelming. But it’s essential to recognize when this normal feeling of worry becomes a disorder and learn how to manage it.</p><br/>
           <strong style="font-size: 20px">What is Anxiety?</strong>
@@ -48,8 +46,7 @@ const blogData = [
       },
       {
         title: "Dealing with Social Anxiety",
-        image:
-          "./img/socialAnxiety.jpg",
+        image: "./img/socialAnxiety.jpg",
       },
     ],
   },
@@ -58,18 +55,15 @@ const blogData = [
     blogs: [
       {
         title: "Managing Depression Through Exercise",
-        image:
-          "./img/exercise.jpg",
+        image: "./img/exercise.jpg",
       },
       {
         title: "Signs of Depression",
-        image:
-          "./img/depression.jpg",
+        image: "./img/depression.jpg",
       },
       {
         title: "How to Support Someone with Depression",
-        image:
-          "./img/support.jpg",
+        image: "./img/support.jpg",
       },
     ],
   },
@@ -78,18 +72,15 @@ const blogData = [
     blogs: [
       {
         title: "Understanding and Managing Stress in College",
-        image:
-          "./img/collegeStress.jpg",
+        image: "./img/collegeStress.jpg",
       },
       {
         title: "How to Handle Work Stress",
-        image:
-          "./img/workStress.jpg",
+        image: "./img/workStress.jpg",
       },
       {
         title: "The Impact of Stress on Health",
-        image:
-          "./img/healthImpact.jpg",
+        image: "./img/healthImpact.jpg",
       },
     ],
   },
@@ -124,18 +115,15 @@ const blogData = [
     blogs: [
       {
         title: "Balancing Academics and Mental Health",
-        image:
-          "./img/academics.jpg",
+        image: "./img/academics.jpg",
       },
       {
         title: "Overcoming Procrastination: A Guide for College Students",
-        image:
-          "./img/procastination.jpg",
+        image: "./img/procastination.jpg",
       },
       {
         title: "Dealing with Loneliness in College",
-        image:
-          "./img/lonely.jpg",
+        image: "./img/lonely.jpg",
         content: `
         <p>Starting college is an exciting time filled with new experiences, but it can also be a lonely one. Many students face feelings of isolation, especially during the first few months of transitioning into university life. Being away from home, adjusting to a new environment, and trying to build new friendships can often lead to loneliness. However, it’s important to remember that loneliness is a common experience for many, and there are effective ways to manage and overcome it.
         </p> 
@@ -155,8 +143,7 @@ const blogData = [
     blogs: [
       {
         title: "Impact of Social Media on Mental Health",
-        image:
-          "./img/socialMedia.jpg",
+        image: "./img/socialMedia.jpg",
         content: `
         <p>Social media has become deeply woven into the fabric of university life. Platforms like Instagram and Snapchat are essential for staying connected, sharing experiences, and keeping up with the latest trends. However, despite its many benefits, constant interaction with social media can take a toll on your mental well-being, contributing to issues like anxiety, depression, and diminished self-esteem.</p> <br/> <strong style="font-size: 20px">How Social Media Affects Mental Health</strong> <p>Although social media offers valuable opportunities to connect and stay informed, it also comes with some negative consequences. Here's how it can impact your mental health:</p>
         <ul style="list-style-type: disc; padding-left: 20px"> <li><strong>Comparison Culture:</strong> Social media often presents a highlight reel of people’s lives, showing only the happiest and most exciting moments — vacations, parties, and achievements. Constantly comparing yourself to these curated images can make you feel like you’re falling behind, lowering your self-esteem and fostering feelings of inadequacy.</li> <li><strong>Fear of Missing Out (FOMO):</strong> Seeing friends at events, traveling, or hanging out without you can trigger feelings of isolation and exclusion, exacerbating anxiety and a fear of missing out on social opportunities.</li> <li><strong>Sleep Disruption:</strong> Spending too much time on social media, especially before bed, can disrupt your sleep patterns. Sleep deprivation, in turn, can worsen anxiety, depression, and stress.</li> <li><strong>Cyberbullying and Negative Comments:</strong> Social media also opens the door to cyberbullying or hurtful comments, which can lead to emotional distress, anxiety, and even depression.</li> </ul> <br/> <strong style="font-size: 20px">Recognizing the Signs of Social Media Burnout</strong> <p>If you spend too much time on social media, it might start to affect your mental health. Here are some warning signs that indicate you might need to take a break:</p> <ul style="list-style-type: disc; padding-left: 20px"> <li>Feeling anxious or restless when you're away from your phone or unable to check social media.</li> <li>Obsessively checking for updates, likes, or messages.</li> <li>Feeling inadequate or experiencing low self-esteem as you compare yourself to others online.</li> <li>Experiencing difficulty sleeping due to late-night social media scrolling.</li> <li>Stress or anxiety related to missing out on events, trends, or social gatherings you see online.</li> </ul> 
@@ -166,14 +153,12 @@ const blogData = [
       {
         title:
           "Navigating Digital Detox: Finding Balance in a Hyperconnected World",
-        image:
-          "./img/detox.jpg",
+        image: "./img/detox.jpg",
       },
       {
         title:
           "The Role of Teletherapy: How Technology is Transforming Mental Health Care",
-        image:
-          "./img/teletherapy.jpg",
+        image: "./img/teletherapy.jpg",
       },
     ],
   },

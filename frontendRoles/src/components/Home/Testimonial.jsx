@@ -4,7 +4,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 const testimonials = [
   {
     name: "Dr. Mahendra Ram",
-    des: "Medical Officer",
+    des: "PIC Wellness",
     institute: "IIT Patna",
     image: "./img/Mahendra_Ram.jpg",
     feedback:
@@ -12,11 +12,43 @@ const testimonials = [
   },
   {
     name: "Dr. Sobhakant Pandey",
-    des: "PIC Wellness",
+    des: "Medical Officer",
     institute: "IIT Patna",
     image: "./img/Sobhakant_Pandey.jpg",
     feedback:
       "It's an innovative and transformative experience with Manowealth. The resources and support provided have been invaluable towards better mental health. This platform has truly made a positive impact on the student's life, helping them to feel less alone and more empowered. Thank you for creating such a safe and supportive space!",
+  },
+  {
+    name: "Dr. Udit Satija",
+    des: "Gymkhana President",
+    institute: "IIT Patna",
+    image: "./img/Udit.jpeg",
+    feedback:
+      "What I like about ManoWealth is the end-to-end platform, do login, take action, and logout. I do not have to email or call counselors or any admin for details. Every detail flows there, just need to observe, act, and summarize. I am quite happy with the platform and new change in the campus for student wellness.",
+  },
+  {
+    name: "Subham Kumar",
+    des: "B.Tech Sec",
+    institute: "IIT Patna",
+    image: "./img/studentpfp.jpg",
+    feedback:
+      "I used ManoWealth regularly and what I find attractive here is that I have my own panel and I am managing my mental health with someone in guidance at the backend. I also scheduled a call with the counselor and got support in less than 30 minutes, which I was not expecting to be very frank. I am also a secretary of student wellness and seeing the ManoWealth in action makes me quite helpful for us to help needy students.",
+  },
+  {
+    name: "Korak Basu",
+    des: "Student",
+    institute: "IIT Patna",
+    image: "./img/studentpfp.jpg",
+    feedback:
+      "If you're a student at IIT Patna, I highly recommend using Manowealth. It's easy to access, just log in with your institute email and fill out the chatbot questionnaire. It's a proactive way to manage your mental health and get support before things become too overwhelming. Let's take care of our minds just like we do with our studies.",
+  },
+  {
+    name: "Tanvi Vasoya",
+    des: "Student",
+    institute: "IIT Patna",
+    image: "./img/studentpfp.jpg",
+    feedback:
+      "As a student, managing academics, personal life, and stress can be overwhelming. Thanks to Manowealth, I now have a monthly check-in on my mental health, which helps me stay on track. The questionnaire is simple, and after submitting it, I get insights into my mental stress levels. Plus, in case of emergencies, the 'SOS' feature lets me reach out for immediate support. It's a great initiative to promote mental well-being among students.",
   },
 ];
 

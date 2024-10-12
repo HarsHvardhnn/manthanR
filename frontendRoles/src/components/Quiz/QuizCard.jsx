@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const QuizCard = ({ quiz, onClick }) => {
+const QuizCard = ({ quiz }) => {
   return (
-    <div
+    <Link
       className="bg-white border border-gray-300 rounded-lg overflow-hidden transition duration-300 ease-in-out transform hover:scale-105"
-      onClick={onClick}
+      to={`${quiz.name.replace(/\s+/g, "-").toLowerCase()}`}
     >
       <img
         src={quiz.image}
@@ -16,7 +17,7 @@ const QuizCard = ({ quiz, onClick }) => {
         <p className="text-gray-600 mt-2">Test your knowledge and insights</p>
         <button className="mt-4 text-center cursor-pointer bg-blue-500 hover:bg-blue-600 w-full p-2 text-white rounded-lg font-semibold">Start Quiz</button>
       </div>
-    </div>
+    </Link>
   );
 };
 

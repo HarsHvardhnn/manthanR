@@ -14,7 +14,7 @@ const Consult = () => {
       hospital:
         "Avalability: S1: Sat 4 pm-4.30 pm, \n  S2: Sat 4.30 pm-5.00 pm, \n S3: Sun 5.00 pm-5.30 pm, \n S4: Sun 5.30 pm-6.00 pm",
       img: "./img/DrRajvardhan.jpeg",
-      // link: "https://forms.gle/uC6qnGcjyA5UjyT49",
+      link: "https://calendly.com/clinicalaiassistance/consultation-with-dr-rajvardhan",
       mail: "dr.rajvardhan.md@gmail.com",
       id: "https://www.medindia.net/patients/doctor_search/dr-diwakar-singh-indian-medicine-general-practitioner-family-physician-lakhisarai-bihar-81357-1.htm",
       linkedin: "https://www.linkedin.com/in/rajvardhan-bhanwar-md-96830b212/",
@@ -42,7 +42,7 @@ const Consult = () => {
       linkedin:
         "https://www.linkedin.com/in/dr-karandeep-paul-023332108/?originalSubdomain=in",
       id: "https://www.medindia.net/patients/doctor_search/dr-diwakar-singh-indian-medicine-general-practitioner-family-physician-lakhisarai-bihar-81357-1.htm",
-      // link: "https://forms.gle/uC6qnGcjyA5UjyT49",
+      link: "https://calendly.com/clinicalaiassistance/consultation-with-dr-karandeep",
       slots: [
         "Sat 4.00 pm-4.30 pm",
         "Sat 4.30 pm-5.00 pm",
@@ -77,7 +77,7 @@ const Consult = () => {
         "Wed 10.30 am-11.00 am",
         "Wed 2.00 pm-2.30 pm",
       ],
-      // link: "https://forms.gle/uC6qnGcjyA5UjyT49",
+      link: "https://calendly.com/clinicalaiassistance/quick-consultation-with-dr-pankaj",
     },
     {
       name: "Dr. Minakshi Dhar",
@@ -87,7 +87,7 @@ const Consult = () => {
       hospital:
         "Avalability: S1: Sat 4.00 pm-4.30 pm, \n  S2: Sat 4.30 pm-5.00 pm, \n S3: Sun 4.00 pm-4.30 pm, \n S4: Sun 4.30 pm-5.00 pm",
       img: "./img/DrMinakshi.jpg",
-      // link: "https://forms.gle/uC6qnGcjyA5UjyT49",
+      link: "https://calendly.com/clinicalaiassistance/quick-consultation-with-dr-minaksh",
       vc: "Volunteering (Free consultation)",
       mail: "dr.rajvardhan.md@gmail.com",
       id: "https://www.researchgate.net/profile/Minakshi-Dhar",
@@ -111,6 +111,7 @@ const Consult = () => {
       department: "",
       experience: "",
       img: "./img/drAayushi.jfif",
+      link: "https://calendly.com/clinicalaiassistance/quick-consultation-with-dr-aayushi",
     },
     {
       name: "Dr. Manish Roshan Thakur",
@@ -118,6 +119,7 @@ const Consult = () => {
       department: "",
       experience: "",
       img: "./img/drManish.jfif",
+      link: "https://calendly.com/clinicalaiassistance/quick-consultation-with-dr-manish",
     },
   ];
 
@@ -168,12 +170,7 @@ const Consult = () => {
                   </p> */}
 
                   <button
-                    onClick={() =>
-                        window.open(
-                          "https://calendly.com/counselor2-iitp/quickcall",
-                          "_blank"
-                        )
-                      }
+                    onClick={() => window.open(`${doctor.link}`, "_blank")}
                     className="mt-4 cursor-pointer w-full px-6 py-2 text-sm leading-5 font-semibold rounded-full bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition duration-150 ease-in-out"
                   >
                     Book Consultation
