@@ -28,7 +28,8 @@ import QuizPage from "./components/Quiz/QuizPage";
 import Blogs from "./components/Blog/Blogs";
 import Consult from "./components/Home/Consult";
 import BlogDetail from "./components/Blog/BlogDetail";
-import CustomQuiz from "./components/Quiz/CustomQuiz";
+import QuizPlayground from "./components/Quiz/QuizPlayground";
+
 function App() {
   const [user, setUser] = useState({
     username: "",
@@ -77,7 +78,7 @@ function App() {
     },
     {
       path: "/quizzes/:quizTitle",
-      element: <CustomQuiz/>,
+      element: <QuizPlayground/>,
     },
     {
       path: "/disclaimer",

@@ -42,7 +42,7 @@ const Consult = () => {
       linkedin:
         "https://www.linkedin.com/in/dr-karandeep-paul-023332108/?originalSubdomain=in",
       id: "https://www.medindia.net/patients/doctor_search/dr-diwakar-singh-indian-medicine-general-practitioner-family-physician-lakhisarai-bihar-81357-1.htm",
-      link: "https://calendly.com/clinicalaiassistance/consultation-with-dr-karandeep",
+      link: "https://calendly.com/counselor2-iitp/quickcall",
       slots: [
         "Sat 4.00 pm-4.30 pm",
         "Sat 4.30 pm-5.00 pm",
@@ -77,7 +77,7 @@ const Consult = () => {
         "Wed 10.30 am-11.00 am",
         "Wed 2.00 pm-2.30 pm",
       ],
-      link: "https://calendly.com/clinicalaiassistance/quick-consultation-with-dr-pankaj",
+      link: "https://calendly.com/counselor2-iitp/quickcall",
     },
     {
       name: "Dr. Minakshi Dhar",
@@ -87,7 +87,7 @@ const Consult = () => {
       hospital:
         "Avalability: S1: Sat 4.00 pm-4.30 pm, \n  S2: Sat 4.30 pm-5.00 pm, \n S3: Sun 4.00 pm-4.30 pm, \n S4: Sun 4.30 pm-5.00 pm",
       img: "./img/DrMinakshi.jpg",
-      link: "https://calendly.com/clinicalaiassistance/quick-consultation-with-dr-minaksh",
+      link: "https://calendly.com/counselor2-iitp/quickcall",
       vc: "Volunteering (Free consultation)",
       mail: "dr.rajvardhan.md@gmail.com",
       id: "https://www.researchgate.net/profile/Minakshi-Dhar",
@@ -111,7 +111,7 @@ const Consult = () => {
       department: "",
       experience: "",
       img: "./img/drAayushi.jfif",
-      link: "https://calendly.com/clinicalaiassistance/quick-consultation-with-dr-aayushi",
+      link: "https://calendly.com/counselor2-iitp/quickcall",
     },
     {
       name: "Dr. Manish Roshan Thakur",
@@ -119,7 +119,7 @@ const Consult = () => {
       department: "",
       experience: "",
       img: "./img/drManish.jfif",
-      link: "https://calendly.com/clinicalaiassistance/quick-consultation-with-dr-manish",
+      link: "https://calendly.com/counselor2-iitp/quickcall",
     },
   ];
 

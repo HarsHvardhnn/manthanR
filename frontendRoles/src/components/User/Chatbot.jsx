@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import bot from "./chatboticon.jpeg";
 import { useContext } from "react";
 import { authContext, userContext } from "../../context";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import "./scrollbar.css";
@@ -102,7 +102,7 @@ const Chatbot = () => {
         const shuffledQuestions = shuffleArray(questionsArray);
         setQuestions(shuffledQuestions);
       })
-      
+
       .catch((err) => {
         toast.error(err.response.data);
       });
@@ -304,14 +304,13 @@ const Chatbot = () => {
     return totalScore;
   };
 
-  useEffect(()=> {
-    if(!isDialogOpen)
-    {
+  useEffect(() => {
+    if (!isDialogOpen) {
       setRestartClicked(false);
     }
-  },[isDialogOpen])
+  }, [isDialogOpen]);
   const submitAns = (values) => {
-    if(submitBtnClicked) return;
+    if (submitBtnClicked) return;
     setSubmitBtnClicked(true);
     const token = localStorage.getItem("token");
     // const totalUserScore = calculateScore(answers);
@@ -412,6 +411,10 @@ const Chatbot = () => {
   const handleExampleClick = (text) => {
     setInitialResponse(text);
   };
+  const handleNewTab = (url) => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <>
       <div className="header-container">
@@ -837,24 +840,28 @@ const Chatbot = () => {
                         </p>
                         <ul className="list-disc pl-5 text-left text-xs sm:text-sm  mx-auto">
                           <li>
-                            <a
-                              href="https://tinybuddha.com/blog/how-i-created-a-beautiful-life-on-the-other-side-of-burnout/"
+                            <Link
+                              onClick={() =>
+                                handleNewTab(
+                                  "/blogs/personal-growth-&-recovery/how-i-created-a-beautiful-life-on-the-other-side-of-burnout"
+                                )
+                              }
                               className="hover:underline flex items-center"
-                              target="_blank"
-                              rel="noopener noreferrer"
                             >
                               Let us help you to enhance your beautiful life
-                            </a>
+                            </Link>
                           </li>
                           <li>
-                            <a
-                              href="https://tinybuddha.com/blog/the-amazing-healing-power-of-talking-about-our-anxiety/"
+                            <Link
+                              onClick={() =>
+                                handleNewTab(
+                                  "/blogs/anxiety/the-amazing-healing-power-of-talking-about-our-anxiety"
+                                )
+                              }
                               className="hover:underline flex items-center"
-                              target="_blank"
-                              rel="noopener noreferrer"
                             >
                               Embrace the powerful techniques of healing
-                            </a>
+                            </Link>
                           </li>
                         </ul>
                       </div>
@@ -882,25 +889,29 @@ const Chatbot = () => {
                         </p>
                         <ul className="list-disc pl-5 text-left text-xs sm:text-sm">
                           <li>
-                            <a
-                              href="https://tinybuddha.com/blog/4-fears-that-create-people-pleasers-and-how-to-ease-them/"
+                            <Link
+                              onClick={() =>
+                                handleNewTab(
+                                  "/blogs/stress/4-fears-that-create-people-pleasers-and-how-to-ease-them"
+                                )
+                              }
                               className="hover:underline flex items-center"
-                              target="_blank"
-                              rel="noopener noreferrer"
                             >
                               Let's first accept ourselves to see the magic
                               within.
-                            </a>
+                            </Link>
                           </li>
                           <li>
-                            <a
-                              href="https://tinybuddha.com/blog/how-i-created-a-beautiful-life-on-the-other-side-of-burnout/"
+                            <Link
+                              onClick={() =>
+                                handleNewTab(
+                                  "/blogs/personal-growth-&-recovery/how-i-created-a-beautiful-life-on-the-other-side-of-burnout"
+                                )
+                              }
                               className="hover:underline flex items-center"
-                              target="_blank"
-                              rel="noopener noreferrer"
                             >
                               Let us help you to enhance your beautiful life
-                            </a>
+                            </Link>
                           </li>
                         </ul>
                       </div>
@@ -927,26 +938,30 @@ const Chatbot = () => {
                         </p>
                         <ul className="list-disc pl-5 text-left text-xs sm:text-sm ">
                           <li>
-                            <a
-                              href="https://tinybuddha.com/blog/5-pillars-of-mindful-awareness-that-transformed-my-life/"
+                            <Link
+                              onClick={() =>
+                                handleNewTab(
+                                  "/blogs/stress/5-pillars-of-mindful-awareness-that-transformed-my-life"
+                                )
+                              }
                               className="hover:underline flex items-center"
-                              target="_blank"
-                              rel="noopener noreferrer"
                             >
                               Strengthen the pillars of Mindfulness
-                            </a>
+                            </Link>
                           </li>
                           <li>
-                            <a
-                              href="https://tinybuddha.com/blog/4-ways-to-help-someone-with-mental-health-challenges/"
+                            <Link
+                              onClick={() =>
+                                handleNewTab(
+                                  "/blogs/stress/4-ways-to-help-someone-with-mental-health-challenges"
+                                )
+                              }
                               className="hover:underline flex items-center"
-                              target="_blank"
-                              rel="noopener noreferrer"
                             >
                               In times of adversity, a little hope can make all
                               the difference. Let's extend that hope by helping
                               someone in need.
-                            </a>
+                            </Link>
                           </li>
                         </ul>
                       </div>
