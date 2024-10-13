@@ -108,6 +108,10 @@ const QuizData = {
             <li>If you ever feel overwhelmed or notice changes in your mental health, don't hesitate to reach out for support.</li>
             <li>Maintaining a healthy lifestyle, including regular exercise, good sleep, and a balanced diet, can help keep you on track.</li>
           </ul>
+          <p style="font-size: 15px; margin-top: 15px;">
+            Recommended Reading: 
+            <a href="/blogs/stress/5-pillars-of-mindful-awareness-that-transformed-my-life" style="color: #1d4ed8; text-decoration: underline;">5 Pillars of Mindful Awareness That Transformed My Life</a>
+          </p>
         `,
         "5-9": `
           <h2 style="font-size: 20px; font-weight: 600">Mild Depression</h2>
@@ -119,6 +123,10 @@ const QuizData = {
             <li>Keep monitoring your feelings, and consider making small changes like regular physical activity, mindfulness practices, or talking to a friend.</li>
             <li>If these symptoms persist, it may be helpful to seek guidance from a mental health professional for early support.</li>
           </ul>
+          <p style="font-size: 15px; margin-top: 15px;">
+            Recommended Reading: 
+            <a href="/blogs/stress/5-pillars-of-mindful-awareness-that-transformed-my-life" style="color: #1d4ed8; text-decoration: underline;">5 Pillars of Mindful Awareness That Transformed My Life</a>
+          </p>
         `,
         "10-14": `
           <h2 style="font-size: 20px; font-weight: 600">Moderate Depression</h2>
@@ -130,6 +138,10 @@ const QuizData = {
           <li>It's important to take action now to prevent these symptoms from worsening.</li>
           <li>We recommend scheduling a consultation with a psychiatrist or mental health professional who can help you explore treatment options such as therapy or lifestyle adjustments. 
             Early intervention can make a significant difference.</li>
+          </ul>
+          <p style="font-size: 15px; margin-top: 15px;">
+            Recommended Reading: 
+            <a href="/blogs/stress/4-fears-that-create-people-pleasers-and-how-to-ease-them" style="color: #1d4ed8; text-decoration: underline;">4 Fears That Create People-Pleasers and How to Ease Them</a>
           </p>
         `,
         "15-19": `
@@ -142,6 +154,10 @@ const QuizData = {
             <li>Seeking professional support is highly recommended at this stage.</li>
             <li>Treatment such as Cognitive Behavioral Therapy (CBT), medication, or a combination of both can help you manage these symptoms effectively.</li>
           </ul>
+          <p style="font-size: 15px; margin-top: 15px;">
+            Recommended Reading: 
+            <a href="/blogs/stress/4-fears-that-create-people-pleasers-and-how-to-ease-them" style="color: #1d4ed8; text-decoration: underline;">4 Fears That Create People-Pleasers and How to Ease Them</a>
+          </p>
         `,
         "20-27": `
           <h2 style="font-size: 20px; font-weight: 600">Severe Depression</h2>
@@ -153,6 +169,10 @@ const QuizData = {
           <li>Treatment options such as therapy and antidepressants can significantly improve your condition.</li>
           <li>A psychiatrist can offer personalized guidance to help you regain control of your mental health.</li> 
           <p style="font-size: 17px">Remember, help is available, and taking the first step by seeking support is vital.</p>
+          <p style="font-size: 15px; margin-top: 15px;">
+            Recommended Reading: 
+            <a href="/blogs/personal-growth-&-recovery/how-i-created-a-beautiful-life-on-the-other-side-of-burnout" style="color: #1d4ed8; text-decoration: underline;">How I Created a Beautiful Life on the Other Side of Burnout</a>
+          </p>
         `,
       },
     },
@@ -237,6 +257,10 @@ const QuizData = {
           <li>Keep practicing healthy habits like regular exercise, a balanced diet, and stress management techniques to maintain your well-being.</li>
           <li>Should you ever feel an increase in anxiety, don't hesitate to seek support or revisit these self-assessments.</li>
         </ul>
+        <p style="font-size: 15px; margin-top: 15px;">
+          Recommended Reading: 
+          <a href="/blogs/anxiety/the-amazing-healing-power-of-talking-about-our-anxiety" style="color: #1d4ed8; text-decoration: underline;">The Amazing Healing Power of Talking About Our Anxiety</a>
+        </p>
       `,
         "5-9": `
         <h2 style="font-size: 20px; font-weight: 600">Mild Anxiety</h2>
@@ -247,6 +271,10 @@ const QuizData = {
           <li>It's important to keep an eye on these feelings and adopt stress-reducing activities like mindfulness, relaxation techniques, or physical activity.</li>
           <li>If these symptoms persist or worsen, consider seeking advice from a mental health professional to manage them early on.</li>
         </ul>
+        <p style="font-size: 15px; margin-top: 15px;">
+          Recommended Reading: 
+          <a href="/blogs/anxiety/the-amazing-healing-power-of-talking-about-our-anxiety" style="color: #1d4ed8; text-decoration: underline;">The Amazing Healing Power of Talking About Our Anxiety</a>
+        </p>
       `,
         "10-14": `
         <h2 style="font-size: 20px; font-weight: 600">Moderate Anxiety</h2>
@@ -257,6 +285,10 @@ const QuizData = {
           <li>It's a good time to seek help from a mental health professional who can guide you through strategies like Cognitive Behavioral Therapy (CBT), relaxation exercises, or lifestyle changes.</li>
           <li>Early intervention can prevent these symptoms from becoming more severe.</li>
         </ul>
+        <p style="font-size: 15px; margin-top: 15px;">
+          Recommended Reading: 
+          <a href="/blogs/anxiety/managing-anxiety" style="color: #1d4ed8; text-decoration: underline;">Managing Anxiety</a>
+        </p>
       `,
         "15-21": `
         <h2 style="font-size: 20px; font-weight: 600">Severe Anxiety</h2>
@@ -267,6 +299,10 @@ const QuizData = {
           <li>It is highly recommended that you consult a psychiatrist or therapist as soon as possible.</li>
           <li>Treatment options, including therapy and possibly medication, can help you regain control of your anxiety and improve your overall well-being.</li>
         </ul>
+        <p style="font-size: 15px; margin-top: 15px;">
+          Recommended Reading: 
+          <a href="/blogs/anxiety/managing-anxiety" style="color: #1d4ed8; text-decoration: underline;">Managing Anxiety</a>
+        </p>
       `,
       },
     },

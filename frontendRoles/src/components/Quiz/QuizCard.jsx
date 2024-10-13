@@ -14,7 +14,7 @@ const QuizCard = ({ quiz }) => {
       />
       <div className="p-4">
         <h2 className="text-xl font-bold text-gray-800">{quiz.name}</h2>
-        <p className="text-gray-600 mt-2">Test your knowledge and insights</p>
+        <p className="text-gray-600 mt-2">Gain insights into your mental health and well-being</p>
         <button className="mt-4 text-center cursor-pointer bg-blue-500 hover:bg-blue-600 w-full p-2 text-white rounded-lg font-semibold">Start Quiz</button>
       </div>
     </Link>
