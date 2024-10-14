@@ -77,10 +77,10 @@ const SOSNotifications = ({ admin }) => {
             >
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-base md:text-lg">
+                  {/* <p className="text-base md:text-lg">
                     <span className="font-semibold">Name: </span>
                     {capitalizeFirstLetter(notification?.userName)}
-                  </p>
+                  </p> */}
                   <p className="text-base md:text-lg">
                     <span className="font-semibold">Email: </span>
                     {notification?.user?.email}

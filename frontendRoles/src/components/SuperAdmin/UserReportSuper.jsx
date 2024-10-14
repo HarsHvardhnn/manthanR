@@ -244,10 +244,10 @@ Best regards, PIC Wellness, IIT Patna
                       report.read ? "bg-gray-200" : "bg-yellow-100"
                     } p-4 rounded-lg shadow mb-4`}
                   >
-                    <p className="text-base md:text-lg">
+                    {/* <p className="text-base md:text-lg">
                       <span className="font-semibold">User Name:</span>{" "}
                       {capitalizeFirstLetter(report.username) || "NA"}
-                    </p>
+                    </p> */}
                     <p className="text-base md:text-lg">
                       <span className="font-semibold">User Email:</span>{" "}
                       {report.email || "NA"}

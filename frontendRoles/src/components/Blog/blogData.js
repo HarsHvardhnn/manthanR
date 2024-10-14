@@ -92,10 +92,10 @@ const blogData = [
 <p style="font-size: 14px; color: gray; text-align: center;">Blog Credit: tinybuddha.com</p>
 `,
       },
-      {
-        title: "Understanding and Managing Exam Anxiety",
-        image: "./img/exams.jpg",
-      },
+      // {
+      //   title: "Understanding and Managing Exam Anxiety",
+      //   image: "./img/exams.jpg",
+      // },
       {
         title: "Managing Anxiety",
         image: "./img/anxiety.jpg",
@@ -139,23 +139,7 @@ const blogData = [
       },
     ],
   },
-  {
-    category: "Depression",
-    blogs: [
-      {
-        title: "Managing Depression Through Exercise",
-        image: "./img/exercise.jpg",
-      },
-      {
-        title: "Signs of Depression",
-        image: "./img/depression.jpg",
-      },
-      {
-        title: "How to Support Someone with Depression",
-        image: "./img/support.jpg",
-      },
-    ],
-  },
+
   {
     category: "Stress",
     blogs: [
@@ -225,7 +209,7 @@ const blogData = [
 <p>Well done for wanting to help your friend out; dealing with mental health challenges isn’t easy, but having someone to talk to is so important.</p>
 <br/>
 <p style="font-size: 14px; color: gray; text-align: center;">Blog Credit: tinybuddha.com</p>
-`
+`,
       },
       {
         title: "4 Fears That Create People-Pleasers and How to Ease Them",
@@ -458,7 +442,7 @@ const blogData = [
 <p>With awareness, life becomes an art. Regardless of what it throws at you, you have a powerful tool to navigate and make something out of it.</p>
 <br/>
 <p style="font-size: 14px; color: gray; text-align: center;">Blog Credit: tinybuddha.com</p>
-`
+`,
       },
       {
         title: "Understanding and Managing Stress in College",
@@ -480,8 +464,7 @@ const blogData = [
     blogs: [
       {
         title: "How I Created a Beautiful Life on the Other Side of Burnout",
-        image:
-          "./img/beautiful_life.jpg",
+        image: "./img/beautiful_life.jpg",
         content: `  <strong>“If you don’t give your mind and body a break, you’ll break. Stop pushing yourself through pain and exhaustion and take care of your needs.” ~Lori Deschene</strong>
   
   <br/><br/><p>For forty-five minutes, I lay on my yoga mat in child’s pose, unable to move. The exhaustion in my body felt like a thousand kilos, and the ache of failure pricked my eyes with tears.</p>
@@ -595,6 +578,23 @@ const blogData = [
         </li> <li><strong>Social Pressures:</strong> Adjusting to university life and trying to find your social group can be overwhelming. If you don't immediately find a group to connect with, it can leave you feeling excluded.</li> <li><strong>Academic Stress:</strong> University work can be demanding, and spending long hours studying or working on assignments may isolate you from social activities.</li> <li><strong>Social Media Illusion:</strong> Seeing others on social media posting about fun events and friendships can give you the impression that everyone else is having a great time, which may heighten feelings of loneliness, even if you’re not actually missing out.</li>
         </ul> <br/> <strong style="font-size: 20px">Symptoms of Loneliness</strong> <p>Loneliness manifests differently in everyone. If you’re feeling isolated, you may notice some of the following signs:</p> <ul style="list-style-type: disc; padding-left: 20px"> <li>Persistent feelings of sadness or anxiety</li> <li>Difficulty sleeping or eating regularly</li> <li>Loss of interest in social activities or interacting with others</li> <li>Spending more time alone than you would like</li> <li>Relying heavily on social media for interaction and connection</li> </ul> <br/> <strong style="font-size: 20px">How to Cope with Loneliness</strong> <p>Although loneliness can feel overwhelming, it's not something you have to face alone. There are several steps you can take to reduce feelings of isolation and build meaningful connections with others:</p> <ul style="list-style-type: disc; padding-left: 20px"> <li><strong>Join Campus Clubs or Activities:</strong> Universities offer a variety of student groups, clubs, and societies. Joining one that interests you is a fantastic way to meet like-minded people and develop friendships based on shared interests.</li> <li><strong>Attend Social Events:</strong> Universities frequently organize events to help students connect and make new friends. Even if you don’t know anyone, attending these events can introduce you to potential friends and help you feel more integrated into campus life.</li> <li><strong>Reach Out to Classmates:</strong> Taking the initiative to start a conversation with classmates, dorm mates, or people you see regularly can open the door to new friendships.</li> <li><strong>Seek Professional Support:</strong> If feelings of loneliness persist, consider talking to a campus counselor. They can provide emotional support, practical advice, and connect you with resources to help you feel more at ease.</li> </ul> <br/> <strong style="font-size: 20px">Conclusion</strong> <p>Loneliness is a common but temporary experience that many university students face. By actively engaging in social activities, reaching out to others, and exploring new opportunities, you can combat feelings of isolation and build strong, meaningful relationships within your university community.</p>
         `,
+      },
+    ],
+  },
+  {
+    category: "Depression",
+    blogs: [
+      {
+        title: "Managing Depression Through Exercise",
+        image: "./img/exercise.jpg",
+      },
+      {
+        title: "Signs of Depression",
+        image: "./img/depression.jpg",
+      },
+      {
+        title: "How to Support Someone with Depression",
+        image: "./img/support.jpg",
       },
     ],
   },

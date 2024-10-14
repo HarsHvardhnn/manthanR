@@ -565,9 +565,9 @@ Best regards, PIC Wellness, IIT Patna
                       <th className="px-1 md:px-4 py-1 md:py-2 border">
                         Index
                       </th>
-                      <th className="px-1 md:px-4 py-1 md:py-2 border">
+                      {/* <th className="px-1 md:px-4 py-1 md:py-2 border">
                         Full Name
-                      </th>
+                      </th> */}
                       <th className="px-1 md:px-4 py-1 md:py-2 border">
                         Email
                       </th>
@@ -593,12 +593,12 @@ Best regards, PIC Wellness, IIT Patna
                     {currentUsers.map((user, index) => (
                       <tr key={user._id}>
                         <td className="px-4 py-2 border">{index + 1}.</td>
-                        <td className="px-4 py-2 border">
+                        {/* <td className="px-4 py-2 border">
                           {capitalizeWords(user.username)}
                           {user.lastname
                             ? " " + capitalizeWords(user.lastname)
                             : ""}
-                        </td>
+                        </td> */}
                         <td className="px-4 py-2 border">{user.email}</td>
                         <td className="px-4 py-2 border">
                           {user.contactNumber ?? "NA"}

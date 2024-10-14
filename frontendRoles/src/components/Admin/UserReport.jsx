@@ -74,10 +74,10 @@ const userWithInfos = {}
                 key={`${report._id}-${index}`}
                 className="bg-yellow-100 p-4 rounded-lg shadow mb-4"
               >
-                <p className="text-base md:text-lg">
+                {/* <p className="text-base md:text-lg">
                   <span className="font-semibold">Name:</span>{" "}
                   {capitalizeFirstLetter(report.username)}
-                </p>
+                </p> */}
                 <p className="text-lg">
                   <span className="font-semibold">Email:</span> {report.email}
                 </p>

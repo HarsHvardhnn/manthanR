@@ -422,8 +422,37 @@ const QuizData = {
         },
       ],
       scoring: {
-        "0-4": "No significant perfectionism issues.",
-        "5-15": "Potential problem with perfectionism.",
+        "0-4": `
+          <h2 style="font-size: 20px; font-weight: 600">No Significant Perfectionism Issues</h2>
+          <p style="font-size: 17px">
+            Your responses suggest that perfectionism is not a significant issue for you. 
+            You seem to maintain a healthy balance and have realistic expectations for yourself and others.
+          </p>
+          <ul style="list-style-type: disc; padding-left: 20px; font-size: 17px;">
+            <li>Continue practicing self-acceptance and be mindful of your achievements without overly high standards.</li>
+            <li>Maintaining flexibility and adaptability can help sustain this positive outlook.</li>
+          </ul>
+          <p style="font-size: 15px; margin-top: 15px;">
+            Recommended Reading: 
+            <a href="/blogs/personal-growth-&-recovery/how-i-created-a-beautiful-life-on-the-other-side-of-burnout" style="color: #1d4ed8; text-decoration: underline;">How I Created a Beautiful Life on the Other Side of Burnout</a>
+          </p>
+        `,
+        "5-15": `
+          <h2 style="font-size: 20px; font-weight: 600">Potential Problem with Perfectionism</h2>
+          <p style="font-size: 17px">
+            Your score indicates a tendency toward perfectionism. 
+            This might mean you set very high standards for yourself or others, and you may experience stress, frustration, or dissatisfaction when these standards aren't met.
+          </p>
+          <ul style="list-style-type: disc; padding-left: 20px; font-size: 17px;">
+            <li>It is important to recognize when your standards are becoming unrealistic or harmful. Consider setting more achievable goals and learning to appreciate your progress.</li>
+            <li>Practices such as mindfulness, self-compassion, and cognitive behavioral strategies can help manage these tendencies.</li>
+            <li>If perfectionism is causing significant distress or interfering with your daily life, seeking support from a mental health professional might be beneficial.</li>
+          </ul>
+          <p style="font-size: 15px; margin-top: 15px;">
+            Recommended Reading: 
+            <a href="/blogs/personal-growth-&-recovery/how-i-created-a-beautiful-life-on-the-other-side-of-burnout" style="color: #1d4ed8; text-decoration: underline;">How I Created a Beautiful Life on the Other Side of Burnout</a>
+          </p>
+        `,
       },
     },
   ],

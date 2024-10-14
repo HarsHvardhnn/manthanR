@@ -88,7 +88,7 @@ const UserData = ({
       .post(
         `${apiUrl}/send-bulk-email`,
         {
-          recipients: ["pic_wellness@iitp.ac.in"],
+          recipients: ["avinashsingh9946@gmail.com"],
           subject: "Urgent: Consultation Request for Student Wellness",
           body: `
 Hello, Superadmin
@@ -517,9 +517,9 @@ ${adminEmail}
                       <th className="px-1 md:px-4 py-1 md:py-2 border">
                         Index
                       </th>
-                      <th className="px-1 md:px-4 py-1 md:py-2 border">
+                      {/* <th className="px-1 md:px-4 py-1 md:py-2 border">
                         Full Name
-                      </th>
+                      </th> */}
                       <th className="px-1 md:px-4 py-1 md:py-2 border">
                         Email
                       </th>
@@ -547,11 +547,11 @@ ${adminEmail}
                     {currentUsers.map((user, index) => (
                       <tr key={user._id}>
                         <td className="px-4 py-2 border">{index + 1}.</td>
-                        <td className="px-4 py-2 border">
+                        {/* <td className="px-4 py-2 border">
                           {capitalizeFirstLetter(user.username) +
                             " " +
                             capitalizeFirstLetter(user.lastname ?? "")}
-                        </td>
+                        </td> */}
                         <td className="px-4 py-2 border">{user.email ?? "NA"}</td>
                         <td className="px-4 py-2 border">
                           {user.contactNumber ?? "NA"}
